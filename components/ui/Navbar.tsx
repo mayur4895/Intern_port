@@ -25,6 +25,7 @@ import { Button } from "./button"
 import Link from "next/link"
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IoEllipsisVertical } from 'react-icons/io5'
+import { Separator } from './separator'
   
   const Navbar = () => {
 
@@ -56,10 +57,10 @@ import { IoEllipsisVertical } from 'react-icons/io5'
         <Menubar> 
  
     <div className="ml-auto flex items-center">
-    <div className='hidden md:flex'>
+    <div className='hidden lg:flex'>
     {Navbars.map(({ label, href }) => (
         <MenubarMenu key={label}>
-          <MenubarTrigger> <Link href={href}> {label}</Link></MenubarTrigger>
+          <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
         </MenubarMenu>
       ))}
     </div>
@@ -67,7 +68,7 @@ import { IoEllipsisVertical } from 'react-icons/io5'
       <MenubarMenu>
         <MenubarTrigger asChild>
         <Sheet>
-      <SheetTrigger asChild className=' md:hidden'>
+      <SheetTrigger asChild className=' lg:hidden'>
         <Button variant={ "ghost"} ><IoEllipsisVertical  size={20}/> </Button>
       </SheetTrigger>
       <SheetContent>
@@ -80,9 +81,17 @@ import { IoEllipsisVertical } from 'react-icons/io5'
       <div className='flex flex-col gap-y-3'>
       {Navbars.map(({ label, href }) => (
         <MenubarMenu key={label}>
-          <MenubarTrigger> <Link href={href}> {label}</Link></MenubarTrigger>
+          <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
         </MenubarMenu>
       ))}
+<Separator/>
+<div className="flex flex-col  ml-4   gap-4"> 
+        <Link href={"/auth/login"} className='text-sm text-black font-semibold hover:text-blue-500'>  Login </Link>
+      
+        <Link href={"/auth/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Candident Sign-up </Link>
+        
+        <Link href={"/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Employer Sign-up </Link>
+     </div>
       </div>
         
       </SheetContent>

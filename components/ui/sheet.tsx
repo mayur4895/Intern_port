@@ -6,7 +6,9 @@ import * as SheetPrimitive from "@radix-ui/react-dialog"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { CrossIcon } from "lucide-react"
+import { SidebarCloseIcon } from "lucide-react"
+import { IoCloseOutline } from "react-icons/io5"
+ 
 
 const Sheet = SheetPrimitive.Root
 
@@ -67,7 +69,7 @@ const SheetContent = React.forwardRef<
     >
       {children}
       <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-        <CrossIcon className="h-4 w-4" />
+        <IoCloseOutline className="h-5 w-5" />
         <span className="sr-only">Close</span>
       </SheetPrimitive.Close>
     </SheetPrimitive.Content>

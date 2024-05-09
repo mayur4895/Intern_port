@@ -6,12 +6,12 @@ import Navbar from './ui/Navbar'
 
 const MainNavbar = () => {
   return (
-    <div className="flex items-center w-full border-b">
-        <h3 className='font-bold tracking-wider'>JobHunt</h3>
-        <div className='ml-auto'>
+    <div className="flex w-full items-center  pl-4 ">
+        <div className='font-bold tracking-wider'>JobHunt</div>
+        <div className='  w-full '>
             <Navbar/>
-        </div>
-        <div className="flex  ml-5 items-center gap-x-3"> 
+        </div> 
+        <div className="lg:flex hidden flex-row  ml-5  gap-x-4  "> 
         <Link href={"/auth/login"}> <Button>Login</Button> </Link>
       
         <Link href={"/auth/signup"}> <Button variant={"outline"} >Candident Sign-up</Button> </Link>

@@ -13,6 +13,8 @@ import { cn } from '@/lib/utils';
  
  
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import MainNavbar from '@/components/MainNavbar';
+import { auth } from '@/auth';
 const font = Poppins({
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
@@ -23,19 +25,19 @@ export const metadata: Metadata = {
   description: 'Jobhunt',
 };
 
-export default function RootLayout({
+export default  async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
 
- 
+  const session = await auth();
   return (
  
       <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className)}>
       
- 
+        <MainNavbar session={session}/>
               {children}
               <Toaster />
  

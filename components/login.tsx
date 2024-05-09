@@ -43,6 +43,7 @@ import { Separator } from "./ui/separator";
  
  
 import { signIn } from "next-auth/react"; 
+import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 
  
 const Login = () => {
@@ -62,7 +63,6 @@ const Login = () => {
 
   const isloding = form.formState.isSubmitting;
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
-     
     try {
       const res =  await  login(values);
        if(urlError){
@@ -80,7 +80,7 @@ const Login = () => {
   
          }
       
-        router.push("/student/dashboard")
+        router.push(DEFAULT_LOGIN_REDIRECT)
 
         form.reset();
         router.refresh();  
@@ -97,11 +97,30 @@ const Login = () => {
   }
 
 const onclick = async( provider:string)=>{
-   await signIn(provider,{
+ const res =  await signIn(provider,{
      callbackUrl:"/"
    });
-} 
+   if(urlError){
+    toast({
+      variant:"destructive",
+      title: "Email alerday in used", 
+    })
+   }
+   if(res?.error){
+     
+    toast({
+      variant:"destructive",
+      title:res?.error, 
+     })
 
+   
+  
+    router.push("/posts")
+
+    form.reset();
+    router.refresh();  
+} 
+}
   return (
     <>
       <div className=" flex h-[100vh] w-full justify-center items-center">
@@ -161,7 +180,7 @@ const onclick = async( provider:string)=>{
               <span className="text-sm text-zinc-500">
                   {" "}
                    Don't have an account?
-                  <Link href="/signup" className=" font-semibold text-zinc-900">
+                  <Link href="/auth/signup" className=" font-semibold text-zinc-900">
                     {" "}
                     signup
                   </Link>

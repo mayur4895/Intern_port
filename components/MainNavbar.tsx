@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Button } from './ui/button'
 import Link from 'next/link'
@@ -11,9 +12,9 @@ const MainNavbar = () => {
             <Navbar/>
         </div>
         <div className="flex  ml-5 items-center gap-x-3"> 
-        <Link href={"/login"}> <Button>Login</Button> </Link>
+        <Link href={"/auth/login"}> <Button>Login</Button> </Link>
       
-        <Link href={"/signup"}> <Button variant={"outline"} >Candident Sign-up</Button> </Link>
+        <Link href={"/auth/signup"}> <Button variant={"outline"} >Candident Sign-up</Button> </Link>
         
         <Link href={"/signup"}> <Button variant={"outline"} >Employer Sign-up</Button> </Link>
      </div>

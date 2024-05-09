@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 
 export function GridBackground({children}:{children:React.ReactNode}) {

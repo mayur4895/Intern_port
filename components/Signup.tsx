@@ -157,7 +157,7 @@ const Signup = () => {
                 <span className="text-sm text-zinc-500">
                   {" "}
                   You have already singup?
-                  <Link href="/login" className="text-zinc-800 font-semibold">
+                  <Link href="/auth/login" className="text-zinc-800 font-semibold">
                     {" "}
                     login
                   </Link>

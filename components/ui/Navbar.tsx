@@ -27,7 +27,14 @@ import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import { Separator } from './separator'
   
-  const Navbar = () => {
+
+
+
+interface NavbarProps{
+  session?:any;
+}
+
+  const Navbar = ({session}:NavbarProps) => {
 
 
     const Navbars = [
@@ -52,6 +59,10 @@ import { Separator } from './separator'
         href: "/contact",
       },
     ]
+
+
+    console.log(session);
+    
     return (
     
         <Menubar> 
@@ -84,14 +95,23 @@ import { Separator } from './separator'
           <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
         </MenubarMenu>
       ))}
-<Separator/>
-<div className="flex flex-col  ml-4   gap-4"> 
+<Separator/>{
+  !session &&  (
+<div className="flex flex-col  ml-4   items-start  justify-start gap-4"> 
         <Link href={"/auth/login"} className='text-sm text-black font-semibold hover:text-blue-500'>  Login </Link>
       
         <Link href={"/auth/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Candident Sign-up </Link>
         
         <Link href={"/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Employer Sign-up </Link>
-     </div>
+     </div> )}
+
+     { 
+      session &&  
+      <div className="flex flex-col    items-start  justify-start gap-4"> 
+
+      <Button variant={"link"} className='text-sm text-black font-semibold hover:text-blue-500'>Logout</Button>
+      </div>
+     }
       </div>
         
       </SheetContent>

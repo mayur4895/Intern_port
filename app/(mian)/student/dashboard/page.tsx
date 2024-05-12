@@ -1,29 +1,22 @@
- 
-import React from 'react'
 import { auth, signOut } from '@/auth'
-import { Button } from '@/components/ui/button';
-import { redirect, useRouter } from 'next/navigation';
-import AuthButtonClient from '@/components/AuthButtonClient';
-const DashBoard =async() => {
-
+import { Button } from '@/components/ui/button'
+import React from 'react'
  
-  const session = await auth();
-  // return (
-  //   <div>
-  //      <Button onClick={()=>{signOut({redirectTo:"/auth/login"})}}>logout</Button>
-  //     {JSON.stringify(session)}
-
-  const handleSignOut = async () => {
-    signOut({redirectTo:"/auth/login"});
-   
-  };
+ const DashboardPage = async() => {
+  const session:any =  await auth()
+   return (
+    <> 
       
-  return (
-    <>
-     <AuthButtonClient />
-    </>
-  )
+      <form action={async()=>{
+  'use server'
+  await signOut({redirectTo:"/auth/login"});
+      }}> 
+     <button  type='submit'>
+      Logout
+     </button>
+     </form>
+     </>
+   )
+ }
  
-}
- 
-export default DashBoard
+ export default DashboardPage

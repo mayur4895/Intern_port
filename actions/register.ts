@@ -36,7 +36,7 @@ const hashpassword = await bcryptjs.hash(password, salt);
        await db.user.create({
 
         data: {
-          firstname: name,
+          name: name,
           email: email,
           password: hashpassword
         }

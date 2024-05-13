@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { error } from "console";
 import bcryptjs from "bcryptjs"
 import z from "zod"
+import { generateVerificationToken } from "@/lib/Tokens";
  
 export const  register = async (values :z.infer <typeof RegisterSchema>)=>{
       
@@ -41,7 +42,11 @@ const hashpassword = await bcryptjs.hash(password, salt);
           password: hashpassword
         }
       })
-   
+     
+       const verificationToken = await generateVerificationToken(email);
+       console.log(verificationToken);
+       
+
       return {success:"Confirmation Email Sent"} 
        
       } catch (error) {

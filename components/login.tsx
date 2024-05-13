@@ -49,7 +49,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 const Login = () => {
   const SearchParams = useSearchParams();
   const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
-  console.log(urlError);
+  
   
   const {toast} = useToast();
   const router = useRouter();
@@ -71,6 +71,10 @@ const Login = () => {
           title: "Email alerday in used", 
         })
        }
+
+        
+
+
        if(res?.error){
          
         toast({
@@ -79,8 +83,17 @@ const Login = () => {
          })
   
          }
-      
-        router.push(DEFAULT_LOGIN_REDIRECT)
+
+         if(res?.success){
+          toast({
+            variant:"success",
+            title: res?.success,
+         
+          })   
+       
+          router.push(DEFAULT_LOGIN_REDIRECT)
+        }
+       
 
         form.reset();
         router.refresh();  

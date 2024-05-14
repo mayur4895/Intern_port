@@ -9,6 +9,7 @@ import { error } from "console";
 import bcryptjs from "bcryptjs"
 import z from "zod"
 import { generateVerificationToken } from "@/lib/Tokens";
+import { SendVerificationEmail } from "@/lib/mail";
  
 export const  register = async (values :z.infer <typeof RegisterSchema>)=>{
       
@@ -44,11 +45,12 @@ const hashpassword = await bcryptjs.hash(password, salt);
       })
      
        const verificationToken = await generateVerificationToken(email);
-       console.log(verificationToken);
-       
+         
+        if(verificationToken.email && verificationToken.token) {
+       await SendVerificationEmail(verificationToken.email,verificationToken.token);
 
       return {success:"Confirmation Email Sent"} 
-       
+        }
       } catch (error) {
         console.log(error); 
   

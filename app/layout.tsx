@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import MainNavbar from '@/components/MainNavbar';
 import { auth } from '@/auth';
+import Container from '@/components/ui/container';
 const font = Poppins({
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
@@ -38,7 +39,9 @@ export default  async function RootLayout({
         <body className={cn(font.className)}>
       
         <MainNavbar session={session}/>
-              {children}
+            <Container>
+            {children}
+            </Container>
               <Toaster />
  
        

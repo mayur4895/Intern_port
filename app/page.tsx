@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { AuroraBackgrounMain } from "@/components/AuroraBackground";
 import Banner from "@/components/Banner";
  
  
@@ -18,7 +19,10 @@ export default async function Home() {
 
   return (
  <Container> 
+  
+    <AuroraBackgrounMain >
   <Banner/>
+  </AuroraBackgrounMain>
  </Container>
   )
 }

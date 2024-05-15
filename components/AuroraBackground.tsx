@@ -15,7 +15,7 @@ export function AuroraBackgrounMain({children}:{children:React.ReactNode}) {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="relative flex flex-col gap-4 items-center justify-center px-4 w-full"
+        className="relative flex flex-col gap-4 items-center justify-center px-4 w-full py-24"
       >
  
          {children}  

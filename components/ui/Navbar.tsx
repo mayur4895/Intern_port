@@ -60,15 +60,14 @@ interface NavbarProps{
       },
     ]
 
-
-    console.log(session);
+ 
     
     return (
     
         <Menubar> 
  
-    <div className="ml-auto flex items-center">
-    <div className='hidden lg:flex'>
+    <div className="ml-auto flex items-center ">
+    <div className='hidden  lg:flex'>
     {Navbars.map(({ label, href }) => (
         <MenubarMenu key={label}>
           <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>

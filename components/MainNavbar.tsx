@@ -23,7 +23,8 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
 
   
   return (
-    <div className="flex w-full items-center border-b shadow-sm  bg-transparent  pl-4 md:px-4 ">
+    <div className='fixed top-0 left-0 w-full z-50'>
+       <div className="flex w-full items-center border-b shadow-sm  bg-white  pl-4 md:px-4 ">
         <div className='font-bold tracking-wider'>JobHunt</div>
         <div className='  w-full '>
             <Navbar  session={session}/>
@@ -51,6 +52,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
   </>
  }
     
+    </div>
     </div>
   )
 }

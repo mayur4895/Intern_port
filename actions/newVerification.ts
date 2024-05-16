@@ -1,4 +1,5 @@
 'use server'
+import { getUserByEmail } from "@/data/user";
 import { getValidateTokenbyEmail, getValidateTokenbyToken } from "@/data/validateToken"
 import { db } from "@/lib/db";
 
@@ -8,10 +9,10 @@ export const NewVerification = async(token:string)=>{
 
 
 
-console.log(token);
+ 
 
     
-const ExistingToken =    await  getValidateTokenbyToken(token)
+const ExistingToken =    await getValidateTokenbyToken(token)
  
 
 if(!ExistingToken){
@@ -27,19 +28,17 @@ if(hasExpired){
  
 
 
-const ExistingUser = await getValidateTokenbyEmail(ExistingToken.email);
-
- 
+const ExistingUser = await getUserByEmail(ExistingToken.email); 
 
 if(!ExistingUser){
     return {error:"Email does not exist"}
 }
  
-console.log(ExistingUser.id + ExistingUser.email);
+ 
 
 await db.user.updateMany({ 
     where:{
-   id : "66445815d3e25784b3cb704d"   // here is the error occur to id matching afte r i solve it
+   id: ExistingUser.id   
     },
     data:{  
         emailVerified:  new Date(),

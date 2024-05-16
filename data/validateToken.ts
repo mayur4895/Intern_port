@@ -25,7 +25,7 @@ export const getValidateTokenbyEmail = async(email:string)=>{
                 email: email,
             },
         });
-         console.log(verificationToken?.id);
+      
          
      return verificationToken;
  

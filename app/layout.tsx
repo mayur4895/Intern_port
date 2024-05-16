@@ -33,6 +33,8 @@ export default  async function RootLayout({
 }) {
 
   const session = await auth();
+ 
+  
   return (
  
       <html lang="en" suppressHydrationWarning>

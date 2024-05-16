@@ -1,4 +1,4 @@
- 'use client'
+ 
 import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import Link from 'next/link'
@@ -41,11 +41,24 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
 
  { session &&
   <> 
-  <div className='flex gap-4'>
+  <div className='flex gap-4 pr-2'>
     
+ <div className=' hidden md:block'>
+ <form action={async()=>{
+  'use server'
+  await signOut({redirectTo:"/auth/login"});
+      }}> 
+     <Button type='submit'>Logout</Button>
+     </form>
+ </div>
   <Link href={""}>  <Avatar>
   <AvatarImage src={session.user.image} />
-  <AvatarFallback><RiUser3Line size={22} /> </AvatarFallback>
+  <AvatarFallback>   
+  <div className=' shadow h-10 bg-stone-300  text-xl font-semibold w-10 rounded-full flex justify-center items-center'>
+  {session?.user.name[0]}
+  </div>
+    {/* <RiUser3Line size={22} /> */}
+     </AvatarFallback>
 </Avatar>
    </Link>
            </div>

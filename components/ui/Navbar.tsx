@@ -1,4 +1,4 @@
- 'use client'
+ 
   
 
   import React from 'react'
@@ -26,6 +26,7 @@ import Link from "next/link"
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import { Separator } from './separator'
+import { signOut } from '@/auth'
   
 
 
@@ -85,7 +86,7 @@ interface NavbarProps{
         <SheetHeader>
           <SheetTitle>JobHunt.</SheetTitle>
           <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
+            
           </SheetDescription>
         </SheetHeader>
       <div className='flex flex-col gap-y-3'>
@@ -107,8 +108,14 @@ interface NavbarProps{
      { 
       session &&  
       <div className="flex flex-col    items-start  justify-start gap-4"> 
-
-      <Button variant={"link"} className='text-sm text-black font-semibold hover:text-blue-500'>Logout</Button>
+        
+  <form action={async()=>{
+  'use server'
+  await signOut({redirectTo:"/auth/login"});
+      }}> 
+ <Button variant={"link"} className='text-sm text-black font-semibold hover:text-blue-500'>Logout</Button>
+     </form>
+      
       </div>
      }
       </div>

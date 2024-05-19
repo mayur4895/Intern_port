@@ -1,8 +1,8 @@
  
 import React, { useEffect, useState } from 'react'
-import { Button } from './ui/button'
+import { Button } from '../../ui/button'
 import Link from 'next/link'
-import Navbar from './ui/Navbar'
+import Navbar from './Navbar'
 import { auth, signIn, signOut } from '@/auth'
 import { RiUser3Line } from "react-icons/ri";
 import { LogOut } from 'lucide-react'
@@ -23,9 +23,9 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
 
   
   return (
-    <div className='fixed top-0 left-0 w-full z-50'>
+    <div className='flex  w-full z-50'>
        <div className="flex w-full items-center border-b shadow-sm  bg-white  pl-4 md:px-4 ">
-        <div className='font-bold tracking-wider'>JobHunt</div>
+        <div className='font-bold tracking-wider'><Link href={"/"}>HireIntern</Link></div>
         <div className='  w-full '>
             <Navbar  session={session}/>
         </div> 
@@ -35,7 +35,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
       
         <Link href={"/auth/signup"}> <Button variant={"outline"} >Candident Sign-up</Button> </Link>
         
-        <Link href={"/signup"}> <Button variant={"outline"} >Employer Sign-up</Button> </Link>
+        <Link href={"/hire-talent"}> <Button variant={"outline"} >Employer Sign-up</Button> </Link>
      </div>
      </>}
 
@@ -46,7 +46,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
  <div className=' hidden md:block'>
  <form action={async()=>{
   'use server'
-  await signOut({redirectTo:"/auth/login"});
+  await signOut({redirectTo:"/"});
       }}> 
      <Button type='submit'>Logout</Button>
      </form>

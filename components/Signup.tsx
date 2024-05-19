@@ -1,4 +1,4 @@
-"use client"; 
+ 
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,7 +21,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -36,11 +36,28 @@ import {
 import Link from "next/link";
 import { useToast } from "./ui/use-toast";
 import { register } from "@/actions/register";
-import RegisterSchema from "@/schemas/RegisterSchema";
-
+ 
+ 
+import RegisterSchema from "@/schemas/RegisterSchema"; 
+ 
+ 
+import { login } from "@/actions/login";
+import LoginSchema from "@/schemas/LoginSchema";
+import { FcGoogle } from "react-icons/fc";
+import { AiFillGithub } from "react-icons/ai";
+import { Separator } from "./ui/separator";
+ 
+ 
+import { signIn } from "next-auth/react"; 
+import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+ 
+  
+ 
  
 const Signup = () => {
-
+  
+  const SearchParams = useSearchParams();
+  const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
   const {toast} = useToast();
  
    const router = useRouter();
@@ -90,6 +107,34 @@ const Signup = () => {
     }
   }
 
+
+
+  
+const onclick = async( provider:string)=>{
+  const res =  await signIn(provider,{
+      callbackUrl:"/"
+    });
+    if(urlError){
+     toast({
+       variant:"destructive",
+       title: "Email alerday in used", 
+     })
+    }
+    if(res?.error){
+      
+     toast({
+       variant:"destructive",
+       title:res?.error, 
+      })
+ 
+     
+ 
+     form.reset();
+     router.refresh();  
+ } 
+ }
+ 
+ 
   return (
     <>
       <div className=" flex h-[100vh] w-full justify-center items-center">
@@ -154,6 +199,18 @@ const Signup = () => {
                 <Button type="submit" className="h-10 w-full">
                   {isloding ? <Loader2 className=" animate-spin" /> : "Signup"}
                 </Button>
+
+                <div className="flex  justify-center gap-3 w-full">
+                <Button onClick={()=>{onclick('google')}} variant={"outline"} className="flex items-center gap-2 w-full text-gray-500 h-12">
+                  <FcGoogle size={25}/>Google
+                </Button>
+
+                <Button onClick={()=>{onclick('github')}} variant={"outline"} className="flex items-center gap-2 w-full text-gray-500 h-12">
+                  <AiFillGithub size={25}/>Github
+                </Button>
+ 
+              
+              </div>
                 <span className="text-sm text-zinc-500">
                   {" "}
                   You have already singup?

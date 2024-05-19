@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import { AuroraBackgrounMain } from "@/components/AuroraBackground";
 import Banner from "@/components/Banner";
+import MainNavbar from "@/components/Navbar/Student/MainNavbar";
+import Navbar from "@/components/Navbar/Student/Navbar";
  
  
 import Container from "@/components/ui/container";
@@ -17,12 +19,16 @@ export default async function Home() {
     return redirect ("/student/dashboard");
   }
 
+ 
   return (
- <Container> 
-  
+     <div>
+      
+    <MainNavbar session={session}/>
+ <Container>  
     <AuroraBackgrounMain >
   <Banner/>
   </AuroraBackgrounMain>
  </Container>
+    </div>
   )
 }

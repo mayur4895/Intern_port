@@ -21,11 +21,11 @@
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
-import { Button } from "./button"
+import { Button } from "../../ui/button"
 import Link from "next/link"
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IoEllipsisVertical } from 'react-icons/io5'
-import { Separator } from './separator'
+import { Separator } from '../../ui/separator'
 import { signOut } from '@/auth'
   
 
@@ -39,26 +39,20 @@ interface NavbarProps{
 
 
     const Navbars = [
+       
       {
-        label: "Home",
-        href: "/",
-      },
-      {
-        label: "InterShips",
-        href: "/interships",
-      },
+        label: "Hire For Top Profiles",
+    
+        profiles:[{
+          label: "Web Developer",
+          href: "/internships",
+        },
       {
         label: "Jobs",
         href: "/jobs",
-      },
-      {
-        label: "Services",
-        href: "/services",
-      },
-      {
-        label: "Contact Us",
-        href: "/contact",
-      },
+      }
+      ]
+    }
     ]
 
  
@@ -69,9 +63,9 @@ interface NavbarProps{
  
     <div className="ml-auto flex items-center ">
     <div className='hidden  lg:flex'>
-    {Navbars.map(({ label, href }) => (
+    {Navbars.map(({ label }) => (
         <MenubarMenu key={label}>
-          <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+          <MenubarTrigger>  {label}</MenubarTrigger>
         </MenubarMenu>
       ))}
     </div>
@@ -84,15 +78,15 @@ interface NavbarProps{
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>JobHunt.</SheetTitle>
+          <SheetTitle className='font-bold tracking-wider'>  <Link href={"/"}>HireIntern</Link> </SheetTitle>
           <SheetDescription>
             
           </SheetDescription>
         </SheetHeader>
       <div className='flex flex-col gap-y-3'>
-      {Navbars.map(({ label, href }) => (
+      {Navbars.map(({ label }) => (
         <MenubarMenu key={label}>
-          <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+          <MenubarTrigger>  {label}</MenubarTrigger>
         </MenubarMenu>
       ))}
 <Separator/>{
@@ -111,7 +105,7 @@ interface NavbarProps{
         
   <form action={async()=>{
   'use server'
-  await signOut({redirectTo:"/auth/login"});
+  await signOut({redirectTo:"/"});
       }}> 
  <Button variant={"link"} className='text-sm text-black font-semibold hover:text-blue-500'>Logout</Button>
      </form>

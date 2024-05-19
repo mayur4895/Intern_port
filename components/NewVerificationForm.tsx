@@ -64,8 +64,7 @@ onSubmit();
       <BeatLoader size={10} color={'#000000'} loading={true} /> 
 )}
 
-{Error ? <div className='p-2 bg-red-200 border-red-700 border w-full'>{Error}</div> : <div> </div>}
-{Success ? <div className='p-2 bg-green-200 border-green-700 border w-full'>{Success}</div>:<div></div>}
+{Error ? <div className='p-2 bg-red-300 border-red-500 border w-full'>{Error}</div> :  <div className='p-2 bg-green-300 border-green-500 border w-full'>{Success}</div>}
     </div>
   </CardContent>
   <CardFooter className='text-center flex flex-col justify-center' > 

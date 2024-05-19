@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
  
  
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
-import MainNavbar from '@/components/MainNavbar';
+import MainNavbar from '@/components/Navbar/Student/MainNavbar';
 import { auth } from '@/auth';
 import Container from '@/components/ui/container';
 const font = Poppins({
@@ -22,8 +22,8 @@ const font = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Jobhunt',
-  description: 'Jobhunt',
+  title: 'HireIntern',
+  description: 'HireIntern build for Modern college',
 };
 
 export default  async function RootLayout({
@@ -31,16 +31,14 @@ export default  async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-  const session = await auth();
+ 
  
   
   return (
  
       <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className)}>
-      
-        <MainNavbar session={session}/>
+       
             <Container>
             {children}
             </Container>

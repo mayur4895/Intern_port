@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { AuroraBackgrounMain } from "@/components/AuroraBackground";
+import { AuroraBackgrounMain } from "@/components/animations/AuroraBackground";
 import Banner from "@/components/Banner";
 import MainNavbar from "@/components/Navbar/Student/MainNavbar";
 import Navbar from "@/components/Navbar/Student/Navbar";

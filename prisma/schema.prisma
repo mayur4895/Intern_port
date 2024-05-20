@@ -36,6 +36,7 @@ model Account {
  enum UserRole{
   USER
   ADMIN
+  HR
  }
 
 model User {

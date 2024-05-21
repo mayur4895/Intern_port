@@ -30,24 +30,24 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import Link from "next/link";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "../ui/use-toast";
  
  
 import { login } from "@/actions/login";
 import LoginSchema from "@/schemas/LoginSchema";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
  
  
 import { signIn } from "next-auth/react"; 
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
-import SocialProvider from "./SocialProvider";
+import SocialProvider from "../SocialProvider";
 
  
-const Login = () => {
+const CompanyLogin = () => {
   const SearchParams = useSearchParams();
   const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
   
@@ -154,13 +154,13 @@ const Login = () => {
               <Button type="submit" className=" h-10 w-full">
                   {isloding ? <Loader2 className=" animate-spin" /> : "Login"}
                 </Button>
-              <SocialProvider/>
+          
                   
 
               <span className="text-sm text-zinc-500">
                   {" "}
                    Don't have an account?
-                  <Link href="/auth/signup" className=" font-semibold text-zinc-900">
+                  <Link href="/hire-talent" className=" font-semibold text-zinc-900">
                     {" "}
                     signup
                   </Link>
@@ -174,4 +174,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default CompanyLogin;

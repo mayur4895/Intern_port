@@ -5,13 +5,16 @@ const HireBanner = () => {
   return (
     <>
      
-     <div className=' grid grid-cols-3 gap-5 h-fit items-center justify-center   m-5 mt-12'>
-       <div className=' col-span-2 z-50 '>
+     <div className='    flex  flex-col  md:grid  md:grid-cols-3 gap-5  h-auto items-center justify-center   m-5 mt-10'>
+       <div className=' col-span-2   w-full  z-50 '>
           <h2 className='text-5xl font-semibold text-zinc-800'>Hire Frshers And Interns Faster</h2>
           <p className='text-xl pt-4'>Post Internships for free & hire talent with up to 2 years of experience</p>
-               <Image src={"/hr-image.png"} height={600} width={820} alt="bg" className=' z-50'/>
+          <Image src={"/hr-image.png"}   height={800} width={800}  alt="bg" className=' hidden md:block  mt-6 object-cover  z-50'/>
        </div>
-       <div className='z-50 '>
+   
+ 
+ 
+       <div className='z-50 md:mt-0 mt-10 '>
           <RegisterForm/> 
        </div>
      </div>

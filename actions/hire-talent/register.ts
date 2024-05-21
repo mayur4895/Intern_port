@@ -32,6 +32,10 @@ const hashpassword = await bcryptjs.hash(password, salt);
       });
 
       if(userExist){
+
+        if(userExist.role == "USER"){
+          return  {error: "This email is already registered as a student. "}
+        }
         return  {error: "User already exists"}
       }
       

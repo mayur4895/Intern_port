@@ -1,5 +1,23 @@
 import { db } from "@/lib/db";
 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+// get validate token by email and token 
+
+
 export const getValidateTokenbyToken = async(token:string)=>{
   
     try {

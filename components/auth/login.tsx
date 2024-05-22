@@ -30,16 +30,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import Link from "next/link";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "../ui/use-toast";
  
  
 import { login } from "@/actions/login";
 import LoginSchema from "@/schemas/LoginSchema";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
  
  
 import { signIn } from "next-auth/react"; 
@@ -114,10 +114,7 @@ const Login = () => {
     <>
    
         <Card className="px-8 py-5 max-w-md w-full">
-          <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-3xl">Login</CardTitle>
-            <CardDescription>Login to your account</CardDescription>
-          </CardHeader>
+        
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -145,6 +142,7 @@ const Login = () => {
                         {...field}
                       />
                     </FormControl>
+                    <Button variant={"link"} asChild><Link href="/auth/reset" className="px-0 font-normal text-xs">Forgot your password ?</Link></Button>
                   </FormItem>
                 )}
               />

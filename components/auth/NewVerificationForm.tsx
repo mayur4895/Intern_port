@@ -9,12 +9,12 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { db } from '@/lib/db'
 import { NewVerification } from '@/actions/newVerification'
-import { useToast } from './ui/use-toast'
+import { useToast } from '../ui/use-toast'
   
 const NewVerificationForm = () => {
 
@@ -25,7 +25,9 @@ const [Error,setError] = useState("");
 
 const [Success,setSuccess] = useState("");
  const onSubmit = useCallback(()=>{
-
+  if(Success || Error) {
+    return;
+  }
 
   if(!token){
    return  setError("Token Does not Exist")
@@ -42,7 +44,7 @@ const [Success,setSuccess] = useState("");
     return setError("something went wrong")
   })
 
- },[token])
+ },[token,setError,setSuccess])
     
 
 
@@ -64,7 +66,12 @@ onSubmit();
       <BeatLoader size={10} color={'#000000'} loading={true} /> 
 )}
 
-{Error ? <div className='p-2 bg-red-300 border-red-500 border w-full'>{Error}</div> :  <div className='p-2 bg-green-300 border-green-500 border w-full'>{Success}</div>}
+   <div className='p-2 bg-green-300 border-green-500 border w-full'>{Success}</div>
+
+   {!Success && (
+     <div className='p-2 bg-red-300 border-red-500 border w-full'>{Error}</div> 
+
+   )}
     </div>
   </CardContent>
   <CardFooter className='text-center flex flex-col justify-center' > 

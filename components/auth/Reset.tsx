@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
+ 
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+ 
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -18,8 +18,8 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
  
  
-import axios from "axios";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+ 
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Loader2 } from "lucide-react";
  
@@ -35,37 +35,36 @@ import Link from "next/link";
 import { useToast } from "../ui/use-toast";
  
  
-import { login } from "@/actions/login";
-import LoginSchema from "@/schemas/LoginSchema";
-import { FcGoogle } from "react-icons/fc";
-import { AiFillGithub } from "react-icons/ai";
-import { Separator } from "../ui/separator";
  
  
-import { signIn } from "next-auth/react"; 
+ 
+ 
+ 
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
-import SocialProvider from "../auth/SocialProvider";
+import ResetSchema from "@/schemas/ResetSchema";
+import { reset } from "@/actions/reset";
+ 
 
  
-const CompanyLogin = () => {
+const Reset = () => {
   const SearchParams = useSearchParams();
   const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
   
   
   const {toast} = useToast();
   const router = useRouter();
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: "", 
-      password: "",
+ 
     },
   });
 
   const isloding = form.formState.isSubmitting;
-  async function onSubmit(values: z.infer<typeof LoginSchema>) {
+  async function onSubmit(values: z.infer<typeof ResetSchema>) {
     try {
-      const res =  await  login(values);
+      const res =  await  reset(values);
        if(urlError){
         toast({
           variant:"destructive",
@@ -113,8 +112,11 @@ const CompanyLogin = () => {
   return (
     <>
    
-        <Card className="px-8 py-5 max-w-md w-full">
-        
+        <Card className="px-8 py-5 max-w-md w-full mt-10">
+          <CardHeader className="p-0 mb-4">
+            <CardTitle className="text-2xl">Forgot Password</CardTitle>
+            <CardDescription>forgot your password</CardDescription>
+          </CardHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -129,39 +131,21 @@ const CompanyLogin = () => {
                   </FormItem>
                 )}
               /> 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter Password"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
+             
               <CardFooter className=" justify-between gap-3 flex-col w-full p-0">
                 
               <Button type="submit" className=" h-10 w-full">
-                  {isloding ? <Loader2 className=" animate-spin" /> : "Login"}
-                </Button>
-          
-                  
+                  {isloding ? <Loader2 className=" animate-spin" /> : "Send reset email"}
+                </Button> 
 
-              <span className="text-sm text-zinc-500">
+              <Button  variant={"link"} className=" text-sm text-zinc-500">
                   {" "}
-                   Don't have an account?
-                  <Link href="/hire-talent" className=" font-semibold text-zinc-900">
+           
+                  <Link href="/auth/login" className="  text-zinc-900">
                     {" "}
-                    signup
+                    Back to login
                   </Link>
-                </span>
+                </Button >
               </CardFooter>
             </form>
           </Form>
@@ -171,4 +155,4 @@ const CompanyLogin = () => {
   );
 };
 
-export default CompanyLogin;
+export default Reset;

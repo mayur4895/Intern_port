@@ -32,9 +32,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import Link from "next/link";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "../ui/use-toast";
 import { register } from "@/actions/register";
  
  
@@ -45,7 +45,7 @@ import { login } from "@/actions/login";
 import LoginSchema from "@/schemas/LoginSchema";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
  
  
 import { signIn } from "next-auth/react"; 
@@ -140,7 +140,7 @@ const onclick = async( provider:string)=>{
       <div className=" flex h-[100vh] w-full justify-center items-center">
       <Card className="px-8 py-5 max-w-md w-full">
           <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-3xl">Signup</CardTitle>
+            <CardTitle className="text-2xl">Signup</CardTitle>
             <CardDescription>Sign up to get started</CardDescription>
           </CardHeader>
           <Form {...form}>

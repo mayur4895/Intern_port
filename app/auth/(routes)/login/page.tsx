@@ -17,7 +17,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import Login from '@/components/login'
+import Login from '@/components/auth/login'
 import CompanyLogin from '@/components/hire-talent/CompanyLogin'
 import { useLoginType } from '@/hooks/use-logintype'
 
@@ -27,7 +27,8 @@ const LoginPage = ( ) => {
   console.log(type);
   
   return (
-    <Tabs defaultValue={ type=="employer"?"employer" :"student"}  className="w-[400px] mt-10">
+    <div className="flex items-center justify-center h-screen w-full">
+    <Tabs defaultValue={ type=="employer"?"employer" :"student"}  className="w-[400px] ">
     <TabsList className="grid w-full grid-cols-2">
       <TabsTrigger value="student">Student</TabsTrigger>
       <TabsTrigger value="employer">Employer/Company</TabsTrigger>
@@ -39,6 +40,7 @@ const LoginPage = ( ) => {
     <CompanyLogin/>
     </TabsContent>
   </Tabs>
+  </div>
   )
 }
 

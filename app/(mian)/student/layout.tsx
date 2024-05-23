@@ -1,9 +1,11 @@
+'use client'
 import { auth } from '@/auth';
 import MainNavbar from '@/components/Navbar/Student/MainNavbar'
+import { useSession } from 'next-auth/react';
 import React from 'react'
 
-const Studentlayout = async({children}:{children:React.ReactNode}) => {
-  const session = await auth();
+const Studentlayout =  ({children}:{children:React.ReactNode}) => {
+  const session =  useSession();
   return (
      <div>
       

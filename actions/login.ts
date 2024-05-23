@@ -41,6 +41,8 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 
  if(code){
+  console.log(code);
+  
   const TwoFactorToken = await getTwoFactorTokenbyEmail(ExistUser.email);
 
   if(!TwoFactorToken){
@@ -84,7 +86,7 @@ if(hasExpired){
     const twoFactortoken =  await   generateTowFactorToken(ExistUser.email);
     if(twoFactortoken.email && twoFactortoken.token){
     await SendTwoFactorTokenEmail(twoFactortoken.email,twoFactortoken.token)
-    return {twoFactor :true}
+    return {twoFactor:true}
   }
 
  }

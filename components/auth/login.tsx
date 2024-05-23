@@ -100,8 +100,8 @@ const Login = () => {
           })   
        
           form.reset(); 
-          router.refresh();
           router.push(DEFAULT_LOGIN_REDIRECT)
+          router.refresh();
         }
 
 

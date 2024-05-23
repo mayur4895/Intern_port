@@ -1,5 +1,5 @@
  
-  
+  'use client'
 
   import React from 'react'
   import {
@@ -27,6 +27,7 @@ import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import { Separator } from '../../ui/separator'
 import { signOut } from '@/auth'
+import { useLoginType } from '@/hooks/use-logintype'
   
 
 
@@ -62,6 +63,7 @@ interface NavbarProps{
     ]
 
  
+    const { onSetType} = useLoginType()
     
     return (
     
@@ -98,7 +100,7 @@ interface NavbarProps{
 <Separator/>{
   !session &&  (
 <div className="flex flex-col  ml-4   items-start  justify-start gap-4"> 
-        <Link href={"/auth/login"} className='text-sm text-black font-semibold hover:text-blue-500'>  Login </Link>
+        <Link href={"/auth/login"} className='text-sm text-black font-semibold hover:text-blue-500' onClick={()=>{onSetType("employer")}}>  Login </Link>
       
         <Link href={"/auth/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Candident Sign-up </Link>
         
@@ -108,15 +110,8 @@ interface NavbarProps{
      { 
       session &&  
       <div className="flex flex-col    items-start  justify-start gap-4"> 
-        
-  <form action={async()=>{
-  'use server'
-  await signOut({redirectTo:"/"});
-      }}> 
- <Button variant={"link"} className='text-sm text-black font-semibold hover:text-blue-500'>Logout</Button>
-     </form>
-      
-      </div>
+  <Button type='submit' onClick={()=>{signOut()}}>Logout</Button>
+    </div>
      }
       </div>
         

@@ -2,7 +2,7 @@ import { auth, signOut } from '@/auth'
 import { Button } from '@/components/ui/button'
 import React from 'react'
  
- const DashboardPage = async() => {
+ const DashboardPage =  () => {
  
    return (
     <>  

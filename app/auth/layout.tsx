@@ -1,7 +1,7 @@
 import { AuroraBackgrounMain } from '@/components/animations/AuroraBackground'
 import React from 'react'
 
- 
+
 
 
 

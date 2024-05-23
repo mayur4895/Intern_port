@@ -4,15 +4,12 @@ import { Poppins } from 'next/font/google';
 import './globals.css';
  
 import { Toaster } from "@/components/ui/toaster"
-import { cn } from '@/lib/utils';
-
- 
-
- 
+import { cn } from '@/lib/utils';  
  
  
  
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { SessionProvider } from 'next-auth/react';
 import MainNavbar from '@/components/Navbar/Student/MainNavbar';
 import { auth } from '@/auth';
 import Container from '@/components/ui/container';
@@ -33,9 +30,9 @@ export default  async function RootLayout({
 }) {
  
  
-  
+  const session = await auth();
   return (
- 
+  <SessionProvider session={session}> 
       <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className)}>
        
@@ -47,7 +44,7 @@ export default  async function RootLayout({
        
         </body>
       </html>
-   
+      </SessionProvider>
          
   );
 }

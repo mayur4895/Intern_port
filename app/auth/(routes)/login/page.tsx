@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 import React from 'react'
 import { Button } from "@/components/ui/button"
 import {
@@ -24,7 +24,7 @@ import { useLoginType } from '@/hooks/use-logintype'
  
 const LoginPage = ( ) => {
   const {type} = useLoginType();
-  console.log(type);
+ 
   
   return (
     <div className="flex items-center justify-center h-screen w-full">

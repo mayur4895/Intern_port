@@ -4,10 +4,10 @@ import { db } from "@/lib/db";
 
 
 
-export const getTwoFactorConfirmationByUserId = async(id:string) =>{
+export const getTwoFactorConfirmationByUserId = async(userId:string) =>{
 try {
     const TwofactorConfirmation = await  db.twoFactorConfirmation.findUnique({
-        where:{id}
+        where:{userId}
     })
 
     return TwofactorConfirmation;

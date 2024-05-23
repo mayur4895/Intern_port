@@ -10,6 +10,8 @@ import { z } from "zod";
     password: z.string().min(8, {
       message: "password must be at least 8 characters",
     }),
+
+    code:z.optional(z.string())
   });
 
 

@@ -16,7 +16,13 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
- 
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
  
 import axios from "axios";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
@@ -45,12 +51,13 @@ import { Separator } from "../ui/separator";
 import { signIn } from "next-auth/react"; 
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import SocialProvider from "./SocialProvider";
+import { useState } from "react";
 
  
 const Login = () => {
   const SearchParams = useSearchParams();
   const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
-  
+  const [showTwoFactor,setshowTwoFactor]  = useState(false);
   
   const {toast} = useToast();
   const router = useRouter();
@@ -92,18 +99,23 @@ const Login = () => {
          
           })   
        
+          form.reset(); 
+          router.refresh();
           router.push(DEFAULT_LOGIN_REDIRECT)
         }
-       
 
-        form.reset();
-        router.refresh();  
+
+        if(res?.twoFactor){
+          setshowTwoFactor(true); 
+        }
+       
+ 
   
     } catch (error) {
       console.log(error);
       toast({
         variant:"destructive",
-        title: "Invalid User", 
+        title: "Something went Wrong", 
        })
        form.reset();
 
@@ -117,7 +129,35 @@ const Login = () => {
         
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
+
+              {showTwoFactor && (<>
+                <FormField
+          control={form.control}
+          name="code"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>One-Time Password</FormLabel>
+              <FormControl>
+                <InputOTP maxLength={6} {...field}>
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
+              </FormControl>
+              <FormDescription>
+                Please enter the one-time password sent to your phone.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+              </>)}
+             { !showTwoFactor && (  <>  <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
@@ -145,14 +185,23 @@ const Login = () => {
                     <Button variant={"link"} asChild><Link href="/auth/reset" className="px-0 font-normal text-xs">Forgot your password ?</Link></Button>
                   </FormItem>
                 )}
-              />
+              />  
+              
+              </>
+              )
+
+
+              }
 
               <CardFooter className=" justify-between gap-3 flex-col w-full p-0">
                 
               <Button type="submit" className=" h-10 w-full">
-                  {isloding ? <Loader2 className=" animate-spin" /> : "Login"}
+                  {isloding ? <Loader2 className=" animate-spin" /> : showTwoFactor ? "Confirm" :"Login"}
                 </Button>
-              <SocialProvider/>
+                {!showTwoFactor && 
+              <SocialProvider/> 
+              
+              }
                   
 
               <span className="text-sm text-zinc-500">

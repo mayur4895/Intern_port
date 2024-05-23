@@ -53,7 +53,7 @@ onSubmit();
  },[onSubmit])
     
   return (
-    <div className=' flex justify-center items-center w-full  min-h-screen'>
+    <div className=' flex justify-center items-center   min-h-screen'>
 <Card className='w-full text-center'>
   <CardHeader>
     <CardTitle className='text-2xl'>Confirming Your Email</CardTitle>

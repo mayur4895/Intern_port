@@ -1,11 +1,13 @@
 "use server";
 
 import { signIn } from "@/auth";
+import { getTwoFactorTokenbyEmail } from "@/data/two-facror-token";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 import { getUserByEmail } from "@/data/user";
  ;
-import { generateVerificationToken } from "@/lib/Tokens";
+import { generateTowFactorToken, generateVerificationToken } from "@/lib/Tokens";
 import { db } from "@/lib/db";
-import { SendVerificationEmail } from "@/lib/mail";
+import { SendTwoFactorTokenEmail, SendVerificationEmail } from "@/lib/mail";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import LoginSchema from "@/schemas/LoginSchema";
 
@@ -16,7 +18,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   if (!validatedFields.success) {
     return { error: "Invlaid Fields" };
   }
-  const { email, password } = validatedFields.data;
+  const { email, password ,code} = validatedFields.data;
 
 
   const ExistUser = await  getUserByEmail(email);
@@ -30,11 +32,64 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
   
     if(verificationToken.email && verificationToken.token) {
-      await SendVerificationEmail(verificationToken.email,verificationToken.token);
+      await  SendVerificationEmail(verificationToken.email,verificationToken.token);
  
        }
+ 
+
     return {success:"Confirmation Email Sent"} 
   }
+
+ if(code){
+  const TwoFactorToken = await getTwoFactorTokenbyEmail(ExistUser.email);
+
+  if(!TwoFactorToken){
+    return {error:"Invalid Code"}
+  }
+
+  if(TwoFactorToken.token !== code){
+    return {error:"Invalid Code"}
+  }
+  if(TwoFactorToken.expires && TwoFactorToken ){
+const hasExpired = new Date(TwoFactorToken.expires) < new Date();
+if(hasExpired){
+    return {error:"Token has expired"}
+}
+
+  }
+
+
+  await db.twoFactorToken.delete({
+    where:{id:TwoFactorToken.id}
+  })
+
+
+  const existingConfimarion = await getTwoFactorConfirmationByUserId(ExistUser.id)
+
+  if(existingConfimarion){
+    await db.twoFactorConfirmation.delete({
+      where:{id:existingConfimarion.id}
+    })
+  }
+ 
+ await db.twoFactorConfirmation.create({
+  data:{
+    userId:ExistUser.id
+  }
+ })
+
+ }else{ 
+  
+  if(ExistUser.isTwoFactorEnabled && ExistUser.email){
+    const twoFactortoken =  await   generateTowFactorToken(ExistUser.email);
+    if(twoFactortoken.email && twoFactortoken.token){
+    await SendTwoFactorTokenEmail(twoFactortoken.email,twoFactortoken.token)
+    return {twoFactor :true}
+  }
+
+ }
+  
+}
 
   try {
     await signIn("credentials", {

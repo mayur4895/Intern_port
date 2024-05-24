@@ -44,7 +44,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
     
  <div className=' hidden md:block'>
   
- <Button type='submit' onClick={()=>{signOut()}}>Logout</Button>
+ <Button  onClick={()=>{signOut()}}>Logout</Button>
  </div>
   <Link href={""}>  <Avatar>
   <AvatarImage src={session.user.image} />

@@ -51,7 +51,7 @@ import { Separator } from "../ui/separator";
 import { signIn } from "next-auth/react"; 
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import SocialProvider from "./SocialProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
  
 const Login = () => {
@@ -78,10 +78,13 @@ const Login = () => {
           variant:"destructive",
           title: "Email alerday in used", 
         })
+        form.reset();
+        window.location.reload();
+        router.refresh();
        }
 
         
-
+   
 
        if(res?.error){
          
@@ -89,7 +92,8 @@ const Login = () => {
           variant:"destructive",
           title:res?.error, 
          })
-  
+         form.reset()
+          router.refresh();
          }
 
          if(res?.success){
@@ -111,8 +115,7 @@ const Login = () => {
        
  
   
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
       toast({
         variant:"destructive",
         title: "Something went Wrong", 
@@ -182,7 +185,7 @@ const Login = () => {
                         {...field}
                       />
                     </FormControl>
-                    <Button variant={"link"} asChild><Link href="/auth/reset" className="px-0 font-normal text-xs">Forgot your password ?</Link></Button>
+                    <Button variant={"link"} asChild><Link href="/auth/reset" className="pl-0 font-normal text-xs">Forgot your password ?</Link></Button>
                   </FormItem>
                 )}
               />  

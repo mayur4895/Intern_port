@@ -17,8 +17,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
  
  
   const { onSetType} = useLoginType()
-   
-  const router = useRouter();
+     
 
 
 
@@ -48,18 +47,16 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
  
      <Button type='submit' onClick={()=>{signOut()}}>Logout</Button>
   
- </div>
- <p></p>
-  <Link href={""}>  <Avatar>
-  <AvatarImage src={session.data.user?.image} />
+ </div> 
+ { session &&  <Link href={""}>  <Avatar>
+  <AvatarImage src={session?.image} />
   <AvatarFallback>   
   <div className=' shadow h-10 bg-stone-300  text-xl font-semibold w-10 rounded-full flex justify-center items-center'>
-  {session?.data?.user?.name[0]}
-  </div>
-    {/* <RiUser3Line size={22} /> */}
+  {session?.name[0]}
+  </div> 
      </AvatarFallback>
 </Avatar>
-   </Link>
+   </Link>}
            </div>
   </>
  }

@@ -11,7 +11,8 @@ const prisma = new PrismaClient()
 export const { handlers, auth ,signIn,signOut} = NextAuth({
    pages:{
       signIn:"/auth/login",
-      error:"/auth/error"
+      error:"/auth/error",
+       
    },
 
    events:{
@@ -66,7 +67,7 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
 
   if(token.role && session.user ){
 
-     session.user.role =   token.role as UserRole;
+     session.user.role=   token.role as UserRole;
 
  }
   return session

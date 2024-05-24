@@ -9,7 +9,7 @@ const Studentlayout =  ({children}:{children:React.ReactNode}) => {
   return (
      <div>
       
-    <MainNavbar session={session}/>
+    <MainNavbar session={session?.data?.user}/>
     <div className='py-20'>
       {children}
     </div>

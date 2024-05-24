@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { signOut } from 'next-auth/react'
 import { useLoginType } from '@/hooks/use-logintype'
 import { useRouter } from 'next/navigation'
+import { logout } from '@/actions/logout'
 
 interface MainNavbarProps{
   session?:any;
@@ -45,7 +46,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
     
  <div className=' hidden md:block'>
  
-     <Button type='submit' onClick={()=>{signOut()}}>Logout</Button>
+     <Button type='submit' onClick={()=> signOut({callbackUrl:"/"})}>Logout</Button>
   
  </div> 
  { session &&  <Link href={""}>  <Avatar>

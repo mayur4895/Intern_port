@@ -9,7 +9,7 @@ const HireBanner = () => {
        <div className=' col-span-2   w-full  z-50 '>
           <h2 className='text-5xl font-semibold text-zinc-800'>Hire Frshers And Interns Faster</h2>
           <p className='text-xl pt-4'>Post Internships for free & hire talent with up to 2 years of experience</p>
-          <Image src={"/hr-image.png"}   height={800} width={800}  alt="bg" className=' hidden md:block  mt-6 object-cover  z-50'/>
+          <Image src={"/hr_.png"}   height={800} width={800}  alt="bg" className=' object-cover  z-50'/>
        </div>
    
  

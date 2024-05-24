@@ -25,9 +25,9 @@ import { Button } from "../../ui/button"
 import Link from "next/link"
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IoEllipsisVertical } from 'react-icons/io5'
-import { Separator } from '../../ui/separator'
-import { signOut } from '@/auth'
+import { Separator } from '../../ui/separator' 
 import { useLoginType } from '@/hooks/use-logintype'
+import { signOut } from 'next-auth/react'
   
 
 
@@ -109,8 +109,8 @@ interface NavbarProps{
 
      { 
       session &&  
-      <div className="flex flex-col    items-start  justify-start gap-4"> 
-  <Button type='submit' onClick={()=>{signOut()}}>Logout</Button>
+      <div className="flex flex-col    items-start  justify-start gap-4">
+      <Button type='submit' onClick={()=> signOut({callbackUrl:"/"})}>Logout</Button>
     </div>
      }
       </div>

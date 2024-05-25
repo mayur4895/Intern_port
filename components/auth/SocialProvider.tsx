@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
 import { Separator } from "../ui/separator";
- 
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+  
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react"; 
+import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 const SocialProvider = () => {
   const SearchParams = useSearchParams();
   const urlError =  SearchParams.get("error") === "OAuthAccountNotLinked";

@@ -46,10 +46,10 @@ import { AiFillGithub } from "react-icons/ai";
 import { Separator } from "../ui/separator";
  
  
-import { signIn } from "next-auth/react"; 
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+import { signIn } from "next-auth/react";  
 import HireRegisterSchema from "@/schemas/hire-talent/HireRegisterSchema";
 import { register } from "@/actions/hire-talent/register";
+import { useLoginType } from "@/hooks/use-logintype";
  
   
  
@@ -111,31 +111,9 @@ const Signup = () => {
 
 
 
-  
-const onclick = async( provider:string)=>{
-  const res =  await signIn(provider,{
-      callbackUrl:"/"
-    });
-    if(urlError){
-     toast({
-       variant:"destructive",
-       title: "Email alerday in used", 
-     })
-    }
-    if(res?.error){
-      
-     toast({
-       variant:"destructive",
-       title:res?.error, 
-      })
- 
-     
- 
-     form.reset();
-     router.refresh();  
- } 
- }
- 
+   
+ const { onSetType} = useLoginType()
+
  
   return (
     <> 
@@ -233,7 +211,7 @@ const onclick = async( provider:string)=>{
                 <span className="text-sm text-zinc-500">
                   {" "}
                   You have already singup?
-                  <Link href="/auth/login" className="text-zinc-800 font-semibold">
+                  <Link href="/auth/login" onClick={()=>{onSetType("employer")}}   className="text-zinc-800 font-semibold">
                     {" "}
                     login
                   </Link>

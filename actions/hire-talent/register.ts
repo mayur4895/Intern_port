@@ -1,5 +1,4 @@
-'use server'
- 
+'use server' 
  
  
 import { db } from "@/lib/db"; 
@@ -33,7 +32,7 @@ const hashpassword = await bcryptjs.hash(password, salt);
 
       if(userExist){
 
-        if(userExist.role == "USER"){
+        if(userExist.role == "STUDENT"){
           return  {error: "This email is already registered as a student. "}
         }
         return  {error: "User already exists"}
@@ -45,7 +44,7 @@ const hashpassword = await bcryptjs.hash(password, salt);
           name: firstname + lastname,
           email: email,
           password: hashpassword,
-          role:"HR"
+          role:"EMPLOYER"
           
         }
       })

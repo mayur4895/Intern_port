@@ -11,8 +11,10 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { SessionProvider } from 'next-auth/react';
 import MainNavbar from '@/components/Navbar/Student/MainNavbar';
-import { auth } from '@/auth';
+ 
 import Container from '@/components/ui/container';
+import { auth } from '@/auth';
+ 
 const font = Poppins({
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
@@ -30,7 +32,7 @@ export default  async function RootLayout({
 }) {
  
  
-  const session = await auth();
+  const session =  await auth();
   return (
   <SessionProvider session={session}> 
       <html lang="en" suppressHydrationWarning>

@@ -17,6 +17,7 @@ interface MainNavbarProps{
 const MainNavbar =  ({session}:MainNavbarProps) => {
  
  
+ 
   const { onSetType} = useLoginType()
      
 
@@ -32,7 +33,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
         </div> 
      { !session &&    <>
       <div className="lg:flex hidden flex-row  ml-5  gap-x-4  "> 
-        <Link href={"/auth/login"}  onClick={()=>{onSetType("student")}}> <Button>Login</Button> </Link>
+        <Link href={"/auth/student/login"}  onClick={()=>{onSetType("student")}}> <Button>Login</Button> </Link>
       
         <Link href={"/auth/signup"}> <Button variant={"outline"} >Candident Sign-up</Button> </Link>
         

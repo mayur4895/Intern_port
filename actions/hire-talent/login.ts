@@ -1,12 +1,10 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { getUserByEmail } from "@/data/user";
- ;
+import { getUserByEmail } from "@/data/user"; 
 import { generateVerificationToken } from "@/lib/Tokens";
 import { db } from "@/lib/db";
-import { SendVerificationEmail } from "@/lib/mail";
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+import { SendVerificationEmail } from "@/lib/mail"; 
 import LoginSchema from "@/schemas/LoginSchema";
 
 import { AuthError } from "next-auth";
@@ -21,11 +19,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
   const ExistUser = await  getUserByEmail(email);
 
-  if(!ExistUser || !ExistUser.email || !ExistUser.password) {
+  if(!ExistUser || !ExistUser.email || !ExistUser.password  ) {
     return {error:"User does not exist"}
   }
 
-  if(!ExistUser.emailVerified){
+  
+  
+  if(!ExistUser.emailVerified  ){
     const verificationToken = await generateVerificationToken(email)
 
   
@@ -40,7 +40,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email: email,
       password: password,
-      redirectTo:  "/hr/dashboard",
+      redirectTo:"/hire-talent"
     });
     return { success: "Loged In" };
   } catch (error) {

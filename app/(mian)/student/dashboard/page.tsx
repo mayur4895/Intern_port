@@ -9,7 +9,7 @@ import React from 'react'
  
  const DashboardPage =() => {
   const session =   CurrentUser();
-  console.log(session);
+ 
   
    return (
     <>  

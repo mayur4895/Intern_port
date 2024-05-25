@@ -100,7 +100,7 @@ interface NavbarProps{
 <Separator/>{
   !session &&  (
 <div className="flex flex-col  ml-4   items-start  justify-start gap-4"> 
-        <Link href={"/auth/login"} className='text-sm text-black font-semibold hover:text-blue-500' onClick={()=>{onSetType("employer")}}>  Login </Link>
+        <Link href={"/auth/student/login"} className='text-sm text-black font-semibold hover:text-blue-500' onClick={()=>{onSetType("employer")}}>  Login </Link>
       
         <Link href={"/auth/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Candident Sign-up </Link>
         

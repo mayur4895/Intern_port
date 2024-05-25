@@ -2,12 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '../../ui/button'
 import Link from 'next/link'
-import Navbar from './Navbar'
-import { auth, signIn, signOut } from '@/auth'
+import Navbar from './Navbar' 
+
 import { RiUser3Line } from "react-icons/ri";
 import { LogOut } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useLoginType } from '@/hooks/use-logintype'
+import { signOut } from 'next-auth/react'
  
 
 
@@ -33,7 +34,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
         </div> 
      { !session &&    <>
       <div className="lg:flex hidden flex-row  ml-5  gap-x-4  "> 
-        <Link href={"/auth/login"} onClick={()=>{onSetType("employer")}} > <Button>Login</Button> </Link>
+        <Link href={"/auth/emolyer/login"} onClick={()=>{onSetType("employer")}} > <Button>Login</Button> </Link>
        
      </div>
      </>}
@@ -44,7 +45,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
     
  <div className=' hidden md:block'>
   
- <Button  onClick={()=>{signOut()}}>Logout</Button>
+ <Button  onClick={()=>{signOut({callbackUrl:"/"})}}>Logout</Button>
  </div>
   <Link href={""}>  <Avatar>
   <AvatarImage src={session.user.image} />

@@ -5,8 +5,8 @@ import { getUserByEmail } from "@/data/user";
  ;
 import { generatePasswordResetToken, generateVerificationToken } from "@/lib/Tokens";
 import { db } from "@/lib/db";
-import { SendPasswordResetEmail, SendVerificationEmail } from "@/lib/mail";
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+import { SendPasswordResetEmail,   } from "@/lib/mail";
+ 
 import ResetSchema from "@/schemas/ResetSchema";
  
 

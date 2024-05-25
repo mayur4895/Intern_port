@@ -48,8 +48,7 @@ import { AiFillGithub } from "react-icons/ai";
 import { Separator } from "../ui/separator";
  
  
-import { signIn } from "next-auth/react"; 
-import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+import { signIn } from "next-auth/react";  
  
   
  

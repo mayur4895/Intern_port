@@ -44,5 +44,6 @@ export const apiAuthprefix = "/api/auth"
  */
 
 
-export const DEFAULT_LOGIN_REDIRECT="/student/dashboard"
+export const DEFAULT_LOGIN_REDIRECT="/"
 
+ 

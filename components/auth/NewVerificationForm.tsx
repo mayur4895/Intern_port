@@ -33,7 +33,9 @@ const [Success,setSuccess] = useState("");
    return  setError("Token Does not Exist")
   }
    NewVerification(token).then((data)=>{
-    if(data.success){
+    if(data.success){ 
+       console.log(data);
+       
       return  setSuccess(data.success)
     }
     if(data.error){
@@ -76,7 +78,7 @@ onSubmit();
   </CardContent>
   <CardFooter className='text-center flex flex-col justify-center' > 
     <Link href={"/auth/login"}>
-    <Button>Back To Login</Button></Link>
+    <Button  onClick={()=>{ }}>Back To Login</Button></Link>
   </CardFooter>
 </Card>
 

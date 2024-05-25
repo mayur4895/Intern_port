@@ -9,6 +9,7 @@ import { generateTowFactorToken, generateVerificationToken } from "@/lib/Tokens"
 import { db } from "@/lib/db";
 import { SendTwoFactorTokenEmail, SendVerificationEmail } from "@/lib/mail";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+ 
 import LoginSchema from "@/schemas/LoginSchema";
 
 import { AuthError } from "next-auth";
@@ -97,7 +98,7 @@ if(hasExpired){
     await signIn("credentials", {
       email: email,
       password: password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo:  DEFAULT_LOGIN_REDIRECT,
     });
     return { success: "Loged In" };
   } catch (error) {

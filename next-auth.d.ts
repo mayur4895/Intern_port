@@ -2,8 +2,8 @@
 import NextAuth,{type DefaultSession} from "next-auth"
 import {JWT} from "next-auth/jwt"
 
-export type     ExtendedUser = DefaultSession["user"] & {
-role : "ADMIN" | "USER"
+export type     ExtendedUser = DefaultSession["STUDENT"] & {
+role : "ADMIN" | "STUDENT" | "EMPLOYER"
 }
 
 
@@ -15,6 +15,6 @@ declare module  "next-auth" {
 
 declare module "next-auth/jwt" {
     interface JWT {
-        role?: "USER" | "ADMIN" | "HR"
+        role?: "STUDENT" | "ADMIN" | "EMPLOYER"
     }
 }

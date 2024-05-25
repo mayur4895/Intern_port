@@ -20,24 +20,16 @@ export default async function Home() {
  
 
   const session = await  auth();  
- console.log(session?.user.id);
-
-
-
+ 
  const  User = await getUserById(session?.user.id);
-
- if(User){
- if(User.role as UserType === "STUDENT"){
-   return redirect("/student/dashboard")
- }
-  
- }
-
-
  
  
  
-  
+  const currentUser = await auth();
+
+  if(currentUser){
+    console.log("CurrentUSer:" + currentUser);  
+  }
  
   return (
      <div> 

@@ -17,9 +17,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import Login from '@/components/auth/login'
-import CompanyLogin from '@/components/hire-talent/CompanyLogin'
+import Login from '@/components/auth/login' 
 import { useLoginType } from '@/hooks/use-logintype'
+import EmployerLogin from '@/components/hire-talent/EmployerLogin'
 
  
 const LoginPage = ( ) => {
@@ -37,7 +37,7 @@ const LoginPage = ( ) => {
       <Login/>
     </TabsContent>
     <TabsContent value="employer">
-    <CompanyLogin/>
+    <EmployerLogin/>
     </TabsContent>
   </Tabs>
   </div>

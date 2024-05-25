@@ -46,7 +46,7 @@ import { signIn } from "next-auth/react";
 import SocialProvider from "../auth/SocialProvider";
 
  
-const CompanyLogin = () => {
+const EmployerLogin = () => {
   const SearchParams = useSearchParams();
   const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
   
@@ -170,4 +170,4 @@ const CompanyLogin = () => {
   );
 };
 
-export default CompanyLogin;
+export default EmployerLogin;

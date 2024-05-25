@@ -6,6 +6,7 @@ import Google from "next-auth/providers/google";
  
 import { getUserByEmail } from "@/data/user";
 import LoginSchema from "./schemas/LoginSchema";
+import { UserType } from "@prisma/client";
 
 export default {
   secret: process.env.AUTH_SECRET,
@@ -13,13 +14,20 @@ export default {
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      profile(profile) {
+        return {
+          role: profile.role  as UserType ?? "STUDENT",  
+          ...profile,
+        };
+      },
     }),
     Github({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
+       
     }),
     Credentials({
-
+  
        
       async authorize(credentials) {
         

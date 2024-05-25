@@ -34,7 +34,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
         </div> 
      { !session &&    <>
       <div className="lg:flex hidden flex-row  ml-5  gap-x-4  "> 
-        <Link href={"/auth/emolyer/login"} onClick={()=>{onSetType("employer")}} > <Button>Login</Button> </Link>
+        <Link href={"/auth/login"} onClick={()=>{onSetType("employer")}} > <Button>Login</Button> </Link>
        
      </div>
      </>}

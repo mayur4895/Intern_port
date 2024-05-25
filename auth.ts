@@ -64,11 +64,8 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
   }
 
 
-  if(token.role && session.user ){
-
-     session.user.role =   token.role as UserType;
-     
-
+  if(token.role && session.user ){ 
+     session.user.role =   token.role as UserType; 
  }
   return session
 },
@@ -78,8 +75,7 @@ async jwt({token}){
    const userExist = await getUserById(token.sub); 
    if(!userExist) return token; 
    token.role = userExist.role;  
-   return token; 
-     
+   return token;  
    }
   },
 

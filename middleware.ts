@@ -60,7 +60,7 @@ import { AuthRoutes, DEFAULT_LOGIN_REDIRECT, apiAuthprefix, publicRoutes } from 
 export default auth((req) => {
   const { nextUrl, auth } = req
   const user = auth?.user
-
+  const url = req.nextUrl.clone();
   const isLoggedIn =   !!req.auth  
  
 console.log(user);
@@ -78,14 +78,13 @@ console.log(user);
   
   if(isAuthRoute){
     if(isLoggedIn){
-      if(isEmployerPage && user?.role as UserType !== "EMPLOYER") {
-        return NextResponse.redirect(new URL("/", nextUrl))
+      if(user?.role as UserType !== "EMPLOYER") {
+        url.pathname = "/hire-talent";
       }
-      if(isStudentPage && user?.role as UserType !== "STUDENT") {
-        return NextResponse.redirect(new URL("/", nextUrl))
+      if( user?.role as UserType !== "STUDENT" && user) {
+        url.pathname = "/student/dashboard";
       }
-    }
-    return null;
+    } 
   }
   
   

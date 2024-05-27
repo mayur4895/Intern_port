@@ -9,14 +9,12 @@ import { stringify } from 'node:querystring'
 import { json } from 'node:stream/consumers'
 import React from 'react'
  
- const DashboardPage = async() => {
+ const DashboardPage =  () => {
  
-  const session = await  auth();
+  const session =    CurrentUser();
  
 
-  if(session?.user.role as UserType !== "STUDENT"){
-    return redirect("/");
-  }
+   
   
    return (
     <>  

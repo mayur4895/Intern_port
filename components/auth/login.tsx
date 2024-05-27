@@ -104,7 +104,7 @@ const Login = () => {
           })   
        
           form.reset(); 
-          router.push(DEFAULT_LOGIN_REDIRECT)
+          router.push("/student/dashboard")
           router.refresh();
         }
 

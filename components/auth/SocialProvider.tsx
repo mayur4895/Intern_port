@@ -22,7 +22,7 @@ const SocialProvider = () => {
     try {
       setisLoding(true)
     await signIn(provider,{
-      callbackUrl:DEFAULT_LOGIN_REDIRECT
+      callbackUrl:"/student/dashboard"
     });
     } catch (error) {
       setisLoding(false);

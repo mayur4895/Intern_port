@@ -9,7 +9,7 @@ import LoginSchema from "./schemas/LoginSchema";
 import { UserType } from "@prisma/client";
 
 export default {
-  secret: process.env.AUTH_SECRET,
+ secret:process.env.AUTH_SECRET,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,

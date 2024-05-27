@@ -1,16 +1,5 @@
 'use client'
-import React from 'react'
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import React from 'react' 
 import {
   Tabs,
   TabsContent,
@@ -20,10 +9,23 @@ import {
 import Login from '@/components/auth/login' 
 import { useLoginType } from '@/hooks/use-logintype'
 import EmployerLogin from '@/components/hire-talent/EmployerLogin'
+import { CurrentUser } from '@/hooks/use-current-user'
+import { UserType } from '@prisma/client'
+import { redirect } from 'next/navigation'
 
  
 const LoginPage = ( ) => {
+  const currentUser = CurrentUser();
   const {type} = useLoginType();
+
+
+  if(currentUser && currentUser.role  === UserType.EMPLOYER){
+      return redirect("/hire-talent");
+  }else if(currentUser && currentUser.role === UserType.STUDENT){
+    return  redirect("/student/dashboard");
+  }
+
+
  
   
   return (

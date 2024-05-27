@@ -7,11 +7,7 @@ const Employerpage = async() => {
 
   const session = await  auth();
 
-  console.log(session?.user.role as UserType !== "EMPLOYER");
-
-  if(session?.user.role as UserType !== "EMPLOYER"){
-    return redirect("/");
-  }
+   
   
   return (
     <div>

@@ -15,10 +15,12 @@ import { useSearchParams } from 'next/navigation'
 import { db } from '@/lib/db'
 import { NewVerification } from '@/actions/newVerification'
 import { useToast } from '../ui/use-toast'
+import { useLoginType } from '@/hooks/use-logintype'
   
 const NewVerificationForm = () => {
 
 const  {toast} = useToast();
+const {type,onSetType} = useLoginType()
  const searchParam = useSearchParams();
 const token = searchParam.get("token")
 const [Error,setError] = useState("");
@@ -77,8 +79,8 @@ onSubmit();
     </div>
   </CardContent>
   <CardFooter className='text-center flex flex-col justify-center' > 
-    <Link href={"/auth/login"}>
-    <Button  onClick={()=>{ }}>Back To Login</Button></Link>
+    <Link href={"/auth/login"}  onClick={ ()=>{type=="student" ? onSetType("student") : onSetType("employer")}} >
+    <Button >Back To Login</Button></Link>
   </CardFooter>
 </Card>
 

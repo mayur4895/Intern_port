@@ -6,7 +6,7 @@ export type LoginType =  "student" |  "employer"
  
 
 interface ModalStore {
-  type: LoginType | null;   
+  type: LoginType  | null; 
   onSetType: (type: LoginType) => void;
  
 }

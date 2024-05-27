@@ -48,10 +48,10 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
  <Button  onClick={()=>{signOut({callbackUrl:"/"})}}>Logout</Button>
  </div>
   <Link href={""}>  <Avatar>
-  <AvatarImage src={session.user.image} />
+  <AvatarImage src={session?.image} />
   <AvatarFallback>   
   <div className=' shadow h-10 bg-stone-300  text-xl font-semibold w-10 rounded-full flex justify-center items-center'>
-  {session?.user.name[0]}
+  {session?.name[0]}
   </div>
     {/* <RiUser3Line size={22} /> */}
      </AvatarFallback>

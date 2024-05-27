@@ -7,33 +7,28 @@ import Navbar from "@/components/Navbar/Student/Navbar";
  
  
 import Container from "@/components/ui/container";
-import { getUserById } from "@/data/user";
-import { CurrentUser } from "@/hooks/use-current-user"; 
 import { UserType } from "@prisma/client";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { redirect } from "next/navigation";
+ 
  
  
 
 export default async function Home() {
  
 
-  const session = await  auth();  
- 
- const  User = await getUserById(session?.user.id);
- 
  
  
   const currentUser = await auth();
 
-  if(currentUser){
-    console.log("CurrentUSer:" + currentUser);  
-  }
+if(currentUser?.user?.role  === UserType.STUDENT){
+  return redirect("/student/dashboard")
+}else if( currentUser?.user?.role === UserType.EMPLOYER){
+ return  redirect("/hire-talent/profile")
+}
  
   return (
      <div> 
-    <MainNavbar session={session?.user}/>
+    <MainNavbar session={currentUser?.user} />
  <Container>  
     <AuroraBackgrounMain >
   <Banner/>

@@ -42,7 +42,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       password: password,
       redirectTo:"/hire-talent"
     });
-    return { success: "Loged In" };
+    return { success: "Loged In Successfully" };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

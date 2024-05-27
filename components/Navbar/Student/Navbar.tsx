@@ -21,13 +21,14 @@
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
-import { Button } from "../../ui/button"
+ 
 import Link from "next/link"
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IoEllipsisVertical } from 'react-icons/io5'
-import { Separator } from '../../ui/separator' 
-import { useLoginType } from '@/hooks/use-logintype'
+ import { useLoginType } from '@/hooks/use-logintype'
 import { signOut } from 'next-auth/react'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@radix-ui/react-menubar'
   
 
 
@@ -97,7 +98,8 @@ interface NavbarProps{
           <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
         </MenubarMenu>
       ))}
-<Separator/>{
+ 
+{
   !session &&  (
 <div className="flex flex-col  ml-4   items-start  justify-start gap-4"> 
         <Link href={"/auth/student/login"} className='text-sm text-black font-semibold hover:text-blue-500' onClick={()=>{onSetType("employer")}}>  Login </Link>

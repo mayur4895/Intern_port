@@ -1,6 +1,6 @@
  'use client'
 import React, { useEffect, useState } from 'react'
-import { Button } from '../../ui/button'
+ 
 import Link from 'next/link'
 import Navbar from './Navbar' 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -9,6 +9,8 @@ import { signOut } from 'next-auth/react'
 import { useLoginType } from '@/hooks/use-logintype'
 import { useRouter } from 'next/navigation'
 import { logout } from '@/actions/logout'
+import { CurrentUser } from '@/hooks/use-current-user'
+import { Button } from '@/components/ui/button'
 
 interface MainNavbarProps{
   session?:any;

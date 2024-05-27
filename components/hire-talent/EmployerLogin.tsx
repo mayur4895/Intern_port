@@ -70,9 +70,7 @@ const EmployerLogin = () => {
           variant:"destructive",
           title: "Email alerday in used", 
         })
-       }
-
-        
+       } 
 
 
        if(res?.error){
@@ -91,12 +89,13 @@ const EmployerLogin = () => {
          
           })   
        
-          router.push("/hire-talent")
+          form.reset(); 
+          router.replace("/hire-talent")
+          router.refresh();
         }
        
 
-        form.reset();
-        router.refresh();  
+     
   
     } catch (error) {
       console.log(error);

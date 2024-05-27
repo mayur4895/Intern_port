@@ -1,14 +1,21 @@
+'use client'
  
-import { auth } from '@/auth';
 import MainNavbar from '@/components/Navbar/Employer/MainNavbar'
+import { CurrentUser } from '@/hooks/use-current-user';
+import { UserType } from '@prisma/client';
+import { redirect } from 'next/navigation';
 import React from 'react'
 
-const HireTalentLayout = async({children}:{children:React.ReactNode}) => {
-  const session = await auth();
+const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
+  const session =   CurrentUser();
+
+  if(session?.role === UserType.STUDENT){
+    return redirect("/student/dashboard")
+  }
   return (
      <div>
       
-    <MainNavbar session={session}/>
+      <MainNavbar session={session?.role as UserType === "EMPLOYER" ? session : null}/>
       <div>
       {children}
 

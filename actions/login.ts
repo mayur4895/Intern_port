@@ -105,7 +105,7 @@ if(hasExpired){
     if (error instanceof AuthError) {
       switch (error.type) {
         case "OAuthAccountNotLinked":
-          return { error: "Invalid credentials", status: "error" };
+          return { OAuthAccountNotLinked: "Invalid credentials", status: "error" };
         case "CredentialsSignin":
           throw error;
         default:

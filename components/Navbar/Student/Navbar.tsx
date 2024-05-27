@@ -78,52 +78,8 @@ interface NavbarProps{
         </MenubarMenu>
       ))}
     </div>
-
-      <MenubarMenu>
-        <MenubarTrigger asChild>
-        <Sheet>
-      <SheetTrigger asChild className=' lg:hidden'>
-        <Button variant={ "ghost"} ><IoEllipsisVertical  size={20}/> </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle className='font-bold tracking-wider'>  <Link href={"/"}>HireIntern</Link> </SheetTitle>
-          <SheetDescription>
-            
-          </SheetDescription>
-        </SheetHeader>
-      <div className='flex flex-col gap-y-3'>
-      {Navbars.map(({ label, href }) => (
-        <MenubarMenu key={label}>
-          <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
-        </MenubarMenu>
-      ))}
  
-{
-  !session &&  (
-<div className="flex flex-col  ml-4   items-start  justify-start gap-4"> 
-        <Link href={"/auth/student/login"} className='text-sm text-black font-semibold hover:text-blue-500' onClick={()=>{onSetType("employer")}}>  Login </Link>
-      
-        <Link href={"/auth/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Candident Sign-up </Link>
-        
-        <Link href={"/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Employer Sign-up </Link>
-     </div> )}
-
-     { 
-      session &&  
-      <div className="flex flex-col    items-start  justify-start gap-4">
-      <Button type='submit' onClick={()=> signOut({callbackUrl:"/"})}>Logout</Button>
-    </div>
-     }
-      </div>
-        
-      </SheetContent>
-    </Sheet>
-        </MenubarTrigger>
-      </MenubarMenu>
-
-    </div>  
-    
+  </div>   
 </Menubar>
 
     

@@ -21,9 +21,24 @@ const SocialProvider = () => {
   const onclick = async( provider:string)=>{
     try {
       setisLoding(true)
-    await signIn(provider,{
+     const res = await signIn(provider,{
       callbackUrl:"/student/dashboard"
     });
+ 
+    if(urlError){
+     toast({
+       variant:"destructive",
+       title: "Email alerday in used", 
+     })
+    }
+    if(res?.error){
+      toast({
+        variant:"destructive",
+        title:res?.error, 
+       })
+      }
+ 
+
     } catch (error) {
       setisLoding(false);
     }finally{

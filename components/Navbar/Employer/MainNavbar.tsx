@@ -21,9 +21,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { RiUser3Line } from "react-icons/ri";
-import { LogOut } from "lucide-react";
+} from "@/components/ui/sheet"; 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useLoginType } from "@/hooks/use-logintype";
 import { signOut } from "next-auth/react";

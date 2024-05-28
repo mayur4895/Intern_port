@@ -15,6 +15,7 @@ import MainNavbar from '@/components/Navbar/Student/MainNavbar';
 import Container from '@/components/ui/container';
 import { auth } from '@/auth';
  
+ 
 const font = Poppins({
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
@@ -34,19 +35,20 @@ export default  async function RootLayout({
  
   const session =  await auth();
   return (
-  <SessionProvider session={session}> 
-      <html lang="en" suppressHydrationWarning>
-        <body className={cn(font.className)}>
-       
-            <Container>
-            {children}
-            </Container>
-              <Toaster />
  
-       
+  <SessionProvider session={session}> 
+ 
+      <html lang="en" suppressHydrationWarning>
+        <body className={cn(font.className)}> 
+            <Container> 
+            {children} 
+            </Container>
+              <Toaster /> 
+ 
         </body>
       </html>
+ 
       </SessionProvider>
-         
+     
   );
 }

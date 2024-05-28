@@ -1,6 +1,6 @@
- import React from 'react'
-import RegisterForm from "./RegisterForm"
+ import React from 'react' 
 import Image from 'next/image'
+import EmployerSignup from './EmployerSignup'
 const HireBanner = () => {
   return (
     <>
@@ -15,7 +15,7 @@ const HireBanner = () => {
  
  
        <div className='z-50 md:mt-0 mt-10 '>
-          <RegisterForm/> 
+          <EmployerSignup/> 
        </div>
      </div>
     </>

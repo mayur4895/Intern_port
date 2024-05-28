@@ -29,6 +29,7 @@ import { IoEllipsisVertical } from 'react-icons/io5'
 import { signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@radix-ui/react-menubar'
+import { UserType } from '@prisma/client'
   
 
 
@@ -63,26 +64,65 @@ interface NavbarProps{
       },
     ]
 
- 
+    const StudentLogedInNavbar=[
+      {
+        label: "Home",
+        href: "/student/dashboard",
+      },
+     
+      {
+        label: "My Applicatons",
+        href: "/contact",
+      },
+    ]
     const { onSetType} = useLoginType()
     
     return (
-    
-        <Menubar> 
+      <Menubar> 
  
-    <div className="ml-auto flex items-center ">
-    <div className='hidden  lg:flex'>
-    {Navbars.map(({ label, href }) => (
-        <MenubarMenu key={label}>
-          <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
-        </MenubarMenu>
-      ))}
-    </div>
- 
-  </div>   
-</Menubar>
-
-    
+  
+      <div className='hidden  lg:flex'>
+  
+  
+      {
+        (session?.role !== UserType.EMPLOYER && !session ) && (
+          Navbars.map(({ label, href }) => {
+            return (
+            
+                <MenubarMenu key={label}>
+                  <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+                </MenubarMenu>
+            
+            )
+          })
+        )
+         
+     }
+   
+   {
+        (session?.role === UserType.EMPLOYER ||  session) && (
+        
+          StudentLogedInNavbar.map(({ label, href }) => {
+            return (
+            
+                <MenubarMenu key={label}>
+                  <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+                </MenubarMenu>
+            
+            )
+          })
+        
+        )
+   }
+      
+      
+   
+   
+   
+      </div>
+   
+      
+  </Menubar>  
     )
   }
   

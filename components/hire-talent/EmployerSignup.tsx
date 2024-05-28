@@ -54,7 +54,7 @@ import { useLoginType } from "@/hooks/use-logintype";
   
  
  
-const Signup = () => {
+const EmployerSignup = () => {
   
   const SearchParams = useSearchParams();
   const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
@@ -82,8 +82,7 @@ const Signup = () => {
       if(res?.success){
         toast({
           variant:"success",
-          title: res?.success,
-       
+          title: res?.success, 
         })   
          router.push("/login");
       }
@@ -225,4 +224,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default EmployerSignup;

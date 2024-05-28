@@ -1,5 +1,5 @@
 'use client'
-import React from 'react' 
+import React, { useEffect } from 'react' 
 import {
   Tabs,
   TabsContent,
@@ -18,18 +18,21 @@ const LoginPage = ( ) => {
   const currentUser = CurrentUser();
   const {type} = useLoginType();
 
+ 
+
+useEffect(()=>{
 
   if(currentUser && currentUser.role  === UserType.EMPLOYER){
-      return redirect("/hire-talent");
-  }else if(currentUser && currentUser.role === UserType.STUDENT){
-    return  redirect("/student/dashboard");
-  }
+    return redirect("/hire-talent");
+}else if(currentUser && currentUser.role === UserType.STUDENT){
+  return  redirect("/student/dashboard");
+}
 
-
- 
+},[currentUser])
   
   return (
     <div className="flex items-center justify-center h-screen w-full">
+      
     <Tabs defaultValue={ type=="employer"?"employer" :"student"}  className="w-[400px] ">
     <TabsList className="grid w-full grid-cols-2">
       <TabsTrigger value="student">Student</TabsTrigger>

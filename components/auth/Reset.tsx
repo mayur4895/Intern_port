@@ -91,7 +91,7 @@ const Reset = () => {
          
           })   
        
-          router.push(DEFAULT_LOGIN_REDIRECT)
+          router.push("/auth/login")
         }
        
 

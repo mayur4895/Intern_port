@@ -37,13 +37,7 @@ import { useToast } from "../ui/use-toast";
  
 import { login } from "@/actions/login";
 import LoginSchema from "@/schemas/LoginSchema";
-import { FcGoogle } from "react-icons/fc";
-import { AiFillGithub } from "react-icons/ai";
-import { Separator } from "../ui/separator";
  
- 
-import { signIn } from "next-auth/react";  
-import SocialProvider from "../auth/SocialProvider";
 
  
 const EmployerLogin = () => {
@@ -71,7 +65,15 @@ const EmployerLogin = () => {
           title: "Email alerday in used", 
         })
        } 
-
+   
+       if(res?.success){
+         router.push("/hire-talent/profile");
+         toast({
+          variant:"success",
+          title:res?.success, 
+         })
+         form.reset();
+       }
 
        if(res?.error){
          
@@ -82,19 +84,10 @@ const EmployerLogin = () => {
   
          }
 
-         if(res?.success){
-          toast({
-            variant:"success",
-            title: res?.success,
-         
-          })   
-       
-          form.reset(); 
-          router.replace("/hire-talent")
-          router.refresh();
-        }
-       
-
+        
+         form.reset();
+         window.location.reload();
+    
      
   
     } catch (error) {
@@ -140,6 +133,8 @@ const EmployerLogin = () => {
                         {...field}
                       />
                     </FormControl>
+                    
+                    <Button variant={"link"} asChild><Link href="/auth/reset" className="pl-0 font-normal text-xs">Forgot your password ?</Link></Button>
                   </FormItem>
                 )}
               />

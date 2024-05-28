@@ -28,31 +28,33 @@ import { IoEllipsisVertical } from 'react-icons/io5'
 import { Separator } from '../../ui/separator'
 import { signOut } from '@/auth'
 import { useLoginType } from '@/hooks/use-logintype'
+import { UserType } from '@prisma/client'
   
 
 
 
 interface NavbarProps{
   session?:any;
+ 
 }
 
   const Navbar = ({session}:NavbarProps) => {
 
-
+    const EmployerLogedInNavbar= [
+      {
+        label:"DashBaord",
+        href:"/dashboard"
+      },
+      {
+     label :"Post Internship",
+     href:"/post-internship"
+      }
+    ]
     const Navbars = [
        
       {
         label: "Hire For Top Profiles",
-    
-        profiles:[{
-          label: "Web Developer",
-          href: "/internships",
-        },
-      {
-        label: "Jobs",
-        href: "/jobs",
-      }
-      ]
+        href:"/top-profiles"
     }
     ]
 
@@ -62,60 +64,47 @@ interface NavbarProps{
     
         <Menubar> 
  
-    <div className="ml-auto flex items-center ">
+  
     <div className='hidden  lg:flex'>
-    {Navbars.map(({ label }) => (
-        <MenubarMenu key={label}>
-          <MenubarTrigger>  {label}</MenubarTrigger>
-        </MenubarMenu>
-      ))}
-    </div>
 
-      <MenubarMenu>
-        <MenubarTrigger asChild>
-        <Sheet>
-      <SheetTrigger asChild className=' lg:hidden'>
-        <Button variant={ "ghost"} ><IoEllipsisVertical  size={20}/> </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle className='font-bold tracking-wider'>  <Link href={"/"}>HireIntern</Link> </SheetTitle>
-          <SheetDescription>
-            
-          </SheetDescription>
-        </SheetHeader>
-      <div className='flex flex-col gap-y-3'>
-      {Navbars.map(({ label }) => (
-        <MenubarMenu key={label}>
-          <MenubarTrigger>  {label}</MenubarTrigger>
-        </MenubarMenu>
-      ))}
-<Separator/>{
-  !session &&  (
-<div className="flex flex-col  ml-4   items-start  justify-start gap-4"> 
-        <Link href={"/auth/employer/login"} className='text-sm text-black font-semibold hover:text-blue-500' onClick={()=>{onSetType("employer")}}>  Login </Link>
-      
-        <Link href={"/auth/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Candident Sign-up </Link>
-        
-        <Link href={"/signup"} className='text-sm text-black font-semibold hover:text-blue-500'>   Employer Sign-up </Link>
-     </div> )}
 
-     { 
-      session &&  
-      <div className="flex flex-col    items-start  justify-start gap-4"> 
-         
+    {
+      (session?.role !== UserType.EMPLOYER && !session ) && (
+        Navbars.map(({ label, href }) => {
+          return (
+          
+              <MenubarMenu key={label}>
+                <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+              </MenubarMenu>
+          
+          )
+        })
+      )
+       
+   }
  
-         <Button type='submit' onClick={()=>{signOut()}}>Logout</Button>
-      </div>
-     }
-      </div>
-        
-      </SheetContent>
-    </Sheet>
-        </MenubarTrigger>
-      </MenubarMenu>
-
-    </div>  
+ {
+      (session?.role === UserType.EMPLOYER ||  session) && (
+      
+         EmployerLogedInNavbar.map(({ label, href }) => {
+          return (
+          
+              <MenubarMenu key={label}>
+                <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+              </MenubarMenu>
+          
+          )
+        })
+      
+      )
+ }
+    
+    
+ 
+ 
+ 
+    </div>
+ 
     
 </Menubar>
 

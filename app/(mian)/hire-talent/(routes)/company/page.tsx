@@ -47,7 +47,7 @@ import { profileSchema } from "@/schemas"
   return (
     <div className="flex items-center justify-center h-screen w-full">
           <div  className="w-full  flex flex-col  items-center justify-center">
-      <h2 className="text-3xl">Personal Details</h2>
+      <h2 className="text-3xl">Company Details</h2>
  <br />
     <Form {...form} >
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/4 space-y-6 border p-4">
@@ -132,7 +132,12 @@ import { profileSchema } from "@/schemas"
           )}
         />
  <div className="flex items-center justify-between">
-{(pathname === "/hire-talent/company" || pathname==="/hire-talent/postjob") && <Button type="submit">Prev</Button>}
+{(pathname === "/hire-talent/company" || pathname==="/hire-talent/postjob") && <Button className=" cursor-pointer" onClick={(e)=>{
+e.preventDefault();
+   return  window.location.replace("/hire-talent/profile")
+ 
+
+}}>Prev</Button>}
  <Button type="submit" className="ml-auto">Next</Button>
  </div>
       </form>

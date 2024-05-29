@@ -1,5 +1,11 @@
 "use client"
-
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
+ 
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -18,6 +24,8 @@ import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { redirect, usePathname, useRouter } from "next/navigation"
 import { profileSchema } from "@/schemas"
+import { useState } from "react"
+import { InputOTPForm } from "@/components/auth/otpContainer"
  
 
  
@@ -26,6 +34,9 @@ import { profileSchema } from "@/schemas"
 
   const router = useRouter();
   const pathname = usePathname();
+
+const [showOtp,setshowOtp] = useState(true)
+
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -49,8 +60,8 @@ import { profileSchema } from "@/schemas"
           <div  className="w-full  flex flex-col  items-center justify-center">
       <h2 className="text-3xl">Personal Details</h2>
  <br />
-    <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/4 space-y-6 border p-4">
+    <Form {...form}  >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/4 space-y-6 border p-4" >
       <div className="  items-center w-full grid   lg:grid-cols-2 gap-3">
 
         <FormField
@@ -117,6 +128,10 @@ import { profileSchema } from "@/schemas"
           )}
         />
 
+
+ <div  className="grid grid-cols-3 w-full gap-5  items-end" >
+   <div className="col-span-2"> 
+    
 <FormField
           control={form.control}
           name="phone"
@@ -131,6 +146,19 @@ import { profileSchema } from "@/schemas"
             </FormItem>
           )}
         />
+
+   </div>
+        <Button suppressHydrationWarning variant={"outline"} className=" border-blue-400 border">Verify</Button>
+ </div>
+
+{
+
+showOtp && (
+   <InputOTPForm/>
+)
+
+}
+
  <div className="flex items-center justify-between">
 {(pathname === "/hire-talent/company" || pathname==="/hire-talent/postjob") && <Button type="submit">Prev</Button>}
  <Button type="submit" className="ml-auto">Next</Button>

@@ -1,12 +1,15 @@
 // utils/schemas.ts
 import { z } from 'zod';
-const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
+const phoneRegex = /^[0-9]{10}$/;
 export const profileSchema = z.object({
    firstname: z.string().min(1, 'First name is required'),
   lastname: z.string().min(1, 'Last name is required'),
   email: z.string().email('Invalid email address'),
   designation : z.string().min(1, 'Designation required'),
-  phone: z.string().regex(phoneRegex, "Invalid Number!"),
+   phone: z.string().refine((phone) => phoneRegex.test(phone), {
+    message: 'Invalid phone number format. Please enter a 10-digit number without special characters.',
+}),
+role:z.optional(z.string())
 });
 
 export const companySchema = z.object({

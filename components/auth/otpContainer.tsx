@@ -19,7 +19,8 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { toast } from "@/components/ui/use-toast"
+import { toast, useToast } from "@/components/ui/use-toast"
+import { useEffect, useState } from "react"
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -27,7 +28,14 @@ const FormSchema = z.object({
   }),
 })
 
-export function InputOTPForm() {
+interface InputFormProps{
+  phoneNumber:any
+}
+
+export function InputOTPForm({phoneNumber}:InputFormProps) {
+
+const {toast} = useToast();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,6 +53,37 @@ export function InputOTPForm() {
       ),
     })
   }
+
+
+  const [isMounted,setisMounted] = useState(false)
+
+
+
+useEffect(()=>{
+setisMounted(true);
+},[setisMounted])
+
+if(!isMounted){
+    return null
+}
+
+
+
+
+const sendOtp = async () => {
+  const response = await fetch('/api/send-otp', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ phoneNumber }),
+  });
+  const data = await response.json();
+   toast({
+    title:data.success ? 'OTP sent!' : `Error: ${data.error}`,
+    variant:data.success? "success" : "destructive"
+   });
+};
 
   return (
     <Form {...form}>

@@ -47,10 +47,25 @@ model User {
   image         String?
   password     String?
   role UserType @default(STUDENT)
-   isTwoFactorEnabled  Boolean @default(false)
-   twoFactorConfirmation   TwoFactorConfirmation?
+  isTwoFactorEnabled  Boolean @default(false)
+  twoFactorConfirmation   TwoFactorConfirmation?
   accounts      Account[]
+ 
  }
+
+model PersonalData {
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    firstname String?
+    lastname String?
+    email    String?   @unique
+    phone  Int?
+    designation String?
+    isPhoneVerfied   Boolean @default(false) 
+
+     
+
+}
+
 
  model VerificationToken{
   

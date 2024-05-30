@@ -22,7 +22,7 @@ const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
       
       <MainNavbar session={session?.role as UserType === "EMPLOYER" ? session : null}/>
  
- <div className='w-full'>      
+ <div className='w-full mt-12'>      
 
   {children} 
  </div>

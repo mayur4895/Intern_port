@@ -68,7 +68,7 @@ const EmployerSignup = () => {
       lastname:"",
       email: "",
       password: "",
-      phone:""
+      phone:"",
     },
   });
 

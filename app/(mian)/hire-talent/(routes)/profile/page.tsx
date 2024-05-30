@@ -3,7 +3,7 @@ import { useState } from "react"
 import { ZodNumber, z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter, usePathname } from "next/navigation"
+import { useRouter, usePathname, redirect } from "next/navigation"
 import { toast } from "@/components/ui/use-toast"
 
 import { Button } from "@/components/ui/button"
@@ -22,8 +22,17 @@ import { profileSchema } from "@/schemas"
 import { InputOTPForm } from "@/components/auth/otpContainer"
 import { FaSpinner } from "react-icons/fa"
 import { UserType } from "@prisma/client"
+import { CurrentUser } from "@/hooks/use-current-user"
 
 const ProfileForm = () => {
+
+  const currentUser = CurrentUser();
+  if(currentUser.role !== UserType.EMPLOYER){
+    return redirect("/auth/login")
+  }
+
+  console.log(currentUser);
+  
   const router = useRouter()
   const pathname = usePathname()
   const [showOtp, setShowOtp] = useState(false)

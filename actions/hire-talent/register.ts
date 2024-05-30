@@ -19,7 +19,7 @@ export const  register = async (values :z.infer <typeof HireRegisterSchema>)=>{
             return   {error: "Invlaid Fields"}
          };
 
-const {firstname,lastname,email,password} = validatedFields.data;
+const {firstname,lastname,email,password,phone} = validatedFields.data;
 
    const salt = await bcryptjs.genSalt(10);
 const hashpassword = await bcryptjs.hash(password, salt);
@@ -41,9 +41,10 @@ const hashpassword = await bcryptjs.hash(password, salt);
        await db.user.create({
 
         data: {
-          name: firstname + lastname,
+          name: firstname + " " + lastname,
           email: email,
           password: hashpassword,
+          phone:+phone,
           role:"EMPLOYER"
           
         }

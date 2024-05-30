@@ -1,5 +1,5 @@
 import { z } from "zod";
-const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
+ 
  
 const HireRegisterSchema = z.object({
     firstname: z.string().min(1, {
@@ -14,9 +14,7 @@ lastname: z.string().min(1, {
       message: "password must be at least 8 characters",
     }),
 
-   phone: z.string().regex(phoneRegex, "Invalid Number!"),
-      
-      
+    phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
   });
 
 

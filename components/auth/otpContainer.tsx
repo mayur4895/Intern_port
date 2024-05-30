@@ -35,6 +35,7 @@ interface InputFormProps{
 export function InputOTPForm({phoneNumber}:InputFormProps) {
 
 const {toast} = useToast();
+console.log(phoneNumber);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -45,19 +46,14 @@ const {toast} = useToast();
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+      title:data.pin, 
+   
     })
   }
 
 
-  const [isMounted,setisMounted] = useState(false)
-
-
+const [isMounted,setisMounted] = useState(false)
+ 
 
 useEffect(()=>{
 setisMounted(true);
@@ -69,21 +65,7 @@ if(!isMounted){
 
 
 
-
-const sendOtp = async () => {
-  const response = await fetch('/api/send-otp', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ phoneNumber }),
-  });
-  const data = await response.json();
-   toast({
-    title:data.success ? 'OTP sent!' : `Error: ${data.error}`,
-    variant:data.success? "success" : "destructive"
-   });
-};
+ 
 
   return (
     <Form {...form}>

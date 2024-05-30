@@ -20,7 +20,7 @@ export const  register = async (values :z.infer <typeof HireRegisterSchema>)=>{
          };
 
 const {firstname,lastname,email,password,phone} = validatedFields.data;
-
+console.log(phone)
    const salt = await bcryptjs.genSalt(10);
 const hashpassword = await bcryptjs.hash(password, salt);
          
@@ -44,7 +44,7 @@ const hashpassword = await bcryptjs.hash(password, salt);
           name: firstname + " " + lastname,
           email: email,
           password: hashpassword,
-          phone:+phone,
+          phone:  phone.toString(),
           role:"EMPLOYER"
           
         }

@@ -23,6 +23,8 @@ import { InputOTPForm } from "@/components/auth/otpContainer"
 import { FaSpinner } from "react-icons/fa"
 import { UserType } from "@prisma/client"
 import { CurrentUser } from "@/hooks/use-current-user"
+import { InputOTP } from "@/components/ui/input-otp"
+import axios from "axios"
 
 const ProfileForm = () => {
 
@@ -31,7 +33,9 @@ const ProfileForm = () => {
     return redirect("/auth/login")
   }
 
-  console.log(currentUser);
+ const { name , phone ,email  } = currentUser;
+ 
+  
   
   const router = useRouter()
   const pathname = usePathname()
@@ -42,12 +46,12 @@ const ProfileForm = () => {
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstname: "",
-      lastname: "",
-      email: "",
+      firstname: "" || name.split(" ")[0],
+      lastname: "" || name.split(" ")[1],
+      email: ""||email,
       designation: "",
-      phone:'',
-      role :''
+      phone:""|| phone,
+      role :""
     },
   })
 
@@ -60,18 +64,34 @@ const ProfileForm = () => {
     window.location.replace("/hire-talent/company")
   }
 
-  // function handleVerifyClick() {
-  //   const phone = form.getValues("phone")
-  //   setPhoneNumber(phone)
+  const sendOtp = async () => {
+    setPhoneNumber(form.getValues('phone'))
+    if( form.getValues("phone")){
+      setShowOtp(true)
+    }else{
+      setShowOtp(false)
+    }   if (phoneNumber   &&   /^\+?[1-9]\d{1,14}$/.test(phoneNumber)) {
+      try {
+        const response = await axios.post('/api/send-otp', { phoneNumber });
+        toast({
+          title: 'OTP sent!',
+          variant: "success"
+        });
+      } catch (error) {
+        toast({
+          title: 'OTP Not Sent!',
+          variant: "destructive"
+        });
+      }
+    } else {
+      toast({
+        title: 'Phone number is required',
+        variant: "destructive"
+      });
+    }
+     
+  };
   
-  // if( form.getValues("phone")){
-  //   setShowOtp(true)
-  // }else{
-  //   setShowOtp(false)
-  // }
- 
-  // }
- 
   return (
     <div className="flex items-center justify-center h-screen w-full">
       {isLoading && (
@@ -85,7 +105,7 @@ const ProfileForm = () => {
         <h2 className="text-3xl">Personal Details</h2>
         <br />
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/4 space-y-6 border p-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full lg:w-2/4 space-y-6 border p-4">
             <div className="items-center w-full grid lg:grid-cols-2 gap-3">
               <FormField
                 control={form.control}
@@ -94,7 +114,7 @@ const ProfileForm = () => {
                   <FormItem>
                     <FormLabel>First name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Your firstName" {...field} />
+                      <Input placeholder="Enter Your firstName" {...field}  value={name.split(" ")[0]}/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -108,7 +128,7 @@ const ProfileForm = () => {
                   <FormItem>
                     <FormLabel>Last name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Your lastName" {...field} />
+                      <Input placeholder="Enter Your lastName" {...field}   value={name.split(" ")[1]} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -123,7 +143,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="example@gmail.com" {...field} />
+                    <Input placeholder="example@gmail.com" {...field}  value={email} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -144,8 +164,8 @@ const ProfileForm = () => {
               )}
             />
 
-            <div className="grid  w-full gap-5 items-end">
-              <div className="">
+            <div className=" flex  w-full gap-5 items-end">
+              <div className="w-full">
                 <FormField
                   control={form.control}
                   name="phone"
@@ -160,19 +180,23 @@ const ProfileForm = () => {
                   )}
                 />
               </div>
-              {/* <Button
+             <div>
+             <Button
                 suppressHydrationWarning
                 variant={"outline"}
                 className="border-blue-400 border"
-                type="button"
-         
-                onClick={handleVerifyClick}
+                type="button" 
+                onClick={sendOtp}
           
               >
                 Verify
-              </Button> */}
+              </Button>
+             </div>
             </div>
  
+           {showOtp && (<>
+           <InputOTPForm phoneNumber={phone}/>
+           </>)}
 
             <div className="flex items-center justify-between">
               {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (

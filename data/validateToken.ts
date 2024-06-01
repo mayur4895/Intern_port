@@ -7,6 +7,19 @@ import { db } from "@/lib/db";
 
 
 
+export const getValidateOtpbyOtp = async(otp:string)=>{
+  
+    try {
+        const verificationOtp = await db.phoneVerificationOtp.findUnique({
+            where: {otp},
+        }); 
+           
+     return verificationOtp;
+    } catch (error) {
+        return null;
+           
+    }
+}
 
  
 

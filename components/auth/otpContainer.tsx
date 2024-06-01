@@ -19,8 +19,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { toast, useToast } from "@/components/ui/use-toast"
-import { useEffect, useState } from "react"
+import { toast } from "@/components/ui/use-toast"
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -28,15 +27,7 @@ const FormSchema = z.object({
   }),
 })
 
-interface InputFormProps{
-  phoneNumber:any
-}
-
-export function InputOTPForm({phoneNumber}:InputFormProps) {
-
-const {toast} = useToast();
-console.log(phoneNumber);
-
+export function InputOTPForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,27 +36,16 @@ console.log(phoneNumber);
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data)
     toast({
-      title:data.pin, 
-   
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
     })
   }
-
-
-const [isMounted,setisMounted] = useState(false)
- 
-
-useEffect(()=>{
-setisMounted(true);
-},[setisMounted])
-
-if(!isMounted){
-    return null
-}
-
-
-
- 
 
   return (
     <Form {...form}>
@@ -94,9 +74,8 @@ if(!isMounted){
               <FormMessage />
             </FormItem>
           )}
-        />
-
-        <Button type="submit">Submit</Button>
+        /> 
+        <Button  >Submit</Button>
       </form>
     </Form>
   )

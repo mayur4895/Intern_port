@@ -35,7 +35,7 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
       const ExistingUser = await getUserById(user.id); 
 
       if(!ExistingUser || !ExistingUser.emailVerified) return false;
-
+      
 
       if(ExistingUser.isTwoFactorEnabled){
 
@@ -82,7 +82,7 @@ async jwt({token}){
    token.role = userExist.role;  
    token.phone = userExist.phone
    token.designation = userExist.designation
-      token.isphoneVerified = userExist?.isphoneVerified
+   token.isphoneVerified = userExist?.isphoneVerified
    return token;  
    }
   },

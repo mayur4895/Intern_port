@@ -1,13 +1,13 @@
 // utils/schemas.ts
 import { z } from 'zod';
-const phoneRegex = /^[0-9]{10}$/;
+const phoneRegex =  /^\+?[1-9]\d{1,14}$/;
 export const profileSchema = z.object({
    firstname: z.string().min(1, 'First name is required'),
   lastname: z.string().min(1, 'Last name is required'),
   email: z.string().email('Invalid email address'),
   designation : z.string().min(1, 'Designation required'),
    phone: z.string().refine((phone) => phoneRegex.test(phone), {
-    message: 'Invalid phone number format. Please enter a 10-digit number without special characters.',
+    message: 'Invalid phone number format.',
 }),
 role:z.optional(z.string())
 });

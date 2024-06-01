@@ -50,6 +50,7 @@ import { signIn } from "next-auth/react";
 import HireRegisterSchema from "@/schemas/hire-talent/HireRegisterSchema";
 import { register } from "@/actions/hire-talent/register";
 import { useLoginType } from "@/hooks/use-logintype";
+import parsePhoneNumberFromString from "libphonenumber-js";
  
   
  
@@ -76,6 +77,9 @@ const EmployerSignup = () => {
   async function onSubmit(values: z.infer<typeof HireRegisterSchema>) {
  
     try {
+
+      
+ 
       const res =  await  register(values)
        
       form.reset();

@@ -9,8 +9,9 @@ import z from "zod"
 import { generateVerificationToken } from "@/lib/Tokens";
 import { SendVerificationEmail } from "@/lib/mail";
 import HireRegisterSchema from "@/schemas/hire-talent/HireRegisterSchema";
+import parsePhoneNumberFromString from "libphonenumber-js";
  
-export const  register = async (values :z.infer <typeof HireRegisterSchema>)=>{
+export const  register = async (values :z.infer <typeof HireRegisterSchema>, )=>{
       
     try {
         const validatedFields =  HireRegisterSchema.safeParse(values);
@@ -20,7 +21,13 @@ export const  register = async (values :z.infer <typeof HireRegisterSchema>)=>{
          };
 
 const {firstname,lastname,email,password,phone} = validatedFields.data;
-console.log(phone)
+const parsedPhoneNumber = parsePhoneNumberFromString(values.phone, 'IN') 
+if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
+  return {error:"Invalid Phone IN phone required"}
+}
+
+const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
+console.log(formattedPhoneNumber)
    const salt = await bcryptjs.genSalt(10);
 const hashpassword = await bcryptjs.hash(password, salt);
          
@@ -44,7 +51,7 @@ const hashpassword = await bcryptjs.hash(password, salt);
           name: firstname + " " + lastname,
           email: email,
           password: hashpassword,
-          phone:  phone.toString(),
+          phone: formattedPhoneNumber,
           role:"EMPLOYER"
           
         }

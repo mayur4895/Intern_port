@@ -14,7 +14,7 @@ lastname: z.string().min(1, {
       message: "password must be at least 8 characters",
     }),
 
-    phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
+    phone: z.string().regex( /^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
   });
 
 

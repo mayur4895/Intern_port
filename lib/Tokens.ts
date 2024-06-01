@@ -4,6 +4,38 @@ import { getValidateTokenbyEmail } from "@/data/validateToken";
 import { getPasswordResetTokenbyEmail } from "@/data/password-reset-token";
 import crypto from "crypto"
 import { getTwoFactorTokenbyEmail } from "@/data/two-facror-token";
+import { getPhoneVerifyOtpbyPhone } from "@/data/phone-verify-token";
+
+
+
+export const generatePhoneVerificationOtp= async(phone:string)=>{  
+    const otp = crypto.randomInt(100_000, 1_000_000).toString();
+    const expires = new Date (new Date().getTime() + 3600 *1000);  
+    const existingOtp =  await  getPhoneVerifyOtpbyPhone(phone) 
+    
+    if(existingOtp){
+        await db.phoneVerificationOtp.delete({
+            where:{id:existingOtp.id}, 
+        })
+    } 
+    const phoneOtp = await db.phoneVerificationOtp.create({
+        data:{
+            otp,
+            expires,
+            phone
+        }
+    })  
+    return phoneOtp;
+
+}
+
+
+
+
+
+
+
+
 
 
 

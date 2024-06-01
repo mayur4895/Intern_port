@@ -1,11 +1,11 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ZodNumber, z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter, usePathname, redirect } from "next/navigation"
 import { toast } from "@/components/ui/use-toast"
-
+import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -23,15 +23,31 @@ import { InputOTPForm } from "@/components/auth/otpContainer"
 import { FaSpinner } from "react-icons/fa"
 import { UserType } from "@prisma/client"
 import { CurrentUser } from "@/hooks/use-current-user"
-import { InputOTP } from "@/components/ui/input-otp"
+ 
 import axios from "axios"
+import { SendOtp } from "@/actions/hire-talent/send-otp"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+import { PhoneVerify } from "@/actions/hire-talent/verify-otp"
+import { db } from "@/lib/db"
+import { checkPhoneStatus } from "@/actions/hire-talent/checkPhoneVerify"
+import { getPhoneStatus } from "@/data/user"
+ 
 
+ 
+ 
+ 
 const ProfileForm = () => {
-
+  const [value, setValue] =  useState("")
+  console.log(value);
+ 
+ 
+  
   const currentUser = CurrentUser();
-  if(currentUser.role !== UserType.EMPLOYER){
-    return redirect("/auth/login")
-  }
+  
 
  const { name , phone ,email  } = currentUser;
  
@@ -41,7 +57,7 @@ const ProfileForm = () => {
   const pathname = usePathname()
   const [showOtp, setShowOtp] = useState(false)
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isVerifed ,setisVerifed] = useState(false);
+  const [PhoneisVerifed ,setPhoneisVerifed] = useState(false);
   const [isLoading ,setisLoading] = useState(false);
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
@@ -65,33 +81,102 @@ const ProfileForm = () => {
   }
 
   const sendOtp = async () => {
-    setPhoneNumber(form.getValues('phone'))
-    if( form.getValues("phone")){
-      setShowOtp(true)
-    }else{
+    const phoneValue = form.getValues('phone')
+    setPhoneNumber(phoneValue)
+
+    const parsedPhoneNumber = parsePhoneNumberFromString(phoneValue, 'IN') // Defaulting to US, you may change it
+    if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
+      toast({
+        title: 'Invalid Phone Number!',
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
+
+    if(formattedPhoneNumber){
+      setShowOtp(true) 
+    } else {
       setShowOtp(false)
-    }   if (phoneNumber   &&   /^\+?[1-9]\d{1,14}$/.test(phoneNumber)) {
-      try {
-        const response = await axios.post('/api/send-otp', { phoneNumber });
+    }   
+
+    try {
+      const res = await  SendOtp(formattedPhoneNumber);
+
+      if(res.success){ 
         toast({
           title: 'OTP sent!',
           variant: "success"
         });
-      } catch (error) {
-        toast({
-          title: 'OTP Not Sent!',
-          variant: "destructive"
-        });
       }
-    } else {
+    } catch (error) {
       toast({
-        title: 'Phone number is required',
+        title: 'OTP Not Sent!',
         variant: "destructive"
       });
     }
-     
-  };
+  } 
   
+
+const submitOtp = async(e:any)=>{
+  try {
+    e.preventDefault();
+     const res = await PhoneVerify(value);
+
+     if(res.success){
+      
+      toast({
+        title: 'phone Verify',
+        variant: "success"
+      })
+     } 
+
+
+     if(res.error){
+      toast({
+        variant:"destructive",
+        title: res?.error, 
+      })
+     }
+  } catch (error) {
+    console.log(error);
+    toast({
+      variant:"destructive",
+      title: "Something went wrong", 
+    })
+    
+  }
+}
+
+
+ 
+
+useEffect(()=>{
+  if(currentUser?.role !== UserType.EMPLOYER && !currentUser){
+    return redirect("/auth/login")
+  }
+
+ (async()=>{
+  const  res =  await getPhoneStatus(currentUser.phone);
+  console.log(res);
+  
+  // if(res?.success){
+  //    setPhoneisVerifed(true);
+  // } 
+
+  // if(res?.error){
+   
+  //     setPhoneisVerifed(false);
+     
+  // }
+ })
+  
+},[currentUser])
+
+ console.log(PhoneisVerifed);
+ 
+
   return (
     <div className="flex items-center justify-center h-screen w-full">
       {isLoading && (
@@ -194,15 +279,41 @@ const ProfileForm = () => {
              </div>
             </div>
  
-           {showOtp && (<>
-           <InputOTPForm phoneNumber={phone}/>
+           {showOtp && (<> 
+ 
+    <div className="space-y-2">
+      <InputOTP
+        maxLength={6}
+        value={value}
+        onChange={(value) => setValue(value)}
+      >
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+      <div className=" text-sm">
+        {value === "" ? (
+          <>Enter your one-time password.</>
+        ) : (
+        <Button onClick={(e)=>{submitOtp(e)}}>Submit Otp</Button>
+        )}
+      </div>
+    </div>
+ 
+ 
+
            </>)}
 
             <div className="flex items-center justify-between">
               {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (
                 <Button type="submit">Prev</Button>
               )}
-              <Button type="submit" className="ml-auto"  >
+              <Button type="submit" className="ml-auto"  disabled={!PhoneisVerifed} >
                 Next
               </Button>
             </div>

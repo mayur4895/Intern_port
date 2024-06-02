@@ -20,7 +20,7 @@ import {
 
 import { profileSchema } from "@/schemas"
 import { InputOTPForm } from "@/components/auth/otpContainer"
-import { FaSpinner } from "react-icons/fa"
+import { FaCheckCircle, FaSpinner } from "react-icons/fa"
 import { UserType } from "@prisma/client"
 import { CurrentUser } from "@/hooks/use-current-user"
  
@@ -34,17 +34,15 @@ import {
 import { PhoneVerify } from "@/actions/hire-talent/verify-otp"
 import { db } from "@/lib/db"
 import { checkPhoneStatus } from "@/actions/hire-talent/checkPhoneVerify"
-import { getPhoneStatus } from "@/data/user"
+import { getPhoneStatus, getUserByPhone } from "@/data/user"
+import { UpdateProfile } from "@/actions/hire-talent/update-profile"
  
 
  
  
  
 const ProfileForm = () => {
-  const [value, setValue] =  useState("")
-  console.log(value);
- 
- 
+  const [value, setValue] =  useState("")  
   
   const currentUser = CurrentUser();
   
@@ -71,13 +69,26 @@ const ProfileForm = () => {
     },
   })
 
-  function onSubmit(data: z.infer<typeof profileSchema>) {
-    setisLoading
+  async function onSubmit (data: z.infer<typeof profileSchema>) {
+    setisLoading(true);
+ const res = await  UpdateProfile(data);
+ if(res?.success){
+  setisLoading(false)
     toast({
-      title: "Profile details saved",
+      title: res?.success,
+      variant: "success",
     })
     console.log(data)
     window.location.replace("/hire-talent/company")
+  }
+  if(res?.error){
+    setisLoading(false)
+    toast({
+      title: res?.error,
+      variant: "destructive"
+    })
+  }
+    
   }
 
   const sendOtp = async () => {
@@ -149,7 +160,17 @@ const submitOtp = async(e:any)=>{
   }
 }
 
-
+const statusverify = async()=>{
+  const res = await  checkPhoneStatus(currentUser.id, form.getValues('phone'));
+  if(res?.success){
+      setPhoneisVerifed(true); 
+      setShowOtp(false) 
+  }else {
+    setPhoneisVerifed(false);
+ 
+  } 
+ 
+}
  
 
 useEffect(()=>{
@@ -157,23 +178,13 @@ useEffect(()=>{
     return redirect("/auth/login")
   }
 
- (async()=>{
-  const  res =  await getPhoneStatus(currentUser.phone);
-  console.log(res);
+   statusverify();
+ 
   
-  // if(res?.success){
-  //    setPhoneisVerifed(true);
-  // } 
-
-  // if(res?.error){
-   
-  //     setPhoneisVerifed(false);
-     
-  // }
- })
-  
-},[currentUser])
-
+ 
+},[currentUser,form.getValues('phone')])
+        
+         
  console.log(PhoneisVerifed);
  
 
@@ -266,16 +277,30 @@ useEffect(()=>{
                 />
               </div>
              <div>
-             <Button
-                suppressHydrationWarning
-                variant={"outline"}
-                className="border-blue-400 border"
-                type="button" 
-                onClick={sendOtp}
+         {PhoneisVerifed  ? (
+               <Button
           
-              >
-                Verify
-              </Button>
+               suppressHydrationWarning 
+               className="text-green-600 bg-transparent hover:bg-transparent flex gap-2 shadow-none" 
+               type="button"  
+             >
+              <FaCheckCircle size={18}/>  Verified
+             </Button>
+         ):( 
+          <Button
+          suppressHydrationWarning
+          variant={"outline"}
+          className="border-blue-400 border"
+          type="button" 
+          onClick={sendOtp} 
+        >
+          Verify
+        </Button>
+         )
+         
+         
+         
+         }
              </div>
             </div>
  

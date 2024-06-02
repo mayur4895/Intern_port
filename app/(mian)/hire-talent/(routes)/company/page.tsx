@@ -1,10 +1,9 @@
-"use client"
+"use client" 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,139 +12,149 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
-import { redirect, usePathname, useRouter } from "next/navigation"
-import { profileSchema } from "@/schemas"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
+import { redirect, usePathname, useRouter } from "next/navigation";
+import { companySchema } from "@/schemas";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { cn } from "@/lib/utils";
+
+const languages = [
+  { label: "English", value: "en" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
+  { label: "Spanish", value: "es" },
+  { label: "Portuguese", value: "pt" },
+  { label: "Russian", value: "ru" },
+  { label: "Japanese", value: "ja" },
+  { label: "Korean", value: "ko" },
+  { label: "Chinese", value: "zh" },
+] as const;
+
+const ProfileForm = () => {
  
-
- 
-
- const  ProfileForm= () =>{
-
   const router = useRouter();
   const pathname = usePathname();
-  const form = useForm<z.infer<typeof profileSchema>>({
-    resolver: zodResolver(profileSchema),
+  const form = useForm<z.infer<typeof companySchema>>({
+    resolver: zodResolver(companySchema),
     defaultValues: {
-       firstname: "",
+      name: "",
+      description: "",
+      isCompanyHire: false,
+      city: "",
+      industry: ""
     },
-  })
+  });
 
-  function onSubmit(data: z.infer<typeof profileSchema>) {
+  function onSubmit(data: z.infer<typeof companySchema>) {
     toast({
-      title: "Profile details saved", 
-    })
+      title: "Profile details saved",
+    });
     console.log(data);
-    
-    
-   return  window.location.replace("/hire-talent/company")
-    
+    return window.location.replace("/hire-talent/company");
   }
 
   return (
     <div className="flex items-center justify-center h-screen w-full">
-          <div  className="w-full  flex flex-col  items-center justify-center">
-      <h2 className="text-3xl">Company Details</h2>
- <br />
-    <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/4 space-y-6 border p-4">
-      <div className="  items-center w-full grid   lg:grid-cols-2 gap-3">
-
-        <FormField
-          control={form.control}
-          name="firstname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Your firstName" {...field} />
-              </FormControl> 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-<FormField
-          control={form.control}
-          name="lastname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Your lasttName" {...field} />
-              </FormControl>
+      <div className="w-full flex flex-col items-center justify-center">
+        <h2 className="text-3xl">Company Details</h2>
+        <br />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/4 space-y-6 border p-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Organization name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter Your firstName" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isCompanyHire"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-gray-600">
+                      I am an independent practitioner (freelancer, architect, lawyer etc.)
+                    </FormLabel>
+                    <FormDescription>
+                      hiring for myself and I am NOT hiring on behalf of a company.
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Organization Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us a little bit about yourself"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Organization city</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g Pune" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
              
-              <FormMessage />
-            </FormItem>
-          )}
-        />
- 
-
-</div>
-
-
-<FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="example@gmail.com" {...field} />
-              </FormControl>
-             
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-
-<FormField
-          control={form.control}
-          name="designation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Designation</FormLabel>
-              <FormControl>
-                <Input placeholder="E.g HR Manager" {...field} />
-              </FormControl>
-             
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-<FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Your Phone Number" {...field} />
-              </FormControl>
-             
-              <FormMessage />
-            </FormItem>
-          )}
-        />
- <div className="flex items-center justify-between">
-{(pathname === "/hire-talent/company" || pathname==="/hire-talent/postjob") && <Button className=" cursor-pointer" onClick={(e)=>{
-e.preventDefault();
-   return  window.location.replace("/hire-talent/profile")
- 
-
-}}>Prev</Button>}
- <Button type="submit" className="ml-auto">Next</Button>
- </div>
-      </form>
-    </Form>
+            <div className="flex items-center justify-between">
+              {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (
+                <Button
+                  className="cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    return window.location.replace("/hire-talent/profile");
+                  }}
+                >
+                  Prev
+                </Button>
+              )}
+              <Button type="submit" className="ml-auto">
+                Next
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
     </div>
-     </div>
-  )
-}
-
+  );
+};
 
 export default ProfileForm;

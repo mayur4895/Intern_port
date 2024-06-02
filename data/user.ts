@@ -35,7 +35,6 @@ export const getUserById = async (id: string) => {
 };
 
 
-
 export const getPhoneStatus = async (phone: string) => {
   try {
     const user = await db.user.findUnique({ where: { 

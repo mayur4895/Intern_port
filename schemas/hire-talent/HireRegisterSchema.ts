@@ -3,13 +3,12 @@ import { z } from "zod";
  
 const HireRegisterSchema = z.object({
     firstname: z.string().min(1, {
-      message: "Required",
+      message: "This field is required",
     }),
-lastname: z.string().min(1, {
-        message: "Required",
+     lastname: z.string().min(1, {
+        message: "This field is required",
       }),
-    email: z.string().email({ message: "Invalid email address" }),
-  
+    email: z.string().email({ message: "Invalid email address" }),   
     password: z.string().min(8, {
       message: "password must be at least 8 characters",
     }),

@@ -37,6 +37,7 @@ import { checkPhoneStatus } from "@/actions/hire-talent/checkPhoneVerify"
 import { getPhoneStatus, getUserByPhone } from "@/data/user"
 import { UpdateProfile } from "@/actions/hire-talent/update-profile"
  
+ 
 
  
  
@@ -46,7 +47,9 @@ const ProfileForm = () => {
   
   const currentUser = CurrentUser();
   
-
+if(!currentUser && currentUser.role !== UserType.EMPLOYER){
+return redirect("/auth/login")
+}
  const { name , phone ,email  } = currentUser;
  
   
@@ -190,6 +193,7 @@ useEffect(()=>{
 
   return (
     <div className="flex items-center justify-center h-screen w-full">
+ 
       {isLoading && (
          <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
          <div className=" flex items-center justify-center h-full w-full">

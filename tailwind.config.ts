@@ -1,19 +1,18 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
+import { withUt } from "uploadthing/tw";
 const svgToDataUri = require("mini-svg-data-uri");
- 
-const colors = require("tailwindcss/colors");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
 
-const config = {
+const colors = require("tailwindcss/colors");
+const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
+
+const config: Config = {
   darkMode: ["class"],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -120,23 +119,21 @@ const config = {
         },
       },
       animation: {
-        
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         aurora: "aurora 60s linear infinite",
-        
-  first: "moveVertical 30s ease infinite",
-  second: "moveInCircle 20s reverse infinite",
-  third: "moveInCircle 40s linear infinite",
-  fourth: "moveHorizontal 40s ease infinite",
-  fifth: "moveInCircle 20s ease infinite",
+        first: "moveVertical 30s ease infinite",
+        second: "moveInCircle 20s reverse infinite",
+        third: "moveInCircle 40s linear infinite",
+        fourth: "moveHorizontal 40s ease infinite",
+        fifth: "moveInCircle 20s ease infinite",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"),
-
-  addVariablesForColors,
+  plugins: [
+    require("tailwindcss-animate"),
+    addVariablesForColors,
     function ({ matchUtilities, theme }: any) {
       matchUtilities(
         {
@@ -161,26 +158,16 @@ const config = {
     },
   ],
 };
- 
+
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });
-} 
- 
+}
 
-export default config
-
-
-
-
-
-
- 
-
- 
+export default withUt(config);

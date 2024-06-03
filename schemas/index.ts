@@ -30,7 +30,15 @@ export const companySchema = z.object({
   industry: z
   .string({
     required_error: "Please select an industry.",
-  })
+  }),
+ 
+  no_employees: z
+  .string({
+    required_error: "Please select no of employees",
+  }), 
+  imageUrl:z.string().min(1,{
+    message:"Server image is required"
+})
  
  
 });

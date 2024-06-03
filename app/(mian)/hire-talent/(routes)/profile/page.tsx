@@ -38,6 +38,8 @@ import { getPhoneStatus, getUserByPhone } from "@/data/user"
 import { UpdateProfile } from "@/actions/hire-talent/update-profile"
  
  
+ 
+ 
 
  
  
@@ -50,7 +52,14 @@ const ProfileForm = () => {
 if(!currentUser && currentUser.role !== UserType.EMPLOYER){
 return redirect("/auth/login")
 }
- const { name , phone ,email  } = currentUser;
+
+ 
+
+ const { name , phone ,email ,designation   } = currentUser;
+
+
+
+
  
   
   
@@ -66,7 +75,7 @@ return redirect("/auth/login")
       firstname: "" || name.split(" ")[0],
       lastname: "" || name.split(" ")[1],
       email: ""||email,
-      designation: "",
+      designation: "" || designation,
       phone:""|| phone,
       role :""
     },
@@ -81,7 +90,7 @@ return redirect("/auth/login")
       title: res?.success,
       variant: "success",
     })
-    console.log(data)
+    console.log(data) 
     window.location.replace("/hire-talent/company")
   }
   if(res?.error){
@@ -186,9 +195,9 @@ useEffect(()=>{
   
  
 },[currentUser,form.getValues('phone')])
-        
-         
- console.log(PhoneisVerifed);
+            
+ 
+  
  
 
   return (

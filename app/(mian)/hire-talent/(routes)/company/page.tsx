@@ -26,7 +26,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
-import Industry from "@/components/selectCombo";
+import IndustrySelect from "@/components/selectIndustry";
+import { UploadButton } from "@/lib/uploadthing";
+import FileUplod from "@/components/FileUpload";
+ 
+ 
  
  
  
@@ -42,7 +46,9 @@ const ProfileForm = () => {
       description: "",
       isCompanyHire: false,
       city: "",
-      industry: ""
+      industry: "",
+      no_employees:"",
+      imageUrl:""
     },
   });
 
@@ -58,10 +64,9 @@ const ProfileForm = () => {
  
   
   return (
-    <div className="flex items-center justify-center h-screen w-full">
+    <div className="flex items-center justify-center h-full w-full">
       <div className="w-full flex flex-col items-center justify-center">
-        <h2 className="text-3xl">Company Details</h2>
- 
+        <h2 className="text-3xl">Company Details</h2> 
         <br />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="lg:w-2/4 w-full space-y-6 border p-4">
@@ -137,20 +142,63 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>industry</FormLabel>
                   <FormControl>
-                  <Industry  onChange={field.onChange}  value={field.value} />
+                  <IndustrySelect  onChange={field.onChange}  value={field.value} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />  
+
+<FormField
+          control={form.control}
+          name="no_employees"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>No. of employees</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select no of employees" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="0 - 50">0 - 50</SelectItem>
+                  <SelectItem value=" 51 - 200">51 - 200</SelectItem>
+                  <SelectItem value="201 - 500  ">201 - 500  </SelectItem>
+                  <SelectItem value=" 501 - 1000">501 - 1000</SelectItem>
+                  <SelectItem value="1000+ ">1000+ </SelectItem>
+                </SelectContent>
+              </Select> 
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+    
+<FormField
+          control={form.control}
+          name="imageUrl"
+          render={({ field }) => (
+            <FormItem>
+     
+              <FormControl>
+                <FileUplod 
+                endpoint="imageUploader"
+                value={field.value}
+                onChange={field.onChange}
+                 
+                />
+              </FormControl> 
  
+            </FormItem>
+          )}
+        />
 
             <div className="flex items-center justify-between">
               {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (
                 <Button
                   className="cursor-pointer"
                   onClick={(e) => {
-                    e.preventDefault();
+                    e.preventDefault(); 
                     return window.location.replace("/hire-talent/profile");
                   }}
                 >

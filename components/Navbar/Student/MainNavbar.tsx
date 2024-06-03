@@ -101,7 +101,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
           <MenubarMenu>
             <MenubarTrigger asChild>
               <Sheet>
-               {   <SheetTrigger asChild className={     `  hidden   ${!session?.role ? "hidden " : "  cursor-pointer border-2 hover:border-blue-400 transition"}`   }>
+               {   <SheetTrigger asChild className={     `  hidden lg:block     ${!session?.role ? "hidden " : "  cursor-pointer border-2 hover:border-blue-400 transition"}`   }>
                    <Avatar>
                       <AvatarImage src={session?.image} />
                       <AvatarFallback>

@@ -34,12 +34,13 @@ const IndustrySelect: React.FC<IndustrySelectProps> = ({
   value,
   onChange,
 }) => {
-  // Find the selected framework object based on the string value
+ 
   const selectedFramework = frameworks.find(framework => framework.value === value) || null;
 
   return (
     <Select
-      placeholder="Anywhere"
+    className=' border-1'
+      placeholder="Select Industry"
       isClearable
       options={frameworks}
       value={selectedFramework}
@@ -52,17 +53,18 @@ const IndustrySelect: React.FC<IndustrySelectProps> = ({
         </div>
       )}
       classNames={{
-        control: () => 'p-1',
-        input: () => 'text-lg',
-        option: () => 'text-lg',
+        control: () => 'p-0.5',
+        input: () => 'text-sm',
+        option: () => 'text-sm',
       }}
       theme={(theme) => ({
         ...theme,
         borderRadius: 6,
         colors: {
           ...theme.colors,
-          primary: 'black',
-          primary25: '#ffe4e6',
+          primary: '#31363F', 
+          primary25: '#DDDDDD',
+          
         },
       })}
     />

@@ -49,16 +49,14 @@ import { Separator } from "../ui/separator";
  
  
 import { signIn } from "next-auth/react";  
- 
-  
+import { FaSpinner } from "react-icons/fa"; 
  
  
 const Signup = () => {
-  
+  const [isLoading,setisLoading] = useState(false);
   const SearchParams = useSearchParams();
   const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
-  const {toast} = useToast();
- 
+  const {toast} = useToast(); 
    const router = useRouter();
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -71,12 +69,13 @@ const Signup = () => {
 
   const isloding = form.formState.isSubmitting;
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
-    console.log(values);
+    setisLoading(true);
     try {
       const res =  await  register(values)
        
       form.reset();
       if(res?.success){
+        setisLoading(false)
         toast({
           variant:"success",
           title: res?.success,
@@ -87,6 +86,7 @@ const Signup = () => {
 
 
       if(res?.error){
+        setisLoading(false)
         toast({
           variant:"destructive",
           title:res.error,  
@@ -97,6 +97,7 @@ const Signup = () => {
    
       router.refresh(); 
     } catch (error) {
+      setisLoading(false)
       toast({
         variant:"destructive",
         title: "Something went wrong",
@@ -110,17 +111,19 @@ const Signup = () => {
 
   
 const onclick = async( provider:string)=>{
+  setisLoading(true)
   const res =  await signIn(provider,{
       callbackUrl:"/"
     });
     if(urlError){
+      setisLoading(false)
      toast({
        variant:"destructive",
        title: "Email alerday in used", 
      })
     }
     if(res?.error){
-      
+      setisLoading(false)
      toast({
        variant:"destructive",
        title:res?.error, 
@@ -136,6 +139,13 @@ const onclick = async( provider:string)=>{
  
   return (
     <>
+       {isLoading && (
+         <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
+         <div className=" flex items-center justify-center h-full w-full">
+         <Loader2 size={25} className=" animate-spin"/>
+         </div>
+         </div>
+      )}
       <div className=" flex h-[100vh] w-full justify-center items-center">
       <Card className="px-8 py-5 max-w-md w-full">
           <CardHeader className="p-0 mb-4">

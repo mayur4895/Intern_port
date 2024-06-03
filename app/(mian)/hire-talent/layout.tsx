@@ -9,6 +9,7 @@ import { redirect, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
  
  
+ 
 
 const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
   const session =   CurrentUser();
@@ -17,6 +18,10 @@ const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
     return redirect("/student/dashboard")
   }
   
+ 
+  const router = useRouter();
+ 
+ 
   return (
      <div>
       

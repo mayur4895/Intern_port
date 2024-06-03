@@ -52,13 +52,14 @@ import { signIn } from "next-auth/react";
 import SocialProvider from "./SocialProvider";
 import { useEffect, useState } from "react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
+import { FaSpinner } from "react-icons/fa";
 
  
 const Login = () => {
   const SearchParams = useSearchParams();
   const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
   const [showTwoFactor,setshowTwoFactor]  = useState(false);
-  
+  const [isLoading,setisLoading] = useState(false);
   const {toast} = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -69,11 +70,13 @@ const Login = () => {
     },
   });
 
-  const isloding = form.formState.isSubmitting;
+  const isLoding = form.formState.isSubmitting;
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     try {
+      setisLoading(true);
       const res =  await  login(values);
        if(urlError){
+        setisLoading(false);
         toast({
           variant:"destructive",
           title: "Email alerday in used", 
@@ -87,7 +90,7 @@ const Login = () => {
    
 
        if(res?.error){
-         
+        setisLoading(false);
         toast({
           variant:"destructive",
           title:res?.error, 
@@ -97,18 +100,17 @@ const Login = () => {
          }
 
          if(res?.success){
+          setisLoading(false);
           toast({
             variant:"success",
             title: res?.success,
          
-          })   
-       
+          })    
           form.reset(); 
           router.push("/student/dashboard")
           router.refresh();
         }
-
-
+ 
         if(res?.twoFactor){
           setshowTwoFactor(true); 
         }
@@ -116,6 +118,7 @@ const Login = () => {
  
   
     } catch (error) { 
+      setisLoading(false);
       toast({
         variant:"destructive",
         title: "Something went Wrong", 
@@ -127,7 +130,13 @@ const Login = () => {
  
   return (
     <>
-   
+     {isLoading && (
+         <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
+         <div className=" flex items-center justify-center h-full w-full">
+         <FaSpinner size={25} className=" animate-spin"/>
+         </div>
+         </div>
+      )}
         <Card className="px-8 py-5 max-w-md w-full">
         
           <Form {...form}>
@@ -199,7 +208,7 @@ const Login = () => {
               <CardFooter className=" justify-between gap-3 flex-col w-full p-0">
                 
               <Button type="submit" className=" h-10 w-full">
-                  {isloding ? <Loader2 className=" animate-spin" /> : showTwoFactor ? "Confirm" :"Login"}
+                  {isLoding ? <Loader2 className=" animate-spin" /> : showTwoFactor ? "Confirm" :"Login"}
                 </Button>
                 {!showTwoFactor && 
               <SocialProvider/> 

@@ -10,6 +10,7 @@ export const publicRoutes = [
     "/auth/new-password",
     "/hire-talent",
     "/internships",
+    "/api/uploadthing"
     
 
 ]
@@ -25,7 +26,9 @@ export const AuthRoutes = [
     "/auth/login",
     "/auth/signup",
     "/auth/reset",
-    "/auth/error"
+    "/auth/error",
+    "/api/uploadthing"
+    
  
 ]
 

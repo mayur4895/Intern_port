@@ -28,7 +28,9 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { cn } from "@/lib/utils";
 import IndustrySelect from "@/components/selectIndustry";
 import { UploadButton } from "@/lib/uploadthing";
-import FileUplod from "@/components/FileUpload";
+ 
+ 
+ 
  
  
  
@@ -173,15 +175,27 @@ const ProfileForm = () => {
             </FormItem>
           )}
         />
-    
-<FormField
+ <div suppressContentEditableWarning>
+ <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
+ {/* <FormField
           control={form.control}
           name="imageUrl"
           render={({ field }) => (
             <FormItem>
      
               <FormControl>
-                <FileUplod 
+                <FileUpload 
                 endpoint="imageUploader"
                 value={field.value}
                 onChange={field.onChange}
@@ -191,7 +205,8 @@ const ProfileForm = () => {
  
             </FormItem>
           )}
-        />
+        /> */}
+ </div>
 
             <div className="flex items-center justify-between">
               {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (

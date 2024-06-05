@@ -28,6 +28,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { cn } from "@/lib/utils";
 import IndustrySelect from "@/components/selectIndustry";
 import { UploadButton } from "@/lib/uploadthing";
+import FileUpload from "@/components/FileUpload";
  
  
  
@@ -176,19 +177,8 @@ const ProfileForm = () => {
           )}
         />
  <div suppressContentEditableWarning>
- <UploadButton
-        endpoint="imageUploader"
-        onClientUploadComplete={(res) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          alert("Upload Completed");
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
- {/* <FormField
+ 
+  <FormField
           control={form.control}
           name="imageUrl"
           render={({ field }) => (
@@ -205,7 +195,7 @@ const ProfileForm = () => {
  
             </FormItem>
           )}
-        /> */}
+        /> 
  </div>
 
             <div className="flex items-center justify-between">

@@ -11,9 +11,10 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { SessionProvider } from 'next-auth/react';
 import MainNavbar from '@/components/Navbar/Student/MainNavbar';
- 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import Container from '@/components/ui/container';
 import { auth } from '@/auth';
+import { extractRouterConfig } from 'uploadthing/server'; 
  
  
 const font = Poppins({
@@ -41,6 +42,7 @@ export default  async function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className)}> 
             <Container> 
+           
             {children} 
             </Container>
               <Toaster /> 

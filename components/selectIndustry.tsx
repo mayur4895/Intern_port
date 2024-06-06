@@ -4,25 +4,22 @@ import Select from 'react-select';
 
 const frameworks = [
   {
-    value: "next.js",
-    label: "Next.js",
+    value: "web developer",
+    label: "Web Developer",
   },
   {
-    value: "sveltekit",
-    label: "SvelteKit",
+    value: "python developer",
+    label: "Python Developer",
   },
   {
-    value: "nuxt.js",
-    label: "Nuxt.js",
+    value: "data science",
+    label: "Data Science",
   },
   {
-    value: "remix",
-    label: "Remix",
+    value: "database administrator",
+    label: "Database Administrator",
   },
-  {
-    value: "astro",
-    label: "Astro",
-  },
+   
 ];
 
 interface IndustrySelectProps {
@@ -39,7 +36,7 @@ const IndustrySelect: React.FC<IndustrySelectProps> = ({
 
   return (
     <Select
-    className=' border-1'
+    className=' border-1 text-sm ring-0'
       placeholder="Select Industry"
       isClearable
       options={frameworks}
@@ -53,9 +50,10 @@ const IndustrySelect: React.FC<IndustrySelectProps> = ({
         </div>
       )}
       classNames={{
-        control: () => 'p-0.5',
-        input: () => 'text-sm',
-        option: () => 'text-sm',
+        control: () => 'p-0.5', 
+       
+   
+      
       }}
       theme={(theme) => ({
         ...theme,

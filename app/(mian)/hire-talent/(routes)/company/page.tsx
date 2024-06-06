@@ -21,7 +21,7 @@ import { companySchema } from "@/schemas";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
@@ -29,6 +29,8 @@ import { cn } from "@/lib/utils";
 import IndustrySelect from "@/components/selectIndustry";
 import { UploadButton } from "@/lib/uploadthing";
 import FileUpload from "@/components/FileUpload";
+import { CurrentUser } from "@/hooks/use-current-user";
+import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
  
  
  
@@ -42,28 +44,48 @@ const ProfileForm = () => {
  
   const router = useRouter();
   const pathname = usePathname();
+  const currentUser = CurrentUser(); 
+  
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
     defaultValues: {
-      name: "",
+      name:  "" ,
       description: "",
-      isCompanyHire: false,
+      isIndependentHire:  false,
       city: "",
       industry: "",
       no_employees:"",
-      imageUrl:""
+      imageUrl:"" 
     },
   });
 
-  function onSubmit(data: z.infer<typeof companySchema>) {
-    console.log(data);
-    toast({
-      title: "Profile details saved",
-    }); 
+  async function onSubmit(data: z.infer<typeof companySchema>) {
  
+    const res = await CompanyRegister(data, currentUser?.id);
+     
+ if(res?.success) {
+  toast({
+    title: res?.success,
+  }); 
+  }
+
+  if(res?.error){
+    toast({
+      title:res?.error,
+      variant:"destructive"
+    })
   }
 
 
+  
+useEffect(()=>{ 
+ if(form.getValues('isIndependentHire')){ 
+ form.setValue("name" , currentUser.name)
+ }else{
+  form.setValue("name" , "")
+ }
+},[form,currentUser,form.getValues("isIndependentHire")])
+ 
  
   
   return (
@@ -78,9 +100,9 @@ const ProfileForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Organization name</FormLabel>
+                  <FormLabel>{form.getValues('isIndependentHire')? "Name":"Organization name"}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter Your firstName" {...field}  />
+                    <Input placeholder={form.getValues('isIndependentHire')? "Name":"Organization name"} {...field}  />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -88,7 +110,7 @@ const ProfileForm = () => {
             />
             <FormField
               control={form.control}
-              name="isCompanyHire"
+              name="isIndependentHire"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
                   <FormControl>
@@ -113,10 +135,10 @@ const ProfileForm = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Organization Description</FormLabel>
+                  <FormLabel>{form.getValues('isIndependentHire')? "About yourself and what you do":"Organization Description"} </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us a little bit about yourself"
+                      placeholder="Tell us in between 30 - 160 charcters"
                       className="resize-none"
                       {...field}
                     />
@@ -130,7 +152,7 @@ const ProfileForm = () => {
               name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Organization city</FormLabel>
+                  <FormLabel>{form.getValues('isIndependentHire')?"city":"Organization city"}</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g Pune" {...field} />
                   </FormControl>
@@ -177,7 +199,7 @@ const ProfileForm = () => {
           )}
         />
  <div suppressContentEditableWarning>
- 
+ {!form.getValues('isIndependentHire') && (
   <FormField
           control={form.control}
           name="imageUrl"
@@ -196,6 +218,9 @@ const ProfileForm = () => {
             </FormItem>
           )}
         /> 
+
+ )
+ }
  </div>
 
             <div className="flex items-center justify-between">
@@ -220,5 +245,5 @@ const ProfileForm = () => {
     </div>
   );
 };
-
+}
 export default ProfileForm;

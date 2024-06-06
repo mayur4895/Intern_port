@@ -13,7 +13,7 @@ const handleAuth = async()=>{
  }
  
 export const ourFileRouter = {  
-  imageUploader: f({ image: { maxFileSize: "4MB" } }) 
+  imageUploader: f({ image: { maxFileSize: "1MB" } }) 
   .middleware(()=> handleAuth())
   .onUploadComplete(()=>{})
 } satisfies FileRouter;

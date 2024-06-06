@@ -13,16 +13,16 @@ role:z.optional(z.string())
 });
 
 export const companySchema = z.object({
-  name:z.optional(z.string().min(1,"required")),
+  name:z.string().min(1,"required"),
   description: z
   .string()
-  .min(10, {
-    message: "Bio must be at least 10 characters.",
+  .min(30, {
+    message: "Bio must be at least 30 characters.",
   })
   .max(160, {
-    message: "Bio must not be longer than 30 characters.",
+    message: "Bio must not be longer than 0 characters.",
   }), 
-  isCompanyHire: z.boolean().default(false).optional(),
+  isIndependentHire: z.boolean().default(false).optional(),
 
   city:z.string().min(1, 'This field is required'),
 
@@ -36,9 +36,7 @@ export const companySchema = z.object({
   .string({
     required_error: "Please select no of employees",
   }), 
-  imageUrl:z.string().min(1,{
-    message:"Server image is required"
-})
+  imageUrl: z.string({required_error:"Please select logo"}).optional().or(z.literal('')),
  
  
 });

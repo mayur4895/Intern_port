@@ -45,7 +45,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  phone        String?  @unique
+  phone         String?  @unique
   isphoneVerified  Boolean @default(false)
   designation String?
   password     String?
@@ -53,7 +53,7 @@ model User {
   isTwoFactorEnabled  Boolean @default(false)
   twoFactorConfirmation   TwoFactorConfirmation?
   accounts      Account[]
- 
+  compnayDetails CompnayDetails[]
  }
 
  
@@ -104,6 +104,22 @@ model PhoneVerificationOtp{
 
  model TwoFactorConfirmation{ 
   id          String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId],references: [id] , onDelete:Cascade)  
+  @@unique([userId])
+  }
+
+
+  model CompnayDetails{
+    
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  isIndependentHire Boolean @default(false)
+  description String
+  city  String
+  industry String
+  no_employees String
+  imageUrl String?
   userId String @db.ObjectId
   user User @relation(fields: [userId],references: [id] , onDelete:Cascade)  
   @@unique([userId])

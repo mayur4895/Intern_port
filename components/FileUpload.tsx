@@ -8,7 +8,7 @@ import { FcFile } from "react-icons/fc";
 interface FileUplodProps{
     onChange:(url?:string) =>void;
 endpoint:  "imageUploader"
-value:string
+value:string | undefined
 }
 
 

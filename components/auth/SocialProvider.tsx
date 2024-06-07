@@ -18,10 +18,10 @@ const SocialProvider = () => {
   const router = useRouter();
   const [isLoding,setisLoding] = useState(false);
  
-  const onclick = async( provider:string)=>{
+  const onclick = async()=>{
     try {
       setisLoding(true)
-     const res = await signIn(provider,{
+     const res = await signIn( 'google',{
       callbackUrl:"/student/dashboard"
     });
  
@@ -55,13 +55,13 @@ const SocialProvider = () => {
    </div>:  null}
    <span className="flex  whitespace-nowrap items-center justify-center text-sm gap-5 text-zinc-500"> <Separator/> Or Sign in with  <Separator/>  </span>
               <div className="flex  justify-center gap-3 w-full">
-                <Button onClick={()=>{onclick('google')}} variant={"outline"} className="flex items-center gap-2 w-full text-gray-500 h-12">
+                <Button onClick={()=>{onclick()}} variant={"outline"} className="flex items-center gap-2 w-full text-gray-500 h-12">
                   <FcGoogle size={25}/>Google
                 </Button>
 
-                <Button onClick={()=>{onclick('github')}} variant={"outline"} className="flex items-center gap-2 w-full text-gray-500 h-12">
+                {/* <Button onClick={()=>{onclick('github')}} variant={"outline"} className="flex items-center gap-2 w-full text-gray-500 h-12">
                   <AiFillGithub size={25}/>Github
-                </Button>
+                </Button> */}
  
               
       </div>

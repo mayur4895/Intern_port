@@ -97,7 +97,7 @@ if(hasExpired){
   try {
     await signIn("credentials", {
       email: email,
-      password: password,
+      password: password, 
       redirectTo:  "/student/dashbaord",
     });
     return { success: "Loged In" };

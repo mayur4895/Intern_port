@@ -1,8 +1,13 @@
-"use client"
+ "use client"
+
+
+import React from 'react'
+
+ 
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -37,15 +42,14 @@ import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
  
  
  
- 
- 
+const Companypage = () => {
 
-const ProfileForm = () => {
- 
+   
   const router = useRouter();
   const pathname = usePathname();
   const currentUser = CurrentUser(); 
-  
+
+
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
     defaultValues: {
@@ -59,6 +63,8 @@ const ProfileForm = () => {
     },
   });
 
+
+  
   async function onSubmit(data: z.infer<typeof companySchema>) {
  
     const res = await CompanyRegister(data, currentUser?.id);
@@ -75,19 +81,16 @@ const ProfileForm = () => {
       variant:"destructive"
     })
   }
-
+  }
 
   
 useEffect(()=>{ 
- if(form.getValues('isIndependentHire')){ 
- form.setValue("name" , currentUser.name)
- }else{
-  form.setValue("name" , "")
- }
-},[form,currentUser,form.getValues("isIndependentHire")])
- 
- 
-  
+  if(form.getValues('isIndependentHire')){ 
+  form.setValue("name" , currentUser.name)
+  }else{
+   form.setValue("name" , "")
+  }
+ },[form,currentUser,form.getValues("isIndependentHire")])
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="w-full flex flex-col items-center justify-center">
@@ -243,7 +246,9 @@ useEffect(()=>{
         </Form>
       </div>
     </div>
-  );
-};
+  )
 }
-export default ProfileForm;
+
+export default Companypage
+
+  

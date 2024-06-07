@@ -13,17 +13,12 @@ export default {
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      profile(profile) {
-        return {
-          role: profile.role  as UserType ?? "STUDENT",  
-          ...profile,
-        };
-      },
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
     }),
     Github({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
+   
        
     }),
     Credentials({

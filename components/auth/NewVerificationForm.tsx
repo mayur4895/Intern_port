@@ -68,19 +68,22 @@ onSubmit();
  {
    !Error && !Success && ( 
       <BeatLoader size={10} color={'#000000'} loading={true} /> 
-)}
-
-   <div className='p-2 bg-green-300 border-green-500 border w-full'>{Success}</div>
-
-   {!Success && (
+)} 
+   {Error && (
      <div className='p-2 bg-red-300 border-red-500 border w-full'>{Error}</div> 
 
    )}
+{
+ Success && (
+  <div className='p-2 bg-green-300 border-green-500 border w-full'>{Success}</div>
+ )
+}
+
     </div>
   </CardContent>
   <CardFooter className='text-center flex flex-col justify-center' > 
     <Link href={"/auth/login"}  onClick={ ()=>{type=="student" ? onSetType("student") : onSetType("employer")}} >
-    <Button >Back To Login</Button></Link>
+    <Button >Back To Login </Button></Link>
   </CardFooter>
 </Card>
 

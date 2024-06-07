@@ -12,6 +12,7 @@ export const publicRoutes = [
     "/hire-talent",
     "/internships", 
     "/api/uploadthing"
+    
      
  
     

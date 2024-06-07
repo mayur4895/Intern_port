@@ -91,7 +91,7 @@ return redirect("/auth/login")
       variant: "success",
     })
     console.log(data) 
-    window.location.replace("/hire-talent/company")
+   router.push("/hire-talent/company")
   }
   if(res?.error){
     setisLoading(false)

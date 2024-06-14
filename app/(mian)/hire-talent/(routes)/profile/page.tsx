@@ -153,6 +153,8 @@ const submitOtp = async(e:any)=>{
         title: 'phone Verify',
         variant: "success"
       })
+
+      window.location.reload();
      } 
 
 

@@ -67,7 +67,7 @@ const Companypage = () => {
   
   async function onSubmit(data: z.infer<typeof companySchema>) {
  
-    const res = await CompanyRegister(data, currentUser?.id);
+    const res = await CompanyRegister(data, currentUser.id);
      
  if(res?.success) {
   toast({
@@ -84,7 +84,8 @@ const Companypage = () => {
   }
 
   
-useEffect(()=>{ 
+useEffect(()=>{
+  if(!currentUser) return redirect("/auth/login")
   if(form.getValues('isIndependentHire')){ 
   form.setValue("name" , currentUser.name)
   }else{

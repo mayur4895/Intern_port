@@ -62,7 +62,7 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
      session.user.id = token.sub; 
      session.user.phone = token.phone
      session.user.designation = token?.designation
-     session.user.isphoneVerified = token?.isphoneVerified
+     session.user.isphoneVerified = token?.isphoneVerified 
   }
 
 
@@ -71,6 +71,7 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
      session.user.phone = token?.phone
      session.user.designation = token?.designation
      session.user.isphoneVerified = token?.isphoneVerified
+ 
  }
   return session
 },

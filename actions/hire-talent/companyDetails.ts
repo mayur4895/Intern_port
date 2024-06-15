@@ -40,20 +40,43 @@ const { name , isIndependentHire, city , description , imageUrl , industry , no_
   
    
       
-       await db.compnayDetails.create({ 
+    //    await db.compnayDetails.create({ 
    
-    data: { 
-        userId:userId,
-       name,
-       description,
-       isIndependentHire,
-       imageUrl,
-       city,
-       industry,
-       no_employees,    
+    // data: { 
+    //     userId:userId,
+    //    name,
+    //    description,
+    //    isIndependentHire,
+    //    imageUrl,
+    //    city,
+    //    industry,
+    //    no_employees,    
+    //     }
+    //   })
+  await db.compnayDetails.upsert({
+        where: { userId: userId },
+        update: {
+          userId:userId,
+          name,
+          description,
+          isIndependentHire,
+          imageUrl,
+          city,
+          industry,
+          no_employees,  
+        },
+        create: {
+          userId:userId,
+          name,
+          description,
+          isIndependentHire,
+          imageUrl,
+          city,
+          industry,
+          no_employees,  
+          
         }
-      })
-      
+      });
           
 
       return {success:" saved in db"} 

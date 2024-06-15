@@ -1,4 +1,4 @@
- "use client"
+"use client"
 
 
 import React from 'react'
@@ -42,7 +42,7 @@ import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
  
  
  
-const Companypage = () => {
+const PostFormpage = () => {
 
    
   const router = useRouter();
@@ -98,9 +98,12 @@ useEffect(()=>{
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="w-full flex flex-col items-center justify-center">
-        <h2 className="text-3xl">Company Details</h2> 
+        <h2 className="text-3xl">Post internship.</h2> 
+ 
         <br />
         <Form {...form}>
+            <h2 className=' flex items-start mb-4 font-semibold lg:w-2/4 w-full'>Internship Details</h2>
+           
           <form onSubmit={form.handleSubmit(onSubmit)} className="lg:w-2/4 w-full space-y-6 border p-4">
             <FormField
               control={form.control}
@@ -253,6 +256,6 @@ useEffect(()=>{
   )
 }
 
-export default Companypage
+export default PostFormpage
 
   

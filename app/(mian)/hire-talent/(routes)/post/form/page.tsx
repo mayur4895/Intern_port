@@ -1,245 +1,147 @@
-"use client"
+'use client';
 
+import React, { useEffect, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, Controller } from 'react-hook-form';
+import { z } from 'zod';
 
-import React from 'react'
-
- 
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
- import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
-import { redirect, usePathname, useRouter } from "next/navigation";
-import { companySchema } from "@/schemas";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEffect, useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
-import { cn } from "@/lib/utils";
-import IndustrySelect from "@/components/selectIndustry";
-import { UploadButton } from "@/lib/uploadthing";
-import FileUpload from "@/components/FileUpload";
-import { CurrentUser } from "@/hooks/use-current-user";
-import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
- 
- 
- 
- 
- 
- 
-const PostFormpage = () => {
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
+import { redirect, usePathname, useRouter } from 'next/navigation';
+import { postFormSchema } from '@/schemas';
+import { Badge } from '@/components/ui/badge';
+import { CurrentUser } from '@/hooks/use-current-user';
 
-   
+const PostFormpage = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const currentUser = CurrentUser(); 
- 
+  const currentUser = CurrentUser();
 
-  const form = useForm<z.infer<typeof companySchema>>({
-    resolver: zodResolver(companySchema),
+  const form = useForm<z.infer<typeof postFormSchema>>({
+    resolver: zodResolver(postFormSchema),
     defaultValues: {
-      name:  ""  ,
-      description: "",
-      isIndependentHire:  false,
-      city: "",
-      industry: "",
-      no_employees:"",
-      imageUrl:"" 
+      internship_profile: '',
+      required_skills: [],
     },
   });
 
-
-  
-  async function onSubmit(data: z.infer<typeof companySchema>) {
- 
-    const res = await CompanyRegister(data, currentUser.id);
-     
- if(res?.success) {
-  toast({
-    title: res?.success,
-  }); 
-
-
-    router.push("/hire-talent/post/form")
+  async function onSubmit(data: z.infer<typeof postFormSchema>) {
+    console.log(data);
   }
 
-  if(res?.error){
-    toast({
-      title:res?.error,
-      variant:"destructive"
-    })
-  }
-  }
+  useEffect(() => {
+    if (!currentUser) {
+      redirect('/auth/login');
+    }
+  }, [currentUser]);
 
-  
-useEffect(()=>{
-  if(!currentUser) return redirect("/auth/login")
-  if(form.getValues('isIndependentHire')){ 
-  form.setValue("name" , currentUser.name)
-  }else{
-   form.setValue("name" , "")
-  }
- },[form,currentUser,form.getValues("isIndependentHire")])
+  const [newSkill, setNewSkill] = useState('');
+  const requiredSkills = form.watch('required_skills');
+console.log(form.getValues('required_skills'));
+
+  const addSkill = () => {
+    if (newSkill && !requiredSkills.includes(newSkill)) {
+      form.setValue('required_skills', [...requiredSkills, newSkill]);
+      setNewSkill('');
+    }
+  };
+
+  const removeSkill = (skillToRemove: string) => {
+    form.setValue('required_skills', requiredSkills.filter(skill => skill !== skillToRemove));
+  };
+
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="w-full flex flex-col items-center justify-center">
-        <h2 className="text-3xl">Post internship.</h2> 
- 
+        <h2 className="text-3xl">Post internship.</h2>
         <br />
         <Form {...form}>
-            <h2 className=' flex items-start mb-4 font-semibold lg:w-2/4 w-full'>Internship Details</h2>
-           
+          <h2 className="flex items-start mb-4 font-semibold lg:w-2/4 w-full">Internship Details</h2>
+
           <form onSubmit={form.handleSubmit(onSubmit)} className="lg:w-2/4 w-full space-y-6 border p-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{form.getValues('isIndependentHire')? "Name":"Organization name"}</FormLabel>
-                  <FormControl>
-                    <Input placeholder={form.getValues('isIndependentHire')? "Name":"Organization name"} {...field}  />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="isIndependentHire"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-gray-600">
-                      I am an independent practitioner (freelancer, architect, lawyer etc.)
-                    </FormLabel>
-                    <FormDescription>
-                      hiring for myself and I am NOT hiring on behalf of a company.
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{form.getValues('isIndependentHire')? "About yourself and what you do":"Organization Description"} </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell us in between 30 - 160 charcters"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{form.getValues('isIndependentHire')?"city":"Organization city"}</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g Pune" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />     
-     <FormField
-              control={form.control}
-              name="industry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>industry</FormLabel>
-                  <FormControl>
-                  <IndustrySelect  onChange={field.onChange}  value={field.value} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />  
-
-<FormField
-          control={form.control}
-          name="no_employees"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>No. of employees</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select no of employees" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="0 - 50">0 - 50</SelectItem>
-                  <SelectItem value=" 51 - 200">51 - 200</SelectItem>
-                  <SelectItem value="201 - 500  ">201 - 500  </SelectItem>
-                  <SelectItem value=" 501 - 1000">501 - 1000</SelectItem>
-                  <SelectItem value="1000+ ">1000+ </SelectItem>
-                </SelectContent>
-              </Select> 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
- <div suppressContentEditableWarning>
- {!form.getValues('isIndependentHire') && (
-  <FormField
-          control={form.control}
-          name="imageUrl"
-          render={({ field }) => (
-            <FormItem>
      
-              <FormControl>
-                <FileUpload 
-                endpoint="imageUploader"
-                value={field.value}
-                onChange={field.onChange}
-                 
-                />
-              </FormControl> 
- 
-            </FormItem>
-          )}
-        /> 
+              <FormField
+                control={form.control}
+                name="internship_profile"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Internship Profile</FormLabel>
+                    <FormControl>
+                      <Input placeholder="internship profile" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+       
+           <div className='flex  items-center gap-2'>
+            
+           <Input
+                id="newSkill"
+                type="text"
+                value={newSkill}
+                onChange={(e) => setNewSkill(e.target.value)}
+                placeholder="Enter a skill"
+              />
+              <Button type="button" onClick={addSkill}>Add</Button>
+           </div>
+            {/* <FormField
+              control={form.control}
+              name="required_skills"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Required Skills</FormLabel>
+                  <FormControl>
+                  <Input
+                id="newSkill"
+                type="text"
+                value={newSkill}
+                onChange={(e) => setNewSkill(e.target.value)}
+                placeholder="Enter a skill"
+              />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
 
- )
- }
- </div>
+            <div>
+              {requiredSkills.length > 0 && (
+                <ul className="flex flex-wrap gap-2">
+                  {requiredSkills.map((skill, index) => (
+                    <Badge   key={index} className=" flex justify-between items-center">
+                      {skill}
+                      <Button
+                      className=' bg-transparent hover:bg-transparent'
+                        size="icon"  
+                        type="button"
+                        onClick={() => removeSkill(skill)}
+                        aria-label="Remove"
+                      >
+                        ✕
+                      </Button>
+                    </Badge>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             <div className="flex items-center justify-between">
-              {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (
+              {(pathname === '/hire-talent/company' || pathname === '/hire-talent/postjob') && (
                 <Button
                   className="cursor-pointer"
                   onClick={(e) => {
-                    e.preventDefault(); 
-                    return window.location.replace("/hire-talent/profile");
+                    e.preventDefault();
+                    return window.location.replace('/hire-talent/profile');
                   }}
                 >
                   Prev
@@ -253,9 +155,7 @@ useEffect(()=>{
         </Form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PostFormpage
-
-  
+export default PostFormpage;

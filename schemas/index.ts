@@ -41,10 +41,29 @@ export const companySchema = z.object({
  
 });
 
-export const submitSchema = z.object({
-  terms: z.boolean().refine(val => val === true, 'You must accept the terms and conditions'),
+export const postFormSchema = z.object({
+  internship_profile:z.string().min(1,"required"),
+  required_skills:z.array(z.string().min(1, 'Skill cannot be empty')),  
+ 
+
+  city:z.string().min(1, 'This field is required'),
+
+
+  industry: z
+  .string({
+    required_error: "Please select an industry.",
+  }),
+ 
+  no_employees: z
+  .string({
+    required_error: "Please select no of employees",
+  }), 
+  imageUrl: z.string({required_error:"Please select logo"}).optional().or(z.literal('')),
+ 
+ 
 });
+
 
 export type ProfileData = z.infer<typeof profileSchema>;
 export type CompanyData = z.infer<typeof companySchema>;
-export type SubmitData = z.infer<typeof submitSchema>;
+export type SubmitData = z.infer<typeof postFormSchema>;

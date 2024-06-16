@@ -39,20 +39,7 @@ const { name , isIndependentHire, city , description , imageUrl , industry , no_
         }
   
    
-      
-    //    await db.compnayDetails.create({ 
-   
-    // data: { 
-    //     userId:userId,
-    //    name,
-    //    description,
-    //    isIndependentHire,
-    //    imageUrl,
-    //    city,
-    //    industry,
-    //    no_employees,    
-    //     }
-    //   })
+       
   await db.compnayDetails.upsert({
         where: { userId: userId },
         update: {
@@ -79,7 +66,7 @@ const { name , isIndependentHire, city , description , imageUrl , industry , no_
       });
           
 
-      return {success:" saved in db"} 
+      return {success:" compnay Details Saved"} 
     }   
       } catch (error) {
         console.log(error); 

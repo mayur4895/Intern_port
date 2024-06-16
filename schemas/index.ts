@@ -13,13 +13,10 @@ role:z.optional(z.string())
 });
 
 export const companySchema = z.object({
-  name:z.string().min(1,"required"),
-  description: z
-  .string()
-  .min(30, {
+  name:z.string(),
+  description: z.string().min(30, {
     message: "Bio must be at least 30 characters.",
-  })
-  .max(160, {
+  }).max(160, {
     message: "Bio must not be longer than 0 characters.",
   }), 
   isIndependentHire: z.boolean().default(false).optional(),

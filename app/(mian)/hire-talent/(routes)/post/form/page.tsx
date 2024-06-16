@@ -82,15 +82,18 @@ const PostFormpage = () => {
                 </FormItem>
               )}
             />
-        
-            <FormField
+ 
+    <div className='flex  gap-4 w-full items-end'>  
+           <FormField
               control={form.control}
+              
               name="required_skills"
               render={() => (
-                <FormItem>
+                <FormItem  className='w-full' > 
                   <FormLabel>Required Skills</FormLabel>
                   <FormControl>
                     <Select
+                      
                       onValueChange={value => setNewSkill(value)}
                       value={newSkill}
                     >
@@ -110,7 +113,12 @@ const PostFormpage = () => {
                 </FormItem>
               )}
             />
-            <Button type="button" onClick={addSkill}>Add</Button>
+               <div>
+               <Button type="button" onClick={addSkill}>Add</Button>
+               </div>
+          </div>
+         
+            
             <div>
               {requiredSkills.length > 0 && (
                 <ul className="flex flex-wrap gap-2">

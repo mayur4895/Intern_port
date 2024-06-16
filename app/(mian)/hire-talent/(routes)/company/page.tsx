@@ -56,9 +56,9 @@ const Companypage = () => {
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
     defaultValues: {
-      name:  ""  ,  
+      name:  "" ,
       description: ""  ,
-      isIndependentHire: false ,  
+      isIndependentHire: false  ,  
       city: ""  ,
       industry: ""  ,
       no_employees:""  ,
@@ -68,19 +68,16 @@ const Companypage = () => {
 
 
   
-  async function onSubmit(data: z.infer<typeof companySchema>) {
- 
-    const res = await CompanyRegister(data, currentUser.id);
-     
+  async function onSubmit(   data: z.infer<typeof companySchema>) { 
+
+  const res = await CompanyRegister(data, currentUser.id); 
  if(res?.success) {
   toast({
     title: res?.success,
-  }); 
-
-
+    variant:"success"
+  });   
     router.push("/hire-talent/post/form")
-  }
-
+  } 
   if(res?.error){
     toast({
       title:res?.error,
@@ -89,14 +86,12 @@ const Companypage = () => {
   }
   }
 
-  const getCompnayData = async()=>{
+const getCompnayData = async()=>{
  try {
     setIsLoading(true)
-    const res = await  getCompnayDetails(currentUser?.id);
-
+    const res = await  getCompnayDetails(currentUser?.id); 
    if(res?.success && res.data){
-    setIsLoading(false);
-     router.push("/hire-talent/post/form");
+    setIsLoading(false); 
     setCompnayData(res.data?.compnayDetails[0]);
    }
  } catch (error) {
@@ -107,20 +102,21 @@ const Companypage = () => {
  
   
 useEffect(()=>{ 
-  
+   
   if(!currentUser) return redirect("/auth/login")
      getCompnayData();
-  if(CompnayData) { 
-  form.setValue("isIndependentHire", CompnayData?.isIndependentHire)
+   
+ 
+  
   if(form.getValues('isIndependentHire')){ 
-    form.setValue("name" , currentUser.name) 
-    form.setValue("description", CompnayData?.description)
-    form.setValue("city", CompnayData?.city)
-    form.setValue("industry", CompnayData?.industry)
-    form.setValue("no_employees", CompnayData?.no_employees)  
-  }else{ 
-     
+    form.setValue("name" , currentUser?.name) 
+  
+  }else{
+    form.setValue("name" , "") 
+  } 
+  if(CompnayData) {  
     form.setValue("name" ,  CompnayData?.name)    
+    form.setValue("isIndependentHire",CompnayData.isIndependentHire)
     form.setValue("description", CompnayData?.description)
     form.setValue("city", CompnayData?.city)
     form.setValue("industry", CompnayData?.industry)
@@ -129,16 +125,16 @@ useEffect(()=>{
  
 
   }
-  }
+ 
  },[form,currentUser,form.getValues("isIndependentHire"),CompnayData])
   return (<> 
-    {isLoading && (
+    {/* {isLoading && (
       <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
       <div className=" flex items-center justify-center h-full w-full">
       <Loader2 size={25} className=" animate-spin"/>
       </div>
       </div>
-   )}
+   )} */}
     
     <div className="flex items-center justify-center h-full w-full">
        
@@ -146,15 +142,16 @@ useEffect(()=>{
         <h2 className="text-3xl">Company Details</h2> 
         <br />
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="lg:w-2/4 w-full space-y-6 border p-4">
+          <form onSubmit={ form.handleSubmit(onSubmit) } className="lg:w-2/4 w-full space-y-6 border p-4">
             <FormField
               control={form.control}
-              name="name"
+              name="name" 
+            
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{form.getValues('isIndependentHire')? "Name":"Organization name"}</FormLabel>
+                  <FormLabel>{form.getValues('isIndependentHire')? "Name": "Organization name"}</FormLabel>
                   <FormControl>
-                    <Input placeholder={form.getValues('isIndependentHire')? "Name":"Organization name"} {...field}  />
+                    <Input  disabled={CompnayData?true:false}  placeholder={form.getValues('isIndependentHire')? "Name":"Organization name"} {...field}  />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -168,6 +165,7 @@ useEffect(()=>{
                   <FormControl>
                     <Checkbox
                       checked={field.value}
+                       disabled={CompnayData ? true : false}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
@@ -206,7 +204,7 @@ useEffect(()=>{
                 <FormItem>
                   <FormLabel>{form.getValues('isIndependentHire')?"city":"Organization city"}</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g Pune" {...field} />
+                    <Input placeholder="e.g Pune" {...field}   />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

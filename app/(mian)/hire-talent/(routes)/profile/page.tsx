@@ -36,6 +36,7 @@ import { db } from "@/lib/db"
 import { checkPhoneStatus } from "@/actions/hire-talent/checkPhoneVerify"
 import { getPhoneStatus, getUserByPhone } from "@/data/user"
 import { UpdateProfile } from "@/actions/hire-talent/update-profile"
+import { Loader2 } from "lucide-react"
  
  
  
@@ -192,10 +193,7 @@ useEffect(()=>{
     return redirect("/auth/login")
   }
 
-   statusverify();
- 
-  
- 
+   statusverify(); 
 },[currentUser,form.getValues('phone')])
             
  
@@ -208,7 +206,7 @@ useEffect(()=>{
       {isLoading && (
          <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
          <div className=" flex items-center justify-center h-full w-full">
-         <FaSpinner size={25} className=" animate-spin"/>
+         <Loader2 size={25} className=" animate-spin"/>
          </div>
          </div>
       )}

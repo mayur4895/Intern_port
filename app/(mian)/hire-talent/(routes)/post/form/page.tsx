@@ -15,6 +15,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';  // Assuming this is the select component from Shadcn UI
+import { SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import { postFormSchema } from '@/schemas';
@@ -46,7 +48,6 @@ const PostFormpage = () => {
 
   const [newSkill, setNewSkill] = useState('');
   const requiredSkills = form.watch('required_skills');
-console.log(form.getValues('required_skills'));
 
   const addSkill = () => {
     if (newSkill && !requiredSkills.includes(newSkill)) {
@@ -68,61 +69,57 @@ console.log(form.getValues('required_skills'));
           <h2 className="flex items-start mb-4 font-semibold lg:w-2/4 w-full">Internship Details</h2>
 
           <form onSubmit={form.handleSubmit(onSubmit)} className="lg:w-2/4 w-full space-y-6 border p-4">
-     
-              <FormField
-                control={form.control}
-                name="internship_profile"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Internship Profile</FormLabel>
-                    <FormControl>
-                      <Input placeholder="internship profile" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-       
-           <div className='flex  items-center gap-2'>
-            
-           <Input
-                id="newSkill"
-                type="text"
-                value={newSkill}
-                onChange={(e) => setNewSkill(e.target.value)}
-                placeholder="Enter a skill"
-              />
-              <Button type="button" onClick={addSkill}>Add</Button>
-           </div>
-            {/* <FormField
+            <FormField
               control={form.control}
-              name="required_skills"
+              name="internship_profile"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Required Skills</FormLabel>
+                  <FormLabel>Internship Profile</FormLabel>
                   <FormControl>
-                  <Input
-                id="newSkill"
-                type="text"
-                value={newSkill}
-                onChange={(e) => setNewSkill(e.target.value)}
-                placeholder="Enter a skill"
-              />
+                    <Input placeholder="internship profile" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
-
+            />
+        
+            <FormField
+              control={form.control}
+              name="required_skills"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Required Skills</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={value => setNewSkill(value)}
+                      value={newSkill}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a skill" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="JavaScript">JavaScript</SelectItem>
+                        <SelectItem value="TypeScript">TypeScript</SelectItem>
+                        <SelectItem value="React">React</SelectItem>
+                        <SelectItem value="Node.js">Node.js</SelectItem>
+                        {/* Add more skills as needed */}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="button" onClick={addSkill}>Add</Button>
             <div>
               {requiredSkills.length > 0 && (
                 <ul className="flex flex-wrap gap-2">
                   {requiredSkills.map((skill, index) => (
-                    <Badge   key={index} className=" flex justify-between items-center">
+                    <Badge key={index} className="pl-5 py-0 flex justify-between items-center">
                       {skill}
                       <Button
-                      className=' bg-transparent hover:bg-transparent'
-                        size="icon"  
+                        className='bg-transparent hover:bg-transparent'
+                        size="icon"
                         type="button"
                         onClick={() => removeSkill(skill)}
                         aria-label="Remove"

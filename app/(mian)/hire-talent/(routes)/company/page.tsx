@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import IndustrySelect from "@/components/selectIndustry";
@@ -36,6 +36,8 @@ import { UploadButton } from "@/lib/uploadthing";
 import FileUpload from "@/components/FileUpload";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
+import { getCompnayDetails } from '@/actions/hire-talent/getcompnayDetails';
+import { FaSpinner } from 'react-icons/fa';
  
  
  
@@ -48,18 +50,19 @@ const Companypage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const currentUser = CurrentUser(); 
- 
+  const  [isLoading,setIsLoading]= useState(false);
+ const [CompnayData ,setCompnayData] = useState<any>({})
 
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
     defaultValues: {
-      name:  ""  ,
-      description: "",
-      isIndependentHire:  false,
-      city: "",
-      industry: "",
-      no_employees:"",
-      imageUrl:"" 
+      name:  ""  ,  
+      description: ""  ,
+      isIndependentHire: false ,  
+      city: ""  ,
+      industry: ""  ,
+      no_employees:""  ,
+      imageUrl:""  
     },
   });
 
@@ -86,17 +89,59 @@ const Companypage = () => {
   }
   }
 
-  
-useEffect(()=>{
-  if(!currentUser) return redirect("/auth/login")
-  if(form.getValues('isIndependentHire')){ 
-  form.setValue("name" , currentUser.name)
-  }else{
-   form.setValue("name" , "")
+  const getCompnayData = async()=>{
+ try {
+    setIsLoading(true)
+    const res = await  getCompnayDetails(currentUser?.id);
+
+   if(res?.success && res.data){
+    setIsLoading(false);
+     router.push("/hire-talent/post/form");
+    setCompnayData(res.data?.compnayDetails[0]);
+   }
+ } catch (error) {
+  setIsLoading(false);
+ }
   }
- },[form,currentUser,form.getValues("isIndependentHire")])
-  return (
+
+ 
+  
+useEffect(()=>{ 
+  
+  if(!currentUser) return redirect("/auth/login")
+     getCompnayData();
+  if(CompnayData) { 
+  form.setValue("isIndependentHire", CompnayData?.isIndependentHire)
+  if(form.getValues('isIndependentHire')){ 
+    form.setValue("name" , currentUser.name) 
+    form.setValue("description", CompnayData?.description)
+    form.setValue("city", CompnayData?.city)
+    form.setValue("industry", CompnayData?.industry)
+    form.setValue("no_employees", CompnayData?.no_employees)  
+  }else{ 
+     
+    form.setValue("name" ,  CompnayData?.name)    
+    form.setValue("description", CompnayData?.description)
+    form.setValue("city", CompnayData?.city)
+    form.setValue("industry", CompnayData?.industry)
+    form.setValue("no_employees", CompnayData?.no_employees)
+    form.setValue("imageUrl", CompnayData?.imageUrl)
+ 
+
+  }
+  }
+ },[form,currentUser,form.getValues("isIndependentHire"),CompnayData])
+  return (<> 
+    {isLoading && (
+      <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
+      <div className=" flex items-center justify-center h-full w-full">
+      <Loader2 size={25} className=" animate-spin"/>
+      </div>
+      </div>
+   )}
+    
     <div className="flex items-center justify-center h-full w-full">
+       
       <div className="w-full flex flex-col items-center justify-center">
         <h2 className="text-3xl">Company Details</h2> 
         <br />
@@ -250,6 +295,7 @@ useEffect(()=>{
         </Form>
       </div>
     </div>
+    </>
   )
 }
 

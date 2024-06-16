@@ -43,22 +43,22 @@ export const companySchema = z.object({
 
 export const postFormSchema = z.object({
   internship_profile:z.string().min(1,"required"),
-  required_skills:z.array(z.string().min(1, 'Skill cannot be empty')),  
+  required_skills:z.array(z.string().min(1, 'Skill cannot be empty')).min(1, 'Skill cannot be empty')  
  
 
-  city:z.string().min(1, 'This field is required'),
+  // city:z.string().min(1, 'This field is required'),
 
 
-  industry: z
-  .string({
-    required_error: "Please select an industry.",
-  }),
+  // industry: z
+  // .string({
+  //   required_error: "Please select an industry.",
+  // }),
  
-  no_employees: z
-  .string({
-    required_error: "Please select no of employees",
-  }), 
-  imageUrl: z.string({required_error:"Please select logo"}).optional().or(z.literal('')),
+  // no_employees: z
+  // .string({
+  //   required_error: "Please select no of employees",
+  // }), 
+  // imageUrl: z.string({required_error:"Please select logo"}).optional().or(z.literal('')),
  
  
 });

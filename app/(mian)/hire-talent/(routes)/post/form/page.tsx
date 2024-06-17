@@ -1,4 +1,6 @@
 'use client';
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import React, { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -33,6 +35,14 @@ const PostFormpage = () => {
     defaultValues: {
       internship_profile: '',
       required_skills: [],
+      internship_type:'in office',
+      part_or_full_time:'full-time' ,
+      cities:[],
+      near_city:false,
+      no_of_openings:0,
+      internship_start_date:'Immediately (within next 30 days)'
+
+
     },
   });
 
@@ -48,7 +58,8 @@ const PostFormpage = () => {
 
   const [newSkill, setNewSkill] = useState('');
   const requiredSkills = form.watch('required_skills');
-
+  const [newCity, setNewCity] = useState('');
+  const Cities = form.watch('cities');
   const addSkill = () => {
     if (newSkill && !requiredSkills.includes(newSkill)) {
       form.setValue('required_skills', [...requiredSkills, newSkill]);
@@ -58,6 +69,18 @@ const PostFormpage = () => {
 
   const removeSkill = (skillToRemove: string) => {
     form.setValue('required_skills', requiredSkills.filter(skill => skill !== skillToRemove));
+  };
+
+
+  const addCity = () => {
+    if (newCity && !Cities.includes(newCity)) {
+      form.setValue('cities', [...Cities, newCity]);
+      setNewCity('');
+    }
+  };
+
+  const removeCity = (CityToRemove: string) => {
+    form.setValue('cities', Cities.filter(City => City !== CityToRemove));
   };
 
   return (
@@ -91,34 +114,7 @@ const PostFormpage = () => {
               render={() => (
                 <FormItem  className='w-full' > 
                   <FormLabel>Required Skills</FormLabel>
-                  <FormControl>
-                    <Select
-                      
-                      onValueChange={value => setNewSkill(value)}
-                      value={newSkill}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a skill" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="JavaScript">JavaScript</SelectItem>
-                        <SelectItem value="TypeScript">TypeScript</SelectItem>
-                        <SelectItem value="React">React</SelectItem>
-                        <SelectItem value="Node.js">Node.js</SelectItem>
-                        {/* Add more skills as needed */}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-               <div>
-               <Button type="button" onClick={addSkill}>Add</Button>
-               </div>
-          </div>
-         
-            
+                   
             <div>
               {requiredSkills.length > 0 && (
                 <ul className="flex flex-wrap gap-2">
@@ -139,6 +135,179 @@ const PostFormpage = () => {
                 </ul>
               )}
             </div>
+                  <FormControl>
+                    <Select
+                      
+                      onValueChange={value => setNewSkill(value)}
+                      value={newSkill}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a skill" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="JavaScript">JavaScript</SelectItem>
+                        <SelectItem value="TypeScript">TypeScript</SelectItem>
+                        <SelectItem value="React">React</SelectItem>
+                        <SelectItem value="Node.js">Node.js</SelectItem>
+                        <SelectItem value="Mongodb">Mongodb</SelectItem> 
+                        <SelectItem value="Tailwind">Tailwind</SelectItem>
+                        <SelectItem value="Redux">Redux</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+               <div>
+               <Button type="button" onClick={addSkill}>Add</Button>
+               </div>
+          </div>
+           <FormField
+          control={form.control}
+          name="internship_type"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Internship Type</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange} 
+                  defaultValue="in office"
+                  className="flex flex-row  space-x-2"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="in office" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      In office
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="Hybrid" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                        Hybrid
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="remote" />
+                    </FormControl>
+                    <FormLabel className="font-normal">Remote</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+             <FormField
+          control={form.control}
+          name="part_or_full_time"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Part-time/Full-time</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange} 
+                  defaultValue="full-time"
+                  className="flex flex-row  space-x-2"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="full-time" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      Full-time
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="part-time" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                        Part-time
+                    </FormLabel>
+                  </FormItem> 
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        
+    <div className='flex  gap-4 w-full items-end'>  
+           <FormField
+              control={form.control}
+              
+              name="cities"
+              render={() => (
+                <FormItem  className='w-full' > 
+                  <FormLabel>City/Cities</FormLabel>
+                   
+            <div>
+              {Cities.length > 0 && (
+                <ul className="flex flex-wrap gap-2">
+                  {Cities.map((city, index) => (
+                    <Badge key={index} className="pl-5 py-0 flex justify-between items-center">
+                      {city}
+                      <Button
+                        className='bg-transparent hover:bg-transparent'
+                        size="icon"
+                        type="button"
+                        onClick={() => removeCity(city)}
+                        aria-label="Remove"
+                      >
+                        ✕
+                      </Button>
+                    </Badge>
+                  ))}
+                </ul>
+              )}
+            </div>
+                  <FormControl>
+                    <Select
+                      
+                      onValueChange={value => setNewCity(value)}
+                      value={newCity}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="e.g pune" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Pune">Pune</SelectItem>
+                        <SelectItem value="Mumbai">Mumbai</SelectItem>
+                        <SelectItem value="Nashik">Nashik</SelectItem> 
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+               <div>
+               <Button type="button" onClick={addCity}>Add</Button>
+               </div>
+          </div>
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <div className="flex items-center justify-between">
               {(pathname === '/hire-talent/company' || pathname === '/hire-talent/postjob') && (

@@ -61,16 +61,20 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
      if(token.sub && session.user ){ 
      session.user.id = token.sub; 
      session.user.phone = token.phone
-     session.user.designation = token?.designation
-     session.user.isphoneVerified = token?.isphoneVerified 
+     if(UserType.EMPLOYER == token.role ){
+      session.user.designation = token?.designation
+      session.user.isphoneVerified = token?.isphoneVerified
+     } 
   }
 
 
   if(token.role && session.user ){ 
      session.user.role =  token.role as UserType; 
      session.user.phone = token?.phone
-     session.user.designation = token?.designation
-     session.user.isphoneVerified = token?.isphoneVerified
+     if(UserType.EMPLOYER == token.role ){
+      session.user.designation = token?.designation
+      session.user.isphoneVerified = token?.isphoneVerified
+     } 
  
  }
   return session
@@ -82,8 +86,10 @@ async jwt({token}){
    if(!userExist) return token; 
    token.role = userExist.role;  
    token.phone = userExist.phone
+  if(userExist.role == UserType.EMPLOYER){
    token.designation = userExist.designation
    token.isphoneVerified = userExist?.isphoneVerified
+  }
    return token;  
    }
   },

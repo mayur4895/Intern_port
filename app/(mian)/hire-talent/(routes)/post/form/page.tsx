@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,6 +25,8 @@ import { redirect, usePathname, useRouter } from 'next/navigation';
 import { postFormSchema } from '@/schemas';
 import { Badge } from '@/components/ui/badge';
 import { CurrentUser } from '@/hooks/use-current-user';
+import { Checkbox } from "@/components/ui/checkbox";
+import { AlertCircle } from "lucide-react";
 
 const PostFormpage = () => {
   const router = useRouter();
@@ -39,8 +42,8 @@ const PostFormpage = () => {
       part_or_full_time:'full-time' ,
       cities:[],
       near_city:false,
-      no_of_openings:0,
-      internship_start_date:'Immediately (within next 30 days)'
+      no_of_openings:'',
+      // internship_start_date:'Immediately (within next 30 days)'
 
 
     },
@@ -292,13 +295,54 @@ const PostFormpage = () => {
                <Button type="button" onClick={addCity}>Add</Button>
                </div>
           </div>
-   
+          <div className=" border text-xs text-gray-600 flex items-center gap-3 p-2">
+                       <AlertCircle size={18} />   
+We will allow candidates who are from or willing to relocate to the given location(s) to apply.
+                       </div>
+
+          <FormField
+              control={form.control}
+              name="near_city"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value} 
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-2 leading-none">
+              
+                    <FormLabel className="text-gray-600 ">
+                    Allow applications only from the above or neighboring cities
+                    </FormLabel>
+                    
+              {
+                   form.getValues('near_city') == true &&    (<div className="flex items-center gap-2 text-xs mt-1 text-gray-600 bg-yellow-50 border border-yellow-500 p-4"> 
+                       <AlertCircle className=" text-yellow-600"/>
+ Selecting this option may impact the visibility of your listing and result in fewer applications.
+                     </div>)
+              }
+                  </div>
+                </FormItem>
+              )}
+            />
+    <FormField
+              control={form.control}
+              name="no_of_openings"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of openings</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g 4" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
 
-
-
-
-
+          
 
 
 

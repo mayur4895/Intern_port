@@ -48,13 +48,15 @@ export const postFormSchema = z.object({
 
    near_city: z.boolean().default(false).optional(),
 
-   no_of_openings:z.number().min(1,"required"),
+   no_of_openings: z.string().regex(/^[1-9]\d*$/, {
+    message: "required",
+  }),
 
-   internship_start_date: z.enum(["Immediately (within next 30 days)", "Later"]),
-   internship_duration: z
-   .string({
-     required_error: "Please select an duration.",
-   }),
+  //  internship_start_date: z.enum(["Immediately (within next 30 days)", "Later"]),
+  //  internship_duration: z
+  //  .string({
+  //    required_error: "Please select an duration.",
+  //  }),
   // industry: z
   // .string({
   //   required_error: "Please select an industry.",

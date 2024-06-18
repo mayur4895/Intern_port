@@ -46,11 +46,12 @@ const PostFormpage = () => {
       cities:[],
       ISnearCity:false,
       noOfOpenings:'',
-      internshipStartDate:'Immediately',   
+      internshipStartDate: 'Immediately',   
       internshipDuration:'',
       MonthOrWeeks:'Months',
-      InternResponsibilities:''
-
+      InternResponsibilities: ' Selected interns day-to-day responsibilities include:  '
+ 
+ 
     },
   });
 
@@ -374,7 +375,7 @@ We will allow candidates who are from or willing to relocate to the given locati
 
 <FormField
           control={form.control}
-          name="internshipType"
+          name="internshipStartDate"
           render={({ field }) => (
             <FormItem className="space-y-3">
               <FormLabel>Internship start date</FormLabel>
@@ -471,11 +472,10 @@ We will allow candidates who are from or willing to relocate to the given locati
                 name="InternResponsibilities"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel> Intern’s responsibilities</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                       defaultValue={"Selected intern's day-to-day responsibilities include:  "}
-                      placeholder="Tell us in between 30 - 160 characters" className="resize-none" {...field} />
+                    <FormLabel> Intern's responsibilities</FormLabel>
+                    <FormControl   >
+                      <Textarea  
+                      className="resize-none" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -42,9 +42,8 @@ export const companySchema = z.object({
 export const postFormSchema = z.object({
   internshipProfile:z.string().min(1,"required"),
   requiredSkills:z.array(z.string().min(1, 'Skill cannot be empty')).min(1, 'Skill cannot be empty')  ,
-  internshipType: z.enum(["in office", "Hybrid", "remote"],  ),
-  partOrFullTime: z.enum(["part-time", "full-time"],),
-
+  internshipType: z.enum(["in office", "Hybrid", "remote"]  ),
+  partOrFullTime: z.enum(["part-time", "full-time"]), 
    cities:z.array(z.string().min(1, 'city cannot be empty')).min(1, 'city cannot be empty')  ,
 
    ISnearCity: z.boolean().default(false).optional(),
@@ -53,8 +52,7 @@ export const postFormSchema = z.object({
     message: "required",
   }),
 
-  internshipStartDate: z.enum(["Immediately", "Later"]),
-
+  internshipStartDate: z.enum(["Immediately", "Later"]), 
     internshipDuration: z
    .string({
      required_error: "Please select an duration.",

@@ -19,7 +19,7 @@ export const  CompanyRegister = async (values :z.infer <typeof companySchema>, u
             return   {error: "Invlaid Fields"}
          };
 
-const { name , isIndependentHire, city , description , imageUrl , industry , no_employees} = validatedFields.data;
+const { name , isIndependentHire, city , description , imageUrl , industry , employees} = validatedFields.data;
   
          
     const userExist = await db.user.findUnique({
@@ -50,7 +50,7 @@ const { name , isIndependentHire, city , description , imageUrl , industry , no_
           imageUrl,
           city,
           industry,
-          no_employees,  
+          employees,  
         },
         create: {
           userId:userId,
@@ -60,7 +60,7 @@ const { name , isIndependentHire, city , description , imageUrl , industry , no_
           imageUrl,
           city,
           industry,
-          no_employees,  
+          employees,  
           
         }
       });

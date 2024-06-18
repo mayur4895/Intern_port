@@ -70,6 +70,7 @@ return redirect("/auth/login")
   const [phoneNumber, setPhoneNumber] = useState("");
   const [PhoneisVerifed ,setPhoneisVerifed] = useState(false);
   const [isLoading ,setisLoading] = useState(false);
+  const [ isStatusCkecking ,setisStatusCkecking] = useState(false);
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -90,9 +91,10 @@ return redirect("/auth/login")
     toast({
       title: res?.success,
       variant: "success",
-    })
-    console.log(data) 
-   router.push("/hire-talent/company")
+    }) 
+   
+ router.push("/hire-talent/company")
+   
   }
   if(res?.error){
     setisLoading(false)
@@ -176,13 +178,15 @@ const submitOtp = async(e:any)=>{
 }
 
 const statusverify = async()=>{
+setisStatusCkecking(true)
   const res = await  checkPhoneStatus(currentUser.id, form.getValues('phone'));
   if(res?.success){
+    setisStatusCkecking(false);
       setPhoneisVerifed(true); 
       setShowOtp(false) 
   }else {
     setPhoneisVerifed(false);
- 
+     setisStatusCkecking(false)  
   } 
  
 }
@@ -291,15 +295,16 @@ useEffect(()=>{
               </div>
              <div>
          {PhoneisVerifed  ? (
-               <Button
+                
+             <Button
           
                suppressHydrationWarning 
                className="text-green-600 bg-transparent hover:bg-transparent flex gap-2 shadow-none" 
                type="button"  
              >
-              <FaCheckCircle size={18}/>  Verified
-             </Button>
-         ):( 
+             <FaCheckCircle size={18}/> Verified
+             </Button>)
+         :( 
           <Button
           suppressHydrationWarning
           variant={"outline"}
@@ -307,8 +312,7 @@ useEffect(()=>{
           type="button" 
           onClick={sendOtp} 
         >
-          Verify
-        </Button>
+         { isStatusCkecking  && <Loader2 className=" animate-spin mr-2 " size={18}/> } Verify        </Button>
          )
          
          

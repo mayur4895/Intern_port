@@ -1,14 +1,9 @@
- "use client"
+"use client";
 
-
-import React from 'react'
-
- 
-
+import React, { useEffect, useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
- import { z } from "zod";
-
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,286 +12,232 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { redirect, usePathname, useRouter } from "next/navigation";
 import { companySchema } from "@/schemas";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEffect, useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
-import { cn } from "@/lib/utils";
 import IndustrySelect from "@/components/selectIndustry";
-import { UploadButton } from "@/lib/uploadthing";
 import FileUpload from "@/components/FileUpload";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
 import { getCompnayDetails } from '@/actions/hire-talent/getcompnayDetails';
-import { FaSpinner } from 'react-icons/fa';
- 
- 
- 
- 
- 
- 
-const Companypage = () => {
+import NoEmployeesSelect from '@/components/selectNoEmployees';
+import { UserType } from '@prisma/client';
 
-   
+const Companypage = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const currentUser = CurrentUser(); 
-  const  [isLoading,setIsLoading]= useState(false);
- const [CompnayData ,setCompnayData] = useState<any>({})
+  const currentUser = CurrentUser();
+  const [isLoading, setIsLoading] = useState(false);
+  const [CompnayData, setCompnayData] = useState<any>(null);
 
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
     defaultValues: {
-      name:  "" ,
-      description: ""  ,
-      isIndependentHire: false  ,  
-      city: ""  ,
-      industry: ""  ,
-      no_employees:""  ,
-      imageUrl:""  
+      name: "",
+      description: "",
+      isIndependentHire: false,
+      city: "",
+      industry: "",
+      employees: "",
+      imageUrl: ""
     },
   });
 
+  const onSubmit = async (data: z.infer<typeof companySchema>) => {
+    const res = await CompanyRegister(data, currentUser.id);
+    if (res?.success) {
+      toast({ title: res.success, variant: "success" });
+      router.push("/hire-talent/post/form");
+    }
+    if (res?.error) {
+      toast({ title: res.error, variant: "destructive" });
+    }
+  };
 
-  
-  async function onSubmit(   data: z.infer<typeof companySchema>) { 
+  const getCompnayData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getCompnayDetails(currentUser?.id);
+      if (res?.success && res.data) {
+        setCompnayData(res.data?.compnayDetails[0]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const res = await CompanyRegister(data, currentUser.id); 
- if(res?.success) {
-  toast({
-    title: res?.success,
-    variant:"success"
-  });   
-    router.push("/hire-talent/post/form")
-  } 
-  if(res?.error){
-    toast({
-      title:res?.error,
-      variant:"destructive"
-    })
+  useEffect(() => {
+    if (!currentUser) return redirect("/auth/login");
+
+    if(currentUser &&  !currentUser.isphoneVerified && currentUser.role ==  UserType.EMPLOYER ) {
+      router.push("/hire-talent/profile")
   }
-  }
 
-const getCompnayData = async()=>{
- try {
-    setIsLoading(true)
-    const res = await  getCompnayDetails(currentUser?.id); 
-   if(res?.success && res.data){
-    setIsLoading(false); 
-    setCompnayData(res.data?.compnayDetails[0]);
-   }
- } catch (error) {
-  setIsLoading(false);
- }
-  }
-
- 
+    getCompnayData();
+  }, [currentUser]);
+  console.log(CompnayData);
   
-useEffect(()=>{ 
-   
-  if(!currentUser) return redirect("/auth/login")
-     getCompnayData();
-   
- 
-  
-  if(form.getValues('isIndependentHire')){ 
-    form.setValue("name" , currentUser?.name) 
-  
-  }else{
-    form.setValue("name" , "") 
-  } 
-  if(CompnayData) {  
-    form.setValue("name" ,  CompnayData?.name)    
-    form.setValue("isIndependentHire",CompnayData.isIndependentHire)
-    form.setValue("description", CompnayData?.description)
-    form.setValue("city", CompnayData?.city)
-    form.setValue("industry", CompnayData?.industry)
-    form.setValue("no_employees", CompnayData?.no_employees)
-    form.setValue("imageUrl", CompnayData?.imageUrl)
- 
+  useEffect(() => {
+    if (CompnayData) {
+      if (!form.getValues("name")) {
+        form.setValue("name", CompnayData.name || "");
+      }
+      if (!form.getValues("description")) {
+        form.setValue("description", CompnayData.description || "");
+      }
+      if (!form.getValues("employees")) {
+        form.setValue("employees", CompnayData?.employees || "");
+      }
+      if (!form.getValues("city")) {
+        form.setValue("city", CompnayData.city || "");
+      }
+      if (!form.getValues("industry")) {
+        form.setValue("industry", CompnayData.industry || "");
+      }
+      if (!form.getValues("imageUrl")) {
+        form.setValue("imageUrl", CompnayData.imageUrl || "");
+      }
+      form.setValue("isIndependentHire", CompnayData.isIndependentHire || false);
+    }
+  }, [CompnayData, form]);
 
-  }
- 
- },[form,currentUser,form.getValues("isIndependentHire"),CompnayData])
-  return (<> 
-    {/* {isLoading && (
-      <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
-      <div className=" flex items-center justify-center h-full w-full">
-      <Loader2 size={25} className=" animate-spin"/>
-      </div>
-      </div>
-   )} */}
-    
-    <div className="flex items-center justify-center h-full w-full">
-       
-      <div className="w-full flex flex-col items-center justify-center">
-        <h2 className="text-3xl">Company Details</h2> 
-        <br />
-        <Form {...form}>
-          <form onSubmit={ form.handleSubmit(onSubmit) } className="lg:w-2/4 w-full space-y-6 border p-4">
-            <FormField
-              control={form.control}
-              name="name" 
-            
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{form.getValues('isIndependentHire')? "Name": "Organization name"}</FormLabel>
-                  <FormControl>
-                    <Input  disabled={CompnayData?true:false}  placeholder={form.getValues('isIndependentHire')? "Name":"Organization name"} {...field}  />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="isIndependentHire"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                       disabled={CompnayData ? true : false}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className="text-gray-600">
-                      I am an independent practitioner (freelancer, architect, lawyer etc.)
-                    </FormLabel>
-                    <FormDescription>
-                      hiring for myself and I am NOT hiring on behalf of a company.
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{form.getValues('isIndependentHire')? "About yourself and what you do":"Organization Description"} </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell us in between 30 - 160 charcters"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{form.getValues('isIndependentHire')?"city":"Organization city"}</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g Pune" {...field}   />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />     
-     <FormField
-              control={form.control}
-              name="industry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>industry</FormLabel>
-                  <FormControl>
-                  <IndustrySelect  onChange={field.onChange}  value={field.value} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />  
-
-<FormField
-          control={form.control}
-          name="no_employees"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>No. of employees</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select no of employees" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="0 - 50">0 - 50</SelectItem>
-                  <SelectItem value=" 51 - 200">51 - 200</SelectItem>
-                  <SelectItem value="201 - 500  ">201 - 500  </SelectItem>
-                  <SelectItem value=" 501 - 1000">501 - 1000</SelectItem>
-                  <SelectItem value="1000+ ">1000+ </SelectItem>
-                </SelectContent>
-              </Select> 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
- <div suppressContentEditableWarning>
- {!form.getValues('isIndependentHire') && (
-  <FormField
-          control={form.control}
-          name="imageUrl"
-          render={({ field }) => (
-            <FormItem>
-     
-              <FormControl>
-                <FileUpload 
-                endpoint="imageUploader"
-                value={field.value}
-                onChange={field.onChange}
-                 
+  return (
+    <>
+      {/* {isLoading && (
+        <div className="fixed h-full w-full bg-white top-0 left-0 flex items-center justify-center">
+          <Loader2 size={25} className="animate-spin" />
+        </div>
+      )} */}
+      <div className="flex items-center justify-center h-full w-full">
+        <div className="w-full flex flex-col items-center justify-center">
+          <h2 className="text-3xl">Company Details</h2>
+          <br />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="lg:w-2/4 w-full space-y-6 border p-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{form.getValues('isIndependentHire') ? "Name" : "Organization name"}</FormLabel>
+                    <FormControl>
+                      <Input disabled={!!CompnayData} placeholder={form.getValues('isIndependentHire') ? "Name" : "Organization name"} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isIndependentHire"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
+                    <FormControl>
+                      <Checkbox checked={field.value} disabled={!!CompnayData} onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel className="text-gray-600">I am an independent practitioner (freelancer, architect, lawyer etc.)</FormLabel>
+                      <FormDescription>hiring for myself and I am NOT hiring on behalf of a company.</FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{form.getValues('isIndependentHire') ? "About yourself and what you do" : "Organization Description"}</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Tell us in between 30 - 160 characters" className="resize-none" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{form.getValues('isIndependentHire') ? "City" : "Organization city"}</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. Pune" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="industry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Industry</FormLabel>
+                    <FormControl>
+                      <IndustrySelect onChange={field.onChange} value={field.value} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="employees"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>No. of employees</FormLabel>
+                    <FormControl>
+                      <NoEmployeesSelect onChange={field.onChange} value={field.value} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {!form.getValues('isIndependentHire') && (
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <FileUpload endpoint="imageUploader" value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
                 />
-              </FormControl> 
- 
-            </FormItem>
-          )}
-        /> 
-
- )
- }
- </div>
-
-            <div className="flex items-center justify-between">
-              {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (
-                <Button
-                  className="cursor-pointer"
-                  onClick={(e) => {
-                    e.preventDefault(); 
-                    return window.location.replace("/hire-talent/profile");
-                  }}
-                >
-                  Prev
-                </Button>
               )}
-              <Button type="submit" className="ml-auto">
-                Next
-              </Button>
-            </div>
-          </form>
-        </Form>
+              <div className="flex items-center justify-between">
+                {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (
+                  <Button
+                    className="cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      return window.location.replace("/hire-talent/profile");
+                    }}
+                  >
+                    Prev
+                  </Button>
+                )}
+                <Button type="submit" className="ml-auto">
+                  Next
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
-    </div>
     </>
-  )
-}
+  );
+};
 
-export default Companypage
-
-  
+export default Companypage;

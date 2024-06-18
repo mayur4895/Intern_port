@@ -29,11 +29,12 @@ export const companySchema = z.object({
     required_error: "Please select an industry.",
   }),
  
-  no_employees: z
-  .string({
+  employees:
+  z.string({
     required_error: "Please select no of employees",
   }), 
-  imageUrl: z.string({required_error:"Please select logo"}).optional().or(z.literal('')),
+  
+  imageUrl: z.string({required_error:"Please select logo"}),
  
  
 });

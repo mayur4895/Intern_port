@@ -27,6 +27,8 @@ import { Badge } from '@/components/ui/badge';
 import { CurrentUser } from '@/hooks/use-current-user';
 import { Checkbox } from "@/components/ui/checkbox";
 import { AlertCircle } from "lucide-react";
+import { getCompnayDetails } from "@/actions/hire-talent/getcompnayDetails";
+import { UserType } from "@prisma/client";
 
 const PostFormpage = () => {
   const router = useRouter();
@@ -53,11 +55,24 @@ const PostFormpage = () => {
     console.log(data);
   }
 
-  useEffect(() => {
-    if (!currentUser) {
-      redirect('/auth/login');
-    }
-  }, [currentUser]);
+  const getCompnayData = async () => {
+    try {
+ 
+      const res = await getCompnayDetails(currentUser?.id);
+ 
+          if(!res?.data){
+            toast({
+              title: "Please fill the company details",
+              variant: "destructive",
+            });
+            router.push("/hire-talent/company")
+          }  
+   
+    } catch (error) {
+      console.error(error);
+    }  
+  };
+ 
 
   const [newSkill, setNewSkill] = useState('');
   const requiredSkills = form.watch('required_skills');
@@ -86,6 +101,19 @@ const PostFormpage = () => {
     form.setValue('cities', Cities.filter(City => City !== CityToRemove));
   };
 
+  useEffect(() => {
+    if (!currentUser) {
+      redirect('/auth/login');
+    }
+    if(currentUser &&  !currentUser.isphoneVerified && currentUser.role ==  UserType.EMPLOYER ) {
+      router.push("/hire-talent/profile")
+  }
+
+   
+    
+    getCompnayData();
+ 
+  }, [currentUser]);
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="w-full flex flex-col items-center justify-center">

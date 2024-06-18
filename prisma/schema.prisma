@@ -109,9 +109,8 @@ model PhoneVerificationOtp{
   @@unique([userId])
   }
 
-
-  model CompnayDetails{
-    
+  
+  model CompnayDetails{ 
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   name  String
   isIndependentHire Boolean @default(false)

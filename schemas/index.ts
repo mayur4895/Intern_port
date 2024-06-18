@@ -33,32 +33,41 @@ export const companySchema = z.object({
   z.string({
     required_error: "Please select no of employees",
   }), 
-  
+
   imageUrl: z.string({required_error:"Please select logo"}),
  
  
 });
 
 export const postFormSchema = z.object({
-  internship_profile:z.string().min(1,"required"),
-  required_skills:z.array(z.string().min(1, 'Skill cannot be empty')).min(1, 'Skill cannot be empty')  ,
-  internship_type: z.enum(["in office", "Hybrid", "remote"],  ),
-  part_or_full_time: z.enum(["part-time", "full-time"],),
+  internshipProfile:z.string().min(1,"required"),
+  requiredSkills:z.array(z.string().min(1, 'Skill cannot be empty')).min(1, 'Skill cannot be empty')  ,
+  internshipType: z.enum(["in office", "Hybrid", "remote"],  ),
+  partOrFullTime: z.enum(["part-time", "full-time"],),
 
    cities:z.array(z.string().min(1, 'city cannot be empty')).min(1, 'city cannot be empty')  ,
 
-   near_city: z.boolean().default(false).optional(),
+   ISnearCity: z.boolean().default(false).optional(),
 
-   no_of_openings: z.string().regex(/^[1-9]\d*$/, {
+   noOfOpenings: z.string().regex(/^[1-9]\d*$/, {
     message: "required",
   }),
 
-  //  internship_start_date: z.enum(["Immediately (within next 30 days)", "Later"]),
-  //  internship_duration: z
-  //  .string({
-  //    required_error: "Please select an duration.",
-  //  }),
-  // industry: z
+  internshipStartDate: z.enum(["Immediately", "Later"]),
+
+    internshipDuration: z
+   .string({
+     required_error: "Please select an duration.",
+   }),
+
+   MonthOrWeeks: z.enum(["Months", "Weeks"]),
+   InternResponsibilities: z.string().min(30, {
+    message: "Bio must be at least 30 characters.",
+  }).max(160, {
+    message: "Bio must not be longer than 0 characters.",
+  }), 
+
+   // industry: z
   // .string({
   //   required_error: "Please select an industry.",
   // }),

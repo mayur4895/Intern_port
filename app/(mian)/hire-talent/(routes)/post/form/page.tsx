@@ -29,6 +29,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { AlertCircle } from "lucide-react";
 import { getCompnayDetails } from "@/actions/hire-talent/getcompnayDetails";
 import { UserType } from "@prisma/client";
+import { Textarea } from "@/components/ui/textarea";
 
 const PostFormpage = () => {
   const router = useRouter();
@@ -38,15 +39,17 @@ const PostFormpage = () => {
   const form = useForm<z.infer<typeof postFormSchema>>({
     resolver: zodResolver(postFormSchema),
     defaultValues: {
-      internship_profile: '',
-      required_skills: [],
-      internship_type:'in office',
-      part_or_full_time:'full-time' ,
+      internshipProfile: '',
+      requiredSkills: [],
+      internshipType:'in office',
+      partOrFullTime:'full-time' ,
       cities:[],
-      near_city:false,
-      no_of_openings:'',
-      // internship_start_date:'Immediately (within next 30 days)'
-
+      ISnearCity:false,
+      noOfOpenings:'',
+      internshipStartDate:'Immediately',   
+      internshipDuration:'',
+      MonthOrWeeks:'Months',
+      InternResponsibilities:''
 
     },
   });
@@ -75,18 +78,18 @@ const PostFormpage = () => {
  
 
   const [newSkill, setNewSkill] = useState('');
-  const requiredSkills = form.watch('required_skills');
+  const requiredSkills = form.watch('requiredSkills');
   const [newCity, setNewCity] = useState('');
   const Cities = form.watch('cities');
   const addSkill = () => {
     if (newSkill && !requiredSkills.includes(newSkill)) {
-      form.setValue('required_skills', [...requiredSkills, newSkill]);
+      form.setValue('requiredSkills', [...requiredSkills, newSkill]);
       setNewSkill('');
     }
   };
 
   const removeSkill = (skillToRemove: string) => {
-    form.setValue('required_skills', requiredSkills.filter(skill => skill !== skillToRemove));
+    form.setValue('requiredSkills', requiredSkills.filter(skill => skill !== skillToRemove));
   };
 
 
@@ -125,7 +128,7 @@ const PostFormpage = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="lg:w-2/4 w-full space-y-6 border p-4">
             <FormField
               control={form.control}
-              name="internship_profile"
+              name="internshipProfile"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Internship Profile</FormLabel>
@@ -141,7 +144,7 @@ const PostFormpage = () => {
            <FormField
               control={form.control}
               
-              name="required_skills"
+              name="requiredSkills"
               render={() => (
                 <FormItem  className='w-full' > 
                   <FormLabel>Required Skills</FormLabel>
@@ -196,7 +199,7 @@ const PostFormpage = () => {
           </div>
            <FormField
           control={form.control}
-          name="internship_type"
+          name="internshipType"
           render={({ field }) => (
             <FormItem className="space-y-3">
               <FormLabel>Internship Type</FormLabel>
@@ -236,7 +239,7 @@ const PostFormpage = () => {
         />
              <FormField
           control={form.control}
-          name="part_or_full_time"
+          name="partOrFullTime"
           render={({ field }) => (
             <FormItem className="space-y-3">
               <FormLabel>Part-time/Full-time</FormLabel>
@@ -330,7 +333,7 @@ We will allow candidates who are from or willing to relocate to the given locati
 
           <FormField
               control={form.control}
-              name="near_city"
+              name="ISnearCity"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
                   <FormControl>
@@ -346,7 +349,7 @@ We will allow candidates who are from or willing to relocate to the given locati
                     </FormLabel>
                     
               {
-                   form.getValues('near_city') == true &&    (<div className="flex items-center gap-2 text-xs mt-1 text-gray-600 bg-yellow-50 border border-yellow-500 p-4"> 
+                   form.getValues('ISnearCity') == true &&    (<div className="flex items-center gap-2 text-xs mt-1 text-gray-600 bg-yellow-50 border border-yellow-500 p-4"> 
                        <AlertCircle className=" text-yellow-600"/>
  Selecting this option may impact the visibility of your listing and result in fewer applications.
                      </div>)
@@ -357,7 +360,7 @@ We will allow candidates who are from or willing to relocate to the given locati
             />
     <FormField
               control={form.control}
-              name="no_of_openings"
+              name="noOfOpenings"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Number of openings</FormLabel>
@@ -369,12 +372,115 @@ We will allow candidates who are from or willing to relocate to the given locati
               )}
             />
 
+<FormField
+          control={form.control}
+          name="internshipType"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Internship start date</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange} 
+                  defaultValue="Immediately (within next 30 days)"
+                  className="flex flex-row  space-x-2"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="Immediately" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      Immediately (within next 30 days)
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="Later" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      Later
+                    </FormLabel>
+                  </FormItem> 
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          
 
+  <div className="  flex items-end w-full   gap-5 ">   
+    <div className="  w-full  "> 
+ <FormField
+          control={form.control}
+          name="internshipDuration"
+          render={({ field }) => (
+            <FormItem className=" w-full" >
+              <FormLabel >Internship duration </FormLabel>
+              <FormDescription> Shorter the duration, more the applications</FormDescription>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a Duration" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                  <SelectItem value="6">6</SelectItem>
+                </SelectContent>
+              </Select>
+            
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
+ 
+</div>
+  <div className="  w-[250px]">
+    
+  <FormField
+          control={form.control}
+          name="MonthOrWeeks"
+          render={({ field }) => (
+            <FormItem> 
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue className="" placeholder="Select a Duration" defaultValue={"Months"} />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Months">Months</SelectItem>
+                  <SelectItem value="Weeks">Weeks</SelectItem>
+               
+                </SelectContent>
+              </Select>
+            
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+  </div>
 
+</div>
+         
 
+<FormField
+                control={form.control}
+                name="InternResponsibilities"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel> Intern’s responsibilities</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                       defaultValue={"Selected intern's day-to-day responsibilities include:  "}
+                      placeholder="Tell us in between 30 - 160 characters" className="resize-none" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
 
 

@@ -1,11 +1,12 @@
 'use client';
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { addDays, format } from 'date-fns';
 
 import React, { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
-import { z } from 'zod';
+import { ZodAny, z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -35,7 +36,7 @@ const PostFormpage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const currentUser = CurrentUser();
-
+  
   const form = useForm<z.infer<typeof postFormSchema>>({
     resolver: zodResolver(postFormSchema),
     defaultValues: {
@@ -49,7 +50,9 @@ const PostFormpage = () => {
       internshipStartDate: 'Immediately',   
       internshipDuration:'',
       MonthOrWeeks:'Months',
-      InternResponsibilities: ' Selected interns day-to-day responsibilities include:  '
+      InternResponsibilities: ' Selected interns day-to-day responsibilities include:  ',
+      whoCanApply: '',
+      additioalPreferences:''
  
  
     },
@@ -112,12 +115,39 @@ const PostFormpage = () => {
     if(currentUser &&  !currentUser.isphoneVerified && currentUser.role ==  UserType.EMPLOYER ) {
       router.push("/hire-talent/profile")
   }
-
    
-    
     getCompnayData();
  
   }, [currentUser]);
+
+
+
+
+
+
+  useEffect(()=>{
+     const InternType = form.getValues('internshipType');
+     const partOrFullTime = form.getValues('partOrFullTime');
+     const internshipStartDate = form.getValues('internshipStartDate');
+     const internshipDuration = form.getValues('internshipDuration');
+     const MonthOrWeeks = form.getValues('MonthOrWeeks');
+
+     const currentDate = new Date(); 
+     const futureDate = addDays(currentDate,15) 
+     const formattedFutureDate = format(futureDate, "do MMM yyyy"); 
+     const formattedCurrentDate = format(currentDate, "do MMM yyyy"); 
+     const formatedScript = `
+      <h1>Only those candidates can apply who:</h1>
+      • have relevant skills and interests
+      • are available for ${partOrFullTime === 'part-time' ? 'part time' : 'full time'} ${InternType === 'in office' || InternType === "Hybrid" ? '(in-office)' : 'work from home/'} internship
+      • can start the internship between ${internshipStartDate === "Later" ? "bagu nantar" : formattedCurrentDate} and ${internshipStartDate === "Later" ? "bagu he pan" : formattedFutureDate}
+      ${(internshipDuration && MonthOrWeeks) &&(`• are available for duration of ${internshipDuration} ${MonthOrWeeks}`)}
+       `;
+
+ 
+    form.setValue('whoCanApply', formatedScript.trim());
+
+  },[ form, form.getValues('internshipDuration'), form.getValues('MonthOrWeeks') , form.getValues('internshipType') ,form.getValues('partOrFullTime'),form.getValues('internshipStartDate')])
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="w-full flex flex-col items-center justify-center">
@@ -382,7 +412,7 @@ We will allow candidates who are from or willing to relocate to the given locati
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange} 
-                  defaultValue="Immediately (within next 30 days)"
+                  defaultValue="Immediately"
                   className="flex flex-row  space-x-2"
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
@@ -473,7 +503,7 @@ We will allow candidates who are from or willing to relocate to the given locati
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel> Intern's responsibilities</FormLabel>
-                    <FormControl   >
+                    <FormControl >
                       <Textarea  
                       className="resize-none" {...field} />
                     </FormControl>
@@ -482,6 +512,45 @@ We will allow candidates who are from or willing to relocate to the given locati
                 )}
               />
 
+
+
+
+<FormField
+                control={form.control}
+                name="whoCanApply"
+       
+                render={({ field }) => (
+                  <FormItem  >
+                    <FormLabel>Who can apply (prefilled as per earlier inputs):</FormLabel>
+                    <FormControl  >
+                      <Textarea
+                      readOnly  
+                   
+                      className="resize-none  pointer-events-none" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+
+              
+
+<FormField
+                control={form.control}
+                name="additioalPreferences"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel> Additional candidate preferences:</FormLabel>
+                    <FormControl >
+                      <Textarea  
+                      placeholder="e.g Candidate pursuing Computer Science Enginneering prefered."
+                      className="resize-none" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
 
 

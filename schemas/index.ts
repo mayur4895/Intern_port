@@ -61,8 +61,8 @@ export const postFormSchema = z.object({
    MonthOrWeeks: z.enum(["Months", "Weeks"]),
    InternResponsibilities: z.string().min(100, {
     message: "Please enter at least 100 characters.",
-  }).max(200, {
-    message: "less than 200 characters.",
+  }).max(500, {
+    message: "less than 500 characters.",
   }), 
    whoCanApply: z.string().min(30, {
     message: "Please enter at least 30 characters",

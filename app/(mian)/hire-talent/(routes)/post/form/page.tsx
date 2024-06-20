@@ -137,7 +137,7 @@ const PostFormpage = () => {
      const formattedFutureDate = format(futureDate, "do MMM yyyy"); 
      const formattedCurrentDate = format(currentDate, "do MMM yyyy"); 
      const formatedScript = `
-      <h1>Only those candidates can apply who:</h1>
+      Only those candidates can apply who:
       • have relevant skills and interests
       • are available for ${partOrFullTime === 'part-time' ? 'part time' : 'full time'} ${InternType === 'in office' || InternType === "Hybrid" ? '(in-office)' : 'work from home/'} internship
       • can start the internship between ${internshipStartDate === "Later" ? "bagu nantar" : formattedCurrentDate} and ${internshipStartDate === "Later" ? "bagu he pan" : formattedFutureDate}

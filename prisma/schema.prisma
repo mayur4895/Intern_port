@@ -54,6 +54,8 @@ model User {
   twoFactorConfirmation   TwoFactorConfirmation?
   accounts      Account[]
   compnayDetails CompnayDetails[]
+  posts                Post[]
+  applications         Application[]
  }
 
  
@@ -123,3 +125,40 @@ model PhoneVerificationOtp{
   user User @relation(fields: [userId],references: [id] , onDelete:Cascade)  
   @@unique([userId])
   }
+
+model Post{ 
+id   String @id @default(auto()) @map("_id") @db.ObjectId
+ISnearCity Boolean? @default(false)
+InternResponsibilities String
+MonthOrWeeks String
+additioalPreferences String
+cities String[]
+internshipDuration String
+internshipProfile String
+internshipStartDate String
+internshipType String
+noOfDaysInOfficeInWeek String?
+noOfOpenings String
+partOrFullTime String
+requiredSkills String[]
+whoCanApply String
+userId String @db.ObjectId
+applications            Application[]
+user User @relation(fields: [userId],references: [id] , onDelete:Cascade)  
+@@unique([userId]) 
+  }
+  
+
+  
+model Application {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId   String   @db.ObjectId
+  postId      String   @db.ObjectId
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  @@unique([studentId, postId])
+}

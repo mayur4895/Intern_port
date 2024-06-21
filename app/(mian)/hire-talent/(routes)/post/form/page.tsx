@@ -27,16 +27,17 @@ import { postFormSchema } from '@/schemas';
 import { Badge } from '@/components/ui/badge';
 import { CurrentUser } from '@/hooks/use-current-user';
 import { Checkbox } from "@/components/ui/checkbox";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 import { getCompnayDetails } from "@/actions/hire-talent/getcompnayDetails";
 import { UserType } from "@prisma/client";
 import { Textarea } from "@/components/ui/textarea";
+import { CreateInternshipPost } from "@/actions/hire-talent/createInternshipPost";
 
 const PostFormpage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const currentUser = CurrentUser();
-  
+  const [IsLoading,setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof postFormSchema>>({
     resolver: zodResolver(postFormSchema),
     defaultValues: {
@@ -52,14 +53,34 @@ const PostFormpage = () => {
       MonthOrWeeks:'Months',
       InternResponsibilities: ' Selected interns day-to-day responsibilities include:  ',
       whoCanApply: '',
-      additioalPreferences:''
- 
+      additioalPreferences:'',
+      noOfDaysInOfficeInWeek:''
  
     },
   });
 
   async function onSubmit(data: z.infer<typeof postFormSchema>) {
-    console.log(data);
+  
+  try {
+    setIsLoading(true);
+    const res =  await CreateInternshipPost(data, currentUser.id);
+    if (res?.success) {
+      toast({ title: res.success, variant: "success" }); 
+      setIsLoading(false)
+       form.reset();
+       window.location.reload();
+    }else {
+      toast({ title: res?.error, variant: "destructive" });
+      setIsLoading(false)
+    }
+  } catch (error) {
+    console.log(error);
+    setIsLoading(false)
+    form.reset();
+    
+  }finally{
+    setIsLoading(false)
+  }
   }
 
   const getCompnayData = async () => {
@@ -149,6 +170,12 @@ const PostFormpage = () => {
 
   },[ form, form.getValues('internshipDuration'), form.getValues('MonthOrWeeks') , form.getValues('internshipType') ,form.getValues('partOrFullTime'),form.getValues('internshipStartDate')])
   return (
+    <> 
+    {IsLoading && (
+       <div className="h-full z-50 w-full fixed  flex top-0 left-0 items-center bg-white justify-center">
+       <Loader2 className=" animate-spin" size={24}/>
+    </div>
+    )}
     <div className="flex items-center justify-center h-full w-full">
       <div className="w-full flex flex-col items-center justify-center">
         <h2 className="text-3xl">Post internship.</h2>
@@ -171,13 +198,13 @@ const PostFormpage = () => {
               )}
             />
  
-    <div className='flex  gap-4 w-full items-end'>  
+    <div className=' gap-4 flex flex-col  w-full'>  
            <FormField
               control={form.control}
               
               name="requiredSkills"
               render={() => (
-                <FormItem  className='w-full' > 
+                <FormItem  className='w-full  ' > 
                   <FormLabel>Required Skills</FormLabel>
                    
             <div>
@@ -200,6 +227,8 @@ const PostFormpage = () => {
                 </ul>
               )}
             </div>
+
+            
                   <FormControl>
                     <Select
                       
@@ -220,13 +249,16 @@ const PostFormpage = () => {
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormMessage />
+                
+              <FormMessage />
+    
                 </FormItem>
               )}
             />
-               <div>
+               <div className="  ">
                <Button type="button" onClick={addSkill}>Add</Button>
-               </div>
+               </div> 
+              
           </div>
            <FormField
           control={form.control}
@@ -263,11 +295,48 @@ const PostFormpage = () => {
                     <FormLabel className="font-normal">Remote</FormLabel>
                   </FormItem>
                 </RadioGroup>
-              </FormControl>
+              </FormControl> 
+              <FormMessage /> 
+            </FormItem>
+          )}
+        />
+
+
+        { form.getValues('internshipType') === "Hybrid" && (
+          <FormField
+          control={form.control}
+          name="noOfDaysInOfficeInWeek"
+          render={({ field }) => (
+            <FormItem className=" w-auto" >
+              <FormLabel >No. of in-office days in a week: </FormLabel>   
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a Days" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="1">1</SelectItem>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="3">3</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                  <SelectItem value="5">5</SelectItem>
+          
+                </SelectContent>
+                </Select> 
               <FormMessage />
             </FormItem>
           )}
         />
+        )}
+
+
+
+
+
+
+
+
              <FormField
           control={form.control}
           name="partOrFullTime"
@@ -304,59 +373,64 @@ const PostFormpage = () => {
         />
 
         
-    <div className='flex  gap-4 w-full items-end'>  
-           <FormField
-              control={form.control}
-              
-              name="cities"
-              render={() => (
-                <FormItem  className='w-full' > 
-                  <FormLabel>City/Cities</FormLabel>
-                   
-            <div>
-              {Cities.length > 0 && (
-                <ul className="flex flex-wrap gap-2">
-                  {Cities.map((city, index) => (
-                    <Badge key={index} className="pl-5 py-0 flex justify-between items-center">
-                      {city}
-                      <Button
-                        className='bg-transparent hover:bg-transparent'
-                        size="icon"
-                        type="button"
-                        onClick={() => removeCity(city)}
-                        aria-label="Remove"
-                      >
-                        ✕
-                      </Button>
-                    </Badge>
-                  ))}
-                </ul>
-              )}
-            </div>
-                  <FormControl>
-                    <Select
-                      
-                      onValueChange={value => setNewCity(value)}
-                      value={newCity}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="e.g pune" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Pune">Pune</SelectItem>
-                        <SelectItem value="Mumbai">Mumbai</SelectItem>
-                        <SelectItem value="Nashik">Nashik</SelectItem> 
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-               <div>
-               <Button type="button" onClick={addCity}>Add</Button>
-               </div>
-          </div>
+ { form.getValues('internshipType') !== 'remote' && (
+
+<div className=' gap-4 flex flex-col  w-full'>        
+<FormField
+     control={form.control}
+     
+     name="cities"
+     render={() => (
+       <FormItem  className='w-full' > 
+         <FormLabel>City/Cities</FormLabel>
+          
+   <div>
+     {Cities.length > 0 && (
+       <ul className="flex flex-wrap gap-2">
+         {Cities.map((city, index) => (
+           <Badge key={index} className="pl-5 py-0 flex justify-between items-center">
+             {city}
+             <Button
+               className='bg-transparent hover:bg-transparent'
+               size="icon"
+               type="button"
+               onClick={() => removeCity(city)}
+               aria-label="Remove"
+             >
+               ✕
+             </Button>
+           </Badge>
+         ))}
+       </ul>
+     )}
+   </div>
+         <FormControl>
+           <Select
+             
+             onValueChange={value => setNewCity(value)}
+             value={newCity}
+           >
+             <SelectTrigger>
+               <SelectValue placeholder="e.g pune" />
+             </SelectTrigger>
+             <SelectContent>
+               <SelectItem value="Pune">Pune</SelectItem>
+               <SelectItem value="Mumbai">Mumbai</SelectItem>
+               <SelectItem value="Nashik">Nashik</SelectItem> 
+             </SelectContent>
+           </Select>
+         </FormControl>
+         <FormMessage />
+       </FormItem>
+     )}
+   />
+      <div>
+      <Button type="button" onClick={addCity}>Add</Button>
+      </div>
+ </div>
+
+ )}
+
           <div className=" border text-xs text-gray-600 flex items-center gap-3 p-2">
                        <AlertCircle size={18} />   
 We will allow candidates who are from or willing to relocate to the given location(s) to apply.
@@ -576,6 +650,7 @@ We will allow candidates who are from or willing to relocate to the given locati
         </Form>
       </div>
     </div>
+    </>
   );
 };
 

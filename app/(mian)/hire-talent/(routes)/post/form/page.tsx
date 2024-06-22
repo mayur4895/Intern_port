@@ -6,7 +6,7 @@ import { addDays, format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
-import { ZodAny, z } from 'zod';
+import { ZodAny, date, z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -27,11 +27,14 @@ import { postFormSchema } from '@/schemas';
 import { Badge } from '@/components/ui/badge';
 import { CurrentUser } from '@/hooks/use-current-user';
 import { Checkbox } from "@/components/ui/checkbox";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, CalendarIcon, Loader2 } from "lucide-react";
 import { getCompnayDetails } from "@/actions/hire-talent/getcompnayDetails";
 import { UserType } from "@prisma/client";
 import { Textarea } from "@/components/ui/textarea";
 import { CreateInternshipPost } from "@/actions/hire-talent/createInternshipPost";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
 
 const PostFormpage = () => {
   const router = useRouter();
@@ -54,21 +57,22 @@ const PostFormpage = () => {
       InternResponsibilities: ' Selected interns day-to-day responsibilities include:  ',
       whoCanApply: '',
       additioalPreferences:'',
-      noOfDaysInOfficeInWeek:''
- 
+      noOfDaysInOfficeInWeek:'',
+      fromStart:undefined,
+      toEnd: undefined
     },
   });
 
   async function onSubmit(data: z.infer<typeof postFormSchema>) {
-  
+  console.log(data)
   try {
     setIsLoading(true);
     const res =  await CreateInternshipPost(data, currentUser.id);
     if (res?.success) {
       toast({ title: res.success, variant: "success" }); 
       setIsLoading(false)
-       form.reset();
-       window.location.reload();
+      //  form.reset();
+      //  window.location.reload();
     }else {
       toast({ title: res?.error, variant: "destructive" });
       setIsLoading(false)
@@ -152,23 +156,38 @@ const PostFormpage = () => {
      const internshipStartDate = form.getValues('internshipStartDate');
      const internshipDuration = form.getValues('internshipDuration');
      const MonthOrWeeks = form.getValues('MonthOrWeeks');
+    const fromStart  = form.getValues('fromStart');
+    const toEnd = form.getValues('toEnd');
 
      const currentDate = new Date(); 
      const futureDate = addDays(currentDate,15) 
      const formattedFutureDate = format(futureDate, "do MMM yyyy"); 
-     const formattedCurrentDate = format(currentDate, "do MMM yyyy"); 
-     const formatedScript = `
+     const formattedCurrentDate = format(currentDate, "do MMM yyyy");
+     
+     if( form.getValues('internshipStartDate') === "Immediately"){
+      form.setValue('fromStart', undefined)
+      form.setValue('toEnd', undefined)
+     }  
+let formatedFrom ;
+let formatedTo;
+     if(form.getValues('internshipStartDate') === "Later" && fromStart !==undefined  &&  toEnd !== undefined){
+      formatedFrom   = format(fromStart,"do MMM yyyy") 
+      formatedTo = format( toEnd,"do MMM yyyy")
+     }
+     
+
+     const formatedScript = `  
       Only those candidates can apply who:
       • have relevant skills and interests
       • are available for ${partOrFullTime === 'part-time' ? 'part time' : 'full time'} ${InternType === 'in office' || InternType === "Hybrid" ? '(in-office)' : 'work from home/'} internship
-      • can start the internship between ${internshipStartDate === "Later" ? "bagu nantar" : formattedCurrentDate} and ${internshipStartDate === "Later" ? "bagu he pan" : formattedFutureDate}
+      ${(internshipDuration ) &&  (`${ (internshipStartDate === "Immediately"  )  ? `• can start the internship between ${formattedFutureDate} and  ${formattedCurrentDate}`: `${ formatedFrom !== undefined && formatedTo !== undefined   ?`• can start the internship between ${formatedFrom} and ${formatedTo}` : ''}` }`)}
       ${(internshipDuration && MonthOrWeeks) &&(`• are available for duration of ${internshipDuration} ${MonthOrWeeks}`)}
        `;
 
  
     form.setValue('whoCanApply', formatedScript.trim());
 
-  },[ form, form.getValues('internshipDuration'), form.getValues('MonthOrWeeks') , form.getValues('internshipType') ,form.getValues('partOrFullTime'),form.getValues('internshipStartDate')])
+  },[ form, form.getValues('internshipStartDate') ,form.getValues("toEnd") ,form.getValues("fromStart") ,form.getValues('internshipDuration'), form.getValues('MonthOrWeeks') , form.getValues('internshipType') ,form.getValues('partOrFullTime'),form.getValues('internshipStartDate')])
   return (
     <> 
     {IsLoading && (
@@ -320,8 +339,7 @@ const PostFormpage = () => {
                   <SelectItem value="2">2</SelectItem>
                   <SelectItem value="3">3</SelectItem>
                   <SelectItem value="4">4</SelectItem>
-                  <SelectItem value="5">5</SelectItem>
-          
+                  <SelectItem value="5">5</SelectItem> 
                 </SelectContent>
                 </Select> 
               <FormMessage />
@@ -512,7 +530,95 @@ We will allow candidates who are from or willing to relocate to the given locati
           )}
         />
 
-
+  
+  {form.getValues('internshipStartDate') === 'Later' && 
+  <div>
+  <FormField
+           control={form.control}
+           name="fromStart"
+           render={({ field }) => (
+             <FormItem className="flex flex-col">
+               <FormLabel>From</FormLabel>
+               <Popover>
+                 <PopoverTrigger asChild>
+                   <FormControl>
+                     <Button
+                       variant={"outline"}
+                       className={cn(
+                         "w-[300px] pl-3 text-left font-normal",
+                         !field.value && "text-muted-foreground"
+                       )}
+                     >
+                       {field.value ? (
+                         format(field.value, "PPP")
+                       ) : (
+                         <span>Pick a date</span>
+                       )}
+                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                     </Button>
+                   </FormControl>
+                 </PopoverTrigger>
+                 <PopoverContent className="w-auto p-0" align="start">
+                   <Calendar
+                     mode="single"
+                     selected={field.value}
+                     onSelect={field.onChange}
+                     disabled={(date) =>
+                       date > new Date() || date < new Date("1900-01-01")
+                     }
+                     initialFocus
+                   />
+                 </PopoverContent>
+               </Popover> 
+               <FormMessage />
+             </FormItem>
+           )}
+         />
+ 
+ <FormField
+           control={form.control}
+           name="toEnd"
+           render={({ field }) => (
+             <FormItem className="flex flex-col">
+               <FormLabel>To</FormLabel>
+               <Popover>
+                 <PopoverTrigger asChild>
+                   <FormControl>
+                     <Button
+                       variant={"outline"}
+                       className={cn(
+                         "w-[300px] pl-3 text-left font-normal",
+                         !field.value && "text-muted-foreground"
+                       )}
+                     >
+                       {field.value ? (
+                         format(field.value, "PPP")
+                       ) : (
+                         <span>Pick a date</span>
+                       )}
+                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                     </Button>
+                   </FormControl>
+                 </PopoverTrigger>
+                 <PopoverContent className="w-auto p-0" align="start">
+                   <Calendar
+                     mode="single"
+                     selected={field.value}
+                     onSelect={field.onChange}
+                     disabled={(date) =>
+                       date > new Date() || date < new Date("1900-01-01")
+                     }
+                     initialFocus
+                   />
+                 </PopoverContent>
+               </Popover> 
+               <FormMessage />
+             </FormItem>
+           )}
+         />
+       
+  </div>
+  }
   <div className="  flex items-end w-full   gap-5 ">   
     <div className="  w-full  "> 
  <FormField
@@ -599,7 +705,6 @@ We will allow candidates who are from or willing to relocate to the given locati
                     <FormControl  >
                       <Textarea
                       readOnly  
-                   
                       className="resize-none  pointer-events-none" {...field} />
                     </FormControl>
                     <FormMessage />
@@ -610,7 +715,7 @@ We will allow candidates who are from or willing to relocate to the given locati
 
               
 
-<FormField
+        <FormField
                 control={form.control}
                 name="additioalPreferences"
                 render={({ field }) => (

@@ -1,6 +1,16 @@
 // utils/schemas.ts
+import { isValid, parseISO } from 'date-fns';
 import { z } from 'zod';
-
+const parseDate = (val: unknown): Date | undefined => {
+  if (val === null || val === undefined || val === '') {
+    return undefined;
+  }
+  const parsedDate = parseISO(val as string);
+  if (!isValid(parsedDate)) {  
+    return undefined;
+  }
+  return parsedDate;
+};
 const phoneRegex =  /^\+?[1-9]\d{1,14}$/;
 
 export const profileSchema = z.object({
@@ -44,11 +54,13 @@ export const postFormSchema = z.object({
   ISnearCity: z.boolean().default(false).optional(),
   noOfOpenings: z.string().regex(/^[1-9]\d*$/, {
     message: "Number of openings must be a positive integer",
-  }),
+  }),  
+  fromStart:  z.date().optional(),
+  toEnd: z.date().optional(),
   internshipStartDate: z.enum(["Immediately", "Later"]),
   internshipDuration: z.string({
     required_error: "Please select a duration.",
-  }).min(1, 'this field is required'),
+  }),
   MonthOrWeeks: z.enum(["Months", "Weeks"]),
   InternResponsibilities: z.string().min(100, {
     message: "Please enter at least 100 characters.",
@@ -79,7 +91,23 @@ export const postFormSchema = z.object({
 }, {
   message: "Please specify at least one city.",
   path: ['cities']
-});;
+}).refine((data)=>{
+  if(data.internshipStartDate ===  "Later"){
+    return  data.fromStart && data.fromStart !== undefined; 
+  }
+  return true
+},{
+  message:"required",
+  path:['fromStart' ,]
+}).refine((data)=>{
+  if(data.internshipStartDate ===  "Later"){
+    return  data.toEnd && data.toEnd !== undefined; 
+  }
+  return true
+},{
+  message:"required",
+  path:['toEnd' ,]
+})
 
 export type ProfileData = z.infer<typeof profileSchema>;
 export type CompanyData = z.infer<typeof companySchema>;

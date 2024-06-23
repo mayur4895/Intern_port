@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { addDays, format } from 'date-fns';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { ZodAny, date, z } from 'zod';
@@ -70,9 +70,7 @@ const PostFormpage = () => {
     const res =  await CreateInternshipPost(data, currentUser.id);
     if (res?.success) {
       toast({ title: res.success, variant: "success" }); 
-      setIsLoading(false)
-      //  form.reset();
-      //  window.location.reload();
+      setIsLoading(false) 
     }else {
       toast({ title: res?.error, variant: "destructive" });
       setIsLoading(false)
@@ -90,21 +88,23 @@ const PostFormpage = () => {
   const getCompnayData = async () => {
     try {
  
-      const res = await getCompnayDetails(currentUser?.id);
- 
-          if(!res?.data){
+      const res = await getCompnayDetails();
+        if(res?.data?.compnayDetails){
+           if(res.data.compnayDetails.length <= 0){
             toast({
               title: "Please fill the company details",
               variant: "destructive",
             });
             router.push("/hire-talent/company")
-          }  
+           }
+        }
    
     } catch (error) {
       console.error(error);
     }  
   };
  
+   
 
   const [newSkill, setNewSkill] = useState('');
   const requiredSkills = form.watch('requiredSkills');

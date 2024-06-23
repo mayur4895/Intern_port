@@ -3,14 +3,13 @@
 import { db } from "@/lib/db";    
 import { currentUser } from "@/lib/auth";
  
-export const  getCompnayDetails = async ( userId:string)=>{
+export const  getCompnayDetails = async ()=>{
       const LoginUser = await currentUser();
+       
      try { 
- 
-         
     const userExist = await db.user.findUnique({
         where: {
-        id: userId
+        id: LoginUser.id
         }
       });
 
@@ -27,7 +26,7 @@ export const  getCompnayDetails = async ( userId:string)=>{
 
         const data = await db.user.findUnique({
           where:{
-            id:userId,
+            id:LoginUser.id,
             
           },include:{
             compnayDetails:true

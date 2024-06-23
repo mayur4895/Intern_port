@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -64,7 +64,7 @@ const Companypage = () => {
   const getCompnayData = async () => {
     try {
       setIsLoading(true);
-      const res = await getCompnayDetails(currentUser?.id);
+      const res = await getCompnayDetails();
       if (res?.success && res.data) {
         setCompnayData(res.data?.compnayDetails[0]);
       }
@@ -74,17 +74,17 @@ const Companypage = () => {
       setIsLoading(false);
     }
   };
+  useMemo(() => {
+   return getCompnayData();
+  }, []);
 
   useEffect(() => {
     if (!currentUser) return redirect("/auth/login");
-
     if(currentUser &&  !currentUser.isphoneVerified && currentUser.role ==  UserType.EMPLOYER ) {
       router.push("/hire-talent/profile")
-  }
-
-    getCompnayData();
-  }, [currentUser]);
-  console.log(CompnayData);
+    }
+ 
+  }, [currentUser]); 
   
   useEffect(() => {
     if (CompnayData) {

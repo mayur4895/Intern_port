@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { ZodNumber, z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -177,7 +177,7 @@ const submitOtp = async(e:any)=>{
   }
 }
 
-const statusverify = async()=>{
+const statusverify =   async()=>{
 setisStatusCkecking(true)
   const res = await  checkPhoneStatus(currentUser.id, form.getValues('phone'));
   if(res?.success){
@@ -192,13 +192,17 @@ setisStatusCkecking(true)
 }
  
 
+useCallback(()=>{
+
+    statusverify() 
+},[form.getValues('phone')])
+
 useEffect(()=>{
   if(currentUser?.role !== UserType.EMPLOYER && !currentUser){
     return redirect("/auth/login")
   }
-
-   statusverify(); 
-},[currentUser,form.getValues('phone')])
+   
+},[currentUser ])
             
  
   
@@ -308,6 +312,7 @@ useEffect(()=>{
           <Button
           suppressHydrationWarning
           variant={"outline"}
+          disabled={isStatusCkecking}
           className="border-blue-400 border"
           type="button" 
           onClick={sendOtp} 

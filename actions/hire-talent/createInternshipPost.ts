@@ -39,6 +39,9 @@ const {  internshipProfile,internshipDuration,internshipType,internshipStartDate
         if(userExist.role == "STUDENT"){
           return  {error: "something went wrong"}
         }
+
+          
+
         await db.post.upsert({
             where: { userId: userId },
             update: {

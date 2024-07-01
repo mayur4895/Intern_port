@@ -67,7 +67,7 @@ const EmployerLogin = () => {
        } 
    
        if(res?.success){
-         router.push("/hire-talent/profile");
+         router.push("/hire-talent/dashboard");
          toast({
           variant:"success",
           title:res?.success, 

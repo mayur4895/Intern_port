@@ -1,70 +1,89 @@
-'use server'   
- 
-import { db } from "@/lib/db"; 
-  
-import z from "zod"
-   
- 
+'use server';
+
+import { db } from "@/lib/db";
+import z from "zod";
 import { postFormSchema } from "@/schemas";
 import { currentUser } from "@/lib/auth";
- 
-export const  CreateInternshipPost = async (values :z.infer <typeof postFormSchema>, userId:string)=>{
-      const LoginUser = await currentUser();
-      console.log(LoginUser);
-    try {
-        const validatedFields =  postFormSchema.safeParse(values);
 
-         if(!validatedFields.success){
-            return   {error: "Invlaid Fields"}
-         };
+export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema>, userId: string) => {
+  const loginUser = await currentUser();
 
-const {  internshipProfile,internshipDuration,internshipType,internshipStartDate,
-    cities, ISnearCity, requiredSkills , noOfOpenings ,noOfDaysInOfficeInWeek , MonthOrWeeks,  partOrFullTime,
-    InternResponsibilities,whoCanApply,additioalPreferences
-} = validatedFields.data;
-  
-         
+  if (!loginUser) {
+    return { error: "User not authenticated" };
+  }
+
+  try {
+    const validatedFields = postFormSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+      return { error: "Invalid Fields" };
+    }
+
+    const {
+      internshipProfile,
+      internshipDuration,
+      internshipType,
+      internshipStartDate,
+      cities,
+      ISnearCity,
+      requiredSkills,
+      noOfOpenings,
+      noOfDaysInOfficeInWeek,
+      MonthOrWeeks,
+      partOrFullTime,
+      InternResponsibilities,
+      whoCanApply,
+      additionalPreferences
+    } = validatedFields.data;
+
     const userExist = await db.user.findUnique({
-        where: {
+      where: {
         id: userId
-        }
-      });
-
-       if(!userExist){
-        return  {error: "something went wrong"}
       }
+    });
 
-      if(userExist){
+    if (!userExist) {
+      return { error: "User does not exist" };
+    }
 
-        if(userExist.role == "STUDENT"){
-          return  {error: "something went wrong"}
-        }
+    if (userExist.role !== "EMPLOYER") {
+      return { error: "Only employers can create posts" };
+    }
 
-          
-
-        await db.post.upsert({
-            where: { userId: userId },
-            update: {
-              userId:userId,
-              internshipProfile,internshipDuration,internshipType,internshipStartDate,
-              cities, ISnearCity, requiredSkills , noOfOpenings ,noOfDaysInOfficeInWeek , MonthOrWeeks,  partOrFullTime,
-              InternResponsibilities,whoCanApply,additioalPreferences
-            },
-            create: {
-              userId:userId,
-              internshipProfile,internshipDuration,internshipType,internshipStartDate,
-              cities, ISnearCity, requiredSkills , noOfOpenings ,noOfDaysInOfficeInWeek , MonthOrWeeks,  partOrFullTime,
-              InternResponsibilities,whoCanApply,additioalPreferences
-            }
-          });
- 
-   
-     
-          return {success:"POst Cretaed"}
-
-      }   
-      } catch (error) {
-        return {error:"error occured while creating post"}      
-  
+    const companyDetails = await db.companyDetails.findUnique({
+      where: {
+        userId: userId
       }
-}
+    });
+
+    if (!companyDetails) {
+      return { error: "Company details not found for this user" };
+    }
+
+    await db.post.create({
+      data: { 
+        userId: userId,
+        companyId: companyDetails.id,
+        internshipProfile,
+        internshipDuration,
+        internshipType,
+        internshipStartDate,
+        cities,
+        isNearCity:ISnearCity,
+        requiredSkills,
+        noOfOpenings,
+        noOfDaysInOfficeInWeek,
+        monthOrWeeks:MonthOrWeeks,
+        partOrFullTime,
+        internResponsibilities:InternResponsibilities,
+        whoCanApply,
+         additionalPreferences
+      }
+    });
+
+    return { success: "Post Created" };
+  } catch (error) {
+    console.error(error);
+    return { error: "Error occurred while creating post" };
+  }
+};

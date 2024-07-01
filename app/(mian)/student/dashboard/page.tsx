@@ -11,17 +11,14 @@ import React from 'react'
  
  const DashboardPage =  () => {
  
-  const currentUser =    CurrentUser();
  
-   if(!currentUser && currentUser.role  !== UserType.STUDENT){
-    return redirect("/auth/login");
-   }
-   
+ 
+ 
   
    return (
     <>  
     <div>
-      <div>{JSON.stringify(currentUser)}</div>
+  
       Student DashBoard
     </div>
      </>

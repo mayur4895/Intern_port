@@ -23,7 +23,7 @@ const LoginPage = ( ) => {
 useEffect(()=>{
 
   if(currentUser && currentUser.role  === UserType.EMPLOYER){
-    return redirect("/hire-talent");
+    return redirect("/hire-talent/dashboard");
 }else if(currentUser && currentUser.role === UserType.STUDENT){
   return  redirect("/student/dashboard");
 }

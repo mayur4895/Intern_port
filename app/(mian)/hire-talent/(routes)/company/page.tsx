@@ -26,9 +26,9 @@ import IndustrySelect from "@/components/selectIndustry";
 import FileUpload from "@/components/FileUpload";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
-import { getCompnayDetails } from '@/actions/hire-talent/getcompnayDetails';
 import NoEmployeesSelect from '@/components/selectNoEmployees';
 import { UserType } from '@prisma/client';
+import { getCompanyDetails } from '@/actions/hire-talent/getcompanyDetails';
 
 const Companypage = () => {
   const router = useRouter();
@@ -51,10 +51,11 @@ const Companypage = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof companySchema>) => {
+     console.log(data)
     const res = await CompanyRegister(data, currentUser.id);
     if (res?.success) {
       toast({ title: res.success, variant: "success" });
-      router.push("/hire-talent/post/form");
+      router.push("/hire-talent/dashboard");
     }
     if (res?.error) {
       toast({ title: res.error, variant: "destructive" });
@@ -64,9 +65,9 @@ const Companypage = () => {
   const getCompnayData = async () => {
     try {
       setIsLoading(true);
-      const res = await getCompnayDetails();
+      const res = await getCompanyDetails();
       if (res?.success && res.data) {
-        setCompnayData(res.data?.compnayDetails[0]);
+        setCompnayData(res.data?.companyDetails);
       }
     } catch (error) {
       console.error(error);
@@ -78,14 +79,7 @@ const Companypage = () => {
    return getCompnayData();
   }, []);
 
-  useEffect(() => {
-    if (!currentUser) return redirect("/auth/login");
-    if(currentUser &&  !currentUser.isphoneVerified && currentUser.role ==  UserType.EMPLOYER ) {
-      router.push("/hire-talent/profile")
-    }
  
-  }, [currentUser]); 
-  
   useEffect(() => {
     if (CompnayData) {
       if (!form.getValues("name")) {

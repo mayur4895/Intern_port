@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import credentials from "next-auth/providers/credentials";
 
 export const getUserByPhone = async (phone: string) => {
   try {
@@ -26,7 +27,22 @@ export const getUserByEmail = async (email: string) => {
 
 export const getUserById = async (id: string) => {
   try {
-    const user = await db.user.findUnique({ where: { id } });
+    const user = await db.user.findUnique( {
+      where:{
+        id,  
+      },select:{
+        id:true,
+        phone:true,
+        name:true,
+        role:true,
+        isPhoneVerified:true,
+        email:true,
+        emailVerified:true,
+        isTwoFactorEnabled:true,
+        designation:true,
+        companyDetails:true,
+      }
+    });
 
     return user;
   } catch {
@@ -41,7 +57,7 @@ export const getPhoneStatus = async (phone: string) => {
       phone,
       role:"EMPLOYER" 
     },select:{
-      isphoneVerified:true
+       isPhoneVerified:true
     }
    
   });

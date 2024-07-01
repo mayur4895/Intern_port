@@ -56,8 +56,7 @@ const Reset = () => {
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
-      email: "", 
- 
+      email: "",  
     },
   });
 

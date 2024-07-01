@@ -58,7 +58,7 @@ const SocialProvider = () => {
                 <Button onClick={()=>{onclick('google')}} variant={"outline"} className="flex items-center gap-2 w-full text-gray-500 h-12">
                   <FcGoogle size={25}/>Google
                 </Button>
-
+            
                 <Button onClick={()=>{onclick('github')}} variant={"outline"} className="flex items-center gap-2 w-full text-gray-500 h-12">
                   <AiFillGithub size={25}/>Github
                 </Button>

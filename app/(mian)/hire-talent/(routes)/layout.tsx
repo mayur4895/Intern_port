@@ -7,9 +7,10 @@ import { CurrentUser } from '@/hooks/use-current-user';
 import { UserType } from '@prisma/client';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { getCompnayDetails } from '@/actions/hire-talent/getcompnayDetails';
+ 
 import { currentUser } from '@/lib/auth';
 import { Loader2 } from 'lucide-react';
+import { getCompanyDetails } from '@/actions/hire-talent/getcompanyDetails';
   
 
 const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
@@ -23,14 +24,14 @@ const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
   const [CompnayData ,setCompnayData] = useState<any>({})
   const router = useRouter();
  
-  const getCompnayData = async()=>{
+  const getCompanyData = async()=>{
     try {
        setIsLoading(true)
-       const res = await  getCompnayDetails(session?.id);
+       const res = await  getCompanyDetails();
    
       if(res?.success && res.data){
        setIsLoading(false); 
-       setCompnayData(res.data?.compnayDetails[0]);
+       setCompnayData(res.data.companyDetails);
       }
     } catch (error) {
      setIsLoading(false);
@@ -39,10 +40,8 @@ const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
   
 
  useEffect(()=>{
-  getCompnayData();
-  
-  
-    
+  getCompanyData();
+   
 
  },[])
  

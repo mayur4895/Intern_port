@@ -28,13 +28,14 @@ import { Badge } from '@/components/ui/badge';
 import { CurrentUser } from '@/hooks/use-current-user';
 import { Checkbox } from "@/components/ui/checkbox";
 import { AlertCircle, CalendarIcon, Loader2 } from "lucide-react";
-import { getCompnayDetails } from "@/actions/hire-talent/getcompnayDetails";
+ 
 import { UserType } from "@prisma/client";
 import { Textarea } from "@/components/ui/textarea";
 import { CreateInternshipPost } from "@/actions/hire-talent/createInternshipPost";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { getCompanyDetails } from "@/actions/hire-talent/getcompanyDetails";
 
 const PostFormpage = () => {
   const router = useRouter();
@@ -56,7 +57,7 @@ const PostFormpage = () => {
       MonthOrWeeks:'Months',
       InternResponsibilities: ' Selected interns day-to-day responsibilities include:  ',
       whoCanApply: '',
-      additioalPreferences:'',
+      additionalPreferences:'',
       noOfDaysInOfficeInWeek:'',
       fromStart:undefined,
       toEnd: undefined
@@ -70,7 +71,10 @@ const PostFormpage = () => {
     const res =  await CreateInternshipPost(data, currentUser.id);
     if (res?.success) {
       toast({ title: res.success, variant: "success" }); 
-      setIsLoading(false) 
+      setIsLoading(false);
+      form.reset();
+      router.push("/dashbaord");
+       window.location.reload();
     }else {
       toast({ title: res?.error, variant: "destructive" });
       setIsLoading(false)
@@ -88,9 +92,9 @@ const PostFormpage = () => {
   const getCompnayData = async () => {
     try {
  
-      const res = await getCompnayDetails();
-        if(res?.data?.compnayDetails){
-           if(res.data.compnayDetails.length <= 0){
+      const res = await   getCompanyDetails()
+        if(res?.data?.companyDetails){
+           if(!res.data.companyDetails){
             toast({
               title: "Please fill the company details",
               variant: "destructive",
@@ -137,9 +141,7 @@ const PostFormpage = () => {
     if (!currentUser) {
       redirect('/auth/login');
     }
-    if(currentUser &&  !currentUser.isphoneVerified && currentUser.role ==  UserType.EMPLOYER ) {
-      router.push("/hire-talent/profile")
-  }
+   
    
     getCompnayData();
  
@@ -717,7 +719,7 @@ We will allow candidates who are from or willing to relocate to the given locati
 
         <FormField
                 control={form.control}
-                name="additioalPreferences"
+                name="additionalPreferences"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel> Additional candidate preferences:</FormLabel>

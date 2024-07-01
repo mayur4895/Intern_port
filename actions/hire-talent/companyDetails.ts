@@ -19,6 +19,10 @@ export const  CompanyRegister = async (values :z.infer <typeof companySchema>, u
             return   {error: "Invlaid Fields"}
          };
 
+         if(!userId){
+          return {error:"userId not provided"}
+         }
+
 const { name , isIndependentHire, city , description , imageUrl , industry , employees} = validatedFields.data;
   
          
@@ -40,7 +44,7 @@ const { name , isIndependentHire, city , description , imageUrl , industry , emp
   
    
        
-  await db.compnayDetails.upsert({
+  await db.companyDetails.upsert({
         where: { userId: userId },
         update: {
           userId:userId,

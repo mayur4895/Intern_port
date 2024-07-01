@@ -39,7 +39,7 @@ await db.user.updateMany({
    id: ExistingUser.id 
     },
     data:{  
-         isphoneVerified:  true,
+         isPhoneVerified:  true,
         phone:ExistingToken.phone
     }
 })

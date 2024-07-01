@@ -50,18 +50,12 @@ const ProfileForm = () => {
   
   const currentUser = CurrentUser();
   
-if(!currentUser && currentUser.role !== UserType.EMPLOYER){
-return redirect("/auth/login")
-}
-
+ 
  
 
  const { name , phone ,email ,designation   } = currentUser;
 
 
-
-
- 
   
   
   const router = useRouter()
@@ -78,7 +72,7 @@ return redirect("/auth/login")
       lastname: "" || name.split(" ")[1],
       email: ""||email,
       designation: "" || designation,
-      phone:""|| phone,
+      phone:""||   phone,
       role :""
     },
   })
@@ -105,7 +99,7 @@ return redirect("/auth/login")
   }
     
   }
-
+  console.log(currentUser);
   const sendOtp = async () => {
     const phoneValue = form.getValues('phone')
     setPhoneNumber(phoneValue)
@@ -168,7 +162,7 @@ const submitOtp = async(e:any)=>{
       })
      }
   } catch (error) {
-    console.log(error);
+   
     toast({
       variant:"destructive",
       title: "Something went wrong", 
@@ -180,6 +174,7 @@ const submitOtp = async(e:any)=>{
 const statusverify =   async()=>{
 setisStatusCkecking(true)
   const res = await  checkPhoneStatus(currentUser.id, form.getValues('phone'));
+    
   if(res?.success){
     setisStatusCkecking(false);
       setPhoneisVerifed(true); 
@@ -192,7 +187,7 @@ setisStatusCkecking(true)
 }
  
 
-useCallback(()=>{
+useEffect(()=>{
 
     statusverify() 
 },[form.getValues('phone')])
@@ -205,7 +200,8 @@ useEffect(()=>{
 },[currentUser ])
             
  
-  
+   console.log(PhoneisVerifed);
+   
  
 
   return (

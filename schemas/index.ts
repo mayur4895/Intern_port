@@ -70,7 +70,7 @@ export const postFormSchema = z.object({
   whoCanApply: z.string().min(30, {
     message: "Please enter at least 30 characters.",
   }),
-  additioalPreferences: z.string().min(60, {
+  additionalPreferences: z.string().min(60, {
     message: "Please enter at least 60 characters.",
   }).max(160, {
     message: "Please enter no more than 160 characters.",

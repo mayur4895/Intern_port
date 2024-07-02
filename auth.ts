@@ -52,11 +52,11 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
   
       async session({ token,  session }) {
       if (session.user) {
-        session.user.role = token.role;
-        session.user.isPhoneVerified = token.isPhoneVerified;
+        session.user.role = token.role; 
         session.user.companyDetails = token.companyDetails; 
         session.user.phone = token.phone 
         session.user.id = token.id
+        session.user.isPhoneVerified =  token.phoneverified
       }
       return session
     },
@@ -67,12 +67,12 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
         if (!userExist) return token;
         token.role = userExist.role;
         token.phone = userExist.phone;
+        token.phoneverified = userExist.isPhoneVerified as boolean;
         if (userExist.role == UserType.EMPLOYER) {
           token.id = token.sub;
-          token.designation = userExist.designation;
-          token.isphoneVerified = userExist?.isPhoneVerified;
+          token.designation = userExist.designation; 
           token.companyDetails = userExist.companyDetails
-          
+          token.phoneverified = userExist.isPhoneVerified as boolean;
         }
         return token;
       },

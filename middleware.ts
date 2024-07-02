@@ -16,6 +16,8 @@ export default auth((req:any) => {
   if (isApiAuthRoute) {
     return null;  
   }
+console.log(session);
+
 
   if (isAuthRoute) {
     if (isLoggedIn) {

@@ -41,8 +41,8 @@ import LoginSchema from "@/schemas/LoginSchema";
 
  
 const EmployerLogin = () => {
-  const SearchParams = useSearchParams();
-  const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
+ 
+ 
   
   
   const {toast} = useToast();
@@ -59,13 +59,7 @@ const EmployerLogin = () => {
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     try {
       const res =  await  login(values);
-       if(urlError){
-        toast({
-          variant:"destructive",
-          title: "Email alerday in used", 
-        })
-       } 
-   
+       
        if(res?.success){
          router.push("/hire-talent/dashboard");
          toast({

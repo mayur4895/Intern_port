@@ -51,8 +51,7 @@ import parsePhoneNumberFromString from "libphonenumber-js";
  
 const EmployerSignup = () => {
   
-  const SearchParams = useSearchParams();
-  const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
+ 
   const {toast} = useToast();
  
    const router = useRouter();

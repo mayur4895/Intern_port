@@ -6,10 +6,7 @@ import Link from 'next/link'
 
  
 
-const EmptyNavbar =  ( ) => {
- 
- 
-  
+const EmptyNavbar =  ( ) => { 
   
   return (
     <div className='flex  w-full z-50'>

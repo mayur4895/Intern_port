@@ -1,5 +1,5 @@
 'use client'
-import { useCompanyStore } from '@/hooks/use-compnaydata';
+import { useCompanyStore } from '@/hooks/use-companydata';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 

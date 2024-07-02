@@ -53,7 +53,7 @@ const ProfileForm = () => {
  
  
 
- const { name , phone ,email ,designation   } = currentUser;
+ 
 
 
   
@@ -65,6 +65,7 @@ const ProfileForm = () => {
   const [PhoneisVerifed ,setPhoneisVerifed] = useState(false);
   const [isLoading ,setisLoading] = useState(false);
   const [ isStatusCkecking ,setisStatusCkecking] = useState(false);
+  const { name , phone ,email ,designation   } = currentUser;
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -197,7 +198,7 @@ useEffect(()=>{
     return redirect("/auth/login")
   }
    
-},[currentUser ]) 
+},[currentUser]) 
    console.log(PhoneisVerifed); 
 
   return (

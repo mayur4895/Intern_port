@@ -76,13 +76,10 @@ const EmployerLogin = () => {
           title:res?.error, 
          })
   
-         }
-
+         } 
         
          form.reset();
-         window.location.reload();
-    
-     
+  
   
     } catch (error) {
       console.log(error);

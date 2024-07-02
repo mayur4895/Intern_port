@@ -15,8 +15,7 @@ const DashboardHeader = () => {
  <PiBuildingsFill size={30}/> Modern
  </div>
  <NavigationDashboard/>
- <UserButton/>
- 
+ <UserButton/> 
      </div>
 
      <h3 className='text-2xl'>Welcome Back {currentUser?.name} 👋</h3>

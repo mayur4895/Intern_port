@@ -1,7 +1,6 @@
 'use client'
 import DashboardHeader from '@/components/hire-talent/DashboardHeader'
-import { useCompanyStore } from '@/hooks/use-compnaydata'
-import { CurrentUser } from '@/hooks/use-current-user'
+ import { CurrentUser } from '@/hooks/use-current-user'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useMemo } from 'react'
 
@@ -29,7 +28,7 @@ const DashboardLayout = ({children}:{children:React.ReactNode}) => {
 
   return (
  <div> 
- <DashboardHeader/> 
+ <DashboardHeader /> 
 
    <div>
       {children}

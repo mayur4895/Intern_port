@@ -17,6 +17,8 @@ export const useCompanyStore = create<CompanyState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const res = await getCompanyDetails();
+      console.log(res);
+      
       if (res?.success && res.data) {
         set({ companyDetails: res.data?.companyDetails, isLoading: false });
       } else {

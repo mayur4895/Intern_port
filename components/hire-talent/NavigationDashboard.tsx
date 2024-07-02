@@ -6,7 +6,7 @@ const NavigationDashboard = () => {
   const routesDahbaord = [
     {
       label: 'Dashboard',
-      href: '/dashboard',
+      href: '/hire-talent/dashboard',
     },
     {
       label: 'Internships',
@@ -17,7 +17,7 @@ const NavigationDashboard = () => {
     },
     {
       label:'view posts',
-      href:'/hire-talent/posts'
+      href:'/hire-talent/dashboard/posts'
     }
   ]
   return (

@@ -73,7 +73,7 @@ const  NewPostPage = () => {
       toast({ title: res.success, variant: "success" }); 
       setIsLoading(false);
       form.reset();
-      router.push("/dashbaord");
+      router.push("/hire-talent/dashbaord");
        window.location.reload();
     }else {
       toast({ title: res?.error, variant: "destructive" });
@@ -89,24 +89,7 @@ const  NewPostPage = () => {
   }
   }
 
-  const getCompnayData = async () => {
-    try {
- 
-      const res = await   getCompanyDetails()
-        if(res?.data?.companyDetails){
-           if(!res.data.companyDetails){
-            toast({
-              title: "Please fill the company details",
-              variant: "destructive",
-            });
-            router.push("/hire-talent/company")
-           }
-        }
    
-    } catch (error) {
-      console.error(error);
-    }  
-  };
  
    
 
@@ -141,10 +124,7 @@ const  NewPostPage = () => {
     if (!currentUser) {
       redirect('/auth/login');
     }
-   
-   
-    getCompnayData();
- 
+     
   }, [currentUser]);
 
 

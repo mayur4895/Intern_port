@@ -23,6 +23,8 @@ import { companySchema } from "@/schemas";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
 import { getCompanyDetails } from "@/actions/hire-talent/getcompanyDetails";
+import { useCompanyStore } from "@/hooks/use-companydata";
+ 
 
  
 const IndustrySelect = dynamic(() =>   import("@/components/hire-talent/selectIndustry"));
@@ -34,8 +36,8 @@ const Companypage = () => {
   const pathname = usePathname();
   const currentUser = CurrentUser();
   const [isLoading, setIsLoading] = useState(false);
-  const [CompnayData, setCompnayData] = useState<any>(null);
-
+ const {companyDetails:CompanyData} = useCompanyStore();
+  
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
     defaultValues: {
@@ -61,23 +63,8 @@ const Companypage = () => {
     }
   };
 
-  const getCompnayData = async () => {
-    try {
-      setIsLoading(true);
-      const res = await getCompanyDetails();
-      if (res?.success && res.data) {
-        setCompnayData(res.data?.companyDetails);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useMemo(() => {
-    return getCompnayData();
-  }, []);
+ 
+  
 
   return (
     <>
@@ -94,7 +81,7 @@ const Companypage = () => {
                   <FormItem>
                     <FormLabel>{form.getValues('isIndependentHire') ? "Name" : "Organization name"}</FormLabel>
                     <FormControl>
-                      <Input disabled={!!CompnayData} placeholder={form.getValues('isIndependentHire') ? "Name" : "Organization name"} {...field} />
+                      <Input disabled={!!CompanyData} placeholder={form.getValues('isIndependentHire') ? "Name" : "Organization name"} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -106,7 +93,7 @@ const Companypage = () => {
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
                     <FormControl>
-                      <Checkbox checked={field.value} disabled={!!CompnayData} onCheckedChange={field.onChange} />
+                      <Checkbox checked={field.value} disabled={!!CompanyData} onCheckedChange={field.onChange} />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel className="text-gray-600">I am an independent practitioner (freelancer, architect, lawyer etc.)</FormLabel>

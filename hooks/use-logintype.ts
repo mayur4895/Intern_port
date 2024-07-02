@@ -7,8 +7,7 @@ export type LoginType =  "student" |  "employer"
 
 interface ModalStore {
   type: LoginType  | null; 
-  onSetType: (type: LoginType) => void;
- 
+  onSetType: (type: LoginType) => void; 
 }
 
 export const useLoginType = create<ModalStore>((set) => ({

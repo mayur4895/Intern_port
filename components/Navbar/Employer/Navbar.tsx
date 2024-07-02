@@ -43,13 +43,11 @@ interface NavbarProps{
     const EmployerLogedInNavbar= [
       {
         label:"DashBaord",
-        href:"/dashboard"
+        href:"/hire-talent/dashboard"
       },
-      {
-     label :"Post Internship",
-     href:"/post-internship"
-      }
+    
     ]
+
     const Navbars = [
        
       {

@@ -1,34 +1,33 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Loader2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { companySchema } from "@/schemas";
-import IndustrySelect from "@/components/selectIndustry";
-import FileUpload from "@/components/FileUpload";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
-import NoEmployeesSelect from '@/components/selectNoEmployees';
-import { UserType } from '@prisma/client';
-import { getCompanyDetails } from '@/actions/hire-talent/getcompanyDetails';
+import { getCompanyDetails } from "@/actions/hire-talent/getcompanyDetails";
+
+ 
+const IndustrySelect = dynamic(() =>   import("@/components/hire-talent/selectIndustry"));
+const FileUpload = dynamic(() =>  import("@/components/FileUpload"));
+const NoEmployeesSelect = dynamic(() =>import("@/components/hire-talent/selectNoEmployees") );
 
 const Companypage = () => {
   const router = useRouter();
@@ -46,12 +45,12 @@ const Companypage = () => {
       city: "",
       industry: "",
       employees: "",
-      imageUrl: ""
+      imageUrl: "",
     },
   });
 
   const onSubmit = async (data: z.infer<typeof companySchema>) => {
-     console.log(data)
+    console.log(data);
     const res = await CompanyRegister(data, currentUser.id);
     if (res?.success) {
       toast({ title: res.success, variant: "success" });
@@ -75,42 +74,13 @@ const Companypage = () => {
       setIsLoading(false);
     }
   };
-  useMemo(() => {
-   return getCompnayData();
-  }, []);
 
- 
-  useEffect(() => {
-    if (CompnayData) {
-      if (!form.getValues("name")) {
-        form.setValue("name", CompnayData.name || "");
-      }
-      if (!form.getValues("description")) {
-        form.setValue("description", CompnayData.description || "");
-      }
-      if (!form.getValues("employees")) {
-        form.setValue("employees", CompnayData?.employees || "");
-      }
-      if (!form.getValues("city")) {
-        form.setValue("city", CompnayData.city || "");
-      }
-      if (!form.getValues("industry")) {
-        form.setValue("industry", CompnayData.industry || "");
-      }
-      if (!form.getValues("imageUrl")) {
-        form.setValue("imageUrl", CompnayData.imageUrl || "");
-      }
-      form.setValue("isIndependentHire", CompnayData.isIndependentHire || false);
-    }
-  }, [CompnayData, form]);
+  useMemo(() => {
+    return getCompnayData();
+  }, []);
 
   return (
     <>
-      {/* {isLoading && (
-        <div className="fixed h-full w-full bg-white top-0 left-0 flex items-center justify-center">
-          <Loader2 size={25} className="animate-spin" />
-        </div>
-      )} */}
       <div className="flex items-center justify-center h-full w-full">
         <div className="w-full flex flex-col items-center justify-center">
           <h2 className="text-3xl">Company Details</h2>
@@ -140,7 +110,6 @@ const Companypage = () => {
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel className="text-gray-600">I am an independent practitioner (freelancer, architect, lawyer etc.)</FormLabel>
-                      <FormDescription>hiring for myself and I am NOT hiring on behalf of a company.</FormDescription>
                     </div>
                   </FormItem>
                 )}

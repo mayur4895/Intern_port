@@ -48,8 +48,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
    href:"/post-internship"
     }
   ]
-   
-
+    
   
     const Navbars = [
        

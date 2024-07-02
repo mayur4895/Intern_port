@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { ZodNumber, z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -189,7 +189,7 @@ setisStatusCkecking(true)
 
 useEffect(()=>{
 
-    statusverify() 
+     statusverify() 
 },[form.getValues('phone')])
 
 useEffect(()=>{
@@ -197,12 +197,8 @@ useEffect(()=>{
     return redirect("/auth/login")
   }
    
-},[currentUser ])
-            
- 
-   console.log(PhoneisVerifed);
-   
- 
+},[currentUser ]) 
+   console.log(PhoneisVerifed); 
 
   return (
     <div className="flex items-center justify-center h-screen w-full">
@@ -314,9 +310,7 @@ useEffect(()=>{
           onClick={sendOtp} 
         >
          { isStatusCkecking  && <Loader2 className=" animate-spin mr-2 " size={18}/> } Verify        </Button>
-         )
-         
-         
+         )  
          
          }
              </div>

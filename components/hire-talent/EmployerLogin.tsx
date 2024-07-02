@@ -61,7 +61,7 @@ const EmployerLogin = () => {
       const res =  await  login(values);
        
        if(res?.success){
-         router.push("/hire-talent/dashboard");
+    
          toast({
           variant:"success",
           title:res?.success, 

@@ -1,22 +1,29 @@
- 
-import { getCompnayDetails } from "@/actions/hire-talent/getcompnayDetails";
-import { currentUser } from "@/lib/auth";
-import { create } from "zustand";
- 
+import {create} from 'zustand';
+import { getCompanyDetails } from '@/actions/hire-talent/getcompanyDetails';
+import { CompanyDetails } from '@prisma/client';
 
- 
-interface CompnayStore { 
-  data: {};
-  getCompanyData:(data?:{})=> void
-  
+interface CompanyState {
+  companyDetails:  CompanyDetails | null;
+  isLoading: boolean;
+  error: string | null;
+  fetchCompanyDetails: () => Promise<void>;
+}
 
-}  
- 
-export const useCompanyData = create<CompnayStore>((set) => ({
-  data: {},
-  getCompanyData:async()=>{ 
-
-            
-  }
-
+export const useCompanyStore = create<CompanyState>((set) => ({
+  companyDetails: null,
+  isLoading: false,
+  error: null,
+  fetchCompanyDetails: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const res = await getCompanyDetails();
+      if (res?.success && res.data) {
+        set({ companyDetails: res.data?.companyDetails, isLoading: false });
+      } else {
+        set({ error: res?.error || 'Failed to fetch company details', isLoading: false });
+      }
+    } catch (error:any) {
+      set({ error: error?.message || 'Failed to fetch company details', isLoading: false });
+    }
+  },
 }));

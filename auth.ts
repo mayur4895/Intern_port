@@ -46,6 +46,8 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
             where: { id: existingUser.id },
           });
         }
+
+        
   
         return true;
       },

@@ -20,30 +20,8 @@ const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
     return redirect("/student/dashboard")
   }
   
-  const  [isLoading,setIsLoading]= useState(false);
-  const [CompnayData ,setCompnayData] = useState<any>({})
-  const router = useRouter();
  
-  const getCompanyData = async()=>{
-    try {
-       setIsLoading(true)
-       const res = await  getCompanyDetails();
-   
-      if(res?.success && res.data){
-       setIsLoading(false); 
-       setCompnayData(res.data.companyDetails);
-      }
-    } catch (error) {
-     setIsLoading(false);
-    } 
-     }
   
-
- useEffect(()=>{
-  getCompanyData();
-   
-
- },[])
  
   return (
     <> 

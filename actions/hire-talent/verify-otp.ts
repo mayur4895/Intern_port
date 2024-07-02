@@ -49,6 +49,7 @@ await db.phoneVerificationOtp.delete({
     where:{id:ExistingToken.id}
 })
 return {success:"phone Verified"}  
+
    } catch (error) {
     console.log(error);
     return {error:"Something went wrong"}

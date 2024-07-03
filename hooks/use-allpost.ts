@@ -5,7 +5,7 @@ import { getAllPosts } from '@/actions/hire-talent/getallPosts';
 import  type { Post } from '@prisma/client';
 
 interface companyPostState {
-  Posts:  Post[] | null;
+  Posts:     Post[]  | null;
   isLoading: boolean;
   error: string | null;
   fetchPosts: () => Promise<void>;
@@ -19,8 +19,9 @@ export const useCompanyPosts = create<companyPostState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const res = await  getAllPosts();
-      if (res?.success && res.data) { 
-        set({Posts: res.data?.posts, isLoading: false });
+  
+      if (res?.success && res?.data) { 
+        set({Posts: res?.data, isLoading: false });
       } else {
         set({ error: res?.error || 'Failed to fetch company posts', isLoading: false });
       }

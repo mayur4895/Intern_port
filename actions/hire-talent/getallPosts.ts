@@ -21,13 +21,11 @@ export const getAllPosts = async () => {
       return { error: "something went wrong" };
     }
     
-    const data = await db.user.findUnique({
+    const data = await db.post.findMany({
       where: {
-        id: LoginUser.id,
+         userId: LoginUser.id,
       },
-      include: {
-         posts: true,
-      },
+    
     });
   
  console.log({"posts data are":data})

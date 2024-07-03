@@ -64,6 +64,7 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
       data: {  
         userId: userId,
         companyId: companyDetails.id,
+        companyName:companyDetails.name,
         internshipProfile,
         internshipDuration,
         internshipType,

@@ -73,7 +73,7 @@ const  NewPostPage = () => {
       toast({ title: res.success, variant: "success" }); 
       setIsLoading(false);
       form.reset();
-      router.push("/hire-talent/dashbaord");
+      router.push("/hire-talent/posts");
        window.location.reload();
     }else {
       toast({ title: res?.error, variant: "destructive" });

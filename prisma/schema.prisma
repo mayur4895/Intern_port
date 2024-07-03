@@ -54,6 +54,7 @@ model Post {
   internResponsibilities String
   monthOrWeeks       String
   additionalPreferences String
+  companyName       String
   cities             String[]
   internshipDuration String
   internshipProfile  String

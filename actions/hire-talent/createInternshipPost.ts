@@ -19,8 +19,8 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
       return { error: "Invalid Fields" };
     }
 
-    const {
-      internshipProfile,
+    const { 
+       internshipProfile,
       internshipDuration,
       internshipType,
       internshipStartDate,
@@ -60,25 +60,38 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
       return { error: "Company details not found for this user" };
     }
 
+     const existingPost = await db.post.findUnique({
+      where: {
+        userId_internshipProfile: {
+          userId: userId,
+          internshipProfile: internshipProfile,
+        },
+      },
+    });
+
+    if (existingPost) {
+      return { error: "A post with the same userId and internshipProfile already exists." };
+    }
+
     await db.post.create({
       data: {  
         userId: userId,
         companyId: companyDetails.id,
-        companyName:companyDetails.name,
+        companyName: companyDetails.name,
         internshipProfile,
         internshipDuration,
         internshipType,
         internshipStartDate,
         cities,
-        isNearCity:ISnearCity,
+         isNearCity:ISnearCity,
         requiredSkills,
         noOfOpenings,
         noOfDaysInOfficeInWeek,
-        monthOrWeeks:MonthOrWeeks,
+          monthOrWeeks:MonthOrWeeks,
         partOrFullTime,
-        internResponsibilities:InternResponsibilities,
+         internResponsibilities:InternResponsibilities,
         whoCanApply,
-         additionalPreferences
+        additionalPreferences
       }
     });
 

@@ -24,6 +24,7 @@ export const getAllPosts = async () => {
     const data = await db.post.findMany({
       where: {
          userId: LoginUser.id,
+         
       },
     
     });

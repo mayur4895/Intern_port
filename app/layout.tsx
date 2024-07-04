@@ -1,22 +1,13 @@
+// layout.tsx
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
- 
 import './globals.css';
- 
-import { Toaster } from "@/components/ui/toaster"
-import { cn } from '@/lib/utils';  
- 
- 
- 
-import { ThemeProvider } from '@/components/providers/ThemeProvider';
-import { SessionProvider } from 'next-auth/react';
-import MainNavbar from '@/components/Navbar/Student/MainNavbar';
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { cn } from '@/lib/utils';
 import Container from '@/components/ui/container';
 import { auth } from '@/auth';
-import { extractRouterConfig } from 'uploadthing/server'; 
+import { ClientProviders } from '@/components/providers/client-provider';
  
- 
+
 const font = Poppins({
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
@@ -27,32 +18,22 @@ export const metadata: Metadata = {
   description: 'HireIntern build for Modern college',
 };
 
-export default  async function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
- 
- 
-  const session =  await auth();
-  return (
- 
-  <SessionProvider session={session}> 
- 
-      <html lang="en" suppressHydrationWarning>
-        <body className={cn(font.className)}> 
-            <Container> 
-           
-            {children} 
-            </Container>
-              <Toaster /> 
- 
-        </body>
+  const session = await auth();
 
-        
-      </html>
- 
-      </SessionProvider>
-     
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(font.className)}>
+        <ClientProviders session={session}>
+          <Container>
+            {children}
+          </Container>
+        </ClientProviders>
+      </body>
+    </html>
   );
 }

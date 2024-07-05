@@ -13,7 +13,7 @@ import { signIn } from "next-auth/react";
  
 const SocialProvider = () => {
   const SearchParams = useSearchParams();
-  const urlError =  SearchParams.get("error") === "OAuthAccountNotLinked";
+  const urlError =  SearchParams?.get("error") === "OAuthAccountNotLinked";
   const { toast } = useToast();
   const router = useRouter();
   const [isLoding,setisLoding] = useState(false);

@@ -46,8 +46,8 @@ import { NewPssword } from "@/actions/new-password";
  
 const ResetPasswordForm = () => {
   const SearchParams = useSearchParams();
-  const token = SearchParams.get("token");
-  const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
+  const token = SearchParams?.get("token");
+  const urlError = SearchParams?.get("error") === "OAuthAccountNotLinked";
   
   
   const {toast} = useToast();

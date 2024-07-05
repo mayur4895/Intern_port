@@ -1,4 +1,4 @@
-import React from 'react' 
+import React, { useState } from 'react' 
  
 import { signOut } from 'next-auth/react';
 import { Button } from "@/components/ui/button"
@@ -18,6 +18,7 @@ import { LuAlignRight } from "react-icons/lu";
 
 import UserButton from './UserButton';
 import { CurrentUser } from '@/hooks/use-current-user';
+import Link from 'next/link';
 const NavigationDashboard = () => {
   const routesDahbaord = [
     {
@@ -37,7 +38,7 @@ const NavigationDashboard = () => {
     }
   ]
 
-
+  const [IsOpen,setIsOpen] = useState(false);
   const currentUser = CurrentUser();
   return (
      <>
@@ -45,7 +46,7 @@ const NavigationDashboard = () => {
         {
           routesDahbaord.map(({ label, href }) => (
             <div key={label}>
-              <a href={href}>{label}</a>
+              <Link href={href} prefetch={true}>{label}</Link>
             </div>
           ))
         }
@@ -54,8 +55,8 @@ const NavigationDashboard = () => {
     </div>
 
     <div className=' lg:hidden block'>
-    <Sheet>
-      <SheetTrigger asChild> 
+    <Sheet open={IsOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild onClick={()=>{setIsOpen(true)}}> 
         <LuAlignRight size={22} className=' cursor-pointer'/>
       </SheetTrigger>
       <SheetContent className='lg:hidden block'>
@@ -69,7 +70,7 @@ const NavigationDashboard = () => {
         {
           routesDahbaord.map(({ label, href }) => (
             <div key={label}>
-              <a href={href}>{label}</a>
+              <Link href={href} prefetch={true} onClick={()=>{setIsOpen(false)}}>{label}</Link>
             </div>
           ))
         }

@@ -26,7 +26,7 @@ import { Separator } from '@/components/ui/separator'
 import { Label } from '@/components/ui/label'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import { UserType } from '@prisma/client'
-import { CiMenuBurger } from "react-icons/ci";
+ 
 interface MainNavbarProps{
   session?:any;
 }
@@ -115,11 +115,11 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
                 }
 
 
-                {
+                {/* {
                  <SheetTrigger asChild  className="lg:hidden pr-2 cursor-pointer">
                   <CiMenuBurger size={30} className=""/>
                </SheetTrigger>
-                }
+                } */}
                 <SheetContent>
    <SheetHeader>
      <SheetTitle className=' flex flex-col mt-4 text-base pl-2  items-start justify-start'> 

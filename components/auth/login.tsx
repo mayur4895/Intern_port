@@ -57,7 +57,8 @@ import { FaSpinner } from "react-icons/fa";
  
 const Login = () => {
   const SearchParams = useSearchParams();
-  const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
+  const urlError = SearchParams?.get("error") === "OAuthAccountNotLinked";
+   
   const [showTwoFactor,setshowTwoFactor]  = useState(false);
   const [isLoading,setisLoading] = useState(false);
   const {toast} = useToast();
@@ -127,6 +128,7 @@ const Login = () => {
 
     }
   }
+
  
   return (
     <>
@@ -189,6 +191,7 @@ const Login = () => {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
+                      autoComplete="false"
                         type="password"
                         placeholder="Enter Password"
                         {...field}

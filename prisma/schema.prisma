@@ -19,7 +19,7 @@ model User {
   email              String?               @unique
   emailVerified      DateTime?
   image              String?
-  phone              String?               @unique
+  phone              String?            
   isPhoneVerified    Boolean               @default(false)
   designation        String?
   password           String?

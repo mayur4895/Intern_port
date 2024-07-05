@@ -29,6 +29,7 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { Separator } from "@/components/ui/separator";
 import { UserType } from "@prisma/client";
 import { CiMenuBurger } from "react-icons/ci";
+import { Label } from "@/components/ui/label";
 interface MainNavbarProps {
   session?: any;
 }
@@ -64,7 +65,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
     <div className="flex items-center  w-full z-50">
       <div className="flex w-full items-center border-b shadow-sm  bg-white  pl-4 md:px-4 ">
         <div className="font-bold tracking-wider">
-          <Link href={"/"}>HireIntern</Link>
+          <Link href={"/"} prefetch={true}>HireIntern</Link>
         </div>
         <div className="flex   ml-auto flex-row">       
              <div className="  w-full ml-auto ">
@@ -97,7 +98,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
                 <SheetContent>
    <SheetHeader>
      <SheetTitle className=' flex flex-col mt-4 text-base pl-2  items-start justify-start'> 
-            <h2 className=' uppercase'>{session?.name}</h2>
+            <Label className=' uppercase'>{session?.name}</Label>
             <span  className='text-sm font-normal  text-gray-700'>{session?.email}</span>
       </SheetTitle>
 <Separator/>
@@ -111,7 +112,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
           return (
           
               <MenubarMenu key={label}>
-                <MenubarTrigger> <Link href={href} className='font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
+ <Link href={href} className='font-normal whitespace-nowrap' prefetch={true}> {label}</Link>   
               </MenubarMenu>
           
           )
@@ -127,7 +128,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
           return (
           
               <MenubarMenu key={label}>
-                <MenubarTrigger> <Link href={href} className=' font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
+           <Link href={href} className=' font-normal whitespace-nowrap' prefetch={true}> {label}</Link> 
               </MenubarMenu>
           
           )
@@ -152,6 +153,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
 
                         <Link
                           href={"/auth/signup"}
+                          prefetch={true}
                           className="text-sm font-normal text-black  hover:text-blue-500">
                           {" "}
                           Candident Sign-up{" "}
@@ -159,8 +161,10 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
 
                         <Link
                           href={"/signup"}
+                          prefetch={true}
                           className="text-sm font-normal text-black   hover:text-blue-500">
                           {" "}
+                          
                           Employer Sign-up{" "}
                         </Link>
                       </div>
@@ -192,6 +196,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
         <>
           <div className="lg:flex hidden flex-row  ml-5  gap-x-4  ">
             <Link
+            prefetch={true}
               href={"/auth/login"}
               onClick={() => {
                 onSetType("employer");

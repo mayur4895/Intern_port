@@ -1,6 +1,6 @@
  
 import { auth } from "@/auth";
-import { AuroraBackgrounMain } from "@/components/animations/AuroraBackground";
+ 
 import Banner from "@/components/Banner";
 import MainNavbar from "@/components/Navbar/Student/MainNavbar";
 import Navbar from "@/components/Navbar/Student/Navbar";
@@ -28,12 +28,11 @@ if(currentUser?.user?.role  === UserType.STUDENT){
  
   return (
      <div> 
-    <MainNavbar session={currentUser?.user} />
- <Container>  
-    <AuroraBackgrounMain >
+    <MainNavbar session={currentUser?.user} /> 
+ 
+ 
   <Banner/>
-  </AuroraBackgrounMain>
- </Container>
+  
     </div>
   )
 }

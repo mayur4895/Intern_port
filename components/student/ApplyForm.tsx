@@ -1,4 +1,4 @@
-// components/ApplyForm.tsx
+ 
 import { applyToInternship } from '@/actions/hire-talent/applyToInternship';
 import React from 'react';
  
@@ -15,7 +15,7 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ postId, studentId }) => {
       alert(response.error);
     } else {
       alert('Application submitted successfully');
-      // Optionally, you can redirect or update state to reflect the application status
+     
     }
   };
 

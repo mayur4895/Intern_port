@@ -28,8 +28,7 @@ import { IoEllipsisVertical } from 'react-icons/io5'
  import { useLoginType } from '@/hooks/use-logintype'
 import { signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@radix-ui/react-menubar'
-import { UserType } from '@prisma/client'
+ import { UserType } from '@prisma/client'
   
 
 

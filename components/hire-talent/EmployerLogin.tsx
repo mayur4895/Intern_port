@@ -67,6 +67,7 @@ const EmployerLogin = () => {
           title:res?.success, 
          })
          form.reset();
+         window.location.reload();
        }
 
        if(res?.error){

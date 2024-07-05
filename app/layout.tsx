@@ -1,11 +1,13 @@
 // layout.tsx
-import type { Metadata } from 'next';
+ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import Container from '@/components/ui/container';
 import { auth } from '@/auth';
 import { ClientProviders } from '@/components/providers/client-provider';
+ 
+import React from 'react';
  
 
 const font = Poppins({
@@ -24,14 +26,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-
-  return (
+ return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(font.className)}>
-        <ClientProviders session={session}>
-          <Container>
-            {children}
-          </Container>
+        <ClientProviders session={session}>  
+            {children} 
+ 
         </ClientProviders>
       </body>
     </html>

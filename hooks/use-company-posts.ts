@@ -15,5 +15,10 @@ const fetchCompanyPosts = async (): Promise<Post[]> => {
 export const useCompanyPosts = () => {
   return useQuery<Post[], Error>({
      queryKey:['companyPosts'], 
-    queryFn:fetchCompanyPosts});
+    queryFn:fetchCompanyPosts,
+    staleTime: 1000 * 60 ,
+  
+  
+  })
+  
 };

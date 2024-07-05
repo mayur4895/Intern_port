@@ -55,7 +55,7 @@ import { FaSpinner } from "react-icons/fa";
 const Signup = () => {
   const [isLoading,setisLoading] = useState(false);
   const SearchParams = useSearchParams();
-  const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
+  const urlError = SearchParams?.get("error") === "OAuthAccountNotLinked";
   const {toast} = useToast(); 
    const router = useRouter();
   const form = useForm<z.infer<typeof RegisterSchema>>({

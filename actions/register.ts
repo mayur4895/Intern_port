@@ -27,9 +27,12 @@ const hashpassword = await bcryptjs.hash(password, salt);
          
     const userExist = await db.user.findUnique({
         where: {
-          email: email
+          email: email,
+          
         }
       });
+
+       
 
       if(userExist){
         return  {error: "User already exists"}

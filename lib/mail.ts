@@ -48,7 +48,7 @@ export const SendPasswordResetEmail = async(
   email:string,
   token:string
 )=>{
-  const  reset_password = `https://intern-port-itmpj3it1-mayurs-projects-22cf10fc.vercel.app/auth/new-password?token=${token}`   
+  const  reset_password = `https://intern-port-ahabqydzo-mayurs-projects-22cf10fc.vercel.app/auth/new-password?token=${token}`   
   try {
           const { data, error } = await resend.emails.send({
             from: 'HireIntern <onboarding@resend.dev>',
@@ -93,7 +93,7 @@ export const SendVerificationEmail = async(
     email:string,
     token:string
 )=>{
-    const  ConfirmLink = `https://intern-port-itmpj3it1-mayurs-projects-22cf10fc.vercel.app/auth/new-verification?token=${token}`   
+    const  ConfirmLink = `https://intern-port-ahabqydzo-mayurs-projects-22cf10fc.vercel.app/auth/new-verification?token=${token}`   
     try {
             const { data, error } = await resend.emails.send({
               from: 'HireIntern <onboarding@resend.dev>',

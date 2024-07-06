@@ -66,9 +66,8 @@ const EmployerLogin = () => {
           variant:"success",
           title:res?.success, 
          })
-         form.reset();
-         
-         window.location.reload();
+         form.reset();   
+         router.refresh();
        }
 
        if(res?.error){

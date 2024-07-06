@@ -3,11 +3,14 @@ import { auth, signOut } from '@/auth'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { useInternships } from '@/hooks/use-all-posts'
 import { useCompanyPosts } from '@/hooks/use-company-posts'
 import { CurrentUser } from '@/hooks/use-current-user'
 import { UserType } from '@prisma/client'
+import { ArrowRight, Building2, CreditCard, LocateIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { stringify } from 'node:querystring'
 import { json } from 'node:stream/consumers'
@@ -18,24 +21,43 @@ const currentUser = CurrentUser();
  
 const { data: Internships, isLoading, error, } = useInternships();
 console.log(Internships);
+ 
 
+
+
+
+const MapIcon:any = {
+ 'in office':<Building2 className='text-gray-500' size={15}/>,
+ 'remote':<LocateIcon className='text-gray-500' size={15}/>,
+
+}
 
    return (
     <>  
-    <div className=' text-start items-center '>
+    <div className=' text-start items-center  px-10'>
   
-        <h3 className='text-2xl'>{currentUser?.name}</h3>
-        <div className='flex flex-wrap  gap-3'>
+        <h3 className='text-2xl'>Recomonded for you</h3>
+        <div className='flex flex-wrap  justify-center w-full  items-center mt-8 gap-3'>
           {Internships?.map((internship, index) => (
-            <Card key={internship.id}  className=' w-auto'>
-              <CardHeader>
-                <span className=''>{internship.internshipProfile}   </span>
-                <CardDescription>{internship.companyName}</CardDescription>
-                <span>{internship.internshipType}</span>
-              </CardHeader> 
+            <Card key={internship.id}  className=' w-[320px] cursor-pointer'>
+                 <CardHeader className='flex justify-between items-start flex-row w-full'>
+           <div>
+           <span className=''>{internship.internshipProfile}   </span>
+           <CardDescription className=' h-14 w-[90%]'>{internship.companyName}</CardDescription>
+           </div>
+           {internship.companyLogo && <Image  src={internship.companyLogo} alt='logo' height={30} width={30} className=' object-center object-contain' />}
+                </CardHeader>
+                <Separator/>
+               <CardContent  className=' py-4'>  
+              
+         
+                <span className='flex items-center gap-2 text-sm'>  { MapIcon[internship.internshipType]} {internship.internshipType}</span>
+                <span className='flex items-center gap-2 text-sm'> <CreditCard size={12}/> ₹ 6,00,000 - 8,00,000/year</span>
 
-              <CardFooter>
-                <Button variant={'outline'}>View Details</Button>
+                <span className='text-xs text-gray-500 '>{internship.createdAt.toDateString()}</span>
+                </CardContent>
+              <CardFooter className=' mt-5 flex  items-end justify-end'>
+                <Button variant={'link'} className='flex items-center text-blue-800 gap-1'>View Details <ArrowRight size={15}/></Button>
               </CardFooter>
              
             </Card>

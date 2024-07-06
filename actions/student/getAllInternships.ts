@@ -12,9 +12,8 @@ export const getAllInternships = async () => {
     
  
 
-      const data = await db.post.findMany({
-         
-        
+      const data = await db.post.findMany({ 
+       
       });
       console.log({"posts data are":data})
       return { success: "posts data", data };

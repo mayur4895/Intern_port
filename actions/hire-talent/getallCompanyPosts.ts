@@ -25,7 +25,9 @@ export const getAllPosts = async () => {
       where: {
          userId: LoginUser.id,
          
-      },
+      },orderBy:{
+        createdAt: "desc",
+      }
     
     });
   

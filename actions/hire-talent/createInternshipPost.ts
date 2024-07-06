@@ -55,7 +55,7 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
         userId: userId
       }
     });
-
+      
     if (!companyDetails) {
       return { error: "Company details not found for this user" };
     }
@@ -73,11 +73,15 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
       return { error: "A post with the same userId and internshipProfile already exists." };
     }
 
+    console.log(companyDetails);
+    
+
     await db.post.create({
       data: {  
         userId: userId,
         companyId: companyDetails.id,
         companyName: companyDetails.name,
+        companyLogo: companyDetails.imageUrl,
         internshipProfile,
         internshipDuration,
         internshipType,
@@ -91,7 +95,8 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
         partOrFullTime,
          internResponsibilities:InternResponsibilities,
         whoCanApply,
-        additionalPreferences
+        additionalPreferences,
+        
       }
     });
 

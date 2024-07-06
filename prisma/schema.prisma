@@ -19,7 +19,7 @@ model User {
   email              String?               @unique
   emailVerified      DateTime?
   image              String?
-  phone              String?               @unique
+  phone              String?             
   isPhoneVerified    Boolean               @default(false)
   designation        String?
   password           String?
@@ -55,6 +55,7 @@ model Post {
   monthOrWeeks       String
   additionalPreferences String
   companyName        String
+  companyLogo         String?
   cities             String[]
   internshipDuration String
   internshipProfile  String
@@ -70,6 +71,7 @@ model Post {
   applications       Application[]
   user               User                  @relation(name: "PostedByUser", fields: [userId], references: [id], onDelete: Cascade)
   company            CompanyDetails        @relation(name: "PostedByCompany", fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt          DateTime              @default(now())
   @@unique([userId, internshipProfile])
 }
 
@@ -81,7 +83,7 @@ model Application {
   createdAt          DateTime              @default(now())
   student            User                  @relation(fields: [studentId], references: [id], onDelete: Cascade)
   post               Post                  @relation(fields: [postId], references: [id], onDelete: Cascade)
-  
+ 
   @@unique([studentId, postId])
 }
 

@@ -28,11 +28,8 @@ if(currentUser?.user?.role  === UserType.STUDENT){
  
   return (
      <div> 
-    <MainNavbar session={currentUser?.user} /> 
- 
- 
-  <Banner/>
-  
+    <MainNavbar session={currentUser?.user} />  
+  <Banner/>  
     </div>
   )
 }

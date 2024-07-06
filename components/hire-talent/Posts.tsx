@@ -40,7 +40,7 @@ const Posts = () => {
           {Posts?.map((post, index) => (
             <Card key={post.id}>
               <CardHeader>
-                <CardTitle className='text-xl'>{post.internshipProfile} at <span className="text-gray-600">{post.companyName}</span></CardTitle>
+                <CardTitle className='text-xl'>{post.internshipProfile}  </CardTitle>
                 <CardDescription>{post.internResponsibilities}</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col gap-2">

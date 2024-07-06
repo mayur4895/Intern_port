@@ -2,7 +2,7 @@ import { UserType } from "@prisma/client";
 import { AuthRoutes, apiAuthprefix, publicRoutes } from "./route";
 import { auth } from "./auth";
 
-export default auth((req: any) => {
+export default auth(async (req: any, res: any) => {  
   const { nextUrl } = req;
   const session = req.auth;
   const isLoggedIn = !!session;
@@ -17,10 +17,10 @@ export default auth((req: any) => {
   if (isAuthRoute) {
     if (isLoggedIn) {
       if (session?.user?.role === UserType.STUDENT) {
-        return Response.redirect(new URL("/student/dashboard", nextUrl));
+        return res.redirect(new URL("/student/dashboard", nextUrl).toString());
       }
       if (session?.user?.role === UserType.EMPLOYER) {
-        return Response.redirect(new URL("/hire-talent/profile", nextUrl));
+        return res.redirect(new URL("/hire-talent/profile", nextUrl).toString());
       }
     }
     return null;
@@ -29,41 +29,39 @@ export default auth((req: any) => {
   if (isLoggedIn) {
     if (session?.user.role === UserType.EMPLOYER) {
       if (nextUrl.pathname === '/hire-talent') {
-        return Response.redirect(new URL("/hire-talent/profile", nextUrl));
+        return res.redirect(new URL("/hire-talent/profile", nextUrl).toString());
       }
 
       if (nextUrl.pathname === '/hire-talent/dashboard') {
         if (!session?.user?.companyDetails) {
-          return Response.redirect(new URL("/hire-talent/company", nextUrl));
+          return res.redirect(new URL("/hire-talent/company", nextUrl).toString());
         }
 
         if (!session?.user?.isPhoneVerified) {
-          return Response.redirect(new URL("/hire-talent/profile", nextUrl));
+          return res.redirect(new URL("/hire-talent/profile", nextUrl).toString());
         }
       }
 
       if (nextUrl.pathname === '/hire-talent/profile') {
-        if (session?.user?.companyDetails  && session?.user?.isPhoneVerified) {
-          return Response.redirect(new URL("/hire-talent/dashboard", nextUrl));
-        }  
+        if (session?.user?.companyDetails && session?.user?.isPhoneVerified) {
+          return res.redirect(new URL("/hire-talent/dashboard", nextUrl).toString());
+        }
       }
 
       if (nextUrl.pathname === '/hire-talent/company') {
-        
-
-        if (!session?.user?.isPhoneVerified){
-          return Response.redirect(new URL("/hire-talent/profile", nextUrl));
+        if (!session?.user?.isPhoneVerified) {
+          return res.redirect(new URL("/hire-talent/profile", nextUrl).toString());
         }
 
-        if(session?.user?.companyDetails && session?.user?.isPhoneVerified){
-          return Response.redirect(new URL("/hire-talent/dashboard", nextUrl));
+        if (session?.user?.companyDetails && session?.user?.isPhoneVerified) {
+          return res.redirect(new URL("/hire-talent/dashboard", nextUrl).toString());
         }
       }
     }
   }
 
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
+    return res.redirect(new URL("/auth/login", nextUrl).toString());
   }
 
   return null;

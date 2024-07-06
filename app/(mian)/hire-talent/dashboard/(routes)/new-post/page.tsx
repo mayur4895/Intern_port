@@ -73,7 +73,7 @@ const  NewPostPage = () => {
       toast({ title: res.success, variant: "success" }); 
       setIsLoading(false);
       form.reset();
-      router.push("/hire-talent/posts");
+      router.push("/hire-talent/dashboard/posts");
        window.location.reload();
     }else {
       toast({ title: res?.error, variant: "destructive" });
@@ -130,21 +130,21 @@ const  NewPostPage = () => {
 
 
 
+  const InternType = form.getValues('internshipType');
+  const partOrFullTime = form.getValues('partOrFullTime');
+  const internshipStartDate = form.getValues('internshipStartDate');
+  const internshipDuration = form.getValues('internshipDuration');
+  const MonthOrWeeks = form.getValues('MonthOrWeeks');
+ const fromStart  = form.getValues('fromStart');
+ const toEnd = form.getValues('toEnd');
 
+  const currentDate = new Date(); 
+  const futureDate = addDays(currentDate,15) 
+  const formattedFutureDate = format(futureDate, "do MMM yyyy"); 
+  const formattedCurrentDate = format(currentDate, "do MMM yyyy");
 
   useEffect(()=>{
-     const InternType = form.getValues('internshipType');
-     const partOrFullTime = form.getValues('partOrFullTime');
-     const internshipStartDate = form.getValues('internshipStartDate');
-     const internshipDuration = form.getValues('internshipDuration');
-     const MonthOrWeeks = form.getValues('MonthOrWeeks');
-    const fromStart  = form.getValues('fromStart');
-    const toEnd = form.getValues('toEnd');
-
-     const currentDate = new Date(); 
-     const futureDate = addDays(currentDate,15) 
-     const formattedFutureDate = format(futureDate, "do MMM yyyy"); 
-     const formattedCurrentDate = format(currentDate, "do MMM yyyy");
+   
      
      if( form.getValues('internshipStartDate') === "Immediately"){
       form.setValue('fromStart', undefined)
@@ -169,7 +169,20 @@ let formatedTo;
  
     form.setValue('whoCanApply', formatedScript.trim());
 
-  },[ form, form.getValues('internshipStartDate') ,form.getValues("toEnd") ,form.getValues("fromStart") ,form.getValues('internshipDuration'), form.getValues('MonthOrWeeks') , form.getValues('internshipType') ,form.getValues('partOrFullTime'),form.getValues('internshipStartDate')])
+  },[ form,  
+    InternType,
+    partOrFullTime,
+    internshipStartDate,
+    internshipDuration,
+    MonthOrWeeks,
+    fromStart,
+    toEnd, 
+    formattedFutureDate,
+    formattedCurrentDate,
+  
+
+
+  ])
   return (
     <> 
     {IsLoading && (
@@ -664,7 +677,7 @@ We will allow candidates who are from or willing to relocate to the given locati
                 name="InternResponsibilities"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel> Intern's responsibilities</FormLabel>
+                    <FormLabel> Intern responsibilities</FormLabel>
                     <FormControl >
                       <Textarea  
                       className="resize-none" {...field} />

@@ -21,9 +21,9 @@ import { toast } from "@/components/ui/use-toast";
 import { useRouter, usePathname } from "next/navigation";
 import { companySchema } from "@/schemas";
 import { CurrentUser } from "@/hooks/use-current-user";
-import { CompanyRegister } from "@/actions/hire-talent/companyDetails";
-import { getCompanyDetails } from "@/actions/hire-talent/getcompanyDetails";
-import { useCompanyStore } from "@/hooks/use-companydata";
+ 
+ import { useCompanyStore } from "@/hooks/use-companydata";
+import { CompanyRegister } from "@/actions/hire-talent/companyRegister";
  
 
  

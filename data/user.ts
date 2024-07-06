@@ -3,7 +3,7 @@ import credentials from "next-auth/providers/credentials";
 
 export const getUserByPhone = async (phone: string) => {
   try {
-    const user = await db.user.findUnique({ where: {  
+    const user = await db.user.findFirst({ where: {  
       phone:phone,
       role:"EMPLOYER"
     } });
@@ -53,7 +53,7 @@ export const getUserById = async (id: string) => {
 
 export const getPhoneStatus = async (phone: string) => {
   try {
-    const user = await db.user.findUnique({ where: { 
+    const user = await db.user.findFirst({ where: { 
       phone,
       role:"EMPLOYER" 
     },select:{

@@ -33,7 +33,7 @@ import { useToast } from "../ui/use-toast";
   
  
  
-import { login } from "@/actions/login";
+import { login } from "@/actions/student/login";
 import LoginSchema from "@/schemas/LoginSchema";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";

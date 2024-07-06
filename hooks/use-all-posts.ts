@@ -2,10 +2,10 @@
 import { useQuery } from '@tanstack/react-query';
  
 import type { Post } from '@prisma/client';
-import { getAllPosts } from '@/actions/hire-talent/getallCompanyPosts';
+ import { getAllInternships } from '@/actions/student/getAllInternships';
 
-const fetchCompanyPosts = async (): Promise<Post[]> => {
-  const res = await getAllPosts();
+const fetchInternships = async (): Promise<Post[]> => {
+  const res = await getAllInternships();
   if (res?.success && res?.data) {
     return res.data;
   } else {
@@ -13,12 +13,11 @@ const fetchCompanyPosts = async (): Promise<Post[]> => {
   }
 };
 
-export const useCompanyPosts = () => {
+export const useInternships = () => {
   return useQuery<Post[], Error>({
-     queryKey:['companyPosts'], 
-    queryFn:fetchCompanyPosts,
-    staleTime: 1000 * 60 ,
-  
+    queryKey:['Posts'], 
+    queryFn:fetchInternships,
+    staleTime: 1000 * 60 , 
   
   })
   

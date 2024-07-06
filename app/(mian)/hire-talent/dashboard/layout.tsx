@@ -23,7 +23,7 @@ const DashboardLayout = ({children}:{children:React.ReactNode}) => {
     }
   
 
-   },[currentUser])
+   },[currentUser,router])
    
 
   return (

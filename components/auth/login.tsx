@@ -41,7 +41,7 @@ import Link from "next/link";
 import { useToast } from "../ui/use-toast";
  
  
-import { login } from "@/actions/login";
+import { login } from "@/actions/student/login";
 import LoginSchema from "@/schemas/LoginSchema";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
@@ -221,7 +221,7 @@ const Login = () => {
 
               <span className="text-sm text-zinc-500">
                   {" "}
-                   Don't have an account?
+                   Dont have an account?
                   <Link href="/auth/signup" className=" font-semibold text-zinc-900">
                     {" "}
                     signup

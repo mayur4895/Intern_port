@@ -1,16 +1,14 @@
 'use client'
 import { motion } from 'framer-motion';
 import MainNavbar from '@/components/Navbar/Employer/MainNavbar'
-import StepperForm from '@/components/ui/stepper';
+ 
  
 import { CurrentUser } from '@/hooks/use-current-user';
 import { UserType } from '@prisma/client';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
  
-import { currentUser } from '@/lib/auth';
-import { Loader2 } from 'lucide-react';
-import { getCompanyDetails } from '@/actions/hire-talent/getcompanyDetails';
+ 
   
 
 const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {

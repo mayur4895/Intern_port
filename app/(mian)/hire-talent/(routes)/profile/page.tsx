@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form"
 
 import { profileSchema } from "@/schemas"
-import { InputOTPForm } from "@/components/auth/otpContainer"
+ 
 import { FaCheckCircle, FaSpinner } from "react-icons/fa"
 import { UserType } from "@prisma/client"
 import { CurrentUser } from "@/hooks/use-current-user"
@@ -34,7 +34,7 @@ import {
 import { PhoneVerify } from "@/actions/hire-talent/verify-otp"
 import { db } from "@/lib/db"
 import { checkPhoneStatus } from "@/actions/hire-talent/checkPhoneVerify"
-import { getPhoneStatus, getUserByPhone } from "@/data/user"
+ 
 import { UpdateProfile } from "@/actions/hire-talent/update-profile"
 import { Loader2 } from "lucide-react"
  
@@ -172,34 +172,34 @@ const submitOtp = async(e:any)=>{
   }
 }
 
-const statusverify =   async()=>{
-setisStatusCkecking(true)
-  const res = await  checkPhoneStatus(currentUser.id, form.getValues('phone'));
-    
-  if(res?.success){
-    setisStatusCkecking(false);
-      setPhoneisVerifed(true); 
-      setShowOtp(false) 
-  }else {
+
+const phoneDependency =  form.getValues('phone');
+const statusverify = useCallback(async () => {
+  setPhoneisVerifed(true);
+  const res = await checkPhoneStatus(currentUser.id,phoneDependency);
+  if (res?.success) {
     setPhoneisVerifed(false);
-     setisStatusCkecking(false)  
-  } 
- 
-}
- 
-
-useEffect(()=>{
-
-     statusverify() 
-},[form.getValues('phone')])
-
-useEffect(()=>{
-  if(currentUser?.role !== UserType.EMPLOYER && !currentUser){
-    return redirect("/auth/login")
+    setPhoneisVerifed(true);
+    setShowOtp(false);
+  } else {
+    setPhoneisVerifed(false);
+    setPhoneisVerifed(false);
   }
-   
-},[currentUser]) 
-   console.log(PhoneisVerifed); 
+}, [currentUser.id,phoneDependency]);
+
+useEffect(() => {
+  statusverify();
+}, [statusverify]);
+
+
+
+const dependecies = currentUser?.role !== UserType.EMPLOYER && !currentUser;
+useEffect(()=>{
+  if(dependecies ){
+    return redirect("/auth/login")
+  } 
+},[dependecies]) 
+  
 
   return (
     <div className="flex items-center justify-center h-screen w-full">

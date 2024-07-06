@@ -35,13 +35,13 @@ import {
 } from "../ui/card";
 import Link from "next/link";
 import { useToast } from "../ui/use-toast";
-import { register } from "@/actions/register";
+import { register } from "@/actions/student/register";
  
  
 import RegisterSchema from "@/schemas/RegisterSchema"; 
  
  
-import { login } from "@/actions/login";
+import { login } from "@/actions/student/login";
 import LoginSchema from "@/schemas/LoginSchema";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";

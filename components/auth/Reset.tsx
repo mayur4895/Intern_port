@@ -48,7 +48,7 @@ import { reset } from "@/actions/reset";
  
 const Reset = () => {
   const SearchParams = useSearchParams();
-  const urlError = SearchParams.get("error") === "OAuthAccountNotLinked";
+  const urlError = SearchParams?.get("error") === "OAuthAccountNotLinked";
   
   
   const {toast} = useToast();

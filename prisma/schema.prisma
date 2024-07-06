@@ -19,7 +19,7 @@ model User {
   email              String?               @unique
   emailVerified      DateTime?
   image              String?
-  phone              String?            
+  phone              String?               @unique
   isPhoneVerified    Boolean               @default(false)
   designation        String?
   password           String?
@@ -54,7 +54,7 @@ model Post {
   internResponsibilities String
   monthOrWeeks       String
   additionalPreferences String
-  companyName       String
+  companyName        String
   cities             String[]
   internshipDuration String
   internshipProfile  String

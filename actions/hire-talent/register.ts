@@ -27,13 +27,13 @@ if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
 }
 
 const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
-console.log(formattedPhoneNumber)
+ 
    const salt = await bcryptjs.genSalt(10);
 const hashpassword = await bcryptjs.hash(password, salt);
          
     const userExist = await db.user.findUnique({
         where: {
-          email: email
+          email: email,   
         }
       });
 

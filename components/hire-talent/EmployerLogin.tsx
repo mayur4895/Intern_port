@@ -35,7 +35,7 @@ import Link from "next/link";
 import { useToast } from "../ui/use-toast";
  
  
-import { login } from "@/actions/login";
+import { login } from "@/actions/student/login";
 import LoginSchema from "@/schemas/LoginSchema";
  
 
@@ -67,6 +67,7 @@ const EmployerLogin = () => {
           title:res?.success, 
          })
          form.reset();
+         
          window.location.reload();
        }
 
@@ -141,7 +142,7 @@ const EmployerLogin = () => {
 
               <span className="text-sm text-zinc-500">
                   {" "}
-                   Don't have an account?
+                   Dont have an account?
                   <Link href="/hire-talent" className=" font-semibold text-zinc-900">
                     {" "}
                     signup

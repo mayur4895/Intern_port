@@ -27,10 +27,8 @@ export const profileSchema = z.object({
 export const companySchema = z.object({
   name: z.string(),
   description: z.string().min(30, {
-    message: "Bio must be at least 30 characters.",
-  }).max(160, {
-    message: "Bio must not be longer than 160 characters.",
-  }),
+    message: " company details must be at least 30 characters.",
+  }) ,
   isIndependentHire: z.boolean().default(false).optional(),
   city: z.string().min(1, 'This field is required'),
   industry: z.string({
@@ -64,17 +62,13 @@ export const postFormSchema = z.object({
   MonthOrWeeks: z.enum(["Months", "Weeks"]),
   InternResponsibilities: z.string().min(100, {
     message: "Please enter at least 100 characters.",
-  }).max(500, {
-    message: "Please enter no more than 500 characters.",
   }),
   whoCanApply: z.string().min(30, {
     message: "Please enter at least 30 characters.",
   }),
   additionalPreferences: z.string().min(60, {
     message: "Please enter at least 60 characters.",
-  }).max(160, {
-    message: "Please enter no more than 160 characters.",
-  })
+  }) 
 }).refine((data) => {
   if (data.internshipType === 'Hybrid') {
     return data.noOfDaysInOfficeInWeek && data.noOfDaysInOfficeInWeek.trim().length > 0;

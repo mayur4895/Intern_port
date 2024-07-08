@@ -4,8 +4,11 @@ import { PiBuildingsFill } from "react-icons/pi";
 import NavigationDashboard from './NavigationDashboard';
 import { CurrentUser } from '@/hooks/use-current-user';
 import UserButton from './UserButton';
+import { FaBuilding, FaRegBuilding } from 'react-icons/fa';
+import MarkupContent from './MarkupContent';
 const DashboardHeader = () => {
     const currentUser = CurrentUser();
+    console.log(currentUser?.companyDetails);
     
     
   return (
@@ -23,9 +26,13 @@ const DashboardHeader = () => {
  </div>
       </div>
 
-     <h3 className='text-2xl'>Welcome Back {currentUser?.name} 👋</h3>
-     <h2 className=' mt-2 text-xl'> Company: {currentUser?.companyDetails?.name}</h2>
-     <span>Description: {currentUser?.companyDetails?.description}</span>
+    <div className=' flex flex-col gap-3 text-white'>
+    <h3 className='text-2xl'>Welcome Back {currentUser?.name} 👋</h3>
+     <h2 className=' mt-0 text-xl'> Company: {currentUser?.companyDetails?.name}</h2>
+     <MarkupContent content={currentUser?.companyDetails?.description}  className={'text-white'}/>
+ 
+     <span className='flex items-center gap-2'><FaRegBuilding size={22}/> {currentUser?.companyDetails?.employees} Employees </span>
+    </div>
    </div>
    </header>
   )

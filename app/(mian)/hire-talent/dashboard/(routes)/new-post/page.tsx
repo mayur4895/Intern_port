@@ -36,6 +36,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { getCompanyDetails } from "@/actions/hire-talent/getcompanyDetails";
+import RichTextEditor from "@/components/hire-talent/ReactQuill";
 
 const  NewPostPage = () => {
   const router = useRouter();
@@ -559,7 +560,7 @@ We will allow candidates who are from or willing to relocate to the given locati
                      selected={field.value}
                      onSelect={field.onChange}
                      disabled={(date) =>
-                       date > new Date() || date < new Date("1900-01-01")
+                       date < new Date() || date < new Date("1900-01-01")
                      }
                      initialFocus
                    />
@@ -601,7 +602,7 @@ We will allow candidates who are from or willing to relocate to the given locati
                      selected={field.value}
                      onSelect={field.onChange}
                      disabled={(date) =>
-                       date > new Date() || date < new Date("1900-01-01")
+                       date < new Date() || date < new Date("1900-01-01")
                      }
                      initialFocus
                    />
@@ -676,11 +677,10 @@ We will allow candidates who are from or willing to relocate to the given locati
                 control={form.control}
                 name="InternResponsibilities"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className=" ">
                     <FormLabel> Intern responsibilities</FormLabel>
                     <FormControl >
-                      <Textarea  
-                      className="resize-none" {...field} />
+                    <RichTextEditor value={field.value} onChange={field.onChange}  />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -689,14 +689,14 @@ We will allow candidates who are from or willing to relocate to the given locati
 
 
 
-
+<br /><br />
 <FormField
                 control={form.control}
                 name="whoCanApply"
        
                 render={({ field }) => (
-                  <FormItem  >
-                    <FormLabel>Who can apply (prefilled as per earlier inputs):</FormLabel>
+                  <FormItem  className="" >
+                    <FormLabel className="mt-5">Who can apply (prefilled as per earlier inputs):</FormLabel>
                     <FormControl  >
                       <Textarea
                       readOnly  

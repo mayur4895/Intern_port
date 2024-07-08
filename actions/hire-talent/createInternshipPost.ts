@@ -20,7 +20,7 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
     }
 
     const { 
-       internshipProfile,
+      internshipProfile,
       internshipDuration,
       internshipType,
       internshipStartDate,

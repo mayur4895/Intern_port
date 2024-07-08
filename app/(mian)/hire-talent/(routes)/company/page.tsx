@@ -24,6 +24,7 @@ import { CurrentUser } from "@/hooks/use-current-user";
  
  import { useCompanyStore } from "@/hooks/use-companydata";
 import { CompanyRegister } from "@/actions/hire-talent/companyRegister";
+import RichTextEditor from "@/components/hire-talent/ReactQuill";
  
 
  
@@ -108,18 +109,19 @@ const Companypage = () => {
                   <FormItem>
                     <FormLabel>{form.getValues('isIndependentHire') ? "About yourself and what you do" : "Organization Description"}</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Tell us in between 30 - 160 characters" className="resize-none" {...field} />
+                    <RichTextEditor value={field.value} onChange={field.onChange}  />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+              <br /><br />
               <FormField
                 control={form.control}
                 name="city"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{form.getValues('isIndependentHire') ? "City" : "Organization city"}</FormLabel>
+                    <FormLabel className="mt-5">{form.getValues('isIndependentHire') ? "City" : "Organization city"}</FormLabel>
                     <FormControl>
                       <Input placeholder="e.g. Pune" {...field} />
                     </FormControl>

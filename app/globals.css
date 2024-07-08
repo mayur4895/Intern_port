@@ -2,9 +2,14 @@
   @tailwind components;
   @tailwind utilities;
 
-  body {
-    font-family: 'Euclid Circular A', sans-serif;
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  .ql-editor {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 15px;
+
   }
+ 
   @layer base {
     :root {
       --background: 0 0% 100%;
@@ -50,6 +55,8 @@
       --input: 0 0% 14.9%;
       --ring: 0 0% 83.1%;
     }
+
+    
   }
     
 
@@ -60,4 +67,7 @@
     body {
       @apply bg-background text-foreground;
     }
-  }
+
+   
+  } 
+ 

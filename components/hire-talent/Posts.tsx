@@ -12,6 +12,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useCompanyPosts } from "@/hooks/use-company-posts";
+import InternshipResponsibilities from "./MarkupContent";
+import MarkupContent from "./MarkupContent";
+import Image from "next/image";
+ 
 
 const Posts = () => {
   const { data: Posts, isLoading, error } = useCompanyPosts();
@@ -30,7 +34,7 @@ const Posts = () => {
   }
 
    
-   
+ 
 
   return (
     <div>
@@ -38,14 +42,17 @@ const Posts = () => {
         <h3 className='text-xl'>Your Posts</h3>
         <div className='flex flex-col gap-3'>
           {Posts?.map((post, index) => (
+            
             <Card key={post.id}>
               <CardHeader>
-                <CardTitle className='text-xl'>{post.internshipProfile}  </CardTitle>
-                <CardDescription>{post.internResponsibilities}</CardDescription>
+                <CardTitle className='text-xl flex  items-center gap-2'>  
+                  {post?.companyLogo && <Image src={post?.companyLogo} alt="logo" height={25} width={25}/>}
+                  {post.internshipProfile}  </CardTitle>
+                <MarkupContent content={post.internResponsibilities} />
               </CardHeader>
               <CardContent className="flex flex-col gap-2">
                 <span>No of Openings: {post.noOfOpenings}</span>
-                <span className='text-gray-600 text-sm'>{post.whoCanApply}</span>
+                <MarkupContent content={post.whoCanApply} />
                 <br />
                 <span className='flex-auto gap-2'>Required Skills - {
                   post?.requiredSkills?.map((skill, skillIndex) => (

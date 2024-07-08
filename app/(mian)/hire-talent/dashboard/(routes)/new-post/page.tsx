@@ -160,12 +160,16 @@ let formatedTo;
      
 
      const formatedScript = `  
-      Only those candidates can apply who:
-      • have relevant skills and interests
-      • are available for ${partOrFullTime === 'part-time' ? 'part time' : 'full time'} ${InternType === 'in office' || InternType === "Hybrid" ? '(in-office)' : 'work from home/'} internship
-      ${(internshipDuration ) &&  (`${ (internshipStartDate === "Immediately"  )  ? `• can start the internship between ${formattedFutureDate} and  ${formattedCurrentDate}`: `${ formatedFrom !== undefined && formatedTo !== undefined   ?`• can start the internship between ${formatedFrom} and ${formatedTo}` : ''}` }`)}
-      ${(internshipDuration && MonthOrWeeks) &&(`• are available for duration of ${internshipDuration} ${MonthOrWeeks}`)}
-       `;
+      <span>  Only those candidates can apply who:</span>
+      <ul> 
+
+      <li> have relevant skills and interests </li>
+      <li> are available for ${partOrFullTime === 'part-time' ? 'part time' : 'full time'} ${InternType === 'in office' || InternType === "Hybrid" ? '(in-office)' : 'work from home/'} internship </li>
+      ${(internshipDuration ) &&  (`${ (internshipStartDate === "Immediately"  )  ? `<li> can start the internship between ${formattedFutureDate} and  ${formattedCurrentDate}`: `${ formatedFrom !== undefined && formatedTo !== undefined   ?`<li> can start the internship between ${formatedFrom} and ${formatedTo}` : ''}` } </li>`)}
+      ${(internshipDuration && MonthOrWeeks) &&(`<li> are available for duration of ${internshipDuration} ${MonthOrWeeks} </li>`)}
+       
+      
+       </ul>`;
 
  
     form.setValue('whoCanApply', formatedScript.trim());
@@ -695,7 +699,7 @@ We will allow candidates who are from or willing to relocate to the given locati
                 name="whoCanApply"
        
                 render={({ field }) => (
-                  <FormItem  className="" >
+                  <FormItem  className=" hidden" >
                     <FormLabel className="mt-5">Who can apply (prefilled as per earlier inputs):</FormLabel>
                     <FormControl  >
                       <Textarea
@@ -717,9 +721,7 @@ We will allow candidates who are from or willing to relocate to the given locati
                   <FormItem>
                     <FormLabel> Additional candidate preferences:</FormLabel>
                     <FormControl >
-                      <Textarea  
-                      placeholder="e.g Candidate pursuing Computer Science Enginneering prefered."
-                      className="resize-none" {...field} />
+                    <RichTextEditor value={field.value} onChange={field.onChange}  />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -728,7 +730,7 @@ We will allow candidates who are from or willing to relocate to the given locati
 
 
 
-
+ <br /><br />
 
             <div className="flex items-center justify-between">
               {(pathname === '/hire-talent/company' || pathname === '/hire-talent/postjob') && (

@@ -32,7 +32,7 @@ export const getCompanyDetails = async () => {
 
     return { success: "company data", data };
   } catch (error) {
-    console.log(error);
+ 
     return { error: "error fetching company details" };
   }
 }

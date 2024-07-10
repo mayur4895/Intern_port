@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getAllCompanyPosts } from '@/actions/hire-talent/getallCompanyPosts';
-import { Post } from '@prisma/client';
+import  type { Application, Post } from '@prisma/client';
 
  
 
+
+ 
 export const useGetCompanyPosts = () => {
   return useQuery<Post[], Error>({
     queryKey: ['companyPosts'],

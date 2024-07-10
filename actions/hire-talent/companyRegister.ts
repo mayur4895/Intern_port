@@ -11,7 +11,7 @@ import { currentUser } from "@/lib/auth";
  
 export const  CompanyRegister = async (values :z.infer <typeof companySchema>, userId:string)=>{
       const LoginUser = await currentUser();
-      console.log(LoginUser);
+ 
     try {
         const validatedFields =  companySchema.safeParse(values);
 
@@ -73,7 +73,9 @@ const { name , isIndependentHire, city , description , imageUrl , industry , emp
       return {success:" compnay Details Saved"} 
     }   
       } catch (error) {
-        console.log(error); 
+      return {error:" error to saved detaild"
   
       }
-}
+    }
+
+  }

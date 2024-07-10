@@ -27,14 +27,14 @@ export const getAllCompanyPosts = async () => {
          
       },orderBy:{
         createdAt: "desc",
-      }
+      },include:{
+        applications:true, 
+      }    
     
     });
   
- console.log({"posts data are":data})
-    return { success: "posts data", data };
+     return { success: "posts data", data };
   } catch (error) {
-    console.log(error);
-    return { error: "error fetching posts" };
+     return { error: "error fetching posts" };
   }
 }

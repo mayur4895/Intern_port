@@ -74,7 +74,7 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
       return { error: "A post with the same userId and internshipProfile already exists." };
     }
 
-    console.log(companyDetails); 
+ 
 
     await db.post.create({
       data: {  

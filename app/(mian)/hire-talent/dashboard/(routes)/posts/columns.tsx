@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ColumnDef } from "@tanstack/react-table"
-import { Post } from "@prisma/client"
+import type { Post } from "@prisma/client"
 import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
  
@@ -20,17 +20,17 @@ import { useDeletePost } from "@/hooks/use-delete-post"
 import { useToast } from "@/components/ui/use-toast"
 import { useDeleteCompanyPost } from "@/features/post/api/delete-companyPost"
 import PostActionsCell from "@/components/hire-talent/Post/PostActionCell"
-import { Row } from "react-day-picker"
-
- 
  
 
  
  
+
+ 
+ 
  
  
 
-export const columns: ColumnDef<Post>[] = [
+export const columns: ColumnDef<any>[] = [
 
   
 
@@ -132,17 +132,18 @@ export const columns: ColumnDef<Post>[] = [
         )
       },
   }, 
-
   {
-    accessorKey: "applicationsCount",
+    accessorKey: "applications",
     header: "Applications",
     cell: ({ row }) => {
-      const Post = row.original;
-           return (<>
-           <div>{Post.applicationsCount}</div>
-           </>)
+ 
+      
+      const post = row.original;
+      console.log(post);
+      return <div>{post.applications.length}</div>;
     }
   },
+  
   {
     id: "actions",
     cell: ({ row }) => (

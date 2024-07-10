@@ -25,7 +25,7 @@ export const applyToInternship = async (postId: string, studentId: string) => {
 
     return { success: 'Application submitted successfully' };
   } catch (error) {
-    console.error(error);
+   
     return { error: 'Failed to submit application' };
   }
 };

@@ -8,6 +8,8 @@ import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts';
 import { Post } from '@prisma/client';
  const PostPage = () => {
   const {data} = useGetCompanyPosts();
+  console.log(data);
+  
      
     if(!data){
         return <div>No Data</div>

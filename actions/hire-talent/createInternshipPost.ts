@@ -4,7 +4,8 @@ import { db } from "@/lib/db";
 import z from "zod";
 import { postFormSchema } from "@/schemas";
 import { currentUser } from "@/lib/auth";
-
+import type { Application } from "@prisma/client";
+ 
 export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema>, userId: string) => {
   const loginUser = await currentUser();
 
@@ -73,8 +74,7 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
       return { error: "A post with the same userId and internshipProfile already exists." };
     }
 
-    console.log(companyDetails);
-    
+    console.log(companyDetails); 
 
     await db.post.create({
       data: {  
@@ -91,11 +91,13 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
         requiredSkills,
         noOfOpenings,
         noOfDaysInOfficeInWeek,
-          monthOrWeeks:MonthOrWeeks,
+        monthOrWeeks:MonthOrWeeks,
         partOrFullTime,
          internResponsibilities:InternResponsibilities,
         whoCanApply,
         additionalPreferences,
+        applicationsCount:0,
+       
         
       }
     });

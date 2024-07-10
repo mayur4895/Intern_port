@@ -2,23 +2,12 @@
 import { ArrowUpDown, Delete, MoreHorizontal } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+ 
 import { ColumnDef } from "@tanstack/react-table"
 import type { Post } from "@prisma/client"
 import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
- 
-import { useDeletePost } from "@/hooks/use-delete-post"
- 
-import { useToast } from "@/components/ui/use-toast"
-import { useDeleteCompanyPost } from "@/features/post/api/delete-companyPost"
+   
 import PostActionsCell from "@/components/hire-talent/Post/PostActionCell"
  
 

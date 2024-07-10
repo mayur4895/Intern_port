@@ -6,26 +6,14 @@ import { useToast } from '@/components/ui/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
+import { useModal } from '@/hooks/use-modal-store';
  
  
 const PostActionsCell = ({ row }:any) => {
-  const post = row.original;
-  const { toast } = useToast();
-  const deletePostMutation = useDeleteCompanyPost();
-const queryClient = useQueryClient();
-  const handleDelete =   (postId:string) => {
-    try {
-        deletePostMutation.mutate(postId);  
-   console.log("delete post");
-    queryClient.invalidateQueries({ queryKey: ['companyPosts'] });   
-   toast({
-    title:"post Deleted"
-   })
-   
-    } catch (error) {
-      console.error('Error deleting post:', error);
- 
-    }
+  const post = row.original; 
+  const {onOpen} = useModal();
+  const handleDelete =   () => {
+    onOpen('deletePost',{post})
   };
 
   return (
@@ -41,7 +29,7 @@ const queryClient = useQueryClient();
         <DropdownMenuItem onClick={() => navigator.clipboard.writeText(post.id)}>
           Copy Post ID
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleDelete(post.id)}>
+        <DropdownMenuItem onClick={() => handleDelete()}>
           Delete Post
         </DropdownMenuItem>
         <DropdownMenuSeparator />

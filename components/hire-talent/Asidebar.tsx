@@ -7,7 +7,7 @@ import {
     TooltipTrigger,
   } from "@/components/ui/tooltip"
 import Link from 'next/link'
-import { Home, LineChart, Package, Package2, Settings, ShoppingCart, Users2 } from 'lucide-react'
+import { Building2, Home, LineChart, Package, Package2, Settings, ShoppingCart, Users2 } from 'lucide-react'
 import { FaPlusCircle } from 'react-icons/fa'
 const Asidebar = () => {
   return (
@@ -15,9 +15,15 @@ const Asidebar = () => {
  <aside className="fixed inset-y-0 left-0 z-10 hidden md:w-48 flex-col border-r bg-background  lg:flex">
         <nav className="flex flex-col items-start gap-5 px-2 sm:py-5">
       
-             <span>mayur</span>
        
-   
+       
+        <Link
+        href="#"
+        className="group flex  shrink-0 gap-2   text-sm font-semibold  md:text-base"
+      >
+        <Building2 className="h-4 w-4 transition-all group-hover:scale-110" />
+        <span>Modern </span>
+      </Link>
        
               <Link
                 href="/hire-talent/dashboard"
@@ -50,7 +56,7 @@ const Asidebar = () => {
                 className='text-sm flex item-end gap-2'
               >
                 <LineChart className="h-5 w-5" />
-                <span className="sr-only">Analytics</span>
+                <span  >charts</span>
               </Link>
          
         </nav>
@@ -61,7 +67,7 @@ const Asidebar = () => {
                 className='text-sm flex item-end gap-2'
               >
                 <Settings className="h-5 w-5" />
-                <span className="sr-only">Settings</span>
+                <span >Settings</span>
               </Link>
          
         </nav>

@@ -8,6 +8,7 @@ import { auth } from '@/auth';
 import { ClientProviders } from '@/components/providers/client-provider';
  
 import React from 'react';
+import ModalProvider from '@/components/providers/modal-provider';
  
 
 const font = Poppins({
@@ -31,7 +32,7 @@ export default async function RootLayout({
       <body className={cn(font.className)}>
         <ClientProviders session={session}>  
             {children} 
- 
+            <ModalProvider/>
         </ClientProviders>
       </body>
     </html>

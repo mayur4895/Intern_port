@@ -127,8 +127,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
  
       
-      const post = row.original;
-      console.log(post);
+      const post = row.original; 
       return <div>{post.applications.length}</div>;
     }
   },

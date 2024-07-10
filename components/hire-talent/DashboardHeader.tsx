@@ -89,7 +89,7 @@ const DashboardHeader = () => {
 //     </div>
 //    </div>
 //    </header>
-<header className="sticky  py-2  top-0 z-30 flex h-14 items-center gap-4 border-b bg-background   sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-2">
+<header className="sticky  py-2  top-0 z-30 flex h-14 items-center gap-4 border-b bg-background   sm:static sm:h-auto sm:border-0 sm:bg-transparent px-4">
 <Sheet>
   <SheetTrigger asChild>
     <Button size="icon" variant="outline" className="lg:hidden">

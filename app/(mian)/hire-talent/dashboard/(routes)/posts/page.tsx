@@ -5,17 +5,32 @@ import { DataTable } from './data-table';
 import { columns } from './columns'; 
 import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts';
 import { Post } from '@prisma/client';
+import { Loader2 } from 'lucide-react';
+import { TbDatabaseOff } from "react-icons/tb";
+
  const PostPage = () => {
-  const {data} = useGetCompanyPosts();
-  console.log(data);
+  const {data,isLoading} = useGetCompanyPosts();
+ 
   
      
+    if(isLoading){
+        return <div className='  h-full left-0 top-0   lg:pl-14   flex items-center justify-center     w-full    '>
+        <div className="   flex items-center justify-center  bottom-0 right-0 fixed   h-full lg:w-[85%]  w-full  "> 
+           <Loader2 className=' animate-spin '/>
+        </div>
+        </div>
+    }
+
     if(!data){
-        return <div>No Data</div>
+      return <div className='h-full w-full '>
+        <div className="flex items-center justify-center"> 
+                 <TbDatabaseOff size={22}/>
+                  </div>
+        </div>
     }
  
   return (
-    <div className="container  px-1 py-10">
+    <div className="container   py-10">
       <DataTable columns={columns} data={data}/>
     </div>
   )

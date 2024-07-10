@@ -56,11 +56,11 @@ const DashboardLayout = ({children}:{children:React.ReactNode}) => {
       </TooltipProvider>
    <div className='  lg:pl-40'>
    <div className="flex flex-col    ">
- <div className=" md:border-b lg:pl-12 sm:px-2">
+ <div className=" md:border-b lg:pl-12 sm:px-4">
  <DashboardHeader />
  </div>
  
-  <div className=" lg:pl-12 lg:px-4 sm:px-2">
+  <div className=" lg:pl-12 lg:px-4 sm:px-2 relative h-full w-full">
   {children}
   </div>
       </div>

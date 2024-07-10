@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { useInternships } from '@/hooks/use-all-posts'
-import { useCompanyPosts } from '@/hooks/use-company-posts'
+ 
 import { CurrentUser } from '@/hooks/use-current-user'
 import { UserType } from '@prisma/client'
 import { ArrowRight, Building2, CreditCard, LocateIcon } from 'lucide-react'

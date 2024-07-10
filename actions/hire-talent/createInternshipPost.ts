@@ -95,10 +95,7 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
         partOrFullTime,
          internResponsibilities:InternResponsibilities,
         whoCanApply,
-        additionalPreferences,
-        applicationsCount:0,
-       
-        
+        additionalPreferences,   
       }
     });
 

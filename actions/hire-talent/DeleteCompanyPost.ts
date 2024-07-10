@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
  
 import { currentUser } from "@/lib/auth";
 
-export const DeleteInternshipPost = async (postId: string) => {
+export const DeleteCompanyPost = async (postId: string) => {
   const loginUser = await currentUser();
 
   if (!loginUser) {

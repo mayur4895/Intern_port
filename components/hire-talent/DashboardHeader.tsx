@@ -4,7 +4,7 @@ import { PiBuildingsFill } from "react-icons/pi";
 import NavigationDashboard from './NavigationDashboard';
 import { CurrentUser } from '@/hooks/use-current-user';
 import UserButton from './UserButton';
-import { FaBuilding, FaRegBuilding } from 'react-icons/fa';
+import { FaBuilding, FaPlusCircle, FaRegBuilding } from 'react-icons/fa';
 import MarkupContent from './MarkupContent';
 
 import { Badge } from "@/components/ui/badge"
@@ -35,6 +35,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
+  Building,
+  Building2,
   File,
   Home,
   LineChart,
@@ -55,6 +57,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Separator } from '../ui/separator';
 import { usePathname } from 'next/navigation';
+import { Avatar, AvatarImage } from '../ui/avatar';
+import { AvatarFallback } from '@radix-ui/react-avatar';
+import { signOut } from 'next-auth/react';
 const DashboardHeader = () => {
     const currentUser = CurrentUser();
  
@@ -84,7 +89,7 @@ const DashboardHeader = () => {
 //     </div>
 //    </div>
 //    </header>
-<header className="sticky  top-0 z-30 flex h-14 items-center gap-4 border-b bg-background   sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-2">
+<header className="sticky  py-2  top-0 z-30 flex h-14 items-center gap-4 border-b bg-background   sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-2">
 <Sheet>
   <SheetTrigger asChild>
     <Button size="icon" variant="outline" className="lg:hidden">
@@ -96,46 +101,39 @@ const DashboardHeader = () => {
     <nav className="grid gap-6 text-lg font-normal">
       <Link
         href="#"
-        className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+        className="group flex  shrink-0 gap-2   text-sm font-semibold  md:text-base"
       >
-        <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
-        <span className="sr-only">Acme Inc</span>
+        <Building2 className="h-4 w-4 transition-all group-hover:scale-110" />
+        <span>Modern </span>
       </Link>
       <Separator/>
       <Link
-        href="#"
+          href="/hire-talent/dashboard"
         className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground text-sm"
       >
         <Home className="h-4 w-4" />
         Dashboard
       </Link>
       <Link
-        href="#"
+        href="/hire-talent/dashboard/new-post"
         className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground text-sm"
       >
-        <ShoppingCart className="h-4 w-4" />
-        Orders
+            <FaPlusCircle className="h-5 w-5" />
+            <span className="">Create post</span> 
       </Link>
       <Link
-        href="#"
-        className="flex items-center gap-4 px-2.5 text-foreground text-sm"
+      href="/hire-talent/dashboard/posts"
+        className="flex items-center gap-4 px-2.5 text-muted-foreground  hover:text-foreground text-sm"
       >
         <Package className="h-4 w-4" />
-        Products
-      </Link>
-      <Link
-        href="#"
-        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground text-sm"
-      >
-        <Users2 className="h-4 w-4" />
-        Customers
-      </Link>
+         view posts
+      </Link> 
       <Link
         href="#"
         className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground text-sm"
       >
         <LineChart className="h-4 w-4" />
-        Settings
+      charts
       </Link>
     </nav>
   </SheetContent>
@@ -162,7 +160,7 @@ const DashboardHeader = () => {
   <Input
     type="search"
     placeholder="Search..."
-    className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+    className="w-full rounded-lg bg-background  pl-8 md:w-[200px] lg:w-[336px]"
   />
 </div>
 <DropdownMenu>
@@ -170,15 +168,12 @@ const DashboardHeader = () => {
     <Button
       variant="outline"
       size="icon"
-      className="overflow-hidden rounded-full"
+      className="overflow-hidden rounded-full  "
     >
-      <Image
-        src="/placeholder-user.jpg"
-        width={36}
-        height={36}
-        alt="Avatar"
-        className="overflow-hidden rounded-full"
-      />
+    <Avatar className='flex items-center  bg-blue-400  justify-center '>
+      <AvatarImage src="/user.png" alt="@shadcn" />
+      <AvatarFallback className='   text-white'>{currentUser?.name ? currentUser?.name[0]: '?'}</AvatarFallback>
+    </Avatar>
     </Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent align="end">
@@ -187,7 +182,9 @@ const DashboardHeader = () => {
     <DropdownMenuItem>Settings</DropdownMenuItem>
     <DropdownMenuItem>Support</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem>Logout</DropdownMenuItem>
+    <DropdownMenuItem  onClick={() => {
+                            signOut();
+                          }}>Logout</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
 </header>

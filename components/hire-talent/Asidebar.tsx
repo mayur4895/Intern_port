@@ -38,27 +38,13 @@ const Asidebar = () => {
               </Link>
             
            <Link
-                href="#"
+       href="/hire-talent/dashboard/posts"
                 className='text-sm flex item-end gap-2'
               >
                 <Package className="h-5 w-5" />
-                <span className="sr-only">Products</span>
+                <span >View Posts</span>
               </Link>
-    
- 
       
- 
-              <Link
-                href="#" className='text-sm flex item-end gap-2'
-              >
-                <Users2 className="h-5 w-5" />
-                <span className="sr-only">Customers</span>
-              </Link>
-             
-   
- 
-  
- 
               <Link
                 href="#"
                 className='text-sm flex item-end gap-2'

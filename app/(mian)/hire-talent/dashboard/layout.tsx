@@ -55,10 +55,14 @@ const DashboardLayout = ({children}:{children:React.ReactNode}) => {
      <Asidebar/>
       </TooltipProvider>
    <div className='  lg:pl-40'>
-   <div className="flex flex-col sm:gap-4 sm:py-4  lg:pl-14 sm:px-4">
-     <DashboardHeader />
+   <div className="flex flex-col    ">
+ <div className=" md:border-b lg:pl-12 sm:px-2">
+ <DashboardHeader />
+ </div>
  
-      {children}
+  <div className=" lg:pl-12 lg:px-4 sm:px-2">
+  {children}
+  </div>
       </div>
     </div>
  </div>

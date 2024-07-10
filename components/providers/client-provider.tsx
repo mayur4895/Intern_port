@@ -1,10 +1,10 @@
 // components/ClientProviders.tsx
-'use client';
-
+'use client'; 
 import React from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+ 
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from "@/components/ui/toaster";
+import QueryProvider from './query-provider';
 
 interface ClientProvidersProps {
   children: React.ReactNode;
@@ -12,14 +12,14 @@ interface ClientProvidersProps {
 }
 
 export const ClientProviders = ({ children, session }: ClientProvidersProps) => {
-  const queryClient = new QueryClient();
+ 
 
   return (
     <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
+      <QueryProvider >
         {children}
-        <Toaster />
-      </QueryClientProvider>
+        <Toaster /> 
+      </QueryProvider>
     </SessionProvider>
   );
 };

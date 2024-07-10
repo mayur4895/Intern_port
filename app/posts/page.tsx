@@ -8,15 +8,5 @@ import { Post } from "@prisma/client";
 
 export default   function PostsTable() {
  
-    const {data} = useCompanyPosts();
-     
-    if(!data){
-        return <div>No Data</div>
-    }
- 
-  return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data}/>
-    </div>
-  )
+    
 }

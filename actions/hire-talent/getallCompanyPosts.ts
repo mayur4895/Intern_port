@@ -3,7 +3,7 @@
 import { db } from "@/lib/db";    
 import { currentUser } from "@/lib/auth";
 
-export const getAllPosts = async () => {
+export const getAllCompanyPosts = async () => {
   const LoginUser = await currentUser();
    
   try { 

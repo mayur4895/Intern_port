@@ -14,10 +14,13 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Post } from "@prisma/client"
 import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { DeleteInternshipPost } from "@/actions/hire-talent/DeleteInternshipPost"
+ 
 import { useDeletePost } from "@/hooks/use-delete-post"
  
 import { useToast } from "@/components/ui/use-toast"
+import { useDeleteCompanyPost } from "@/features/post/api/delete-companyPost"
+import PostActionsCell from "@/components/hire-talent/Post/PostActionCell"
+import { Row } from "react-day-picker"
 
  
  
@@ -131,48 +134,19 @@ export const columns: ColumnDef<Post>[] = [
   }, 
 
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "applicationsCount",
+    header: "Applications",
+    cell: ({ row }) => {
+      const Post = row.original;
+           return (<>
+           <div>{Post.applicationsCount}</div>
+           </>)
+    }
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const Post = row.original
-      const {toast} = useToast();
-      const deletePostMutation = useDeletePost();
-    
-      const handleDelete =  (postId: string) => {
-            deletePostMutation.mutate(postId);
-          console.log("post Delete");
-      };
-    
-     
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(Post.id)}
-            >
-              Copy Post ID
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleDelete(Post.id)}
-            >
-                  Delete Post
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View Post Details</DropdownMenuItem>
-            <DropdownMenuItem>View Applications</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
+    cell: ({ row }) => (
+      <PostActionsCell row={row} />
+    ),
   },
 ]

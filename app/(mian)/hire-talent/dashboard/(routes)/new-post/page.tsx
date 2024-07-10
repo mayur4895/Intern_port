@@ -71,11 +71,10 @@ const  NewPostPage = () => {
     setIsLoading(true);
     const res =  await CreateInternshipPost(data, currentUser.id);
     if (res?.success) {
-      toast({ title: res.success, variant: "success" }); 
       setIsLoading(false);
-      form.reset();
+      toast({ title: res.success, variant: "success" });  
       router.push("/hire-talent/dashboard/posts");
-       window.location.reload();
+    
     }else {
       toast({ title: res?.error, variant: "destructive" });
       setIsLoading(false)

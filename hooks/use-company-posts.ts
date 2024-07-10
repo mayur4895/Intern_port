@@ -2,10 +2,11 @@
 import { useQuery } from '@tanstack/react-query';
  
 import type { Post } from '@prisma/client';
-import { getAllPosts } from '@/actions/hire-talent/getallCompanyPosts';
+import { getAllCompanyPosts } from '@/actions/hire-talent/getallCompanyPosts';
+ 
 
 const fetchCompanyPosts = async (): Promise<Post[]> => {
-  const res = await getAllPosts();
+  const res = await  getAllCompanyPosts();
   if (res?.success && res?.data) {
     return res.data;
   } else {

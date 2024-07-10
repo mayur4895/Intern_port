@@ -75,7 +75,7 @@ const queryClient = useQueryClient();
           <DialogTitle className="text-2xl">Are you sure to Delete Server?</DialogTitle>
           <DialogDescription>
             This action cannot be undone. Once you Deleted this
-             <span className="text-blue-400"> ' asch ' </span> server. permanently deleted
+             <span className="text-blue-400"> asch  </span> server. permanently deleted
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex items-center">

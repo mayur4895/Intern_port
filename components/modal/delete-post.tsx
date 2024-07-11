@@ -45,7 +45,7 @@ const queryClient = useQueryClient();
     try { 
         if (data && 'post' in data) {
         
-      await  deletePostMutation.mutateAsync(data.post.id)
+         deletePostMutation.mutate(data.post.id)
      queryClient.invalidateQueries({ queryKey: ['companyPosts'] });   
    toast({
     variant:"success",
@@ -72,10 +72,10 @@ const queryClient = useQueryClient();
       
       <DialogContent  >
         <DialogHeader>
-          <DialogTitle className="text-2xl">Are you sure to Delete Server?</DialogTitle>
+          <DialogTitle className="text-2xl">Are you sure to Delete this Post?</DialogTitle>
           <DialogDescription>
             This action cannot be undone. Once you Deleted this
-             <span className="text-blue-400"> asch  </span> server. permanently deleted
+             <span className="text-zinc-800 font-semibold"> {data && 'post' in data ? data.post.internshipProfile:''}  </span> Post. permanently deleted
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex items-center">

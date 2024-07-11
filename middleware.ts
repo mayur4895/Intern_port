@@ -2,14 +2,14 @@ import { UserType } from "@prisma/client";
 import { AuthRoutes, apiAuthprefix, publicRoutes } from "./route";
 import { auth } from "./auth";
 
-export default auth((req: any,res:any) => {
+export default auth((req:any,res:any) => {
   const { nextUrl } = req;
   const session = req.auth;
   const isLoggedIn = !!session;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthprefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
-
+  
   if (isApiAuthRoute) {
     return null;
   }
@@ -17,7 +17,7 @@ export default auth((req: any,res:any) => {
   if (isAuthRoute) {
     if (isLoggedIn) {
       if (session?.user?.role === UserType.STUDENT) {
-        return  Response.redirect(new URL("/student/dashboard", nextUrl));
+        return  res.redirect(new URL("/student/dashboard", nextUrl));
       }
       if (session?.user?.role === UserType.EMPLOYER) {
         return Response.redirect(new URL("/hire-talent/profile", nextUrl));

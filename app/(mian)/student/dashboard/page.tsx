@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { useGetAllPosts } from '@/features/post/api/getallPosts'
 import { useInternships } from '@/hooks/use-all-posts'
  
 import { CurrentUser } from '@/hooks/use-current-user'
@@ -11,6 +12,7 @@ import { UserType } from '@prisma/client'
 import { ArrowRight, Building2, CreditCard, LocateIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { stringify } from 'node:querystring'
 import { json } from 'node:stream/consumers'
@@ -19,7 +21,7 @@ import React from 'react'
  const DashboardPage =  () => {
 const currentUser = CurrentUser();
  
-const { data: Internships, isLoading, error, } = useInternships();
+const { data: Internships, isLoading, error, } = useGetAllPosts();
 console.log(Internships);
  
 
@@ -47,6 +49,7 @@ const MapIcon:any = {
            </div>
            {internship.companyLogo && <Image  src={internship.companyLogo} alt='logo' height={30} width={30} className=' object-center object-contain' />}
                 </CardHeader>
+           
                 <Separator/>
                <CardContent  className=' py-4'>  
               
@@ -57,7 +60,7 @@ const MapIcon:any = {
                 <span className='text-xs text-gray-500 '>{internship.createdAt.toDateString()}</span>
                 </CardContent>
               <CardFooter className=' mt-5 flex  items-end justify-end'>
-                <Button variant={'link'} className='flex items-center text-blue-800 gap-1'>View Details <ArrowRight size={15}/></Button>
+                <Link href={`/student/internship/${internship?.id}/detail`}    className='flex text-sm items-center text-blue-500 gap-1'>View Details <ArrowRight size={15}/></Link>
               </CardFooter>
              
             </Card>

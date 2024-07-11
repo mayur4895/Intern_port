@@ -17,7 +17,7 @@ export default auth((req: any,res:any) => {
   if (isAuthRoute) {
     if (isLoggedIn) {
       if (session?.user?.role === UserType.STUDENT) {
-        return  res.redirect(new URL("/student/dashboard", nextUrl));
+        return  Response.redirect(new URL("/student/dashboard", nextUrl));
       }
       if (session?.user?.role === UserType.EMPLOYER) {
         return Response.redirect(new URL("/hire-talent/profile", nextUrl));

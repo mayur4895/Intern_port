@@ -83,8 +83,7 @@ export function Dashboard() {
  <Card className=" shadow-sm">
 <CardHeader>
   <CardTitle>Recent Posts</CardTitle>
-  <CardDescription>View all  recent posts</CardDescription>
-   
+  <CardDescription>View all  recent posts</CardDescription> 
 </CardHeader>
  </Card>
 </div>

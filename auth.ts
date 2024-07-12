@@ -67,11 +67,13 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
         if (!token.sub) return token;
         const userExist = await getUserById(token.sub);
         if (!userExist) return token;
+        token.id = userExist.id;
         token.role = userExist.role;
         token.phone = userExist.phone;
         token.phoneverified = userExist.isPhoneVerified as boolean;
         if (userExist.role == UserType.EMPLOYER) {
           token.id = token.sub;
+          token.id = userExist.id;
           token.designation = userExist.designation; 
           token.companyDetails = userExist.companyDetails
           token.phoneverified = userExist.isPhoneVerified as boolean;

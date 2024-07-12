@@ -1,14 +1,22 @@
-// actions/hire-talent/applyToPost.ts
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+'use server'
+import { db } from "@/lib/db";
 
 export const applyToInternship = async (postId: string, studentId: string) => {
+ 
+
+ console.log(studentId);
+ 
+
+  if (!studentId) {
+    return { error: 'Student ID is required' };
+  }
+
   try {
-    const existingApplication = await prisma.application.findFirst({
+    const existingApplication = await db.application.findFirst({
       where: {
         postId,
         studentId,
+        status: 'Pending',  
       },
     });
 
@@ -16,22 +24,25 @@ export const applyToInternship = async (postId: string, studentId: string) => {
       return { error: 'You have already applied to this post' };
     }
 
-    await prisma.application.create({
+    await db.application.create({
       data: {
         postId,
         studentId,
+        status: 'Pending',
+        createdAt: new Date(),
       },
     });
 
     return { success: 'Application submitted successfully' };
+
   } catch (error) {
-   
+    console.log(error);
     return { error: 'Failed to submit application' };
   }
 };
 
 export const getApplicationsByStudent = async (studentId: string) => {
-  return await prisma.application.findMany({
+  return await db.application.findMany({
     where: {
       studentId,
     },

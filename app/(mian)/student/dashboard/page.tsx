@@ -45,13 +45,13 @@ const MapIcon:any = {
                  <CardHeader className='flex justify-between items-start flex-row w-full'>
            <div>
            <span className=''>{internship.internshipProfile}   </span>
-           <CardDescription className=' h-14 w-[90%]'>{internship.companyName}</CardDescription>
+           <CardDescription className=' text-nowrap h-7 w-[90%]'>{internship.companyName}</CardDescription>
            </div>
            {internship.companyLogo && <Image  src={internship.companyLogo} alt='logo' height={30} width={30} className=' object-center object-contain' />}
                 </CardHeader>
            
                 <Separator/>
-               <CardContent  className=' py-4'>  
+               <CardContent  className=' py-2'>  
               
          
                 <span className='flex items-center gap-2 text-sm'>  { MapIcon[internship.internshipType]} {internship.internshipType}</span>

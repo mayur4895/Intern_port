@@ -13,6 +13,9 @@ import MarkupContent from '@/components/hire-talent/MarkupContent'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useModal } from '@/hooks/use-modal-store'
+import { Skeleton } from '@/components/ui/skeleton'
+import ApplyForm from '@/components/student/ApplyForm'
+import { CurrentUser } from '@/hooks/use-current-user'
 
  
 
@@ -25,10 +28,12 @@ const IconMap:any = {
 }
 
        const params = useParams();
+       const currentUser = CurrentUser();
+       console.log(currentUser);
+       
        const { internshipId } = params as { internshipId: string }
        const {onOpen}= useModal();
-       const {data} = useGetInternship(internshipId);
-  
+       const {data} = useGetInternship(internshipId); 
        
   return (
     <div>
@@ -36,6 +41,8 @@ const IconMap:any = {
        
                 <Card className=' shadow-sm p-4 w-3/4 rounded-none flex flex-col gap-5'>
                    <div className='p-6 text-start flex flex-col gap-2'>
+                
+
                    <CardTitle className=' text-xl font-normal'>{data?.internshipProfile}</CardTitle>
                    <CardDescription className=' font-medium'>{data?.companyName}</CardDescription>
                    </div>
@@ -89,7 +96,7 @@ const IconMap:any = {
                  </div>
                    </CardContent>
                    <CardFooter>
-                    <Button onClick={()=>{onOpen('applyPost',{})}}>Apply Now</Button>
+                     {(data?.id && currentUser?.id )&&  <ApplyForm postId={data.id} studentId={currentUser.id} />}
                    </CardFooter>
                 </Card>
             </div>

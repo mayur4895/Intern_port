@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import DeletePost from "../modal/delete-post"
+import ApplyPost from "../modal/apply-post"
  
  
  
@@ -24,6 +25,7 @@ if(!isMounted){
 
     return(<>
     <DeletePost/> 
+    <ApplyPost/>
     </>)
 }
 

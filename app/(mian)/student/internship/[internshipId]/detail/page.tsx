@@ -12,6 +12,7 @@ import DaysAgo from '@/components/hire-talent/Post/daysAgo'
 import MarkupContent from '@/components/hire-talent/MarkupContent'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { useModal } from '@/hooks/use-modal-store'
 
  
 
@@ -25,7 +26,7 @@ const IconMap:any = {
 
        const params = useParams();
        const { internshipId } = params as { internshipId: string }
-       
+       const {onOpen}= useModal();
        const {data} = useGetInternship(internshipId);
   
        
@@ -88,7 +89,7 @@ const IconMap:any = {
                  </div>
                    </CardContent>
                    <CardFooter>
-                    <Button>Apply Now</Button>
+                    <Button onClick={()=>{onOpen('applyPost',{})}}>Apply Now</Button>
                    </CardFooter>
                 </Card>
             </div>

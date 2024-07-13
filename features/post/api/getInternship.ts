@@ -1,12 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import type { Post } from '@prisma/client';
 import { getInternship } from '@/actions/student/getInternship';
 
-export const useGetInternship = (postId: string) => {
+export const useGetInternship = (postId: string): UseQueryResult<Post, Error> => {
   return useQuery<Post, Error>({
-    queryKey: ['internship', postId],
+    queryKey: ['InternshipPosts', postId],
     queryFn: async () => {
-      return await getInternship(postId);
+      const data = await getInternship(postId);
+      if (!data) {
+        throw new Error("Post not found");
+      }
+      return data;
     },
   });
 };

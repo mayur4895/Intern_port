@@ -83,7 +83,7 @@ model Application {
   createdAt          DateTime              @default(now())
   student            User                  @relation(fields: [studentId], references: [id], onDelete: Cascade)
   post               Post                  @relation(fields: [postId], references: [id], onDelete: Cascade)
- 
+  resumeUrl   String
   @@unique([studentId, postId])
 }
 

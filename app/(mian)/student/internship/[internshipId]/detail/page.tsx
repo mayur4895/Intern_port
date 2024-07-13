@@ -16,6 +16,7 @@ import { useModal } from '@/hooks/use-modal-store'
 import { Skeleton } from '@/components/ui/skeleton'
 import ApplyForm from '@/components/student/ApplyForm'
 import { CurrentUser } from '@/hooks/use-current-user'
+import SkeletonLoader from './skeltonLoader'
 
  
 
@@ -32,8 +33,10 @@ const IconMap:any = {
        
        const { internshipId } = params as { internshipId: string }
        const {onOpen}= useModal();
-       const {data} = useGetInternship(internshipId); 
-       
+       const {data , isLoading} = useGetInternship(internshipId); 
+        if (isLoading) {
+            return <SkeletonLoader/>
+        } 
   return (
     <div>
             <div className=' text-center flex flex-col items-center justify-center'>

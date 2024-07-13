@@ -1,22 +1,15 @@
 'use server';
 
 import { db } from "@/lib/db";    
+import { Post } from '@prisma/client';
 
-export const getInternship = async (postId: string) => {
-  try {   
-    const data = await db.post.findUnique({ 
+export const getInternship = async (postId: string): Promise<Post | null | undefined> => {
+  
+    const data = await db.post.findUnique({
       where: {
         id: postId
       }
     });
-
-    if (!data) {
-      throw new Error("Post not found");
-    }
-
-    return data; 
-  } catch (error) {
- 
-    throw   Error("Error fetching post"); 
-  }
-}
+    return data;
+  
+};

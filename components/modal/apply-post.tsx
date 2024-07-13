@@ -33,14 +33,11 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { ApplyFormSchema } from "@/schemas/applyformScehma";
 
 
 
-const formSchema = z.object({
-  resume: z.string().min(1, {
-    message: "Required Resume ",
-  }),
-})
+ 
 const ApplyPost = () => {
   const { isOpen, onClose, type, data } = useModal();
   const isModalOpen = isOpen && type === "applyPost";
@@ -58,8 +55,8 @@ const ApplyPost = () => {
 
   const { data: internshipData } = useGetInternship(postId || '');
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof ApplyFormSchema>>({
+    resolver: zodResolver(ApplyFormSchema),
     defaultValues: {
       resume: "",
     },
@@ -80,15 +77,25 @@ const ApplyPost = () => {
    
  
  
-  async function onSubmit(values: z.infer<typeof formSchema>) { 
+  async function onSubmit(values: z.infer<typeof ApplyFormSchema>) { 
     if (studentId && postId) {
-      const response = await applyToInternship(postId, studentId);
+      const response = await applyToInternship(postId, studentId,values);
       if (response.error) {
-        alert(response.error);
+        toast({
+          variant:"destructive",
+          title: response.error,
+        })
+        onClose();
+   
       } else {
-        alert('Application submitted successfully');
+        toast({
+         variant:"success",
+          title: response.success,
+        })
+        onClose();
       }
     } else {
+      onClose();
       console.error("Invalid modal data");
     }
   }
@@ -125,7 +132,7 @@ const ApplyPost = () => {
             <FormItem>
               <FormLabel>Upload Resume</FormLabel>
               <FormControl>
-               <FileUplod value={field.value} onChange={field.onChange} endpoint="ResumePdf"/>
+               <FileUplod  value={field.value} onChange={field.onChange} endpoint="ResumePdf"/>
               </FormControl> 
               <FormMessage />
             </FormItem>

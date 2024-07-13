@@ -28,8 +28,7 @@ const IconMap:any = {
 }
 
        const params = useParams();
-       const currentUser = CurrentUser();
-       console.log(currentUser);
+       const currentUser = CurrentUser(); 
        
        const { internshipId } = params as { internshipId: string }
        const {onOpen}= useModal();

@@ -3,6 +3,7 @@ import { applyToInternship } from '@/actions/hire-talent/applyToInternship';
 import React from 'react';
 import { Button } from '../ui/button';
 import { User } from '@prisma/client';
+import { ModalData, useModal } from '@/hooks/use-modal-store';
  
 
 interface ApplyFormProps {
@@ -12,16 +13,16 @@ interface ApplyFormProps {
 }
 
 const ApplyForm: React.FC<ApplyFormProps> = ({ postId, studentId }) => {
-  console.log(studentId);
-  
-  const handleApply = async () => {
-    const response = await applyToInternship(postId, studentId);
-    if (response.error) {
-      alert(response.error);
-    } else {
-      alert('Application submitted successfully');  
-    }
-  };
+ const {onOpen,isOpen,type,data} = useModal();
+ 
+
+ 
+  const handleApply =   () => {
+    
+ 
+     onOpen('applyPost',{postId, studentId})
+ 
+};
 
   return (
     <div>

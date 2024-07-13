@@ -162,7 +162,7 @@ const Companypage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUpload endpoint="imageUploader" value={field.value} onChange={field.onChange} />
+                        <FileUpload endpoint="CompanyLogo" value={field.value} onChange={field.onChange} />
                       </FormControl>
                     </FormItem>
                   )}

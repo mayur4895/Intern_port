@@ -181,7 +181,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
                           href={"/auth/signup"}
                           className="text-sm font-normal text-black  hover:text-blue-500">
                           {" "}
-                          Candident Sign-up{" "}
+                          Candidate Sign-up{" "}
                         </Link>
 
                         <Link

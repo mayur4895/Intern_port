@@ -16,7 +16,7 @@ export const getInternship = async (postId: string) => {
 
     return data; 
   } catch (error) {
-    console.error(error);
-    throw new Error("Error fetching post");
+ 
+    throw   Error("Error fetching post"); 
   }
 }

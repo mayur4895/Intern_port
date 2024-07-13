@@ -5,6 +5,8 @@ export type ModalType = "deletePost" | "applyPost";
 
 export interface ModalData {  
   post: Post; 
+  studentId:string; 
+  postId:string; 
 }
 
 interface ModalStore {

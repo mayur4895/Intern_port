@@ -37,8 +37,8 @@ import { Input } from "@/components/ui/input"
 
 
 const formSchema = z.object({
-  resume: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  resume: z.string().min(1, {
+    message: "Required Resume ",
   }),
 })
 const ApplyPost = () => {

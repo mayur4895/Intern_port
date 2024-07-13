@@ -91,7 +91,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
       <div className="lg:flex hidden flex-row  ml-5  gap-x-4  "> 
  
       <Link href={"/auth/login"}  onClick={()=>{onSetType("student")}}> <Button>Login</Button> </Link>
-        <Link href={"/auth/signup"}> <Button variant={"outline"} >Candident Sign-up</Button> </Link>
+        <Link href={"/auth/signup"}> <Button variant={"outline"} >Candidate Sign-up</Button> </Link>
         
         <Link href={"/hire-talent"}> <Button variant={"outline"} >Employer Sign-up</Button> </Link>
  

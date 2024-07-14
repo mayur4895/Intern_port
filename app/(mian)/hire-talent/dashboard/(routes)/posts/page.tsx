@@ -35,7 +35,7 @@ import { useGetApplicationofPost } from '@/features/post/api/getapplicationsofPo
     }
  
   return (
-    <div className="container   py-10">
+    <div className="    px-2   py-10">
       <DataTable columns={columns} data={data }/>
     </div>
   )

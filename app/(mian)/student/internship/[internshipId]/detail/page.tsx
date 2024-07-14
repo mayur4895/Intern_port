@@ -65,7 +65,7 @@ const IconMap:any = {
                        </div>
                        <div className=' flex flex-col gap-2'>
                         <span className=' flex items-center gap-2 text-gray-500 text-sm'> <GiSandsOfTime size={22}/> Apply By</span>
-                        <span className=' text-sm'>25 Aug</span>
+                        <span className=' text-sm'>25 Aug </span>
                        </div>
                   </div>
                  <div className=' mt-5 flex flex-col gap-6 '> 

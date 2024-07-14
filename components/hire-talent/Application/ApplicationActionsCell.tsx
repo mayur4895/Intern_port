@@ -7,10 +7,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { useModal } from '@/hooks/use-modal-store';
-import Link from 'next/link';
  
  
-const PostActionsCell = ({ row }:any) => {
+const ApplicationActionsCell = ({ row }:any) => {
   const post = row.original; 
   const {onOpen} = useModal();
   const handleDelete =   () => {
@@ -28,17 +27,17 @@ const PostActionsCell = ({ row }:any) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem onClick={() => navigator.clipboard.writeText(post.id)}>
-          Copy Post ID
+          Copy Application ID
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDelete()}>
-          Delete Post
+          Delete Application
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>View Post Details</DropdownMenuItem>
-        <DropdownMenuItem  ><Link href={`/hire-talent/dashboard/${post.id}/applications`}>View Applications</Link></DropdownMenuItem>
+        <DropdownMenuItem>Save Candidate</DropdownMenuItem>
+        <DropdownMenuItem>Select Candidate</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 };
 
-export default PostActionsCell;
+export default ApplicationActionsCell;

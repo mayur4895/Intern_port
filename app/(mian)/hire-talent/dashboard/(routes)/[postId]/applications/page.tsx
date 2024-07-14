@@ -8,14 +8,17 @@ import { Post } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { TbDatabaseOff } from "react-icons/tb";
 import { useGetApplicationofPost } from '@/features/post/api/getapplicationsofPost';
+import { useParams } from 'next/navigation';
 
- const PostPage = () => {
+ const ApplicationsPage = () => {
+
+  const params = useParams<{ postId: string }>();
  
-  
 
+  const { data: applications, error,  isLoading } = useGetApplicationofPost(params?.postId || '');
 
-  const {data,isLoading} = useGetCompanyPosts();
  
+   
   
      
     if(isLoading){
@@ -26,7 +29,7 @@ import { useGetApplicationofPost } from '@/features/post/api/getapplicationsofPo
         </div>
     }
 
-    if(!data){
+    if(!applications){
       return <div className='h-full w-full '>
         <div className="flex items-center justify-center"> 
                  <TbDatabaseOff size={22}/>
@@ -36,9 +39,9 @@ import { useGetApplicationofPost } from '@/features/post/api/getapplicationsofPo
  
   return (
     <div className="container   py-10">
-      <DataTable columns={columns} data={data }/>
+      <DataTable columns={columns} data={applications }/>
     </div>
   )
 }
 
-export default PostPage
+export default ApplicationsPage

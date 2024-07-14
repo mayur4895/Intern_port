@@ -75,10 +75,10 @@ const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     <div>
             <div className="flex items-center py-4 px-0">
         <Input
-          placeholder="Filter by profile"
-          value={(table.getColumn("internshipProfile")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter by status"
+          value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("internshipProfile")?.setFilterValue(event.target.value)
+            table.getColumn("status")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

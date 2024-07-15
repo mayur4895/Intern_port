@@ -35,8 +35,9 @@ import Link from "next/link";
 import { useToast } from "../ui/use-toast";
  
  
-import { login } from "@/actions/student/login";
+ 
 import LoginSchema from "@/schemas/LoginSchema";
+import { login } from "@/actions/hire-talent/login";
  
 
  
@@ -60,15 +61,7 @@ const EmployerLogin = () => {
     try {
       const res =  await  login(values);
        
-       if(res?.success){
-    
-         toast({
-          variant:"success",
-          title:res?.success, 
-         })
-         form.reset();   
-         router.refresh();
-       }
+      
 
        if(res?.error){
          
@@ -78,9 +71,18 @@ const EmployerLogin = () => {
          })
   
          } 
+         if(res?.success ){
+    
+          toast({
+           variant:"success",
+           title:res?.success, 
+          })
+          form.reset();   
+          router.refresh();
+
+        }
+         
         
-         form.reset();
-  
   
     } catch (error) {
       console.log(error);

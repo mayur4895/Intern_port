@@ -68,6 +68,7 @@ const Login = () => {
     defaultValues: {
       email: "", 
       password: "",
+    
     },
   });
 
@@ -86,38 +87,23 @@ const Login = () => {
         window.location.reload();
         router.refresh();
        }
-
-        
-   
-
+  
+       
+         
        if(res?.error){
-        setisLoading(false);
-        toast({
+         toast({
           variant:"destructive",
           title:res?.error, 
          })
          form.reset()
           router.refresh();
          }
+     
 
-         if(res?.success){
-          setisLoading(false);
-          toast({
-            variant:"success",
-            title: res?.success,
-         
-          })    
-          form.reset(); 
-          router.push("/student/dashboard")
-          router.refresh();
-        }
- 
-        if(res?.twoFactor){
-          setshowTwoFactor(true); 
-        }
-       
- 
-  
+    router.refresh();
+    form.reset();
+    router.push("/student/dashboard")
+        
     } catch (error) { 
       setisLoading(false);
       toast({
@@ -132,13 +118,13 @@ const Login = () => {
  
   return (
     <>
-     {isLoading && (
+     {/* {isLoading && (
          <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
          <div className=" flex items-center justify-center h-full w-full">
-         <FaSpinner size={25} className=" animate-spin"/>
+         <Loader2 size={25} className=" animate-spin"/>
          </div>
          </div>
-      )}
+      )} */}
         <Card className="px-8 py-5 max-w-md w-full">
         
           <Form {...form}>

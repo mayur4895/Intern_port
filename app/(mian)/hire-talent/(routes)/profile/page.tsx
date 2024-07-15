@@ -50,11 +50,7 @@ const ProfileForm = () => {
   
   const currentUser = CurrentUser();
   
- 
- 
-
- 
-
+  
 
   
   
@@ -65,11 +61,19 @@ const ProfileForm = () => {
   const [PhoneisVerifed ,setPhoneisVerifed] = useState(false);
   const [isLoading ,setisLoading] = useState(false);
   const [ isStatusCkecking ,setisStatusCkecking] = useState(false);
-  const { name , phone ,email ,designation   } = currentUser;
+
+
+
+  if(!currentUser){
+    return  router.push("/auth/login");
+  }
+
+
+   const { name , phone ,email ,designation   } = currentUser  ;
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstname: "" || name.split(" ")[0],
+      firstname: "" || currentUser.name.split(" ")[0],
       lastname: "" || name.split(" ")[1],
       email: ""||email,
       designation: "" || designation,
@@ -86,10 +90,8 @@ const ProfileForm = () => {
     toast({
       title: res?.success,
       variant: "success",
-    }) 
-   
- router.push("/hire-talent/company")
-   
+    })  
+ router.push("/hire-talent/company") 
   }
   if(res?.error){
     setisLoading(false)
@@ -198,7 +200,8 @@ useEffect(()=>{
   if(dependecies ){
     return redirect("/auth/login")
   } 
-},[dependecies]) 
+ 
+},[dependecies,currentUser]) 
   
 
   return (

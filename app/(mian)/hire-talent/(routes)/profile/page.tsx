@@ -11,17 +11,15 @@ import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { profileSchema } from "@/schemas";
-import { FaCheckCircle, FaSpinner } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 import { UserType } from "@prisma/client";
 import { CurrentUser } from "@/hooks/use-current-user";
-import axios from "axios";
 import { SendOtp } from "@/actions/hire-talent/send-otp";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { PhoneVerify } from "@/actions/hire-talent/verify-otp";
@@ -41,41 +39,18 @@ const ProfileForm = () => {
   const pathname = usePathname();
   const currentUser = CurrentUser();
 
-  if (!currentUser) {
-    router.push("/auth/login");
-    return null;
-  }
-
-  const { name, phone, email, designation } = currentUser;
+  // Ensure that all hooks are called unconditionally
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstname: name.split(" ")[0] || "",
-      lastname: name.split(" ")[1] || "",
-      email: email || "",
-      designation: designation || "",
-      phone: phone || "",
+      firstname: currentUser?.name.split(" ")[0] || "",
+      lastname: currentUser?.name.split(" ")[1] || "",
+      email: currentUser?.email || "",
+      designation: currentUser?.designation || "",
+      phone: currentUser?.phone || "",
       role: "",
     },
   });
-
-  const onSubmit = async (data: z.infer<typeof profileSchema>) => {
-    setIsLoading(true);
-    const res = await UpdateProfile(data);
-    setIsLoading(false);
-    if (res?.success) {
-      toast({
-        title: res?.success,
-        variant: "success",
-      });
-      router.push("/hire-talent/company");
-    } else if (res?.error) {
-      toast({
-        title: res?.error,
-        variant: "destructive",
-      });
-    }
-  };
 
   const sendOtp = async () => {
     const phoneValue = form.getValues('phone');
@@ -134,9 +109,10 @@ const ProfileForm = () => {
     }
   };
 
-  const phoneDependency = form.getValues('phone');
+  // Ensure useCallback is used unconditionally
   const statusVerify = useCallback(async () => {
     setIsStatusChecking(true);
+    const phoneDependency = form.getValues('phone');
     const res = await checkPhoneStatus(currentUser.id, phoneDependency);
     setIsStatusChecking(false);
     if (res?.success) {
@@ -145,27 +121,42 @@ const ProfileForm = () => {
     } else {
       setPhoneIsVerified(false);
     }
-  }, [currentUser.id, phoneDependency]);
+  }, [currentUser.id, form]);
 
   useEffect(() => {
-    statusVerify();
-  }, [statusVerify]);
-
-  useEffect(() => {
-    if (currentUser?.role !== UserType.EMPLOYER && !currentUser) {
+    if (currentUser?.role !== UserType.EMPLOYER) {
       router.push("/auth/login");
+      return; // Ensure that we don't continue rendering if redirected
     }
-  }, [currentUser, router]);
+    statusVerify();
+  }, [currentUser, router, statusVerify]);
+
+  const onSubmit = async (data: z.infer<typeof profileSchema>) => {
+    setIsLoading(true);
+    const res = await UpdateProfile(data);
+    setIsLoading(false);
+    if (res?.success) {
+      toast({
+        title: res?.success,
+        variant: "success",
+      });
+      router.push("/hire-talent/company");
+    } else if (res?.error) {
+      toast({
+        title: res?.error,
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="flex items-center justify-center h-screen w-full">
- 
       {isLoading && (
-         <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
-         <div className=" flex items-center justify-center h-full w-full">
-         <Loader2 size={25} className=" animate-spin"/>
-         </div>
-         </div>
+        <div className="fixed h-full w-full bg-white top-0 left-0 items-center justify-center">
+          <div className="flex items-center justify-center h-full w-full">
+            <Loader2 size={25} className="animate-spin" />
+          </div>
+        </div>
       )}
       <div className="w-full flex flex-col items-center justify-center">
         <h2 className="text-3xl">Personal Details</h2>
@@ -180,7 +171,7 @@ const ProfileForm = () => {
                   <FormItem>
                     <FormLabel>First name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Your firstName" {...field}  value={name.split(" ")[0]}/>
+                      <Input placeholder="Enter Your firstName" {...field} value={form.getValues('firstname')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -194,7 +185,7 @@ const ProfileForm = () => {
                   <FormItem>
                     <FormLabel>Last name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Your lastName" {...field}   value={name.split(" ")[1]} />
+                      <Input placeholder="Enter Your lastName" {...field} value={form.getValues('lastname')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -209,7 +200,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="example@gmail.com" {...field}  value={email} />
+                    <Input placeholder="example@gmail.com" {...field} value={form.getValues('email')} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -223,14 +214,14 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>Designation</FormLabel>
                   <FormControl>
-                    <Input placeholder="E.g HR Manager" {...field} />
+                    <Input placeholder="E.g HR Manager" {...field} value={form.getValues('designation')} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className=" flex  w-full gap-5 items-end">
+            <div className="flex w-full gap-5 items-end">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -239,39 +230,37 @@ const ProfileForm = () => {
                     <FormItem>
                       <FormLabel>Phone</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter Your Phone Number" {...field} />
+                        <Input placeholder="Enter Your Phone Number" {...field} value={form.getValues('phone')} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-             <div>
-         {phoneIsVerified  ? (
-                
-             <Button
-          
-               suppressHydrationWarning 
-               className="text-green-600 bg-transparent hover:bg-transparent flex gap-2 shadow-none" 
-               type="button"  
-             >
-             <FaCheckCircle size={18}/> Verified
-             </Button>)
-         :( 
-          <Button
-          suppressHydrationWarning
-          variant={"outline"}
-          disabled={isStatusChecking}
-          className="border-blue-400 border"
-          type="button" 
-          onClick={sendOtp} 
-        >
-         { isStatusChecking  && <Loader2 className=" animate-spin mr-2 " size={18}/> } Verify        </Button>
-         )  
-         
-         }
-             </div>
+              <div>
+                {phoneIsVerified ? (
+                  <Button
+                    suppressHydrationWarning
+                    className="text-green-600 bg-transparent hover:bg-transparent flex gap-2 shadow-none"
+                    type="button"
+                  >
+                    <FaCheckCircle size={18} /> Verified
+                  </Button>
+                ) : (
+                  <Button
+                    suppressHydrationWarning
+                    variant={"outline"}
+                    disabled={isStatusChecking}
+                    className="border-blue-400 border"
+                    type="button"
+                    onClick={sendOtp}
+                  >
+                    {isStatusChecking && <Loader2 className="animate-spin mr-2" size={18} />} Verify
+                  </Button>
+                )}
+              </div>
             </div>
+ 
  
            {showOtp && (<> 
  

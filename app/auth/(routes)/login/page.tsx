@@ -33,18 +33,23 @@ useEffect(()=>{
   return (
     <div className="flex items-center justify-center h-screen w-full">
       
-    <Tabs defaultValue={ type=="employer"?"employer" :"student"}  className="w-[400px] ">
-    <TabsList className="grid w-full grid-cols-2">
-      <TabsTrigger value="student">Student</TabsTrigger>
-      <TabsTrigger value="employer">Employer/Company</TabsTrigger>
+     <div className=' lg:grid lg:grid-cols-2 w-full p-5 items-center   container border'>
+      <div className='w-full h-full bg-orange-500 '>
+      ss
+      </div>
+     <Tabs defaultValue={ type=="employer"?"employer" :"student"}  className=" w-full flex flex-col  items-center justify-center">
+    <TabsList className="grid grid-cols-2 gap-5 w-[400px] items-center justify-between ">
+      <TabsTrigger value="student" >Student</TabsTrigger>
+      <TabsTrigger value="employer"  >Employer/Company</TabsTrigger>
     </TabsList>
-    <TabsContent value="student">
+    <TabsContent value="student" className=' w-full  flex items-center justify-center'>
       <Login/>
     </TabsContent>
-    <TabsContent value="employer">
+    <TabsContent value="employer" className=' w-full    flex items-center justify-center'>
     <EmployerLogin/>
     </TabsContent>
   </Tabs>
+     </div>
   </div>
   )
 }

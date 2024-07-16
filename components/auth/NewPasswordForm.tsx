@@ -142,8 +142,7 @@ const ResetPasswordForm = () => {
                 
               <Button type="submit" className=" h-10 w-full">
                   {isloding ? <Loader2 className=" animate-spin" /> : "reset password"}
-                </Button> 
-
+                </Button>  
               <Button  variant={"link"} className=" text-sm text-zinc-500">
                   {" "}
            

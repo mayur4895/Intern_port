@@ -99,6 +99,10 @@ const Login = () => {
           router.refresh();
          }
      
+         router.refresh();
+         form.reset();
+         router.push("/student/dashboard");
+         window.location.reload();
 
   
         

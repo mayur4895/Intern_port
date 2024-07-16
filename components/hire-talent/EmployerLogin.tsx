@@ -79,10 +79,10 @@ const EmployerLogin = () => {
           })
           form.reset();   
           router.refresh();
-
-        }
-         
-        
+          router.push("/hire-talent/dashboard")
+        } 
+         router.push("/hire-talent/dashboard")
+         window.location.reload();
   
     } catch (error) {
       console.log(error);

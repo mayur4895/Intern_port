@@ -201,7 +201,7 @@ useEffect(()=>{
     return redirect("/auth/login")
   } 
  
-},[dependecies,currentUser]) 
+},[dependecies]) 
   
 
   return (

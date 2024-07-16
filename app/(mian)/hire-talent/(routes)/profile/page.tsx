@@ -46,81 +46,67 @@ import { Loader2 } from "lucide-react"
  
  
 const ProfileForm = () => {
-  const [value, setValue] = useState("")
-  const [showOtp, setShowOtp] = useState(false)
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [PhoneisVerifed, setPhoneisVerifed] = useState(false)
-  const [isLoading, setisLoading] = useState(false)
-  const [isStatusCkecking, setisStatusCkecking] = useState(false)
+  const [value, setValue] =  useState("")  
+  
+  const currentUser = CurrentUser();
+  
+  
 
-  const currentUser = CurrentUser()
+  
+  
   const router = useRouter()
   const pathname = usePathname()
+  const [showOtp, setShowOtp] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [PhoneisVerifed ,setPhoneisVerifed] = useState(false);
+  const [isLoading ,setisLoading] = useState(false);
+  const [ isStatusCkecking ,setisStatusCkecking] = useState(false);
 
+
+
+  if(!currentUser){
+    return  router.push("/auth/login");
+  }
+
+
+   const { name , phone ,email ,designation   } = currentUser  ;
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstname: "" || currentUser?.name.split(" ")[0],
-      lastname: "" || currentUser?.name.split(" ")[1],
-      email: "" || currentUser?.email,
-      designation: "" || currentUser?.designation,
-      phone: "" || currentUser?.phone,
-      role: ""
+      firstname: "" || currentUser.name.split(" ")[0],
+      lastname: "" || name.split(" ")[1],
+      email: ""||email,
+      designation: "" || designation,
+      phone:""||   phone,
+      role :""
     },
   })
 
-  useEffect(() => {
-    if (!currentUser) {
-      router.push("/auth/login")
-    }
-  }, [currentUser, router])
-
-  const statusverify = useCallback(async () => {
-    setPhoneisVerifed(true)
-    const phoneValue = form.getValues('phone')
-    const res = await checkPhoneStatus(currentUser?.id, phoneValue)
-    if (res?.success) {
-      setPhoneisVerifed(true)
-      setShowOtp(false)
-    } else {
-      setPhoneisVerifed(false)
-    }
-  }, [currentUser?.id, form])
-
-  useEffect(() => {
-    if (currentUser) {
-      statusverify()
-    }
-  }, [statusverify, currentUser])
-
-  const dependecies = currentUser?.role !== UserType.EMPLOYER && !currentUser
-  useEffect(() => {
-    if (dependecies) {
-      redirect("/auth/login")
-    }
-  }, [dependecies])
-
-  const onSubmit = async (data: z.infer<typeof profileSchema>) => {
-    setisLoading(true)
-    const res = await UpdateProfile(data)
-    setisLoading(false)
-    if (res?.success) {
-      toast({
-        title: res?.success,
-        variant: "success",
-      })
-      router.push("/hire-talent/company")
-    } else if (res?.error) {
-      toast({
-        title: res?.error,
-        variant: "destructive"
-      })
-    }
+  async function onSubmit (data: z.infer<typeof profileSchema>) {
+    setisLoading(true);
+ const res = await  UpdateProfile(data);
+ if(res?.success){
+  setisLoading(false)
+    toast({
+      title: res?.success,
+      variant: "success",
+    })  
+ router.push("/hire-talent/company") 
   }
-
+  if(res?.error){
+    setisLoading(false)
+    toast({
+      title: res?.error,
+      variant: "destructive"
+    })
+  }
+    
+  }
+  console.log(currentUser);
   const sendOtp = async () => {
     const phoneValue = form.getValues('phone')
     setPhoneNumber(phoneValue)
+
     const parsedPhoneNumber = parsePhoneNumberFromString(phoneValue, 'IN') // Defaulting to US, you may change it
     if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
       toast({
@@ -129,49 +115,96 @@ const ProfileForm = () => {
       });
       return;
     }
-    const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
-    setShowOtp(!!formattedPhoneNumber)
-    if (formattedPhoneNumber) {
-      try {
-        const res = await SendOtp(formattedPhoneNumber)
-        if (res.success) {
-          toast({
-            title: 'OTP sent!',
-            variant: "success"
-          })
-        }
-      } catch {
-        toast({
-          title: 'OTP Not Sent!',
-          variant: "destructive"
-        })
-      }
-    }
-  }
 
-  const submitOtp = async (e: any) => {
-    e.preventDefault()
+    const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
+
+    if(formattedPhoneNumber){
+      setShowOtp(true) 
+    } else {
+      setShowOtp(false)
+    }   
+
     try {
-      const res = await PhoneVerify(value)
-      if (res.success) {
+      const res = await  SendOtp(formattedPhoneNumber);
+
+      if(res.success){ 
         toast({
-          title: 'Phone Verified',
+          title: 'OTP sent!',
           variant: "success"
-        })
-        window.location.reload()
-      } else if (res.error) {
-        toast({
-          variant: "destructive",
-          title: res?.error,
-        })
+        });
       }
-    } catch {
+    } catch (error) {
       toast({
-        variant: "destructive",
-        title: "Something went wrong",
-      })
+        title: 'OTP Not Sent!',
+        variant: "destructive"
+      });
     }
+  } 
+  
+
+const submitOtp = async(e:any)=>{
+  try {
+    e.preventDefault();
+     setShowOtp(true);
+     const res = await PhoneVerify(value);
+
+     if(res.success){
+      
+      toast({
+        title: 'phone Verify',
+        variant: "success"
+      })
+
+      window.location.reload();
+     } 
+
+
+     if(res.error){
+      toast({
+        variant:"destructive",
+        title: res?.error, 
+      })
+     }
+  } catch (error) {
+   
+    toast({
+      variant:"destructive",
+      title: "Something went wrong", 
+    })
+    
   }
+}
+
+
+const phoneDependency =  form.getValues('phone');
+const statusverify = useCallback(async () => {
+  setPhoneisVerifed(true);
+  const res = await checkPhoneStatus(currentUser.id,phoneDependency);
+  console.log(res);
+  
+  if (res?.success) { 
+    setPhoneisVerifed(true);
+    setShowOtp(false);
+  } else {
+    setPhoneisVerifed(false);  
+  }
+}, [currentUser.id,phoneDependency]);
+
+useEffect(() => {
+  statusverify();
+}, [statusverify,form.getValues('phone')]);
+
+
+
+const dependecies = currentUser?.role !== UserType.EMPLOYER && !currentUser;
+useEffect(()=>{
+  if(dependecies ){
+    return redirect("/auth/login")
+  } 
+ 
+},[dependecies]) 
+  
+ console.log(PhoneisVerifed)
   return (
     <div className="flex items-center justify-center h-screen w-full">
  
@@ -195,7 +228,7 @@ const ProfileForm = () => {
                   <FormItem>
                     <FormLabel>First name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Your firstName" {...field}  value={currentUser.name.split(" ")[0]}/>
+                      <Input placeholder="Enter Your firstName" {...field}  value={name.split(" ")[0]}/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -209,7 +242,7 @@ const ProfileForm = () => {
                   <FormItem>
                     <FormLabel>Last name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Your lastName" {...field}   value={currentUser.name.split(" ")[1]} />
+                      <Input placeholder="Enter Your lastName" {...field}   value={name.split(" ")[1]} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -224,7 +257,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="example@gmail.com" {...field}  value={currentUser.email} />
+                    <Input placeholder="example@gmail.com" {...field}  value={email} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

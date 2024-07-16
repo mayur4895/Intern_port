@@ -1,6 +1,6 @@
 import { UserType } from "@prisma/client";
 import { AuthRoutes, apiAuthprefix, publicRoutes } from "./route";
-import { auth } from "./auth";
+import { auth } from "./auth"; 
 
 export default auth((req:any,res:any) => {
   const { nextUrl } = req;
@@ -20,7 +20,7 @@ export default auth((req:any,res:any) => {
         return  res.redirect(new URL("/student/dashboard", nextUrl));
       }
       if (session?.user?.role === UserType.EMPLOYER) {
-        return Response.redirect(new URL("/hire-talent/profile", nextUrl));
+        return  Response.redirect(new URL("/hire-talent/profile", nextUrl));
       }
     }
     return null;

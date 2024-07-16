@@ -1,13 +1,13 @@
 "use client"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { ZodNumber, z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter, usePathname, redirect } from "next/navigation"
-import { toast } from "@/components/ui/use-toast"
-import { parsePhoneNumberFromString } from 'libphonenumber-js'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter, usePathname } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -16,195 +16,147 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
+import { profileSchema } from "@/schemas";
+import { FaCheckCircle, FaSpinner } from "react-icons/fa";
+import { UserType } from "@prisma/client";
+import { CurrentUser } from "@/hooks/use-current-user";
+import axios from "axios";
+import { SendOtp } from "@/actions/hire-talent/send-otp";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { PhoneVerify } from "@/actions/hire-talent/verify-otp";
+import { checkPhoneStatus } from "@/actions/hire-talent/checkPhoneVerify";
+import { UpdateProfile } from "@/actions/hire-talent/update-profile";
+import { Loader2 } from "lucide-react";
 
-import { profileSchema } from "@/schemas"
- 
-import { FaCheckCircle, FaSpinner } from "react-icons/fa"
-import { UserType } from "@prisma/client"
-import { CurrentUser } from "@/hooks/use-current-user"
- 
-import axios from "axios"
-import { SendOtp } from "@/actions/hire-talent/send-otp"
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp"
-import { PhoneVerify } from "@/actions/hire-talent/verify-otp"
-import { db } from "@/lib/db"
-import { checkPhoneStatus } from "@/actions/hire-talent/checkPhoneVerify"
- 
-import { UpdateProfile } from "@/actions/hire-talent/update-profile"
-import { Loader2 } from "lucide-react"
- 
- 
- 
- 
-
- 
- 
- 
 const ProfileForm = () => {
-  const [value, setValue] =  useState("")  
-  
-  const currentUser = CurrentUser();
-  
-  
-
-  
-  
-  const router = useRouter()
-  const pathname = usePathname()
-  const [showOtp, setShowOtp] = useState(false)
+  const [value, setValue] = useState("");
+  const [showOtp, setShowOtp] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [PhoneisVerifed ,setPhoneisVerifed] = useState(false);
-  const [isLoading ,setisLoading] = useState(false);
-  const [ isStatusCkecking ,setisStatusCkecking] = useState(false);
+  const [phoneIsVerified, setPhoneIsVerified] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isStatusChecking, setIsStatusChecking] = useState(false);
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentUser = CurrentUser();
 
-
-  if(!currentUser){
-    return  router.push("/auth/login");
+  if (!currentUser) {
+    router.push("/auth/login");
+    return null;
   }
 
-
-   const { name , phone ,email ,designation   } = currentUser  ;
+  const { name, phone, email, designation } = currentUser;
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstname: "" || currentUser.name.split(" ")[0],
-      lastname: "" || name.split(" ")[1],
-      email: ""||email,
-      designation: "" || designation,
-      phone:""||   phone,
-      role :""
+      firstname: name.split(" ")[0] || "",
+      lastname: name.split(" ")[1] || "",
+      email: email || "",
+      designation: designation || "",
+      phone: phone || "",
+      role: "",
     },
-  })
+  });
 
-  async function onSubmit (data: z.infer<typeof profileSchema>) {
-    setisLoading(true);
- const res = await  UpdateProfile(data);
- if(res?.success){
-  setisLoading(false)
-    toast({
-      title: res?.success,
-      variant: "success",
-    })  
- router.push("/hire-talent/company") 
-  }
-  if(res?.error){
-    setisLoading(false)
-    toast({
-      title: res?.error,
-      variant: "destructive"
-    })
-  }
-    
-  }
-  console.log(currentUser);
+  const onSubmit = async (data: z.infer<typeof profileSchema>) => {
+    setIsLoading(true);
+    const res = await UpdateProfile(data);
+    setIsLoading(false);
+    if (res?.success) {
+      toast({
+        title: res?.success,
+        variant: "success",
+      });
+      router.push("/hire-talent/company");
+    } else if (res?.error) {
+      toast({
+        title: res?.error,
+        variant: "destructive",
+      });
+    }
+  };
+
   const sendOtp = async () => {
-    const phoneValue = form.getValues('phone')
-    setPhoneNumber(phoneValue)
+    const phoneValue = form.getValues('phone');
+    setPhoneNumber(phoneValue);
 
-    const parsedPhoneNumber = parsePhoneNumberFromString(phoneValue, 'IN') // Defaulting to US, you may change it
+    const parsedPhoneNumber = parsePhoneNumberFromString(phoneValue, 'IN');
     if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
       toast({
         title: 'Invalid Phone Number!',
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
 
-    const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
-
-    if(formattedPhoneNumber){
-      setShowOtp(true) 
-    } else {
-      setShowOtp(false)
-    }   
+    const formattedPhoneNumber = parsedPhoneNumber.format('E.164');
+    setShowOtp(formattedPhoneNumber ? true : false);
 
     try {
-      const res = await  SendOtp(formattedPhoneNumber);
-
-      if(res.success){ 
+      const res = await SendOtp(formattedPhoneNumber);
+      if (res.success) {
         toast({
           title: 'OTP sent!',
-          variant: "success"
+          variant: "success",
         });
       }
     } catch (error) {
       toast({
         title: 'OTP Not Sent!',
-        variant: "destructive"
+        variant: "destructive",
       });
     }
-  } 
-  
+  };
 
-const submitOtp = async(e:any)=>{
-  try {
+  const submitOtp = async (e: any) => {
     e.preventDefault();
-     setShowOtp(true);
-     const res = await PhoneVerify(value);
-
-     if(res.success){
-      
+    try {
+      setShowOtp(true);
+      const res = await PhoneVerify(value);
+      if (res.success) {
+        toast({
+          title: 'Phone Verified',
+          variant: "success",
+        });
+        window.location.reload();
+      } else if (res.error) {
+        toast({
+          variant: "destructive",
+          title: res?.error,
+        });
+      }
+    } catch (error) {
       toast({
-        title: 'phone Verify',
-        variant: "success"
-      })
+        variant: "destructive",
+        title: "Something went wrong",
+      });
+    }
+  };
 
-      window.location.reload();
-     } 
+  const phoneDependency = form.getValues('phone');
+  const statusVerify = useCallback(async () => {
+    setIsStatusChecking(true);
+    const res = await checkPhoneStatus(currentUser.id, phoneDependency);
+    setIsStatusChecking(false);
+    if (res?.success) {
+      setPhoneIsVerified(true);
+      setShowOtp(false);
+    } else {
+      setPhoneIsVerified(false);
+    }
+  }, [currentUser.id, phoneDependency]);
 
+  useEffect(() => {
+    statusVerify();
+  }, [statusVerify]);
 
-     if(res.error){
-      toast({
-        variant:"destructive",
-        title: res?.error, 
-      })
-     }
-  } catch (error) {
-   
-    toast({
-      variant:"destructive",
-      title: "Something went wrong", 
-    })
-    
-  }
-}
+  useEffect(() => {
+    if (currentUser?.role !== UserType.EMPLOYER && !currentUser) {
+      router.push("/auth/login");
+    }
+  }, [currentUser, router]);
 
-
-const phoneDependency =  form.getValues('phone');
-const statusverify = useCallback(async () => {
-  setPhoneisVerifed(true);
-  const res = await checkPhoneStatus(currentUser.id,phoneDependency);
-  console.log(res);
-  
-  if (res?.success) { 
-    setPhoneisVerifed(true);
-    setShowOtp(false);
-  } else {
-    setPhoneisVerifed(false);  
-  }
-}, [currentUser.id,phoneDependency]);
-
-useEffect(() => {
-  statusverify();
-}, [statusverify,form.getValues('phone')]);
-
-
-
-const dependecies = currentUser?.role !== UserType.EMPLOYER && !currentUser;
-useEffect(()=>{
-  if(dependecies ){
-    return redirect("/auth/login")
-  } 
- 
-},[dependecies]) 
-  
- console.log(PhoneisVerifed)
   return (
     <div className="flex items-center justify-center h-screen w-full">
  
@@ -295,7 +247,7 @@ useEffect(()=>{
                 />
               </div>
              <div>
-         {PhoneisVerifed  ? (
+         {phoneIsVerified  ? (
                 
              <Button
           
@@ -309,12 +261,12 @@ useEffect(()=>{
           <Button
           suppressHydrationWarning
           variant={"outline"}
-          disabled={isStatusCkecking}
+          disabled={isStatusChecking}
           className="border-blue-400 border"
           type="button" 
           onClick={sendOtp} 
         >
-         { isStatusCkecking  && <Loader2 className=" animate-spin mr-2 " size={18}/> } Verify        </Button>
+         { isStatusChecking  && <Loader2 className=" animate-spin mr-2 " size={18}/> } Verify        </Button>
          )  
          
          }
@@ -355,7 +307,7 @@ useEffect(()=>{
               {(pathname === "/hire-talent/company" || pathname === "/hire-talent/postjob") && (
                 <Button type="submit">Prev</Button>
               )}
-              <Button type="submit" className="ml-auto"  disabled={!PhoneisVerifed} >
+              <Button type="submit" className="ml-auto"  disabled={!phoneIsVerified} >
                 Next
               </Button>
             </div>

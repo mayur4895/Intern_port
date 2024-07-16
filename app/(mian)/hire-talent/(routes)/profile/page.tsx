@@ -73,7 +73,7 @@ const ProfileForm = () => {
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstname: "" || currentUser.name.split(" ")[0],
+      firstname: "" ||  name.split(" ")[0],
       lastname: "" || name.split(" ")[1],
       email: ""||email,
       designation: "" || designation,

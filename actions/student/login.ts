@@ -87,8 +87,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   try {
   await signIn("credentials", {
       email: email,
-      password: password,
-      redirectTo: "/student/dashbaord"
+      password: password, 
     });
 
   

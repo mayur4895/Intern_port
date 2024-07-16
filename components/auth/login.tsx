@@ -83,9 +83,9 @@ const Login = () => {
           variant:"destructive",
           title: "Email alerday in used", 
         })
-        form.reset();
-        window.location.reload();
         router.refresh();
+        form.reset();
+        router.push("/student/dashboard");
        }
   
        
@@ -100,9 +100,7 @@ const Login = () => {
          }
      
 
-    router.refresh();
-    form.reset();
-    router.push("/student/dashboard")
+  
         
     } catch (error) { 
       setisLoading(false);
@@ -118,13 +116,13 @@ const Login = () => {
  
   return (
     <>
-     {/* {isLoading && (
+     {isLoading && (
          <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
          <div className=" flex items-center justify-center h-full w-full">
          <Loader2 size={25} className=" animate-spin"/>
          </div>
          </div>
-      )} */}
+      )}
         <Card className="px-8 py-5 max-w-md w-full">
         
           <Form {...form}>

@@ -1,0 +1,3 @@
+{
+    "functionFailoverRegions": ["dub1", "fra1"]
+}

@@ -1,15 +1,16 @@
 import { UserType } from "@prisma/client";
 import { AuthRoutes, apiAuthprefix, publicRoutes } from "./route";
-import { auth } from "./auth"; 
+import { auth } from "./auth";
+import { NextResponse } from 'next/server';
 
-export default auth((req:any,res:any) => {
+export default auth((req: any, res: any) => {
   const { nextUrl } = req;
   const session = req.auth;
   const isLoggedIn = !!session;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthprefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
-  
+
   if (isApiAuthRoute) {
     return null;
   }
@@ -17,10 +18,10 @@ export default auth((req:any,res:any) => {
   if (isAuthRoute) {
     if (isLoggedIn) {
       if (session?.user?.role === UserType.STUDENT) {
-        return  Response.redirect(new URL("/student/dashboard", nextUrl));
+        return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
       }
       if (session?.user?.role === UserType.EMPLOYER) {
-        return  Response.redirect(new URL("/hire-talent/profile", nextUrl));
+        return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
       }
     }
     return null;
@@ -29,42 +30,42 @@ export default auth((req:any,res:any) => {
   if (isLoggedIn) {
     if (session?.user.role === UserType.EMPLOYER) {
       if (nextUrl.pathname === '/hire-talent') {
-        return Response.redirect(new URL("/hire-talent/profile", nextUrl));
+        return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
       }
 
       if (nextUrl.pathname === '/hire-talent/dashboard') {
         if (!session?.user?.companyDetails) {
-          return Response.redirect(new URL("/hire-talent/company", nextUrl));
+          return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
         }
 
         if (!session?.user?.isPhoneVerified) {
-          return Response.redirect(new URL("/hire-talent/profile", nextUrl));
+          return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
         }
       }
 
       if (nextUrl.pathname === '/hire-talent/profile') {
         if (session?.user?.companyDetails && session?.user?.isPhoneVerified) {
-          return Response.redirect(new URL("/hire-talent/dashboard", nextUrl));
+          return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
         }
       }
 
       if (nextUrl.pathname === '/hire-talent/company') {
         if (!session?.user?.isPhoneVerified) {
-          return Response.redirect(new URL("/hire-talent/profile", nextUrl));
+          return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
         }
 
         if (session?.user?.companyDetails && session?.user?.isPhoneVerified) {
-          return Response.redirect(new URL("/hire-talent/dashboard", nextUrl));
+          return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
         }
       }
     }
   }
 
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
+    return NextResponse.redirect(new URL("/auth/login", nextUrl));
   }
 
-  return null;
+  return NextResponse.next();
 });
 
 export const config = {

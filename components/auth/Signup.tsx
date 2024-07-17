@@ -156,7 +156,7 @@ const onclick = async( provider:string)=>{
             <CardDescription>Sign up to get started</CardDescription>
           </CardHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
                 name="name"

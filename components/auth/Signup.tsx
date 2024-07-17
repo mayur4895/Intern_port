@@ -50,6 +50,9 @@ import { Separator } from "../ui/separator";
  
 import { signIn } from "next-auth/react";  
 import { FaSpinner } from "react-icons/fa"; 
+import { RiUser3Line } from "react-icons/ri";
+import { CiAt } from "react-icons/ci";
+import { PiLockKeyLight, PiUserThin } from "react-icons/pi";
  
  
 const Signup = () => {
@@ -146,14 +149,14 @@ const onclick = async( provider:string)=>{
          </div>
          </div>
       )}
-      <div className=" flex h-[100vh] w-full justify-center items-center">
-      <Card className="px-8 py-5 max-w-md w-full">
+     
+      <Card className="px-8 py-5  w-full border-2 border-white rounded-none shadow-none border-none">
           <CardHeader className="p-0 mb-4">
             <CardTitle className="text-2xl">Signup</CardTitle>
             <CardDescription>Sign up to get started</CardDescription>
           </CardHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="name"
@@ -161,8 +164,11 @@ const onclick = async( provider:string)=>{
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter Name" {...field} />
+                    <FormControl> 
+                      <div className=" relative">
+                      <Input placeholder="Enter Name" {...field} className="pl-8" />
+                     <PiUserThin    className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                   </FormItem>
                 )}
@@ -176,11 +182,10 @@ const onclick = async( provider:string)=>{
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Enter Email"
-                        {...field}
-                      />
+                    <div className=" relative">
+                     <Input placeholder="example@gmail.com" {...field}  className="pl-8"/>
+                     <CiAt  className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                   </FormItem>
                 )}
@@ -194,11 +199,15 @@ const onclick = async( provider:string)=>{
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
+                    <div className=" relative">
+                       <Input
                         type="password"
                         placeholder="Enter Password"
+                        className="pl-8"
                         {...field}
                       />
+                     <PiLockKeyLight   className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                   </FormItem>
                 )}
@@ -232,7 +241,7 @@ const onclick = async( provider:string)=>{
             </form>
           </Form>
         </Card>
-      </div>
+     
     </>
   );
 };

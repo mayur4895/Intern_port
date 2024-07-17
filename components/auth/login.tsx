@@ -53,6 +53,8 @@ import SocialProvider from "./SocialProvider";
 import { useEffect, useState } from "react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import { FaSpinner } from "react-icons/fa";
+import { PiLockKeyLight } from "react-icons/pi";
+import { CiAt } from "react-icons/ci";
 
  
 const Login = () => {
@@ -127,7 +129,7 @@ const Login = () => {
          </div>
          </div>
       )}
-        <Card className="px-8 py-5 max-w-md w-full">
+        <Card className="px-8 py-5 max-w-md w-full  shadow-none border-none">
         
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -140,8 +142,11 @@ const Login = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="example@gmail.com" {...field} />
+                    <FormControl> 
+                      <div className=" relative">
+                     <Input placeholder="example@gmail.com" {...field}  className="pl-8"/>
+                     <CiAt  className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                   </FormItem>
                 )}
@@ -153,12 +158,15 @@ const Login = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                      autoComplete="false"
+                    <div className=" relative">
+                       <Input
                         type="password"
                         placeholder="Enter Password"
+                        className="pl-8"
                         {...field}
                       />
+                     <PiLockKeyLight   className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                     <Button variant={"link"} asChild><Link href="/auth/reset" className="pl-0 font-normal text-xs">Forgot your password ?</Link></Button>
                   </FormItem>
@@ -173,7 +181,7 @@ const Login = () => {
 
               <CardFooter className=" justify-between gap-3 flex-col w-full p-0">
                 
-              <Button type="submit" className=" h-10 w-full">
+              <Button type="submit" variant={"theme"} className=" h-10 w-full">
                   {isLoding ? <Loader2 className=" animate-spin" /> : showTwoFactor ? "Confirm" :"Login"}
                 </Button>
                 {!showTwoFactor && 

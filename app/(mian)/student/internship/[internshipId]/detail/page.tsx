@@ -41,7 +41,7 @@ const IconMap:any = {
     <div>
             <div className=' text-center flex flex-col items-center justify-center'>
        
-                <Card className=' shadow-sm p-4 w-3/4 rounded-none flex flex-col gap-5'>
+                <Card className=' shadow-sm p-4 w-full md:w-3/4 rounded-none flex flex-col gap-5'>
                    <div className='p-6 text-start flex flex-col gap-2'>
                 
 
@@ -50,13 +50,13 @@ const IconMap:any = {
                    </div>
                    <CardContent className=' text-start'>
                     <span className=' flex items-end gap-2'>{data?.internshipType && IconMap[data.internshipType]}{data?.internshipType}</span>
-                  <div className=' mt-5 flex gap-16'>
+                  <div className=' mt-5 flex  flex-wrap gap-16'>
                        <div className=' flex flex-col gap-2'>
                         <span className=' flex items-center gap-2 text-gray-500 text-sm'> <PiPlayCircleThin  size={22}/>  Start Date</span>
                         <span className=' text-sm'>{data?.internshipStartDate}</span>
                        </div>
                        <div className=' flex flex-col gap-2'>
-                        <span className=' flex items-center gap-2 text-gray-500 text-sm'> <CiCreditCard1 size={22}/>ctc (Annual)</span>
+                        <span className=' flex items-center gap-2 text-gray-500 text-sm  text-nowrap'> <CiCreditCard1 size={22}/>ctc (Annual)</span>
                         <span className=' text-sm'> ₹ 6,25,000 - 8,10,000</span>
                        </div>
                        <div className=' flex flex-col gap-2'>

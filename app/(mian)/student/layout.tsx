@@ -27,8 +27,7 @@ const StudentLayout = ({ children }: { children: React.ReactNode }) => {
       <main className='flex-grow py-20'>
         {children}
       </main>
-      <Footer />
-    </div>
+        </div>
   );
 }
 

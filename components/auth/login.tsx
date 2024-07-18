@@ -123,13 +123,13 @@ const Login = () => {
   return (
     <>
      {isLoading && (
-         <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
+         <div className=" fixed h-full z-50 w-full bg-white top-0 left-0 items-center justify-center"> 
          <div className=" flex items-center justify-center h-full w-full">
          <Loader2 size={25} className=" animate-spin"/>
          </div>
          </div>
       )}
-        <Card className="px-8 py-5 max-w-md w-full  shadow-none border-none">
+        <Card className="px-8 py-5 max-w-md w-full    shadow-none border-none">
         
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -143,7 +143,7 @@ const Login = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl> 
-                      <div className=" relative">
+                      <div className=" relative z-10">
                      <Input placeholder="example@gmail.com" {...field}  className="pl-8"/>
                      <CiAt  className=" absolute top-[9px] left-2"/>
                      </div>

@@ -50,12 +50,12 @@ const LoginPage = () => {
             </TabsTrigger>
           </TabsList>
 
-          <div className="lg:grid lg:grid-cols-2 bg-white shadow-md  border rounded-tr-[50px]   lg:rounded-bl-[50px] h-full w-full">
-            <div className="w-full h-auto md:h-full  grid rounded-bl-[50px] px-4 grid-rows-3 justify-between  bg-gradient-to-br from-blue-500 to-blue-300    p-5 overflow-hidden">
+          <div className="lg:grid lg:grid-cols-2 overflow-hidden bg-white shadow-md  border rounded-tr-[50px]   lg:rounded-bl-[50px] h-full w-full">
+            <div className=" w-full  h-auto md:h-full  grid rounded-bl-[50px] px-4 grid-rows-3 justify-between  bg-gradient-to-br from-blue-500 to-blue-300    p-5 ">
               <div className=" row-span-3  w-full  flex-col gap-2 items-start">
-                <h2 className={"text-3xl font-semibold px-4 text-white " }>
+                <h2 className={"text-3xl font-semibold px-4 text-white break-words lg:w-full w-[400px]" }>
                      {logintype === "student" ?    <div>Find Your Best Job</div>
-                      :  <div>Hire Student Up to 2 Year Experience</div>}
+                      :  <span>Hire Student Up to 2  Year Experience</span>}
                 </h2>
                 <div>
                   <Image

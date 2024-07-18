@@ -51,7 +51,7 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
   
         return true;
       },
-  
+   
       async session({ token,  session }) {
       if (session.user) {
         session.user.role = token.role; 
@@ -60,6 +60,7 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
         session.user.id = token.id
         session.user.isPhoneVerified =  token.phoneverified
       }
+    
       return session
     },
   
@@ -83,6 +84,6 @@ export const { handlers, auth ,signIn,signOut} = NextAuth({
     },
   
     adapter: PrismaAdapter(prisma),
-    session: { strategy: "jwt" },
+    session: { strategy: "jwt"  ,  maxAge: 24 * 60 * 60,},
     ...authConfig,
   });

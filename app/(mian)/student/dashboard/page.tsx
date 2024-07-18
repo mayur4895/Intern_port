@@ -22,7 +22,7 @@ import React from 'react'
 const currentUser = CurrentUser();
  
 const { data: Internships, isLoading, error, } = useGetAllPosts();
-console.log(Internships);
+ 
  
 
 

@@ -34,7 +34,7 @@ const IconMap:any = {
        const { internshipId } = params as { internshipId: string }
        const {onOpen}= useModal();
        const {data , isLoading} = useGetInternship(internshipId); 
-        if (isLoading) {
+        if ( isLoading) {
             return <SkeletonLoader/>
         } 
   return (
@@ -78,7 +78,7 @@ const IconMap:any = {
                   <MarkupContent content={data?.internResponsibilities || ''}/>
                   <div className=' mt-5'>
                     <span className='text-sm mb-4'>Skill(s) required </span>
-                  <div className=' flex flex-auto mt-4 gap-5'>
+                  <div className=' flex flex-auto  flex-wrap mt-4 gap-5'>
                     {data?.requiredSkills.map((skill:any,index:any)=>{
                       return(
                         <Badge key={index} className=' p-2 px-4 bg-gray-200 hover:bg-gray-200 text-zinc-800'>{skill}</Badge>

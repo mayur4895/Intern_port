@@ -18,7 +18,8 @@ export const getApplicationsofPost = async (postId: string): Promise<{ data?: Ap
     const data = await db.application.findMany({
       where:{
         postId
-      }
+        
+      },
     })
 
     if (!data) {

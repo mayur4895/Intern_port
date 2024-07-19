@@ -49,32 +49,54 @@ export const columns: ColumnDef<Application>[] = [
         enableSorting: false,
         enableHiding: false,
       },
+      {
+        accessorKey: "profileUrl",
+     
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost" 
+              >
+                Profile
+              
+              </Button>
+            )
+          }, cell:({row})=>{
+            const Application = row.original
+            return( 
+            <Avatar>
+              {   Application?.profileUrl ? <AvatarImage src={Application?.profileUrl }/> :
+            <AvatarFallback>CN</AvatarFallback>}
+          </Avatar>
+    
+          
+            )
+          }
+      }, 
+      {
+        accessorKey: "studentName",
+     
+        header: ({ column }) => {
+            return (
+              <Button
+                variant="ghost" 
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              >
+                Name
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
+          },
+          cell: ({ row }) => {
+            const Application = row.original
+             return(<div className=" text-nowrap  truncate  min-w-[80px] w-auto">
+              {Application.studentName}
+             </div>)
+          }
+      }, 
  
-  {
-    accessorKey: "createdAt",
- 
-    header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-             Created At
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        const Post = row.original
-   
-        return (
-        <div>
-             {Post.createdAt.toDateString()}
-            </div>
-
-        )
-  }, 
-  },
+  
+  
   {
     accessorKey: "resumeUrl",
  
@@ -92,7 +114,7 @@ export const columns: ColumnDef<Application>[] = [
  
         return (
         <div>
-            {   Application.resumeUrl &&  <div className=" flex items-center gap-2">
+            {   Application.resumeUrl &&  <div className=" w-[180px] flex items-center gap-2">
               <Link href={Application.resumeUrl}><PiEyeThin className="text-gray-600"  size={18}/></Link>
               <div className=" flex items-center gap-2">
               <Image
@@ -125,10 +147,42 @@ export const columns: ColumnDef<Application>[] = [
         )
       },
   }, 
+  {
+    accessorKey: "createdAt",
  
+    header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+             Created At
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        const Application = row.original 
+        return (
+        <div>
+             {Application.createdAt.toDateString()}
+            </div>
+
+        )
+  }, 
+  },
   
   {
     id: "actions",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost" 
+        >
+          Actions 
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <ApplicationActionsCell row={row} />
     ),

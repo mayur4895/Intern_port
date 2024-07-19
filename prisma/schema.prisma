@@ -76,16 +76,19 @@ model Post {
 }
 
 model Application {
-  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  studentId          String                @db.ObjectId
-  postId             String                @db.ObjectId
-  status             String                @default("PENDING")
-  createdAt          DateTime              @default(now())
-  student            User                  @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  post               Post                  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId   String   @db.ObjectId
+  postId      String   @db.ObjectId
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   resumeUrl   String
+  studentName String
+  profileUrl  String
   @@unique([studentId, postId])
 }
+
 
 model Account {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId

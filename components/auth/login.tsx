@@ -129,7 +129,7 @@ const Login = () => {
          </div>
          </div>
       )}
-        <Card className="px-8 py-5 max-w-md w-full    shadow-none border-none">
+        <Card className="px-8 py-5 max-w-md w-full z-10   shadow-none border-none">
         
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -140,7 +140,7 @@ const Login = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className=" z-10">
                     <FormLabel>Email</FormLabel>
                     <FormControl> 
                       <div className=" relative z-10">

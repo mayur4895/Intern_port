@@ -20,41 +20,46 @@ import {  useParams, useRouter } from "next/navigation"
 import { ModalData, useModal } from '../../hooks/use-modal-store';
 import { useDeleteCompanyPost } from "@/features/post/api/delete-companyPost"
 import { useQueryClient } from "@tanstack/react-query"
+import { useDeleteApplicationOfPost } from "@/features/application/api/delete-applicationOf-post"
  
  
  
 
  
-const DeletePost = ()=>{
+const DeleteApplication = ()=>{
   const {isOpen,onClose,type,data} = useModal();
    
  
     
  
   
-  const isModalOpen = isOpen &&  type === "deletePost"
+  const isModalOpen = isOpen &&  type === "deleteApplication"
  
  const router = useRouter();
   
 
  const { toast } = useToast();
- const deletePostMutation = useDeleteCompanyPost();
+ const deleteApplicationOfPostMutation = useDeleteApplicationOfPost();
 const queryClient = useQueryClient();
  
    async function onDelete() {
     try { 
-        if (data && 'post' in data) { 
-         deletePostMutation.mutate(data.post.id)
-     queryClient.invalidateQueries({ queryKey: ['companyPosts'] });   
+    
+        
+    
+           console.log( data);
+           
+         deleteApplicationOfPostMutation.mutate(data)
+     queryClient.invalidateQueries({ queryKey: ['ApplicationsofPost'] });   
    toast({
     variant:"success",
-    title:"post Deleted"
+    title:"Application Deleted"
    })
    onClose();
    
-}
+ 
     } catch (error) {
-      console.error('Error deleting post:', error);
+      console.error('Error deleting Application:', error);
  
     }
     
@@ -71,10 +76,9 @@ const queryClient = useQueryClient();
       
       <DialogContent  >
         <DialogHeader>
-          <DialogTitle className="text-2xl">Are you sure to Delete this Post?</DialogTitle>
+          <DialogTitle className="text-xl font-medium text-start">Are you sure to Delete this Application?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. Once you Deleted this
-             <span className="text-zinc-800 font-semibold"> {data && 'post' in data ? data.post.internshipProfile:''}  </span> Post. permanently deleted
+            This action cannot be undone. Once you Deleted this  Application
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex items-center">
@@ -87,4 +91,4 @@ const queryClient = useQueryClient();
 }
 
 
-export default DeletePost;
+export default DeleteApplication;

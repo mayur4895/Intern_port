@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import DeletePost from "../modal/delete-post"
 import ApplyPost from "../modal/apply-post"
+import DeleteApplication from "../modal/delete-appliction"
  
  
  
@@ -26,6 +27,7 @@ if(!isMounted){
     return(<>
     <DeletePost/> 
     <ApplyPost/>
+    <DeleteApplication/>
     </>)
 }
 

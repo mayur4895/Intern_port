@@ -7,9 +7,10 @@ import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts';
 import { Post } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { TbDatabaseOff } from "react-icons/tb";
-import { useGetApplicationofPost } from '@/features/post/api/getapplicationsofPost';
+ 
 import { useParams } from 'next/navigation';
 import { useGetStudent } from '@/features/post/api/getStudentById';
+import { useGetApplicationofPost } from '@/features/application/api/getapplicationsofPost';
 
  const ApplicationsPage = () => {
 
@@ -18,8 +19,7 @@ import { useGetStudent } from '@/features/post/api/getStudentById';
 
   const { data: applications, error,  isLoading } = useGetApplicationofPost(params?.postId || '');
 
- 
-   console.log(applications); 
+  
      
     if(isLoading){
         return <div className='  h-full left-0 top-0   lg:pl-14   flex items-center justify-center     w-full    '>

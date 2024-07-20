@@ -30,6 +30,7 @@ model User {
   companyDetails     CompanyDetails?
   posts              Post[]                @relation(name: "PostedByUser")
   applications       Application[]
+  savedApplications  SavedApplication[]    @relation(name: "SavedByUser")
 }
 
 model CompanyDetails {
@@ -55,7 +56,7 @@ model Post {
   monthOrWeeks       String
   additionalPreferences String
   companyName        String
-  companyLogo         String?
+  companyLogo        String?
   cities             String[]
   internshipDuration String
   internshipProfile  String
@@ -86,9 +87,20 @@ model Application {
   resumeUrl   String
   studentName String
   profileUrl  String
+  selected    Boolean  @default(false)   
+  saveedApplication SavedApplication[]
   @@unique([studentId, postId])
 }
 
+model SavedApplication {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  applicationId String @db.ObjectId
+  user        User     @relation(name: "SavedByUser", fields: [userId], references: [id], onDelete: Cascade)
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  @@unique([userId, applicationId])
+}
 
 model Account {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId

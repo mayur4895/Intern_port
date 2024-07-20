@@ -10,10 +10,10 @@ import { useModal } from '@/hooks/use-modal-store';
  
  
 const ApplicationActionsCell = ({ row }:any) => {
-  const post = row.original; 
+  const Application = row.original; 
   const {onOpen} = useModal();
   const handleDelete =   () => {
-    onOpen('deletePost',{post})
+    onOpen('deleteApplication',{Application})
   };
 
   return (
@@ -26,7 +26,7 @@ const ApplicationActionsCell = ({ row }:any) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(post.id)}>
+        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(Application.id)}>
           Copy Application ID
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDelete()}>

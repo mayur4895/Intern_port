@@ -1,30 +1,27 @@
-// [your-nextjs-project]/components/AutoLogout.js
 'use client'
-import { useSession, signOut } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 
-const AutoLogout = () => {
-  const { data: session } = useSession();
- 
+const SessionHandler = () => {
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    if (session) {
-      const sessionExpiryTime = new Date(session.expires).getTime();
+    if (status === 'authenticated' && session) {
+      const expireTime = session.expires;  
       const currentTime = new Date().getTime();
-      const timeLeft = sessionExpiryTime - currentTime;
-
-      if (timeLeft <= 0) {
+      const remainingTime = new Date(expireTime).getTime() - currentTime;
+ 
+       
+      const timerId = setTimeout(() => {
+        alert('Your session has expired. You will be logged out.');
         signOut();
-      } else {
-        const timeoutId = setTimeout(() => {
-          signOut();
-        }, timeLeft);
+      }, 5000);
 
-        return () => clearTimeout(timeoutId);
-      }
+      return () => clearTimeout(timerId);
     }
-  }, [session]);
+  }, [session, status]);
 
-  return null;
+  return null; // This component doesn't render anything
 };
 
-export default AutoLogout;
+export default SessionHandler;

@@ -9,7 +9,8 @@ import { ClientProviders } from '@/components/providers/client-provider';
  
 import React from 'react';
 import ModalProvider from '@/components/providers/modal-provider';
-import AutoLogout from '../components/providers/auth-logout';
+ 
+import SessionHandler from '../components/providers/auth-logout';
  
 
 const font = Poppins({
@@ -33,7 +34,7 @@ export default async function RootLayout({
       <body className={cn(font.className)}>
         <ClientProviders session={session}>  
             {children}
-            <AutoLogout/>
+            <SessionHandler/>
             <ModalProvider/>
         </ClientProviders>
       </body>

@@ -1,10 +1,11 @@
 'use client'
 import { useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
+import { useToast } from '../ui/use-toast';
 
 const SessionHandler = () => {
   const { data: session, status } = useSession();
-
+ const {toast} = useToast();
   useEffect(() => {
     if (status === 'authenticated' && session) {
       const expireTime = session.expires;  
@@ -13,9 +14,11 @@ const SessionHandler = () => {
  
        
       const timerId = setTimeout(() => {
-        alert('Your session has expired. You will be logged out.');
+       toast({
+        title:"Your session has expired Please Login Again."
+       })
         signOut();
-      }, 5000);
+      }, remainingTime);
 
       return () => clearTimeout(timerId);
     }

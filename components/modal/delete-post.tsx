@@ -70,10 +70,9 @@ const queryClient = useQueryClient();
   <Dialog open={isModalOpen} onOpenChange={handleClose}>
       
       <DialogContent  >
-        <DialogHeader>
-          <DialogTitle className="text-2xl">Are you sure to Delete this Post?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. Once you Deleted this
+        <DialogHeader className="text start">
+          <DialogTitle className="text-xl font-medium text-start">Are you sure to Delete this Post?</DialogTitle>
+          <DialogDescription className=" text-start"> 
              <span className="text-zinc-800 font-semibold"> {data && 'post' in data ? data.post.internshipProfile:''}  </span> Post. permanently deleted
           </DialogDescription>
         </DialogHeader>

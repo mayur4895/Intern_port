@@ -69,7 +69,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (!userExist) return token;
 
       if (!token.exp) {
-        token.exp = Math.floor(Date.now() / 1000) + 60; // Set token to expire in 60 seconds
+        token.exp = Math.floor(Date.now() / 1000) + 24 * 60 * 60; // Set token to expire in 24 hours
       }
 
       token.id = userExist.id;
@@ -86,6 +86,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
 
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt", maxAge: 60 },  
+  session: { strategy: "jwt", maxAge: 24 * 60 * 60 }, // Session expires in 24 hours
   ...authConfig,
 });

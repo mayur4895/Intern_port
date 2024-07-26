@@ -8,7 +8,7 @@ import { FaFacebook } from 'react-icons/fa';
 const Footer = () => {
   return (
     <>
-    <footer className=" h-auto lg:h-[180px]  bg-gradient-to-tr to-blue-800 from-blue-500  flex-col flex items-center  bt  mt-5 w-full   lg:px-10 px-5 py-4  gap-2 justify-between">
+    <footer className=" h-auto   bg-gradient-to-tr to-blue-800 from-blue-500  flex-col flex items-center  bt  mt-5 w-full   lg:px-10 px-5 py-4  gap-2 justify-between">
       <div className='   lg:flex w-full justify-between '>
          
              <div className=' text-white text-sm flex flex-col gap-2'>
@@ -48,10 +48,10 @@ const Footer = () => {
       </div>
         </div>
         </div>  
-        <Separator  className=' bg-white/10'/>
- 
+        <Separator  className='  bg-white/10'/>
+  <span className=' text-xs  text-white pt-1'>  &copy;2025 Modern college. All rights reserved</span>
     </footer>
-    <span className=' text-xs'>  &copy;2025 Modern college. All rights reserved</span>
+     
     
             </>
   );

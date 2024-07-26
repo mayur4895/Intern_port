@@ -49,14 +49,7 @@ interface NavbarProps{
         label: "InternShips",
         href: "/internships",
       },
-      {
-        label: "Jobs",
-        href: "/jobs",
-      },
-      {
-        label: "Services",
-        href: "/services",
-      },
+       
       {
         label: "Contact Us",
         href: "/contact",

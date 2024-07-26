@@ -8,7 +8,7 @@ import { FaFacebook } from 'react-icons/fa';
 const Footer = () => {
   return (
     <>
-    <footer className=" h-auto lg:h-[180px]   bg-black  flex-col flex items-center  bt  mt-5 w-full   lg:px-10 px-5 py-4  gap-2 justify-between">
+    <footer className=" h-auto lg:h-[180px]  bg-gradient-to-tr to-blue-800 from-blue-500  flex-col flex items-center  bt  mt-5 w-full   lg:px-10 px-5 py-4  gap-2 justify-between">
       <div className='   lg:flex w-full justify-between '>
          
              <div className=' text-white text-sm flex flex-col gap-2'>
@@ -38,19 +38,22 @@ const Footer = () => {
              
              </div>
 
-          
-        </div>  
-        <Separator  className=' bg-white/10'/>
-    </footer>
-      
-     <div className=' h-10 flex items-center justify-between text-white bg-black lg:px-10 px-5 pb-2 w-full'>
-            <span className=' text-xs'>  &copy;2025 Modern college. All rights reserved</span>
-            <div className=' flex items-center gap-5'>
+             <div className='text-white flex flex-col gap-2'> 
+         <h2>Follow Us</h2>
+            <div className=' flex  gap-5'>
               <Link href={""}><BsTwitterX size={15}/>  </Link>
               <Link href={""}><FaFacebook  size={16}/>  </Link>
               <Link href={""}><BsInstagram  size={16}/>  </Link>
-            </div>
-      </div></>
+         
+      </div>
+        </div>
+        </div>  
+        <Separator  className=' bg-white/10'/>
+ 
+    </footer>
+    <span className=' text-xs'>  &copy;2025 Modern college. All rights reserved</span>
+    
+            </>
   );
 };
 

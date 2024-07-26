@@ -69,7 +69,7 @@ const LoginPage = () => {
               </div>
 
               <div>
-                <MovingCards />
+               <MovingCards /> 
               </div>
             </div>
             <div className=" rounded-tr-[50px]">

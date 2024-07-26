@@ -8,6 +8,7 @@ import Footer from "@/components/ui/footer";
 import { UserType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import ContactUs from '@/components/main/contactUs';
+import { MovingCards } from '@/components/ui/infinite-scroll-cards';
  
  
  
@@ -22,16 +23,20 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <MainNavbar session={currentUser?.user} />  
+    <>
+       <MainNavbar session={currentUser?.user} />  
+  
+    <div className="flex flex-col   gap-4  ">
+     
       <Banner/>  
-      <div className="flex-grow gap-4  container flex flex-col">
-      <div className=' bg-green-500 h-[400px] w-full'> 
-                college info
-            </div>
+      <div className="flex-grow gap-4    flex flex-col w-full">  
+         
    <ContactUs/>
       </div>
-      <Footer/>
+    
     </div>
+ 
+    <Footer/>
+    </>
   )
 }

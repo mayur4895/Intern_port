@@ -37,6 +37,7 @@ export default async function RootLayout({
             <SessionHandler/>
             <ModalProvider/>
         </ClientProviders>
+    
       </body>
     </html>
   );

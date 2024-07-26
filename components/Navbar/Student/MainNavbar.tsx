@@ -27,6 +27,7 @@ import { Label } from '@/components/ui/label'
 import { IoEllipsisVertical } from 'react-icons/io5'
 import { UserType } from '@prisma/client'
 import { CiMenuBurger } from 'react-icons/ci'
+import Image from 'next/image'
  
 interface MainNavbarProps{
   session?:any;
@@ -82,7 +83,10 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
   return (
     <div className='flex  w-full z-50'>
        <div className="flex w-full items-center border-b shadow-sm  bg-white  pl-4 md:px-4 ">
-        <div className='font-bold tracking-wider'><Link href={"/"}>HireIntern</Link></div>
+        <div className='  tracking-wider flex items-center gap-2'>
+          <Link href={"/"}> <Image src="/college.png" className="brightness-0" height={40} width={40} alt="logo"/></Link>
+          Modern College 
+          </div>
      <div className='flex ml-auto items-center'>
      <div className='  w-full '>
             <Navbar  session={session}/>

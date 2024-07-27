@@ -16,8 +16,7 @@ import { MovingCards } from "@/components/ui/infinite-scroll-cards";
 const LoginPage = () => {
   const currentUser = CurrentUser();
   const { type } = useLoginType();
-  const [ logintype, setlogintype]= useState('student');
- 
+  const [ logintype, setlogintype]= useState('student');  
 
   useEffect(() => {
     if (currentUser && currentUser.role === UserType.EMPLOYER) {

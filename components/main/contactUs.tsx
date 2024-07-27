@@ -55,7 +55,7 @@ const ContactUs = ()=>{
     console.log(values)
   }
     return(<>
- <div className=" container">
+ <div className=" w-full">
  
       <div className=' grid lg:grid-cols-2 gap-4 w-full'>
              
@@ -63,7 +63,7 @@ const ContactUs = ()=>{
                 info
               </div>
             
-                <div className=" w-full   p-5 px-20">
+                <div className=" w-full   px-5 lg:px-20">
                   <div className="mb-5">
                     <h2 className="text-2xl font-semibold">Get In Touch</h2>
                     <p className=" lg:text-sm text-gray-500">Need Help with Something? Get in touch with our friendly team and we will get in touch within 2 hours</p>

@@ -50,7 +50,7 @@ const SocialProvider = () => {
   return (
     <div className="w-full items-center flex flex-col gap-3">
    {isLoding ?   <div className=" fixed top-0 left-0 w-full h-full bg-white/85 "> 
-   <div className=" flex items-center justify-center h-full w-full"> 
+   <div className=" z-50 flex items-center justify-center h-full w-full"> 
    <Loader2 size={25} className=" animate-spin"/> </div>
    </div>:  null}
    <span className="flex  whitespace-nowrap items-center justify-center text-sm gap-5 text-zinc-500"> <Separator/> Or Sign in with  <Separator/>  </span>

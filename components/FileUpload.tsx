@@ -53,7 +53,7 @@ const FileUpload = ({
      <a  className=" truncate"   href={value}
            target="_blank"
            rel="noopener noreferrer">
-  <p className=" truncate  w-80">{Name}</p>
+  <p className=" truncate   w-12">{Name}</p>
  </a>
  <span className="text-xs text-gray-500">{Math.round(Size/1024)}Kb</span>
      </div>

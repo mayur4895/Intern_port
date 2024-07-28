@@ -64,11 +64,7 @@ const FileUpload = ({
     }
 
 
-    const  FormatedSize = (size:any)=>{
-        useMemo(()=>{
-       return Math.round(size/1024);
-        },[size])
-   }
+    
     return (
         <>
             <UploadDropzone
@@ -87,3 +83,40 @@ const FileUpload = ({
 }
 
 export default FileUpload;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

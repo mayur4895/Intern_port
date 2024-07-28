@@ -1,12 +1,12 @@
 'use client';
-import { Label } from "@/components/ui/label"
+ 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { addDays, format } from 'date-fns';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
-import { ZodAny, date, z } from 'zod';
+import {  z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,14 +29,22 @@ import { CurrentUser } from '@/hooks/use-current-user';
 import { Checkbox } from "@/components/ui/checkbox";
 import { AlertCircle, CalendarIcon, Loader2 } from "lucide-react";
  
-import { UserType } from "@prisma/client";
-import { Textarea } from "@/components/ui/textarea";
+ 
 import { CreateInternshipPost } from "@/actions/hire-talent/createInternshipPost";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { getCompanyDetails } from "@/actions/hire-talent/getcompanyDetails";
+ 
 import RichTextEditor from "@/components/hire-talent/ReactQuill";
+ 
+ 
+import WhoCanApply from "@/components/hire-talent/new-post/WhoCanApply";
+import SelectCitties from "@/components/hire-talent/new-post/CitiesComponent";
+import SelectSkillSet from "@/components/hire-talent/new-post/SelectSkills";
+ 
+ 
+ 
+ 
 
 const  NewPostPage = () => {
   const router = useRouter();
@@ -88,105 +96,17 @@ const  NewPostPage = () => {
     setIsLoading(false)
   }
   }
-
-   
  
-   
-
-  const [newSkill, setNewSkill] = useState('');
-  const requiredSkills = form.watch('requiredSkills');
-  const [newCity, setNewCity] = useState('');
-  const Cities = form.watch('cities');
-  const addSkill = () => {
-    if (newSkill && !requiredSkills.includes(newSkill)) {
-      form.setValue('requiredSkills', [...requiredSkills, newSkill]);
-      setNewSkill('');
-    }
-  };
-
-  const removeSkill = (skillToRemove: string) => {
-    form.setValue('requiredSkills', requiredSkills.filter(skill => skill !== skillToRemove));
-  };
-
-
-  const addCity = () => {
-    if (newCity && !Cities.includes(newCity)) {
-      form.setValue('cities', [...Cities, newCity]);
-      setNewCity('');
-    }
-  };
-
-  const removeCity = (CityToRemove: string) => {
-    form.setValue('cities', Cities.filter(City => City !== CityToRemove));
-  };
-
+ 
+ 
   useEffect(() => {
     if (!currentUser) {
       redirect('/auth/login');
     }
      
   }, [currentUser]);
-
-
-
-
-  const InternType = form.getValues('internshipType');
-  const partOrFullTime = form.getValues('partOrFullTime');
-  const internshipStartDate = form.getValues('internshipStartDate');
-  const internshipDuration = form.getValues('internshipDuration');
-  const MonthOrWeeks = form.getValues('MonthOrWeeks');
- const fromStart  = form.getValues('fromStart');
- const toEnd = form.getValues('toEnd');
-
-  const currentDate = new Date(); 
-  const futureDate = addDays(currentDate,15) 
-  const formattedFutureDate = format(futureDate, "do MMM yyyy"); 
-  const formattedCurrentDate = format(currentDate, "do MMM yyyy");
-
-  useEffect(()=>{
-   
-     
-     if( form.getValues('internshipStartDate') === "Immediately"){
-      form.setValue('fromStart', undefined)
-      form.setValue('toEnd', undefined)
-     }  
-let formatedFrom ;
-let formatedTo;
-     if(form.getValues('internshipStartDate') === "Later" && fromStart !==undefined  &&  toEnd !== undefined){
-      formatedFrom   = format(fromStart,"do MMM yyyy") 
-      formatedTo = format( toEnd,"do MMM yyyy")
-     }
-     
-
-     const formatedScript = `  
-      <span>  Only those candidates can apply who:</span>
-      <ul> 
-
-      <li> have relevant skills and interests </li>
-      <li> are available for ${partOrFullTime === 'part-time' ? 'part time' : 'full time'} ${InternType === 'in office' || InternType === "Hybrid" ? '(in-office)' : 'work from home/'} internship </li>
-      ${(internshipDuration ) &&  (`${ (internshipStartDate === "Immediately"  )  ? `<li> can start the internship between ${formattedFutureDate} and  ${formattedCurrentDate}`: `${ formatedFrom !== undefined && formatedTo !== undefined   ?`<li> can start the internship between ${formatedFrom} and ${formatedTo}` : ''}` } </li>`)}
-      ${(internshipDuration && MonthOrWeeks) &&(`<li> are available for duration of ${internshipDuration} ${MonthOrWeeks} </li>`)}
-       
-      
-       </ul>`;
-
  
-    form.setValue('whoCanApply', formatedScript.trim());
-
-  },[ form,  
-    InternType,
-    partOrFullTime,
-    internshipStartDate,
-    internshipDuration,
-    MonthOrWeeks,
-    fromStart,
-    toEnd, 
-    formattedFutureDate,
-    formattedCurrentDate,
-  
-
-
-  ])
+ 
   return (
     <> 
     {IsLoading && (
@@ -216,68 +136,6 @@ let formatedTo;
               )}
             />
  
-    <div className=' gap-4 flex flex-col  w-full'>  
-           <FormField
-              control={form.control}
-              
-              name="requiredSkills"
-              render={() => (
-                <FormItem  className='w-full  ' > 
-                  <FormLabel>Required Skills</FormLabel>
-                   
-            <div>
-              {requiredSkills.length > 0 && (
-                <ul className="flex flex-wrap gap-2">
-                  {requiredSkills.map((skill, index) => (
-                    <Badge key={index} className="pl-5 py-0 flex justify-between items-center">
-                      {skill}
-                      <Button
-                        className='bg-transparent hover:bg-transparent'
-                        size="icon"
-                        type="button"
-                        onClick={() => removeSkill(skill)}
-                        aria-label="Remove"
-                      >
-                        ✕
-                      </Button>
-                    </Badge>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            
-                  <FormControl>
-                    <Select
-                      
-                      onValueChange={value => setNewSkill(value)}
-                      value={newSkill}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a skill" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="JavaScript">JavaScript</SelectItem>
-                        <SelectItem value="TypeScript">TypeScript</SelectItem>
-                        <SelectItem value="React">React</SelectItem>
-                        <SelectItem value="Node.js">Node.js</SelectItem>
-                        <SelectItem value="Mongodb">Mongodb</SelectItem> 
-                        <SelectItem value="Tailwind">Tailwind</SelectItem>
-                        <SelectItem value="Redux">Redux</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                
-              <FormMessage />
-    
-                </FormItem>
-              )}
-            />
-               <div className="  ">
-               <Button type="button" onClick={addSkill}>Add</Button>
-               </div> 
-              
-          </div>
            <FormField
           control={form.control}
           name="internshipType"
@@ -319,6 +177,21 @@ let formatedTo;
           )}
         />
 
+ 
+<FormField
+     control={form.control}
+     name="requiredSkills"
+     render={({ field }) => (
+       <FormItem>
+         <FormLabel>Required Skills</FormLabel>
+         <FormControl>
+              <SelectSkillSet value={field.value} onChange={field.onChange}/>
+         </FormControl>
+         <FormMessage />
+       </FormItem>
+     )}
+   />
+ 
 
         { form.getValues('internshipType') === "Hybrid" && (
           <FormField
@@ -391,61 +264,19 @@ let formatedTo;
 
         
  { form.getValues('internshipType') !== 'remote' && (
-
-<div className=' gap-4 flex flex-col  w-full'>        
-<FormField
+     <FormField
      control={form.control}
-     
      name="cities"
-     render={() => (
-       <FormItem  className='w-full' > 
-         <FormLabel>City/Cities</FormLabel>
-          
-   <div>
-     {Cities.length > 0 && (
-       <ul className="flex flex-wrap gap-2">
-         {Cities.map((city, index) => (
-           <Badge key={index} className="pl-5 py-0 flex justify-between items-center">
-             {city}
-             <Button
-               className='bg-transparent hover:bg-transparent'
-               size="icon"
-               type="button"
-               onClick={() => removeCity(city)}
-               aria-label="Remove"
-             >
-               ✕
-             </Button>
-           </Badge>
-         ))}
-       </ul>
-     )}
-   </div>
+     render={({ field }) => (
+       <FormItem>
+         <FormLabel>Cities</FormLabel>
          <FormControl>
-           <Select
-             
-             onValueChange={value => setNewCity(value)}
-             value={newCity}
-           >
-             <SelectTrigger>
-               <SelectValue placeholder="e.g pune" />
-             </SelectTrigger>
-             <SelectContent>
-               <SelectItem value="Pune">Pune</SelectItem>
-               <SelectItem value="Mumbai">Mumbai</SelectItem>
-               <SelectItem value="Nashik">Nashik</SelectItem> 
-             </SelectContent>
-           </Select>
+               <SelectCitties value={field.value} onChange={field.onChange}/>
          </FormControl>
          <FormMessage />
        </FormItem>
      )}
    />
-      <div>
-      <Button type="button" onClick={addCity}>Add</Button>
-      </div>
- </div>
-
  )}
 
           <div className=" border text-xs text-gray-600 flex items-center gap-3 p-2">
@@ -693,25 +524,10 @@ We will allow candidates who are from or willing to relocate to the given locati
 
 
 <br /><br />
-<FormField
-                control={form.control}
-                name="whoCanApply"
-       
-                render={({ field }) => (
-                  <FormItem  className=" hidden" >
-                    <FormLabel className="mt-5">Who can apply (prefilled as per earlier inputs):</FormLabel>
-                    <FormControl  >
-                      <Textarea
-                      readOnly  
-                      className="resize-none  pointer-events-none" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+ 
 
 
-              
+        <WhoCanApply form={form}/>      
 
         <FormField
                 control={form.control}
@@ -744,7 +560,7 @@ We will allow candidates who are from or willing to relocate to the given locati
                 </Button>
               )}
               <Button type="submit" className="ml-auto">
-                Next
+                Create Post
               </Button>
             </div>
           </form>

@@ -115,7 +115,7 @@ export const columns: ColumnDef<Application>[] = [
         return (
         <div>
             {   Application.resumeUrl &&  <div className=" w-[180px] flex items-center gap-2">
-              <Link href={Application.resumeUrl}><PiEyeThin className="text-gray-600"  size={18}/></Link>
+              <Link href={Application.resumeUrl} target="blank"><PiEyeThin className="text-gray-600"  size={18}/></Link>
               <div className=" flex items-center gap-2">
               <Image
             alt="Product image"

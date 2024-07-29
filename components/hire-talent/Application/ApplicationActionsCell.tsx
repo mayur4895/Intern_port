@@ -8,13 +8,70 @@ import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { useModal } from '@/hooks/use-modal-store';
  
+import { CurrentUser } from '@/hooks/use-current-user';
+import { UserType } from '@prisma/client';
+import { useSaveApplicationOfPost } from '@/features/application/api/save-apllication';
+import { useGetSavedApplicationofPost } from '@/features/application/api/get-saved-application';
+ 
  
 const ApplicationActionsCell = ({ row }:any) => {
+  const currentUser = CurrentUser();
   const Application = row.original; 
   const {onOpen} = useModal();
+
+  
+
+   
+
   const handleDelete =   () => {
     onOpen('deleteApplication',{Application})
   };
+
+ 
+  const { toast } = useToast();
+  const saveApplicationOfPostMutation =  useSaveApplicationOfPost();
+ const queryClient = useQueryClient();
+  
+ async function handleSave() {
+  try {
+    saveApplicationOfPostMutation.mutate(Application.id, {
+      onSuccess: (res) => {
+        if (res.success) {
+          toast({
+            variant: "success",
+            title: "Success",
+            description: res.success,
+          });
+        } else if (res.error) {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: res.error,
+          });
+        }
+      },
+      onError: (error) => {
+        console.error('Error saving application:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "An error occurred while saving the application.",
+        });
+      }
+    });
+
+  
+  
+  } catch (error) {
+    console.error('Error:', error);
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "An unexpected error occurred.",
+    });
+  }
+}
+
 
   return (
     <DropdownMenu>
@@ -33,7 +90,7 @@ const ApplicationActionsCell = ({ row }:any) => {
           Delete Application
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Save Candidate</DropdownMenuItem>
+        <DropdownMenuItem  onClick={handleSave} >Save Candidate</DropdownMenuItem>
         <DropdownMenuItem>Select Candidate</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

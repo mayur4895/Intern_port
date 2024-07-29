@@ -16,8 +16,13 @@ import { CiBookmarkCheck, CiEdit } from "react-icons/ci"
 import { Package } from "lucide-react"
 import { Chart } from "./Dashboard/chart"
 import { useGetCompanyPosts } from "@/features/post/api/get-allComapnyPosts"
+import { useGetSavedApplicationofPost } from "@/features/application/api/get-saved-application"
+import { CurrentUser } from "@/hooks/use-current-user"
+import { Skeleton } from "../ui/skeleton"
 export function Dashboard() {
-  const {data:posts} =  useGetCompanyPosts();
+  const currentUser = CurrentUser();
+  const {data:posts ,isLoading: postCountLoading} =  useGetCompanyPosts();
+  const { data: applications, error,  isLoading:ApplicationCountLoading } =  useGetSavedApplicationofPost(currentUser.id || '');
   return (
   
       
@@ -28,7 +33,7 @@ export function Dashboard() {
               <Card  className="  shadow-sm"  >
               <CardHeader className=" flex flex-row items-center justify-between">
               <div> 
-              <CardTitle className="text-3xl font-medium">{posts?.length}</CardTitle>
+              <CardTitle className="text-3xl font-medium">{postCountLoading?<Skeleton className=" h-10 w-10  rounded-md"> </Skeleton> : posts?.length}</CardTitle>
               <CardDescription className=" text-nowrap">Posted Jobs</CardDescription>
               </div>
               <div className=" h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">
@@ -68,7 +73,7 @@ export function Dashboard() {
                 <CardHeader className="pb-2 flex flex-row items-center justify-between">
                 <div>
  
-                <CardTitle className="text-3xl font-medium">03</CardTitle>
+                <CardTitle className="text-3xl font-medium">  {ApplicationCountLoading?<Skeleton className=" h-10 w-10  rounded-md"> </Skeleton> : applications?.length}</CardTitle>
                 <CardDescription className=" text-nowrap">Save Candidate</CardDescription>
                 </div>
                 <div className=" h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">

@@ -71,6 +71,15 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        pulse: {
+          '0%': { opacity: '0.5' },
+          '50%': { opacity: '1' },
+          '100%': { opacity: '0.5' },
+        },
         scroll: {
           to: {
             transform: "translate(calc(-50% - 0.5rem))",
@@ -94,6 +103,9 @@ const config: Config = {
         },
       },
       animation: {
+        "shimmer": 'shimmer 1.5s infinite linear',
+        "pulse": 'pulse 2s infinite ease-in-out',
+        "shimmerPulse": 'shimmer 1.5s infinite linear, pulse 2s infinite ease-in-out',
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out", 

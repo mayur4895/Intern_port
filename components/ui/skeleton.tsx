@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Skeleton({
   className,
@@ -6,10 +6,15 @@ function Skeleton({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("animate-pulse rounded-md  bg-zinc-300/40", className)}
+      className={cn(
+        "relative overflow-hidden rounded-md bg-gray-100",
+        className
+      )}
       {...props}
-    />
-  )
+    >
+      <div className="absolute inset-0    blur-sm   opacity-5  rotate-12  bg-gray-200/50 animate-shimmerPulse" />
+    </div>
+  );
 }
 
-export { Skeleton }
+export { Skeleton };

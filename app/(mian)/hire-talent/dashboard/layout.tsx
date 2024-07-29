@@ -38,7 +38,7 @@ const DashboardLayout = ({children}:{children:React.ReactNode}) => {
  
    useEffect(()=>{
     if(!currentUser) {
-       router.push('/login')
+       router.push('/auth/login')
     }
 
     if(currentUser && currentUser?.isPhoneVerified === false){

@@ -19,8 +19,12 @@ import { useGetCompanyPosts } from "@/features/post/api/get-allComapnyPosts"
 import { useGetSavedApplicationofPost } from "@/features/application/api/get-saved-application"
 import { CurrentUser } from "@/hooks/use-current-user"
 import { Skeleton } from "../ui/skeleton"
+import { redirect } from "next/navigation"
 export function Dashboard() {
   const currentUser = CurrentUser();
+  if(!currentUser){
+    return redirect("/auth/login");
+  }
   const {data:posts ,isLoading: postCountLoading} =  useGetCompanyPosts();
   const { data: applications, error,  isLoading:ApplicationCountLoading } =  useGetSavedApplicationofPost(currentUser.id || '');
   return (

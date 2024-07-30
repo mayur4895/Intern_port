@@ -12,6 +12,7 @@ import { CurrentUser } from '@/hooks/use-current-user';
 import { UserType } from '@prisma/client';
 import { useSaveApplicationOfPost } from '@/features/application/api/save-apllication';
 import { useGetSavedApplicationofPost } from '@/features/application/api/get-saved-application';
+import { useSelectApplicationOfPost } from '@/features/application/api/select-application';
  
  
 const ApplicationActionsCell = ({ row }:any) => {
@@ -30,37 +31,71 @@ const ApplicationActionsCell = ({ row }:any) => {
  
   const { toast } = useToast();
   const saveApplicationOfPostMutation =  useSaveApplicationOfPost();
- const queryClient = useQueryClient();
-  
+ const selectApplicationOfPostMutation =  useSelectApplicationOfPost();
+ 
  async function handleSave() {
   try {
     saveApplicationOfPostMutation.mutate(Application.id, {
       onSuccess: (res) => {
         if (res.success) {
           toast({
-            variant: "success",
-            title: "Success",
-            description: res.success,
+            variant: "success", 
+            title: res.success,
           });
         } else if (res.error) {
           toast({
-            variant: "destructive",
-            title: "Error",
-            description: res.error,
+            variant: "destructive", 
+            title: res.error,
           });
         }
       },
       onError: (error) => {
         console.error('Error saving application:', error);
         toast({
-          variant: "destructive",
-          title: "Error",
-          description: "An error occurred while saving the application.",
+          variant: "destructive", 
+          title: "An error occurred while saving the application.",
         });
       }
     });
-
+ 
   
+  } catch (error) {
+    console.error('Error:', error);
+    toast({
+      variant: "destructive", 
+      title: "An unexpected error occurred.",
+    });
+  }
+}
+
+
+async function handleSelect() {
+  try {
+    selectApplicationOfPostMutation.mutate(Application.id, {
+      onSuccess: (res) => {
+        if (res.success) {
+          toast({
+            variant: "success",
+            title: res.success,
+           
+          });
+        } else if (res.error) {
+          toast({
+            variant: "destructive", 
+            title: res.error,
+          });
+        }
+      },
+      onError: (error) => {
+        console.error('Error Selecting application:', error);
+        toast({
+          variant: "destructive",
+          title: "An error occurred while saving the application.",
+         
+        });
+      }
+    });
+ 
   
   } catch (error) {
     console.error('Error:', error);
@@ -71,8 +106,6 @@ const ApplicationActionsCell = ({ row }:any) => {
     });
   }
 }
-
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -91,7 +124,7 @@ const ApplicationActionsCell = ({ row }:any) => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem  onClick={handleSave} >Save Candidate</DropdownMenuItem>
-        <DropdownMenuItem>Select Candidate</DropdownMenuItem>
+        <DropdownMenuItem  onClick={handleSelect}>Select Candidate</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

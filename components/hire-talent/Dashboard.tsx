@@ -20,14 +20,16 @@ import { useGetSavedApplicationofPost } from "@/features/application/api/get-sav
 import { CurrentUser } from "@/hooks/use-current-user";
 import { Skeleton } from "../ui/skeleton";
 import { redirect } from "next/navigation";
+import { useGetSelectedApplicationofPost } from "@/features/application/api/get-selected-applications";
+import Link from "next/link";
 
 export function Dashboard() {
   const currentUser = CurrentUser();
 
   // Use hooks unconditionally
   const { data: posts, isLoading: postCountLoading } = useGetCompanyPosts();
-  const { data: applications, error, isLoading: ApplicationCountLoading } = useGetSavedApplicationofPost(currentUser?.id || '');
-
+  const { data: Savedapplications,   isLoading: SavedApplicationCountLoading } = useGetSavedApplicationofPost(currentUser?.id || '');
+  const { data: Selectedapplications,  isLoading: SelectedApplicationCountLoading } = useGetSelectedApplicationofPost(currentUser?.id || '');
   // Conditional redirect based on user authentication
   if (!currentUser) {
     redirect("/auth/login");
@@ -55,7 +57,9 @@ export function Dashboard() {
         <Card className="shadow-sm">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-3xl font-medium">04</CardTitle>
+            <CardTitle className="text-3xl font-medium">
+                {SelectedApplicationCountLoading ? <Skeleton className="h-10 w-10 rounded-md" /> : Selectedapplications?.length}
+              </CardTitle>
               <CardDescription className="text-nowrap">Shortlisted</CardDescription>
             </div>
             <div className="h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">
@@ -64,7 +68,9 @@ export function Dashboard() {
           </CardHeader>
         </Card>
 
+   
         <Card className="shadow-sm">
+        <Link href={"/hire-talent/dashboard/Allapplications"}>
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-3xl font-medium">200</CardTitle>
@@ -74,13 +80,15 @@ export function Dashboard() {
               <PiEyeThin size={22} />
             </div>
           </CardHeader>
+          </Link>
         </Card>
+        
 
         <Card className="shadow-sm">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-3xl font-medium">
-                {ApplicationCountLoading ? <Skeleton className="h-10 w-10 rounded-md" /> : applications?.length}
+                {SavedApplicationCountLoading ? <Skeleton className="h-10 w-10 rounded-md" /> : Savedapplications?.length}
               </CardTitle>
               <CardDescription className="text-nowrap">Saved Candidate</CardDescription>
             </div>

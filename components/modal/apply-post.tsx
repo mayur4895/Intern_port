@@ -85,17 +85,22 @@ const ApplyPost = () => {
           variant:"destructive",
           title: response.error,
         })
-        onClose();
+          onClose();
+        form.setValue('resume','');
+       
    
       } else {
         toast({
          variant:"success",
           title: response.success,
         })
+        
         onClose();
+        form.setValue('resume','');
       }
     } else {
       onClose();
+      form.setValue('resume','');
       console.error("Invalid modal data");
     }
   }

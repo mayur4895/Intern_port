@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -8,11 +8,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "../ui/button";
-import { Progress } from "../ui/progress";
-import { LuPencil } from "react-icons/lu";
-import { PiEye, PiEyeThin, PiPackageThin } from "react-icons/pi";
-import { CiBookmarkCheck, CiEdit } from "react-icons/ci";
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Separator } from "@/components/ui/separator"
+import {
+  PiClockClockwiseThin,
+  PiEye,
+  PiEyeThin,
+  PiPackageThin,
+  PiUsersThin,
+} from "react-icons/pi";
+import { CiBookmarkCheck, CiEdit, CiLocationOn } from "react-icons/ci";
 import { Package } from "lucide-react";
 import { Chart } from "./Dashboard/chart";
 import { useGetCompanyPosts } from "@/features/post/api/get-allComapnyPosts";
@@ -22,31 +27,47 @@ import { Skeleton } from "../ui/skeleton";
 import { redirect } from "next/navigation";
 import { useGetSelectedApplicationofPost } from "@/features/application/api/get-selected-applications";
 import Link from "next/link";
+import DaysAgo from "./Post/daysAgo";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export function Dashboard() {
   const currentUser = CurrentUser();
 
   // Use hooks unconditionally
   const { data: posts, isLoading: postCountLoading } = useGetCompanyPosts();
-  const { data: Savedapplications,   isLoading: SavedApplicationCountLoading } = useGetSavedApplicationofPost(currentUser?.id || '');
-  const { data: Selectedapplications,  isLoading: SelectedApplicationCountLoading } = useGetSelectedApplicationofPost(currentUser?.id || '');
+  const { data: Savedapplications, isLoading: SavedApplicationCountLoading } =
+    useGetSavedApplicationofPost(currentUser?.id || "");
+  const {
+    data: Selectedapplications,
+    isLoading: SelectedApplicationCountLoading,
+  } = useGetSelectedApplicationofPost(currentUser?.id || "");
   // Conditional redirect based on user authentication
   if (!currentUser) {
     redirect("/auth/login");
     return null; // Ensure nothing is rendered if redirecting
   }
 
+  if (posts) {
+    console.log(posts[0]?.applications);
+  }
+
   return (
     <div className="py-4 px-4 h-full bg-gray-50">
-      <h2 className="text-2xl font-medium">Dashboard</h2>
+ 
       <div className="mt-4 grid gap-4 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
         <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-3xl font-medium">
-                {postCountLoading ? <Skeleton className="h-10 w-10 rounded-md" /> : posts?.length}
+                {postCountLoading ? (
+                  <Skeleton className="h-10 w-10 rounded-md" />
+                ) : (
+                  posts?.length
+                )}
               </CardTitle>
-              <CardDescription className="text-nowrap">Posted Jobs</CardDescription>
+              <CardDescription className="text-nowrap">
+                Posted Jobs
+              </CardDescription>
             </div>
             <div className="h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">
               <PiPackageThin size={22} />
@@ -57,10 +78,16 @@ export function Dashboard() {
         <Card className="shadow-sm">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <div>
-            <CardTitle className="text-3xl font-medium">
-                {SelectedApplicationCountLoading ? <Skeleton className="h-10 w-10 rounded-md" /> : Selectedapplications?.length}
+              <CardTitle className="text-3xl font-medium">
+                {SelectedApplicationCountLoading ? (
+                  <Skeleton className="h-10 w-10 rounded-md" />
+                ) : (
+                  Selectedapplications?.length
+                )}
               </CardTitle>
-              <CardDescription className="text-nowrap">Shortlisted</CardDescription>
+              <CardDescription className="text-nowrap">
+                Shortlisted
+              </CardDescription>
             </div>
             <div className="h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">
               <CiBookmarkCheck size={22} />
@@ -68,29 +95,35 @@ export function Dashboard() {
           </CardHeader>
         </Card>
 
-   
         <Card className="shadow-sm">
-        <Link href={"/hire-talent/dashboard/Allapplications"}>
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <div>
-              <CardTitle className="text-3xl font-medium">200</CardTitle>
-              <CardDescription className="text-nowrap">Applications</CardDescription>
-            </div>
-            <div className="h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">
-              <PiEyeThin size={22} />
-            </div>
-          </CardHeader>
+          <Link href={"/hire-talent/dashboard/Allapplications"}>
+            <CardHeader className="pb-2 flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="text-3xl font-medium">200</CardTitle>
+                <CardDescription className="text-nowrap">
+                  Applications
+                </CardDescription>
+              </div>
+              <div className="h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">
+                <PiEyeThin size={22} />
+              </div>
+            </CardHeader>
           </Link>
         </Card>
-        
 
         <Card className="shadow-sm">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-3xl font-medium">
-                {SavedApplicationCountLoading ? <Skeleton className="h-10 w-10 rounded-md" /> : Savedapplications?.length}
+                {SavedApplicationCountLoading ? (
+                  <Skeleton className="h-10 w-10 rounded-md" />
+                ) : (
+                  Savedapplications?.length
+                )}
               </CardTitle>
-              <CardDescription className="text-nowrap">Saved Candidate</CardDescription>
+              <CardDescription className="text-nowrap">
+                Saved Candidate
+              </CardDescription>
             </div>
             <div className="h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">
               <CiEdit size={22} />
@@ -102,12 +135,63 @@ export function Dashboard() {
         <div className="lg:col-span-2">
           <Chart />
         </div>
-        <div className="w-full">
+        <div className="w-full h-full">
           <Card className="shadow-sm w-full">
             <CardHeader>
               <CardTitle>Recent Posts</CardTitle>
-              <CardDescription>View all recent posts</CardDescription>
             </CardHeader>
+
+             <ScrollArea className="h-auto  max-h-[495px]  w-full rounded-md border">
+              {posts?.slice(0, 5).map((post) => {
+                return (
+                  <Card className=" shadow-none border-none">
+                 
+                
+                      <div>
+                        <CardHeader>
+                          <CardTitle className=" text-sm flex items-center gap-2">
+                            <Avatar>
+                              {post?.companyLogo && (
+                                <AvatarImage
+                                  src={post?.companyLogo}></AvatarImage>
+                              )}
+                              <AvatarFallback></AvatarFallback>
+                            </Avatar>
+                            {post?.internshipProfile}
+                          </CardTitle>
+                          <CardDescription className=" flex flex-wrap items-center gap-3">
+                            <span className="  text-xs text-gray-500 flex items-center gap-1">
+                             
+                              <PiClockClockwiseThin  size={20}/>
+                              {post?.createdAt && (
+                                <DaysAgo
+                                  dateString={post?.createdAt?.toDateString()}
+                                />
+                              )}
+                            </span>
+                            <span className="  text-xs text-gray-500 flex items-center gap-1">
+                         
+                            <PiUsersThin size={20}/>
+                              {post?.applications.length} apllications
+                            </span>
+
+                            <span className="  text-xs text-gray-500 flex items-center gap-1"> 
+                         <CiLocationOn size={20}/>
+                           {post?.cities[0]} 
+                         </span>
+                           
+                          </CardDescription>
+                        </CardHeader>{" "}
+                      </div>
+                  
+           
+                      <Separator className="my-2" />
+                    </Card>
+               
+                );
+              })}
+              </ScrollArea>
+          
           </Card>
         </div>
       </div>

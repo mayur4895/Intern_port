@@ -144,7 +144,7 @@ export function Dashboard() {
              <ScrollArea className="h-auto  max-h-[495px]  w-full rounded-md border">
               {posts?.slice(0, 5).map((post) => {
                 return (
-                  <Card className=" shadow-none border-none">
+                  <Card  key={post?.id} className=" shadow-none border-none">
                  
                 
                       <div>

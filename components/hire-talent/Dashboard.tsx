@@ -35,9 +35,9 @@ export function Dashboard() {
   }
 
   return (
-    <div className="py-4 px-4 h-full">
+    <div className="py-4 px-4 h-full bg-gray-50">
       <h2 className="text-2xl font-medium">Dashboard</h2>
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
         <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
@@ -90,7 +90,7 @@ export function Dashboard() {
           </CardHeader>
         </Card>
       </div>
-      <div className="grid lg:grid-cols-3 mt-4 gap-4">
+      <div className="grid lg:grid-cols-3 mt-4 gap-4 ">
         <div className="lg:col-span-2">
           <Chart />
         </div>

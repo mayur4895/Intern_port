@@ -36,13 +36,15 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
  
 import RichTextEditor from "@/components/hire-talent/ReactQuill";
+import dynamic from "next/dynamic";
  
  
-import WhoCanApply from "@/components/hire-talent/new-post/WhoCanApply";
-import SelectCitties from "@/components/hire-talent/new-post/CitiesComponent";
-import SelectSkillSet from "@/components/hire-talent/new-post/SelectSkills";
  
  
+const WhoCanApply = dynamic(() =>   import("@/components/hire-talent/new-post/WhoCanApply"));
+const SelectCitties = dynamic(() =>  import("@/components/hire-talent/new-post/CitiesComponent"));
+const SelectSkillSet = dynamic(() =>import("@/components/hire-talent/new-post/SelectSkills") );
+
  
  
 

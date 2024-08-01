@@ -124,8 +124,7 @@ model VerificationToken {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
   email              String?               @unique
   token              String                @unique
-  expires            DateTime?
-  
+  expires            DateTime? 
   @@unique([email, token])
 }
 
@@ -162,4 +161,15 @@ model TwoFactorConfirmation {
   user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@unique([userId])
+}
+
+
+model GetIntouch{
+  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
+  firstname String
+  lastname String
+  email String
+  phone String
+  jobtitle String
+  @@unique([email])
 }

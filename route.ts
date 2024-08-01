@@ -11,7 +11,8 @@ export const publicRoutes = [
     "/auth/new-password",
     "/hire-talent",
     "/internships", 
-    "/api/uploadthing"
+    "/api/uploadthing",
+    "/api/sheet"
     
      
  

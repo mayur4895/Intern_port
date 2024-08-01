@@ -12,7 +12,8 @@ import { BsBuildingsFill } from "react-icons/bs";
 import Image from "next/image";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { MovingCards } from "@/components/ui/infinite-scroll-cards";
-
+import { TfiClose } from "react-icons/tfi";
+import Link from "next/link";
 const LoginPage = () => {
   const currentUser = CurrentUser();
   const { type } = useLoginType();
@@ -27,28 +28,28 @@ const LoginPage = () => {
   }, [currentUser]);
 
   return (
-    <div className="flex items-center justify-center h-screen w-full   ">
+    <div className="flex relative items-center justify-center h-screen w-full">
+         <Link href={"/"} className=" absolute right-5 top-5 cursor-pointer"><TfiClose size={25}/></Link>
       <div className="   bg-transparent p-5   h-full  container ">
         <Tabs
           defaultValue={type == "employer" ? "employer" : "student"}
           className=" lg:h-[600px]  h-auto top-10   w-full flex flex-col  items-center justify-center">
-          <TabsList className="grid grid-cols-2 gap-5 w-[400px]  h-[150px] mb-2  items-center justify-between ">
+          <TabsList className="grid grid-cols-2 gap-5 w-[320px]  h-[150px] mb-2  items-center justify-between ">
             <TabsTrigger
               value="student"
               onClick={()=>{setlogintype('student')}}
-              className="  text-gray-400 h-[100px] flex flex-col gap-2">
+              className="  text-xs text-gray-400 h-[90px] flex flex-col gap-2 rounded-md">
               <TbUserFilled size={22} />
               Student
             </TabsTrigger>
             <TabsTrigger
               value="employer"
               onClick={()=>{setlogintype('employer')}}
-              className="text-gray-400 h-[100px] flex flex-col gap-2">
+              className=" text-xs text-gray-400 h-[90px] flex flex-col gap-2 rounded-md">
               <BsBuildingsFill size={22} />
-              Employer/Company
+               Company
             </TabsTrigger>
-          </TabsList>
-
+          </TabsList> 
           <div className="lg:grid lg:grid-cols-2 overflow-hidden bg-white shadow-md  border rounded-tr-[50px]   lg:rounded-bl-[50px] h-full w-full">
             <div className=" w-full  h-auto md:h-full  grid rounded-bl-[50px] px-4 grid-rows-3 justify-between  bg-gradient-to-br from-blue-500 to-blue-300    overflow-hidden  p-5 ">
               <div className=" row-span-3  w-full  flex-col gap-2 items-start">

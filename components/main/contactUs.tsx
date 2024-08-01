@@ -16,8 +16,14 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import axios from "axios"
+import { GetInTouch } from "@/actions/getInTouch"
+import { useToast } from "../ui/use-toast"
+import { Card, CardHeader } from "../ui/card"
+import { CiLocationOn, CiMail } from "react-icons/ci"
+import { PiPhoneThin } from "react-icons/pi"
  
-const formSchema = z.object({
+export const formSchema = z.object({
   firstname: z.string().min(2, {
     message: "firstname must be at least 2 characters.",
   }),
@@ -36,7 +42,7 @@ const formSchema = z.object({
  
 
 const ContactUs = ()=>{
-
+const {toast} = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,17 +56,66 @@ const ContactUs = ()=>{
   })
  
  
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     
-    console.log(values)
+
+    try{
+       const res = await  GetInTouch(values);
+
+       if(res.success){
+          toast({
+            title:"Details Saved",
+            variant:"success"
+          })
+        form.reset();
+       }
+
+       if(res.error){
+        toast({
+          title:res.error,
+          variant:"destructive"
+        })
+        
+      form.reset();
+       }
+    }catch{
+      toast({
+        title:"Error while details Saved",
+        variant:"destructive"
+      })
+      form.reset();
+    }
+  
   }
     return(<>
- <div className=" w-full">
+ <div className=" w-full mt-4 px-2">
  
       <div className=' grid lg:grid-cols-2 gap-4 w-full'>
-             
-             <div className=' h-[500px] w-full bg-slate-500/20'>
-                info
+               
+             <div className=' h-[500px] w-full  flex   flex-col gap-5  lg:px-5 '>
+             <div>
+                <h1 className=" font-medium text-2xl">Modern College Ganeshkhind</h1>
+                <span>Apply to Internship</span>
+              </div>
+             <Card>
+                   <CardHeader>
+                    <span className="text-sm text-gray-600 flex items-center gap-2"><CiLocationOn />Location</span>
+                    <span className="text-sm text-zinc-800">GaneshKhind,pune</span>
+                   </CardHeader>
+                 </Card>
+                 <Card>
+                   <CardHeader>
+                    <span className="text-sm text-gray-600 flex items-center gap-2"> <CiMail /> Email:</span>
+                    <span className="text-sm text-zinc-800">moderncollege16@gmail.com</span>
+                   </CardHeader>
+                 </Card>
+                 <Card>
+                   <CardHeader>
+                    <span className="text-sm text-gray-600 flex items-center gap-2"><PiPhoneThin /> phone:</span>
+                    <span className="text-sm text-zinc-800">7768050797 / 7768020797</span>
+                   </CardHeader>
+                 </Card>
+
               </div>
             
                 <div className=" w-full   px-5 lg:px-20">

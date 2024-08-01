@@ -82,7 +82,7 @@ interface NavbarProps{
             return (
             
                 <MenubarMenu key={label}>
-                  <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+                  <MenubarTrigger> <Link href={href} className='  font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
                 </MenubarMenu>
             
             )

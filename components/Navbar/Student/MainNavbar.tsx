@@ -74,11 +74,13 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
 
   
   return (
-    <div className='flex  w-full z-50 border-b shadow-sm  bg-white      '>
+    <div className='flex  w-full z-50 border-b shadow-sm  bg-purple-50 border-b-purple-200    py-1    rounded-b-3xl  '>
        <div className="flex w-full justify-between  lg:container  px-2">
-        <div className='  tracking-wider flex items-center  text-nowrap gap-2'>
-          <Link href={"/"}> <Image src="/college.png" className="brightness-0" height={40} width={40} alt="logo"/></Link>
-          Modern College 
+        <div className='  tracking-wider flex items-center  text-purple-500 text-nowrap gap-2'>
+          <Link href={"/"}> 
+               HireTalent.
+          </Link>
+    
           </div>
      <div className='flex ml-auto items-center'>
      <div className='  w-full '>
@@ -87,7 +89,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
      { !session &&    <>
       <div className="lg:flex hidden flex-row  ml-5  gap-x-4  "> 
  
-      <Link href={"/auth/login"}  onClick={()=>{onSetType("student")}}> <Button>Login</Button> </Link>
+      <Link href={"/auth/login"}  onClick={()=>{onSetType("student")}}> <Button variant={"theme"}>Login</Button> </Link>
         <Link href={"/auth/signup"}> <Button variant={"outline"} >Candidate Sign-up</Button> </Link>
         
         <Link href={"/hire-talent"}> <Button variant={"outline"} >Employer Sign-up</Button> </Link>
@@ -99,7 +101,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
           <MenubarMenu>
             <MenubarTrigger asChild>
               <Sheet>
-               {   <SheetTrigger asChild className={     `     ${!session?.role ? "hidden " : " lg:block  cursor-pointer border-2 hover:border-blue-400 transition"}`   }>
+               {   <SheetTrigger asChild className={     `     ${!session?.role ? "hidden " : " lg:block  cursor-pointer border-2 hover:border-purple-400 transition"}`   }>
                    <Avatar>
                       <AvatarImage src={session?.image} />
                       <AvatarFallback>
@@ -135,7 +137,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
           return (
           
               <MenubarMenu key={label}>
-                <MenubarTrigger> <Link href={href} className='font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
+                <MenubarTrigger> <Link href={href} className='  whitespace-nowrap'> {label}</Link></MenubarTrigger>
               </MenubarMenu>
           
           )
@@ -166,26 +168,26 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
                       <div className="flex flex-col  ml-4   items-start  justify-start gap-4">
                         <Link
                           href={"/auth/employer/login"}
-                          className="text-sm font-normal text-black   hover:text-blue-500"
+                          className="text-sm font-normal text-black   hover:text-purple-500"
                           onClick={() => {
                             onSetType("employer");
                           }}>
-                          {" "} 
-                          Login{" "}
+                      
+                        <Button variant={"theme"}>   Login </Button>
                         </Link>
 
                         <Link
                           href={"/auth/signup"}
-                          className="text-sm font-normal text-black  hover:text-blue-500">
-                          {" "}
-                          Candidate Sign-up{" "}
+                          className="text-sm font-normal text-black  hover:text-purple-500">
+                           
+                          Candidate Sign-up 
                         </Link>
 
                         <Link
                           href={"/signup"}
-                          className="text-sm font-normal text-black   hover:text-blue-500">
-                          {" "}
-                          Employer Sign-up{" "}
+                          className="text-sm font-normal text-black   hover:text-purple-500">
+                         
+                          Employer Sign-up 
                         </Link>
                       </div>
                     )}

@@ -30,18 +30,17 @@ const LoginPage = () => {
 
   return (
     <div className="md:grid md:grid-cols-2 overflow-hidden    bg-white items-center    h-full w-full">
-    <div className=" w-full  h-auto md:h-full  grid   px-4 grid-rows-3 justify-between    items-center  overflow-hidden  p-5 ">
-      <div className=" bg-gray-500   w-full  flex-col gap-2 items-start">
-        
+    <div className=" w-full  h-auto md:h-full  grid   px-4      items-center  overflow-hidden  p-5 ">
+         
           <Image
             src="/search-talent.jpg"
             alt="bg"
             height={400}
             width={400}
-            className="  object-cover  object-center  "
+            className="   "
           />
  
-      </div>
+     
 
     
     </div>

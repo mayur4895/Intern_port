@@ -22,19 +22,13 @@ import React from 'react'
  const DashboardPage =  () => {
 const currentUser = CurrentUser();
  
-const { data: Internships, isLoading, error, } = useGetAllPosts();
- 
- 
-
-
-
-
+const { data: Internships, isLoading, error, } = useGetAllPosts(); 
 const MapIcon:any = {
  'in office':<Building2 className='text-gray-500' size={15}/>,
  'remote':<LocateIcon className='text-gray-500' size={15}/>,
 
 }
-const { onOpen} = useModal();
+ 
 
  
 
@@ -43,7 +37,7 @@ const { onOpen} = useModal();
     <div className=' text-start items-center  px-10'>
   
         <h3 className='text-2xl'>Recomonded for you</h3>
-        <Button onClick={()=>{onOpen('Studentprofile',{})}}>profile Update</Button>
+       
         <div className='flex flex-wrap  justify-center w-full  items-center mt-8 gap-3'>
           {Internships?.map((internship, index) => (
             <Card key={internship.id}  className=' w-[320px] cursor-pointer'>

@@ -4,26 +4,27 @@ import { UploadDropzone } from "@/lib/uploadthing";
 import "@uploadthing/react/styles.css";
 import { X } from "lucide-react";
 import Image from "next/image"; 
-import { useMemo, useState } from "react";
+import { SetStateAction, useMemo, useState } from "react";
 import { FcFile } from "react-icons/fc";
 
-interface FileUploadProps {
+interface FileUploadProps { 
     onChange: (url?: string) => void;
-    endpoint: "CompanyLogo" | "ResumePdf";
+    endpoint: "CompanyLogo" | "ResumePdf"  | "StudentProfile"
     value: string | undefined;
 }
 
 const FileUpload = ({
-    onChange,
+    onChange, 
     value,
     endpoint
 }: FileUploadProps) => {
-
+ 
     const [Name ,setName] = useState('');
     const [Size,setSize] = useState<any>();
     const fileType = value?.split(".").pop();
-
+    
     if (value && fileType !== "pdf") {
+     
         return (
             <div className="h-25 w-25 relative bg-white">
                 <Image
@@ -41,8 +42,7 @@ const FileUpload = ({
     }
 
     if (value && fileType === "pdf") {
-        console.log(value);
-
+        console.log(value); 
       
         return (
          

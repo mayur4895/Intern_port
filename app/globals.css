@@ -167,3 +167,22 @@
     background-color: white;
   }
   
+  /* styles/globals.css */
+
+/* Scrollbar styles */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px; /* Width of the scrollbar */
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #e1e1e1; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners of the scrollbar thumb */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the scrollbar thumb on hover */
+}

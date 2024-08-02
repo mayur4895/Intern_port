@@ -33,41 +33,31 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import StudentProfileSchema from "@/schemas/student/profileSchema";
+import { ScrollArea } from "../ui/scroll-area";
+import FileUpload from "../FileUpload";
+import { UploadDropzone } from "@/lib/uploadthing";
  
 
 
 
  
-const ProfileModal = () => {
+interface ProfileUploadProps {
+  onChange: (url?: string) => void;
+  endpoint: "StudentProfile"
+  value: string | undefined;
+}
+
+const ProfileUpload = ({
+  onChange,
+  value,
+  endpoint
+}: ProfileUploadProps) => {
   const { isOpen, onClose, type, data } = useModal();
   const isModalOpen = isOpen && type === "Studentprofile";
   const router = useRouter();
   const { toast } = useToast();
-
-  const [internship, setInternship] = useState<Post | null>(null);
   
-  const isModalData = (data: {}): data is ModalData => {
-    return (data as ModalData).studentId !== undefined && (data as ModalData).postId !== undefined;
-  };
- 
-  const studentId = isModalData(data) ? data.studentId : null;
-  const postId = isModalData(data) ? data.postId : null;
- 
-  const form = useForm<z.infer<typeof StudentProfileSchema>>({
-    resolver: zodResolver(StudentProfileSchema),
-    defaultValues: {
-        firstname:"",
-        lastname: "",
-      email: "",
-       phone: "", 
-      profilePicture: "",
-      resumeUrl: "",
-    },
-  })
-  
-
-   
-
+     
   const handleClose = () => {
     onClose();
   };
@@ -78,134 +68,49 @@ const ProfileModal = () => {
  
   async function onSubmit(values: z.infer<typeof StudentProfileSchema>) { 
     
-        console.log(values);
+         alert(values);
         
        
   }
-
+  const [Name ,setName] = useState('');
+  const [Size,setSize] = useState<any>();
   return (
+
+
     <>
-      <Dialog open={isModalOpen} >
-        <DialogContent>
-          
-          <DialogHeader>
-            <DialogTitle className="text-xl font-normal">
-               Update Profile
-            </DialogTitle>
-            <DialogDescription>
-           
-            </DialogDescription>
-            <DialogClose
-              className="absolute top-1 right-3 h-7 w-7 flex items-center justify-center z-10 bg-white"
-              onClick={handleClose}
-            >
-              <VscClose size={22} />
-            </DialogClose>
-          </DialogHeader>
-          <Separator/>
-          
+    
+      <Dialog open={isModalOpen}>
+          <DialogContent className="   h-full  scroll-auto overflow-auto  scrollbar-thin  max-w-2xl ">
+          <DialogClose
+                className="    absolute  top-0 right-0 h-10 w-10 p-1 flex items-center justify-center z-10 bg-blue-200 rounded-bl-3xl"
+                onClick={handleClose}
+              >
+                <VscClose size={22} />
+              </DialogClose>
+            <DialogHeader  >
+              <DialogTitle className="text-xl   text-start font-normal">
+                   Profile
+              </DialogTitle>
+              <DialogDescription> 
+              </DialogDescription> 
+            </DialogHeader> 
+            <UploadDropzone
+                endpoint={endpoint}
+                onClientUploadComplete={(res) => {
+                setName(res?.[0].name);
+                setSize(res?.[0].size);
+                    onChange(res?.[0].url);
+                }}
+                onUploadError={(error: Error) => {
+                    console.log(`ERROR! ${error.message}`);
+                }}
+            />
+          </DialogContent>
          
-            
-          <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-   <div className="grid grid-cols-2 w-full items-center gap-2">
-   <FormField
-  control={form.control}
-  name="firstname"
-  render={({ field }) => (
-    <FormItem className="floating-label-input">
- 
-    <FormControl>
-     <div>
-     <Input placeholder=" "   className="peer"  {...field} />
-      <label className="absolute text-gray-500 transition-all duration-200 transform -translate-y-2 scale-75 top-3 left-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2">
-      Enter FirstName
-    </label>
-     </div>
-    </FormControl> 
-    <FormMessage />
-  </FormItem>
-  )}
-/>
-<FormField
-  control={form.control}
-  name="lastname"
-  render={({ field }) => (
-    <FormItem className="floating-label-input">
- 
-    <FormControl>
-     <div>
-     <Input placeholder=" "   className="peer"  {...field} />
-      <label className="absolute text-gray-500 transition-all duration-200 transform -translate-y-2 scale-75 top-3 left-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2">
-      Enter LastName
-    </label>
-     </div>
-    </FormControl> 
-    <FormMessage />
-  </FormItem>
-  )}
-/>
-   </div>
-
-<FormField
-  control={form.control}
-  name="email"
-  render={({ field }) => (
-    <FormItem className="floating-label-input">
- 
-    <FormControl>
-     <div>
-     <Input placeholder=" "   className="peer"  {...field} />
-      <label className="absolute text-gray-500 transition-all duration-200 transform -translate-y-2 scale-75 top-3 left-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2">
-      Enter Email
-    </label>
-     </div>
-    </FormControl> 
-    <FormMessage />
-  </FormItem>
-  )}
-/>
-<FormField
-  control={form.control}
-  name="phone"
-  render={({ field }) => (
-    <FormItem className="floating-label-input">
- 
-      <FormControl>
-       <div>
-       <Input placeholder=" "   className="peer"  {...field} />
-        <label className="absolute text-gray-500 transition-all duration-200 transform -translate-y-2 scale-75 top-3 left-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2">
-        Enter phone
-      </label>
-       </div>
-      </FormControl> 
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-
-<FormField
-          control={form.control}
-          name="resumeUrl"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Upload Resume</FormLabel>
-              <FormControl>
-               <FileUplod  value={field.value} onChange={field.onChange} endpoint="ResumePdf"/>
-              </FormControl> 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit">Update Profile</Button>
-      </form>
-    </Form>      
-        </DialogContent>
-       
-      </Dialog>
+        </Dialog> 
+  
     </>
   );
 }
 
-export default ProfileModal;
+export default ProfileUpload;

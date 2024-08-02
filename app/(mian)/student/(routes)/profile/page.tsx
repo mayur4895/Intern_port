@@ -1,0 +1,159 @@
+'use client'
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import StudentProfileSchema from "@/schemas/student/profileSchema";
+import { useToast } from "@/components/ui/use-toast";
+ 
+import FileUpload from "@/components/FileUpload";
+import AvatarUpload from "@/components/student/ProfilePicture";
+
+const StudentProfilePage: React.FC = () => {
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const form = useForm<z.infer<typeof StudentProfileSchema>>({
+    resolver: zodResolver(StudentProfileSchema),
+    defaultValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      phone: "",
+      profilePicture: "",
+      resumeUrl: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof StudentProfileSchema>) {
+    alert(values);
+  }
+
+  return (
+    <div className="flex items-center justify-center h-full w-full">
+      <Card className="w-[600px]">
+        <CardContent className="h-full scroll-auto overflow-auto scrollbar-thin">
+          <CardHeader className=" px-0">
+            <CardTitle className="text-xl text-start font-normal">
+              Update Profile
+            </CardTitle>
+            <CardDescription></CardDescription>
+          </CardHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full h-full">
+              <FormField
+                control={form.control}
+                name="profilePicture"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Profile Picture</FormLabel>
+                    <FormControl>
+                      <AvatarUpload value={field.value} onChange={field.onChange} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <div className="grid grid-cols-2 w-full items-center gap-2">
+                <FormField
+                  control={form.control}
+                  name="firstname"
+                  render={({ field }) => (
+                    <FormItem >
+                        <FormLabel>First Name</FormLabel> 
+                      <FormControl>
+                        <div>
+                          <Input placeholder="Enter your FirstName" className="peer" {...field} /> 
+                           
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastname"
+                  render={({ field }) => (
+                    <FormItem >
+                        <FormLabel>Last Name</FormLabel> 
+                      <FormControl>
+                        <div>
+                          <Input placeholder="Enter Your LastName" className="peer" {...field} /> 
+                        
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem >
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <div>
+                        <Input placeholder="e.g example@gmail.com" className="peer" {...field} /> 
+                      
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem >
+                    <FormLabel>Phone</FormLabel>
+                    <FormControl> 
+                        <Input placeholder="Enter your phone"   {...field} />  
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="resumeUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Upload Resume</FormLabel>
+                    <FormControl>
+                      <FileUpload value={field.value} onChange={field.onChange} endpoint="ResumePdf" />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" onClick={()=>{alert("hi")}}>Update Profile</Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export default StudentProfilePage;

@@ -38,7 +38,7 @@ const LoginPage = () => {
             alt="bg"
             height={400}
             width={400}
-            className="  object-fill  object-center  "
+            className="  object-cover  object-center  "
           />
  
       </div>

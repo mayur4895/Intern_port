@@ -132,7 +132,7 @@ const Login = () => {
         <Card className="px-8 py-5 max-w-md w-full z-10   shadow-none border-none">
         
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
               
            
@@ -181,7 +181,7 @@ const Login = () => {
 
               <CardFooter className=" justify-between gap-3 flex-col w-full p-0">
                 
-              <Button type="submit" variant={"theme"} className=" h-10 w-full">
+              <Button type="submit"  className=" h-10 w-full">
                   {isLoding ? <Loader2 className=" animate-spin" /> : showTwoFactor ? "Confirm" :"Login"}
                 </Button>
                 {!showTwoFactor && 

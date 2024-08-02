@@ -103,7 +103,7 @@ const EmployerLogin = () => {
    <Card className="px-8 py-5 max-w-md w-full  shadow-none border-none">
         
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -145,7 +145,7 @@ const EmployerLogin = () => {
 
               <CardFooter className=" justify-between gap-3 flex-col w-full p-0">
                 
-              <Button variant={"theme"} type="submit" className=" h-10 w-full">
+              <Button  type="submit" className=" h-10 w-full">
                   {isloding ? <Loader2 className=" animate-spin" /> : "Login"}
                 </Button>
           

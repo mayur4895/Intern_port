@@ -14,6 +14,7 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { MovingCards } from "@/components/ui/infinite-scroll-cards";
 import { TfiClose } from "react-icons/tfi";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 const LoginPage = () => {
   const currentUser = CurrentUser();
   const { type } = useLoginType();
@@ -28,66 +29,39 @@ const LoginPage = () => {
   }, [currentUser]);
 
   return (
-    <div className="flex relative items-center justify-center h-screen w-full">
-         <Link href={"/"} className=" absolute right-5 top-5 cursor-pointer"><TfiClose size={25}/></Link>
-      <div className="   bg-transparent p-5   h-full  container ">
-        <Tabs
-          defaultValue={type == "employer" ? "employer" : "student"}
-          className=" lg:h-[600px]  h-auto top-10   w-full flex flex-col  items-center justify-center">
-          <TabsList className="grid grid-cols-2 gap-5 w-[320px]  h-[150px] mb-2  items-center justify-between ">
-            <TabsTrigger
-              value="student"
-              onClick={()=>{setlogintype('student')}}
-              className="  text-xs text-gray-400 h-[90px] flex flex-col gap-2 rounded-md">
-              <TbUserFilled size={22} />
-              Student
-            </TabsTrigger>
-            <TabsTrigger
-              value="employer"
-              onClick={()=>{setlogintype('employer')}}
-              className=" text-xs text-gray-400 h-[90px] flex flex-col gap-2 rounded-md">
-              <BsBuildingsFill size={22} />
-               Company
-            </TabsTrigger>
-          </TabsList> 
-          <div className="lg:grid lg:grid-cols-2 overflow-hidden bg-white shadow-md  border rounded-tr-[50px]   lg:rounded-bl-[50px] h-full w-full">
-            <div className=" w-full  h-auto md:h-full  grid rounded-bl-[50px] px-4 grid-rows-3 justify-between  bg-gradient-to-br from-blue-500 to-blue-300    overflow-hidden  p-5 ">
-              <div className=" row-span-3  w-full  flex-col gap-2 items-start">
-                <h2 className={"text-3xl font-semibold px-4 text-white break-words lg:w-full w-[400px]" }>
-                     {logintype === "student" ?    <div>Find Your Best Job</div>
-                      :  <span>Hire Student Up to 2  Year Experience</span>}
-                </h2>
-                <div>
-                  <Image
-                    src="/lbg.png"
-                    alt="bgs"
-                    height={300}
-                    width={300}
-                    className="  object-cover"
-                  />
-                </div>
-              </div>
-
-              <div>
-               <MovingCards /> 
-              </div>
-            </div>
-            <div className=" rounded-tr-[50px]">
-              <TabsContent
-                value="student"
-                className="  flex items-center justify-center">
-                <Login />
-              </TabsContent>
-              <TabsContent
-                value="employer"
-                className=" flex items-center justify-center ">
-                <EmployerLogin />
-              </TabsContent>
-            </div>
-          </div>
-        </Tabs>
+    <div className="md:grid md:grid-cols-2 overflow-hidden    bg-white items-center    h-full w-full">
+    <div className=" w-full  h-auto md:h-full  grid   px-4 grid-rows-3 justify-between    items-center  overflow-hidden  p-5 ">
+      <div className=" bg-gray-500   w-full  h-full flex-col gap-2 items-start">
+        
+          <Image
+            src="/search-talent.jpg"
+            alt="bg"
+            height={400}
+            width={400}
+            className="  object-fill  object-center  "
+          />
+ 
       </div>
+
+    
     </div>
+
+    <div className=" rounded-tr-[50px]">
+
+      <TabsContent
+        value="student"
+        className=" flex items-center justify-center  flex-col ">
+                    <h2>Student login </h2>
+        <Login />
+      </TabsContent>
+      <TabsContent
+        value="employer"
+        className=" flex items-center justify-center  flex-col ">
+          <h2>Employer login </h2>
+        <EmployerLogin />
+      </TabsContent>
+    </div>
+  </div>
   );
 };
 

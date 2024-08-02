@@ -28,6 +28,7 @@ import { IoEllipsisVertical } from 'react-icons/io5'
 import { UserType } from '@prisma/client'
 import { CiMenuBurger } from 'react-icons/ci'
 import Image from 'next/image'
+import { cn } from '@/lib/utils'
  
 interface MainNavbarProps{
   session?:any;
@@ -70,13 +71,28 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
   const { onSetType} = useLoginType()
      
 
+  const [scroll, setscroll] = useState(false);
 
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setscroll(true);
+    } else {
+      setscroll(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   
   return (
-    <div className='flex  w-full z-50 border-b shadow-sm  bg-purple-50 border-b-purple-200    py-1    rounded-b-3xl  '>
+    <div className={cn('sticky top-0 z-50 transition-shadow bg-white md:rounded-b-3xl border-b', { 'shadow-sm bg-slate-50 border-b-blue-200': scroll })} >
        <div className="flex w-full justify-between  lg:container  px-2">
-        <div className='  tracking-wider flex items-center  text-purple-500 text-nowrap gap-2'>
+        <div className='  tracking-wider flex items-center  text-blue-500 text-nowrap gap-2'>
           <Link href={"/"}> 
                HireTalent.
           </Link>
@@ -87,12 +103,12 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
             <Navbar  session={session}/>
         </div> 
      { !session &&    <>
-      <div className="lg:flex hidden flex-row  ml-5  gap-x-4  "> 
+      <div className="lg:flex hidden flex-row      "> 
  
-      <Link href={"/auth/login"}  onClick={()=>{onSetType("student")}}> <Button variant={"theme"}>Login</Button> </Link>
-        <Link href={"/auth/signup"}> <Button variant={"outline"} >Candidate Sign-up</Button> </Link>
+      <Link href={"/auth/login"}  onClick={()=>{onSetType("student")}}> <Button   variant={"link"} className='font-normal'>Login</Button> </Link>
+        <Link href={"/auth/signup"}> <Button variant={"link"}  className='font-normal'>Candidate Sign-up</Button> </Link>
         
-        <Link href={"/hire-talent"}> <Button variant={"outline"} >Employer Sign-up</Button> </Link>
+        <Link href={"/hire-talent"}> <Button variant={"link"}  className='font-normal'>Employer Sign-up</Button> </Link>
  
      </div>
      </>}
@@ -173,7 +189,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
                             onSetType("employer");
                           }}>
                       
-                        <Button variant={"theme"}>   Login </Button>
+                        <Button >   Login </Button>
                         </Link>
 
                         <Link

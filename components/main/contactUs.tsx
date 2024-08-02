@@ -97,19 +97,19 @@ const {toast} = useToast();
                 <h1 className=" font-medium text-2xl">Modern College Ganeshkhind</h1>
                 <span>Apply to Internship</span>
               </div>
-             <Card>
+             <Card className=" shadow-none">
                    <CardHeader>
                     <span className="text-sm text-gray-600 flex items-center gap-2"><CiLocationOn />Location</span>
                     <span className="text-sm text-zinc-800">GaneshKhind,pune</span>
                    </CardHeader>
                  </Card>
-                 <Card>
+                 <Card className=" shadow-none">
                    <CardHeader>
                     <span className="text-sm text-gray-600 flex items-center gap-2"> <CiMail /> Email:</span>
                     <span className="text-sm text-zinc-800">moderncollege16@gmail.com</span>
                    </CardHeader>
                  </Card>
-                 <Card>
+                 <Card className=" shadow-none">
                    <CardHeader>
                     <span className="text-sm text-gray-600 flex items-center gap-2"><PiPhoneThin /> phone:</span>
                     <span className="text-sm text-zinc-800">7768050797 / 7768020797</span>

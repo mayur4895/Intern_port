@@ -135,3 +135,35 @@
       }
   }
    */
+
+   .floating-label-input {
+    position: relative;
+  }
+  
+  .floating-label-input input {
+    width: 100%; 
+  
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .floating-label-input label {
+    position: absolute;
+    top: 0.45rem;
+    left: 0.5rem;
+    pointer-events: none;
+    font-size:  .89rem; 
+    background-color: white;
+    transition: all 0.3s ease;
+  }
+  
+  .floating-label-input input:focus + label,
+  .floating-label-input input:not(:placeholder-shown) + label {
+    top: -0.55rem;
+    left: 0.5rem;
+    font-size: 1rem;
+    color: #222;
+    padding: 1px;
+    background-color: white;
+  }
+  

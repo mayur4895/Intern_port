@@ -8,6 +8,7 @@ import { useGetAllPosts } from '@/features/post/api/getallPosts'
 import { useInternships } from '@/hooks/use-all-posts'
  
 import { CurrentUser } from '@/hooks/use-current-user'
+import { useModal } from '@/hooks/use-modal-store'
 import { UserType } from '@prisma/client'
 import { ArrowRight, Building2, CreditCard, LocateIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
@@ -33,12 +34,16 @@ const MapIcon:any = {
  'remote':<LocateIcon className='text-gray-500' size={15}/>,
 
 }
+const { onOpen} = useModal();
+
+ 
 
    return (
     <>  
     <div className=' text-start items-center  px-10'>
   
         <h3 className='text-2xl'>Recomonded for you</h3>
+        <Button onClick={()=>{onOpen('Studentprofile',{})}}>profile Update</Button>
         <div className='flex flex-wrap  justify-center w-full  items-center mt-8 gap-3'>
           {Internships?.map((internship, index) => (
             <Card key={internship.id}  className=' w-[320px] cursor-pointer'>

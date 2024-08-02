@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import DeletePost from "../modal/delete-post"
 import ApplyPost from "../modal/apply-post"
 import DeleteApplication from "../modal/delete-appliction"
+import ProfileModal from "../modal/profile-modal"
  
  
  
@@ -28,6 +29,7 @@ if(!isMounted){
     <DeletePost/> 
     <ApplyPost/>
     <DeleteApplication/>
+    <ProfileModal/>
     </>)
 }
 

@@ -7,6 +7,8 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { PiTrashSimpleFill, PiTrashThin } from "react-icons/pi"; 
+import { BiSolidEditAlt } from "react-icons/bi";
 
 interface AvatarUploadProps {
   value: string;
@@ -41,29 +43,29 @@ const currentUser = CurrentUser();
   return (
     <div className="relative">
  <div className=" flex items-center gap-5">
- <Avatar  className=" cursor-pointer  h-[80px] w-[80px]  border shadow-md">
+ <Avatar  className=" cursor-pointer  h-[80px] w-[80px]   p-1 shadow-md border-gray-400">
     <AvatarImage
         src={value || currentUser?.image } // Fallback image
         alt="Avatar"  
       />
     <AvatarFallback>
-                        <div className=" shadow    bg-stone-300  text-2xl font-semibold  h-full w-full rounded-full flex justify-center items-center">
+                        <div className=" shadow    bg-blue-300  text-2xl font-semibold  h-full w-full rounded-full flex justify-center items-center">
                           {currentUser?.name[0]}
                         </div> 
                       </AvatarFallback>
     </Avatar>
 
     <div className=" flex items-center gap-2">
-    <Button onClick={handleUpload}>Edit Profile</Button>
-    <Button onClick={handleRemove}>Remove Profile</Button>
+    <Button variant={"outline"} onClick={handleUpload} className=" flex items-center gap-2    "><BiSolidEditAlt />Edit Profile</Button>
+    <Button variant={"outline"} onClick={handleRemove} className=" flex items-center gap-2     "><PiTrashSimpleFill  />Remove Profile</Button>
     </div>
  </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className=" w-full">
           <DialogHeader>
             <DialogTitle>Upload Profile Picture</DialogTitle> 
           </DialogHeader>
-          <div className="flex flex-col items-center"> 
+          <div className="flex flex-col items-center w-full"> 
           <FileUpload endpoint="StudentProfile"   value={value}  onChange={onChange} />
           </div>
         </DialogContent>

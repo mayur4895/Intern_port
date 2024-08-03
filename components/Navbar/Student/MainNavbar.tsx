@@ -117,11 +117,11 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
           <MenubarMenu>
             <MenubarTrigger asChild>
               <Sheet>
-               {   <SheetTrigger asChild className={     `     ${!session?.role ? "hidden " : " lg:block  cursor-pointer border-2 hover:border-purple-400 transition"}`   }>
+               {   <SheetTrigger asChild className={     `     ${!session?.role ? "hidden " : " lg:block  cursor-pointer border-2 hover:border-blue-500 transition"}`   }>
                    <Avatar>
                       <AvatarImage src={session?.image} />
                       <AvatarFallback>
-                        <div className=" shadow h-10 bg-stone-300  text-xl font-semibold w-10 rounded-full flex justify-center items-center">
+                        <div className=" shadow h-10 bg-blue-300   text-xl font-semibold w-10 rounded-full flex justify-center items-center">
                           {session?.name[0]}
                         </div> 
                       </AvatarFallback>

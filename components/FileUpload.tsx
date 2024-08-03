@@ -41,8 +41,7 @@ const FileUpload = ({
         );
     }
 
-    if (value && fileType === "pdf") {
-        console.log(value); 
+    if (value && fileType === "pdf") { 
       
         return (
          

@@ -10,8 +10,16 @@ const StudentProfileSchema = z.object({
     }),
     email: z.string().email({ message: "Invalid email address" }),    
     phone: z.string().regex( /^\+?[1-9]\d{1,14}$/, "Invalid phone number"), 
+    about: z
+    .string()
+    .min(10, {
+      message: "Bio must be at least 10 characters.",
+    })
+    .max(160, {
+      message: "Bio must not be longer than 30 characters.",
+    }), 
     profilePicture:z.string(),
-    socialUrls: z.array(z.string()),
+    urls: z.array(z.string().url("Invalid URL")),
     resumeUrl: z.string().min(1,{ message: "required"})
   });
 

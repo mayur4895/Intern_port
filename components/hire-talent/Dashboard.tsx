@@ -41,16 +41,14 @@ export function Dashboard() {
     data: Selectedapplications,
     isLoading: SelectedApplicationCountLoading,
   } = useGetSelectedApplicationofPost(currentUser?.id || "");
-  // Conditional redirect based on user authentication
+ 
   if (!currentUser) {
     redirect("/auth/login");
-    return null; // Ensure nothing is rendered if redirecting
+    
   }
 
-  if (posts) {
-    console.log(posts[0]?.applications);
-  }
-
+ console.log(Selectedapplications)
+ 
   return (
     <div className="py-4 px-4 h-full bg-gray-50">
  

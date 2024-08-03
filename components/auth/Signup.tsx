@@ -143,7 +143,7 @@ const onclick = async( provider:string)=>{
   return (
     <>
        {isLoading && (
-         <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
+         <div className=" fixed h-full w-full z-50 bg-white top-0 left-0 items-center justify-center"> 
          <div className=" flex items-center justify-center h-full w-full">
          <Loader2 size={25} className=" animate-spin"/>
          </div>
@@ -156,7 +156,7 @@ const onclick = async( provider:string)=>{
             <CardDescription>Sign up to get started</CardDescription>
           </CardHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 z-10">
               <FormField
                 control={form.control}
                 name="name"

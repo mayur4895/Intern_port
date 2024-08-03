@@ -28,6 +28,7 @@ model User {
   twoFactorConfirmation TwoFactorConfirmation?
   accounts           Account[]
   companyDetails     CompanyDetails?
+  studentProfileDetails               StudentProfileDetails?
   posts              Post[]                @relation(name: "PostedByUser")
   applications       Application[]
   savedApplications  SavedApplication[]    @relation(name: "SavedByUser")
@@ -172,4 +173,21 @@ model GetIntouch{
   phone String
   jobtitle String
   @@unique([email])
+}
+
+
+model StudentProfileDetails {
+  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
+  firstname               String
+  lastname    String
+  description        String
+  resume               String
+  profile           String?
+  email          String
+  phone           String
+  url             String[]
+  userId             String                @db.ObjectId
+  user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+   
+  @@unique([userId])
 }

@@ -53,11 +53,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
     async session({ token, session }) {
       if (session.user) {
-        session.user.role = token.role;
-        session.user.companyDetails = token.companyDetails;
-        session.user.phone = token.phone;
-        session.user.id = token.id;
-        session.user.isPhoneVerified = token.phoneverified;
+          
+            session.user.studentProfileDetails = token.studentProfileDetails;
+
+        if(token.role === UserType.EMPLOYER) {
+          session.user.role = token.role;
+          session.user.companyDetails = token.companyDetails;
+          session.user.phone = token.phone; 
+          session.user.id = token.id;
+          session.user.designation = token.designation;
+          session.user.isPhoneVerified = token.phoneverified;
+        }
+
+        if(token.role === UserType.STUDENT) {
+     
+          
+          session.user.id = token.id;
+          session.user.role = token.role;
+          session.user.phone = token.phone; 
+          session.user.isPhoneVerified = token.phoneverified;
+          session.user.studentProfileDetails =  token.studentProfileDetails;
+        }
+         
       }
 
       return session;
@@ -66,21 +83,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (!token.sub) return token;
       const userExist = await getUserById(token.sub);
-      if (!userExist) return token;
+      if (!userExist) return token;   
 
       if (!token.exp) {
-        token.exp = Math.floor(Date.now() / 1000) + 24 * 60 * 60; // Set token to expire in 24 hours
+        token.exp = Math.floor(Date.now() / 1000) + 24 * 60 * 60;  
       }
-
+  
       token.id = userExist.id;
-      token.role = userExist.role;
-      token.phone = userExist.phone;
-      token.phoneverified = userExist.isPhoneVerified as boolean;
-      if (userExist.role == UserType.EMPLOYER) {
+      token.role = userExist.role; 
         token.id = token.sub;
         token.designation = userExist.designation;
         token.companyDetails = userExist.companyDetails;
-      }
+        token.phone = userExist.phone;
+        token.phoneverified = userExist.isPhoneVerified as boolean;
+        token.studentProfileDetails = userExist.studentProfileDetails;
+     
+ 
       return token;
     },
   },

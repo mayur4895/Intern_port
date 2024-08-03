@@ -26,6 +26,7 @@ import { useToast } from "@/components/ui/use-toast";
 import FileUpload from "@/components/FileUpload";
 import AvatarUpload from "@/components/student/ProfilePicture";
 import { Textarea } from "@/components/ui/textarea";
+import { studentProfile } from "@/actions/student/studentProfile";
 
 type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
 
@@ -54,7 +55,24 @@ const StudentProfilePage: React.FC = () => {
 
 
   async function onSubmit(values: StudentProfileFormValues) {
-    console.log(values);
+        try{
+          const res = await studentProfile(values);
+                        
+          if(res?.success){
+            toast({
+              title:"Details Saved",
+              variant:"success"
+            });
+            router.push("/student/dashboard");
+          }else{
+            toast({
+              title:res?.error,
+              variant:"destructive"
+            });
+          }
+        }catch{
+         console.log("error")
+        }
   }
 
   return (

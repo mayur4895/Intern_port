@@ -24,11 +24,11 @@ export const getSelectedApplicationsofPosts = async (employerId: string): Promis
             applications: {
               where: {
                 selected: true,
-                status:"selected"
+                status: "selected"
               },
               include: {
-                student: true,  
-                post: true,    
+                student: true,
+                post: true,
               }
             }
           }
@@ -36,11 +36,16 @@ export const getSelectedApplicationsofPosts = async (employerId: string): Promis
       }
     });
 
-    if (!data.length) {
+    if (data.length === 0) {
       return { error: 'No applications found for this employer.' };
     }
 
-    return { data };
+    // Flatten the applications to check if any selected applications exist
+    const selectedApplications = data.flatMap(user => 
+      user.posts.flatMap(post => post.applications)
+    );
+ 
+    return { data: selectedApplications };
   } catch (error) {
     console.error('Failed to retrieve selected applications:', error);
     return { error: 'Failed to retrieve selected applications.' };

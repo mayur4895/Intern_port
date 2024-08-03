@@ -15,11 +15,11 @@ export default auth((req: any, res: any) => {
     if (isApiAuthRoute) {
       return NextResponse.next();
     }
-
+   
     if (isAuthRoute) {
       if (isLoggedIn) {
         if (session?.user?.role === UserType.STUDENT) {
-          return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+          return NextResponse.redirect(new URL("/student/profile", nextUrl));
         }
         if (session?.user?.role === UserType.EMPLOYER) {
           return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
@@ -28,7 +28,12 @@ export default auth((req: any, res: any) => {
       return NextResponse.next();
     }
 
+   
     if (isLoggedIn) {
+
+
+
+
       if (session?.user.role === UserType.EMPLOYER) {
         if (nextUrl.pathname === '/hire-talent') {
           return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
@@ -60,7 +65,32 @@ export default auth((req: any, res: any) => {
           }
         }
       }
+
+
+
+
+
+ 
+    
+    
+
+        if (nextUrl.pathname === '/student/dashboard') {
+          if (!session?.user?.studentProfileDetails) {
+            return NextResponse.redirect(new URL("/student/profile", nextUrl));
+          }
+      }
+    
+    
+      if (nextUrl.pathname === '/student/profile') {
+        if (session?.user?.studentProfileDetails) {
+          return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+        }
+      }
     }
+ 
+
+
+ 
 
     if (!isLoggedIn && !isPublicRoute) {
       return NextResponse.redirect(new URL("/auth/login", nextUrl));

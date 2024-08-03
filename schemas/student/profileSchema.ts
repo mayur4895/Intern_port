@@ -19,7 +19,7 @@ const StudentProfileSchema = z.object({
       message: "Bio must not be longer than 30 characters.",
     }), 
     profilePicture:z.string(),
-    urls: z.array(z.string().url("Invalid URL")),
+    urls: z.array(z.string().url("Invalid URL")).optional(),
     resumeUrl: z.string().min(1,{ message: "required"})
   });
 

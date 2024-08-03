@@ -46,10 +46,10 @@ const StudentProfilePage: React.FC = () => {
       urls: [""],  
     },
   });
-  // @ts-ignore
+  
   const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "urls", 
+    control: form.control as any,
+    name: "urls" as any, 
   });
 
 

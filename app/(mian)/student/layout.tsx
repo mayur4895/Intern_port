@@ -22,9 +22,8 @@ const StudentLayout = ({ children }: { children: React.ReactNode }) => {
   }, [session]);
 
   return (
-    <div className='flex flex-col min-h-screen'>
-      <MainNavbar session={session?.role === UserType.STUDENT ? session : null} />
-      <main className='flex-grow py-20'>
+    <div className='flex flex-col min-h-screen'> 
+      <main className='flex-grow  '>
         {children}
       </main>
         </div>

@@ -66,6 +66,10 @@ interface NavbarProps{
         label: "My Applicatons",
         href: "/contact",
       },
+      {
+        label: "profile",
+        href: "/update-profile",
+      },
     ]
     const { onSetType} = useLoginType()
     

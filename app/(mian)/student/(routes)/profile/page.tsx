@@ -64,6 +64,7 @@ const StudentProfilePage: React.FC = () => {
               variant:"success"
             });
             router.push("/student/dashboard");
+            window.location.reload();
           }else{
             toast({
               title:res?.error,
@@ -71,7 +72,10 @@ const StudentProfilePage: React.FC = () => {
             });
           }
         }catch{
-         console.log("error")
+          toast({
+            title:"something went wrong",
+            variant:"destructive"
+          });
         }
   }
 

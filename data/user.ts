@@ -45,7 +45,7 @@ export const getUserById = async (id: string) => {
       }
     });
  
-    console.log(user?.studentProfileDetails)
+   
     return user;
   } catch {
     return null;

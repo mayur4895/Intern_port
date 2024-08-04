@@ -70,6 +70,7 @@ const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
         }
       } catch (error) {
         console.log(error); 
+        return {error:"something went wrong"}
   
       }
 }

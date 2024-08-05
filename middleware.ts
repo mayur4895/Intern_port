@@ -15,7 +15,7 @@ export default auth((req: any, res: any) => {
     if (isApiAuthRoute) {
       return NextResponse.next();
     }
-   
+
     if (isAuthRoute) {
       if (isLoggedIn) {
         if (session?.user?.role === UserType.STUDENT) {
@@ -28,69 +28,68 @@ export default auth((req: any, res: any) => {
       return NextResponse.next();
     }
 
-   
     if (isLoggedIn) {
+      const userRole = session?.user?.role;
+      const userCompanyDetails = session?.user?.companyDetails;
+      const isPhoneVerified = session?.user?.isPhoneVerified;
+      const userProfileDetails = session?.user?.studentProfileDetails;
 
+      // Restrict students from accessing employer routes
+      if (userRole === UserType.STUDENT) {
+        if (nextUrl.pathname.startsWith('/hire-talent')) {
+          return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+        }
+      }
 
+      // Restrict employers from accessing student routes
+      if (userRole === UserType.EMPLOYER) {
+        if (nextUrl.pathname.startsWith('/student')) {
+          return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
+        }
 
-
-      if (session?.user.role === UserType.EMPLOYER) {
         if (nextUrl.pathname === '/hire-talent') {
           return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
         }
 
         if (nextUrl.pathname === '/hire-talent/dashboard') {
-          if (!session?.user?.companyDetails) {
+          if (!userCompanyDetails) {
             return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
           }
-
-          if (!session?.user?.isPhoneVerified) {
+          if (!isPhoneVerified) {
             return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
           }
         }
 
         if (nextUrl.pathname === '/hire-talent/profile') {
-          if (session?.user?.companyDetails && session?.user?.isPhoneVerified) {
+          if (userCompanyDetails && isPhoneVerified) {
             return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
           }
         }
 
         if (nextUrl.pathname === '/hire-talent/company') {
-          if (!session?.user?.isPhoneVerified) {
+          if (!isPhoneVerified) {
             return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
           }
-
-          if (session?.user?.companyDetails && session?.user?.isPhoneVerified) {
+          if (userCompanyDetails && isPhoneVerified) {
             return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
           }
         }
       }
 
-
-
-
-
- 
-    
-    
-
+      if (userRole === UserType.STUDENT) {
         if (nextUrl.pathname === '/student/dashboard') {
-          if (!session?.user?.studentProfileDetails) {
+          if (!userProfileDetails) {
             return NextResponse.redirect(new URL("/student/profile", nextUrl));
           }
-      }
-    
-    
-      if (nextUrl.pathname === '/student/profile') {
-        if (session?.user?.studentProfileDetails) {
-          return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+        }
+
+        if (nextUrl.pathname === '/student/profile') {
+          if (userProfileDetails) {
+            return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+          }
         }
       }
     }
- 
-
-
- 
 
     if (!isLoggedIn && !isPublicRoute) {
       return NextResponse.redirect(new URL("/auth/login", nextUrl));

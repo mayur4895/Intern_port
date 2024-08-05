@@ -13,14 +13,18 @@ import DaysAgo from '../hire-talent/Post/daysAgo';
 import { PiClockClockwiseThin, PiSuitcaseSimpleLight } from 'react-icons/pi';
 import { Badge } from '../ui/badge';
 import MarkupContent from '../hire-talent/MarkupContent';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
  
 
   interface InternshipCardProps{
     internship: Post;
   }
 const InternshipCard = ({internship}:InternshipCardProps) => {
+
+  const router = useRouter();
   return (
-    <div>
+    <Link    className=' cursor-pointer'   href={`/student/internship/${internship.id}/detail`}>
        <Card className=' rounded-none'>
         <CardHeader className='  '>
             <div className='flex  gap-2 items-center'>
@@ -51,7 +55,7 @@ const InternshipCard = ({internship}:InternshipCardProps) => {
                   </div>
         </CardContent>
        </Card>
-    </div>
+    </Link>
   )
 }
 

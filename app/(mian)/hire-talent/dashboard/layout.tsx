@@ -25,6 +25,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import Asidebar from "@/components/hire-talent/Asidebar"
+import { UserType } from "@prisma/client"
  
  
 const DashboardLayout = ({children}:{children:React.ReactNode}) => {
@@ -43,6 +44,10 @@ const DashboardLayout = ({children}:{children:React.ReactNode}) => {
 
     if(currentUser && currentUser?.isPhoneVerified === false){
       router.push("/hire-talent/profile")
+    }
+
+    if(currentUser && currentUser?.role === UserType.STUDENT){
+      return router.push('/student/dashboard');
     }
   
 

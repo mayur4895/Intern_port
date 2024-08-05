@@ -13,6 +13,13 @@ enum UserType {
   ADMIN
 }
 
+model Department {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  users     User[]
+  posts     Post[]
+}
+
 model User {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
   name               String?
@@ -32,6 +39,8 @@ model User {
   posts              Post[]                @relation(name: "PostedByUser")
   applications       Application[]
   savedApplications  SavedApplication[]    @relation(name: "SavedByUser")
+  departmentId       String                @db.ObjectId
+  department         Department            @relation(fields: [departmentId], references: [id], onDelete: Cascade)
 }
 
 model CompanyDetails {
@@ -74,6 +83,8 @@ model Post {
   user               User                  @relation(name: "PostedByUser", fields: [userId], references: [id], onDelete: Cascade)
   company            CompanyDetails        @relation(name: "PostedByCompany", fields: [companyId], references: [id], onDelete: Cascade)
   createdAt          DateTime              @default(now())
+  departmentId       String                @db.ObjectId
+  department         Department            @relation(fields: [departmentId], references: [id], onDelete: Cascade)
   @@unique([userId, internshipProfile])
 }
 
@@ -90,6 +101,7 @@ model Application {
   profileUrl  String
   selected    Boolean  @default(false)   
   saveedApplication SavedApplication[]
+  matchPercentage Int?
   @@unique([studentId, postId])
 }
 
@@ -164,28 +176,26 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
-
-model GetIntouch{
+model GetIntouch {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  firstname String
-  lastname String
-  email String
-  phone String
-  jobtitle String
+  firstname          String
+  lastname           String
+  email              String
+  phone              String
+  jobtitle           String
   @@unique([email])
 }
 
-
 model StudentProfileDetails {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  firstname               String
-  lastname    String
+  firstname          String
+  lastname           String
   description        String
-  resume               String
-  profile           String?
-  email          String
-  phone           String
-  url             String[]
+  resume             String
+  profile            String?
+  email              String
+  phone              String
+  url                String[]
   userId             String                @db.ObjectId
   user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
    

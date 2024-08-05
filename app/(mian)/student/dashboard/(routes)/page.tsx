@@ -35,8 +35,15 @@ const MapIcon:any = {
    return (
     <>  
     <div className=' text-start items-center  px-10'>
+
+      <div className='  '>
+       <h2>dashboard</h2> 
+          <div className='w-full h-12 border'>
+
+          </div>
+      </div>
   
-        <h3 className='text-2xl'>Recomonded for you</h3>
+        <h3 className='text-xl'>Recomonded for you</h3>
        
         <div className='flex flex-wrap  justify-center w-full  items-center mt-8 gap-3'>
           {Internships?.map((internship, index) => (

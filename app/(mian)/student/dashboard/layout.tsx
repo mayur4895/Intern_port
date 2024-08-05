@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/tooltip"
 import Asidebar from "@/components/hire-talent/Asidebar"
 import StudentAsidebar from "@/components/student/StudentAsidebar"
+import StudentDashboardHeader from "@/components/student/StudentDashboardHeader"
  
 
 
@@ -42,9 +43,16 @@ const currentUser = CurrentUser();
    <div className="   w-full   "> 
     <StudentAsidebar /> 
   <div className='  lg:pl-48 w-full   '>  
+ 
+
+ <div className='    w-full   '>  
+   
+ 
  <div className=" lg:pl-12    bg-neutral-50    h-full   w-full">
  {children}
  </div>
+    
+    </div>
  
    </div>
 </div>

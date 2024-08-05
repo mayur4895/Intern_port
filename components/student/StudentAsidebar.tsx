@@ -10,6 +10,8 @@ import { CurrentUser } from '@/hooks/use-current-user'
 import { PiSuitcaseSimpleLight } from 'react-icons/pi'
 import { TbBrandGoogleHome } from 'react-icons/tb'
 import { CiHome } from 'react-icons/ci'
+import { signOut } from 'next-auth/react'
+
 const StudentAsidebar = () => {
  
   const  pathname  =  usePathname();

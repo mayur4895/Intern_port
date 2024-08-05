@@ -14,6 +14,7 @@ const JobSection = () => {
                 return( 
 
                     <InternshipCard
+                        key={internship.id}
                     internship={internship}
                     />
                 )

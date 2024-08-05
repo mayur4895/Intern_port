@@ -64,6 +64,7 @@ const StudentProfilePage: React.FC = () => {
               variant:"success"
             });
             router.push("/student/dashboard");
+            router.refresh();
             window.location.reload();
           }else{
             toast({

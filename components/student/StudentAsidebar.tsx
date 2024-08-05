@@ -9,11 +9,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CurrentUser } from '@/hooks/use-current-user'
 import { PiSuitcaseSimpleLight } from 'react-icons/pi'
 import { TbBrandGoogleHome } from 'react-icons/tb'
+ 
 import { CiHome, CiLogout, CiUser } from 'react-icons/ci'
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
 import { signOut } from 'next-auth/react'
+ 
+ 
+
+ 
 const StudentAsidebar = () => {
  
   const  pathname  =  usePathname();
@@ -91,7 +96,17 @@ const StudentAsidebar = () => {
           </Link>
 
         
-
+<div className="flex flex-col    items-start  justify-start gap-4">
+                        <Button
+                          type="submit"
+                          variant={"link"}
+                          className=" font-normal"
+                          onClick={() => {
+                            signOut();
+                          }}>
+                          Logout
+                        </Button>
+                      </div>
         
         </nav>
         <nav className="mt-auto flex flex-col items-start gap-4 px-2 sm:py-5">

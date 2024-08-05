@@ -13,8 +13,13 @@ const JobSection = () => {
             Internships?.map((internship)=>{
                 return( 
 
+<<<<<<< HEAD
                     <InternshipCard 
                     key={internship.id}
+=======
+                    <InternshipCard
+                        key={internship.id}
+>>>>>>> 10297b0c4615b4d2a9ff81ab2123144aa0f4d98e
                     internship={internship}
                     />
                 )

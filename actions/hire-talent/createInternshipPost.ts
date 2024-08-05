@@ -95,7 +95,8 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
         partOrFullTime,
          internResponsibilities:InternResponsibilities,
         whoCanApply,
-        additionalPreferences,   
+        additionalPreferences, 
+        departmentId:'66ae59948164403dd19cb866'  
       }
     });
 

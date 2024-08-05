@@ -43,7 +43,8 @@ const hashpassword = await bcryptjs.hash(password, salt);
         data: {
           name: name,
           email: email,
-          password: hashpassword
+          password: hashpassword,
+          departmentId:'66ae59948164403dd19cb866'  
         }
       })
      

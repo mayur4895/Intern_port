@@ -31,9 +31,6 @@ export default auth((req: any, res: any) => {
    
     if (isLoggedIn) {
 
-
-
-
       if (session?.user.role === UserType.EMPLOYER) {
         if (nextUrl.pathname === '/hire-talent') {
           return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));

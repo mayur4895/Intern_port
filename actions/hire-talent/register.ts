@@ -47,8 +47,7 @@ export const register = async (values: z.infer<typeof HireRegisterSchema>) => {
                 email: email,
                 password: hashpassword,
                 phone: formattedPhoneNumber,
-                role: "EMPLOYER",
-                departmentId:'66b105b54927a9211e92430e'    
+                role: "EMPLOYER", 
             }
         });
 

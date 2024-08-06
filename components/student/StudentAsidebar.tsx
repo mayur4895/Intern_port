@@ -95,18 +95,7 @@ const StudentAsidebar = () => {
              Logout
           </Link>
 
-        
-<div className="flex flex-col    items-start  justify-start gap-4">
-                        <Button
-                          type="submit"
-                          variant={"link"}
-                          className=" font-normal"
-                          onClick={() => {
-                            signOut();
-                          }}>
-                          Logout
-                        </Button>
-                      </div>
+         
         
         </nav>
         <nav className="mt-auto flex flex-col items-start gap-4 px-2 sm:py-5">

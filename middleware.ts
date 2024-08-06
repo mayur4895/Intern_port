@@ -74,6 +74,8 @@ export default auth((req: any, res: any) => {
             return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
           }
         }
+
+         
       }
 
       if (userRole === UserType.STUDENT) {
@@ -88,6 +90,9 @@ export default auth((req: any, res: any) => {
             return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
           }
         }
+
+
+        
       }
     }
 

@@ -189,7 +189,7 @@ export const columns: ColumnDef<Application>[] = [
         const Application = row.original 
         return (
         <div>
-             {Application.matchPercentage}
+             {Application.matchPercentage}%
             </div>
 
         )

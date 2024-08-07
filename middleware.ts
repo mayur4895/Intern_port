@@ -3,7 +3,13 @@ import { AuthRoutes, apiAuthprefix, publicRoutes } from "./route";
 import { auth } from "./auth";
 import { NextResponse } from 'next/server';
 
-export default auth((req: any, res: any) => {
+const uploadthingRoutes = [
+  "/api/uploadthing",
+  "/api/uploadthing/callback",
+ 
+];
+
+export default auth((req, res) => {
   try {
     const { nextUrl } = req;
     const session = req.auth;
@@ -11,9 +17,15 @@ export default auth((req: any, res: any) => {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthprefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
+    const isUploadthingRoute = uploadthingRoutes.includes(nextUrl.pathname);
 
     // Allow API auth routes to proceed
     if (isApiAuthRoute) {
+      return NextResponse.next();
+    }
+
+    // Exclude `uploadthing` routes from middleware
+    if (isUploadthingRoute) {
       return NextResponse.next();
     }
 
@@ -93,7 +105,7 @@ export default auth((req: any, res: any) => {
       }
     }
 
-   
+    // If the user is not logged in and trying to access a non-public route
     if (!isLoggedIn && !isPublicRoute) {
       return NextResponse.redirect(new URL("/auth/login", nextUrl));
     }

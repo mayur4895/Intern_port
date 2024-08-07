@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Card,
@@ -27,13 +27,16 @@ import FileUpload from "@/components/FileUpload";
 import AvatarUpload from "@/components/student/ProfilePicture";
 import { Textarea } from "@/components/ui/textarea";
 import { studentProfile } from "@/actions/student/studentProfile";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { UserType } from "@prisma/client";
 
 type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
 
 const StudentProfilePage: React.FC = () => {
   const router = useRouter();
   const { toast } = useToast();
-
+  const { data: session, status } = useSession();
   const form = useForm<StudentProfileFormValues>({
     resolver: zodResolver(StudentProfileSchema),
     defaultValues: {
@@ -41,50 +44,53 @@ const StudentProfilePage: React.FC = () => {
       lastname: "",
       email: "",
       phone: "",
-      about:"",
+      about: "",
       profilePicture: "",
       resumeUrl: "",
-      urls: [""],  
+      urls: [""],
     },
   });
-  
+
   const { fields, append, remove } = useFieldArray({
     control: form.control as any,
-    name: "urls" as any, 
+    name: "urls" as any,
   });
 
-
   async function onSubmit(values: StudentProfileFormValues) {
-        try{
-          const res = await studentProfile(values);
-                        
-          if(res?.success){
-            toast({
-              title:"Details Saved",
-              variant:"success"
-            });
-            router.push("/student/dashboard");
-            router.refresh();
-            window.location.reload();
-          }else{
-            toast({
-              title:res?.error,
-              variant:"destructive"
-            });
-          }
-        }catch{
-          toast({
-            title:"something went wrong",
-            variant:"destructive"
-          });
-        }
+    try {
+      const res = await studentProfile(values);
+
+      if (res?.success) {
+        toast({
+          title: "Details Saved",
+          variant: "success",
+        });
+       form.reset();
+        router.push("/student/dashboard");
+      } else {
+        toast({
+          title: res?.error,
+          variant: "destructive",
+        });
+        form.reset();
+      }
+    } catch {
+      toast({
+        title: "Something went wrong",
+        variant: "destructive",
+      });
+      form.reset();
+    }
   }
+
+
+ 
 
   return (
     <div className="flex items-center justify-center h-full w-full">
       <Card className="w-[600px]">
         <CardContent className="h-full scroll-auto overflow-auto scrollbar-thin">
-          <CardHeader className=" px-0">
+          <CardHeader className="px-0">
             <CardTitle className="text-xl text-start font-normal">
               Update Profile
             </CardTitle>
@@ -109,12 +115,11 @@ const StudentProfilePage: React.FC = () => {
                   control={form.control}
                   name="firstname"
                   render={({ field }) => (
-                    <FormItem >
-                        <FormLabel>First Name</FormLabel> 
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
                       <FormControl>
                         <div>
-                          <Input placeholder="Enter your FirstName" className="peer" {...field} /> 
-                           
+                          <Input placeholder="Enter your FirstName" className="peer" {...field} />
                         </div>
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -125,12 +130,11 @@ const StudentProfilePage: React.FC = () => {
                   control={form.control}
                   name="lastname"
                   render={({ field }) => (
-                    <FormItem >
-                        <FormLabel>Last Name</FormLabel> 
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
                       <FormControl>
                         <div>
-                          <Input placeholder="Enter Your LastName" className="peer" {...field} /> 
-                        
+                          <Input placeholder="Enter Your LastName" className="peer" {...field} />
                         </div>
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -142,12 +146,11 @@ const StudentProfilePage: React.FC = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem >
+                  <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <div>
-                        <Input placeholder="e.g example@gmail.com" className="peer" {...field} /> 
-                      
+                        <Input placeholder="e.g example@gmail.com" className="peer" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage className="text-xs" />
@@ -158,10 +161,10 @@ const StudentProfilePage: React.FC = () => {
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem >
+                  <FormItem>
                     <FormLabel>Phone</FormLabel>
-                    <FormControl> 
-                        <Input placeholder="Enter your phone"   {...field} />  
+                    <FormControl>
+                      <Input placeholder="Enter your phone" {...field} />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
@@ -171,15 +174,15 @@ const StudentProfilePage: React.FC = () => {
                 control={form.control}
                 name="about"
                 render={({ field }) => (
-                  <FormItem >
+                  <FormItem>
                     <FormLabel>About you</FormLabel>
                     <FormControl>
                       <div>
-                      <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
-                  {...field}
-                />    
+                        <Textarea
+                          placeholder="Tell us a little bit about yourself"
+                          className="resize-none"
+                          {...field}
+                        />
                       </div>
                     </FormControl>
                     <FormMessage className="text-xs" />
@@ -199,32 +202,31 @@ const StudentProfilePage: React.FC = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex flex-col gap-2 ">
-                
-              {fields?.map((field:any, index:any) => (
-                <FormField
-                  key={field.id}
-                  control={form.control}
-                  name={`urls.${index}` as const}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>URL {index + 1}</FormLabel>
-                      <FormControl>
-                        <div className="flex items-center gap-2">
-                          <Input placeholder="Enter a URL" className="peer" {...field} />
-                          <Button type="button" onClick={() => remove(index)} variant="destructive">
-                            Remove
-                          </Button>
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-              ))}
-              <Button type="button"  className=" w-28"  variant={"outline"} onClick={() => append('')}>
-                Add URL
-              </Button>
+              <div className="flex flex-col gap-2">
+                {fields?.map((field: any, index: any) => (
+                  <FormField
+                    key={field.id}
+                    control={form.control}
+                    name={`urls.${index}` as const}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>URL {index + 1}</FormLabel>
+                        <FormControl>
+                          <div className="flex items-center gap-2">
+                            <Input placeholder="Enter a URL" className="peer" {...field} />
+                            <Button type="button" onClick={() => remove(index)} variant="destructive">
+                              Remove
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                      </FormItem>
+                    )}
+                  />
+                ))}
+                <Button type="button" className="w-28" variant={"outline"} onClick={() => append('')}>
+                  Add URL
+                </Button>
               </div>
               <Button type="submit">Update Profile</Button>
             </form>
@@ -233,6 +235,6 @@ const StudentProfilePage: React.FC = () => {
       </Card>
     </div>
   );
-}
+};
 
 export default StudentProfilePage;

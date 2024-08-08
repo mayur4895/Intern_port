@@ -15,13 +15,11 @@ const StudentLayout = ({ children }: { children: React.ReactNode }) => {
     if (!session || session?.role !== UserType.STUDENT) {
       redirect("/auth/login");
     }
-
-    if (session?.role === UserType.EMPLOYER) {
-      redirect("/dashboard");
-    }
+ 
+   
   }, [session]);
 
-
+ 
  
  
   return (

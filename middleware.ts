@@ -18,23 +18,18 @@ export default auth((req, res) => {
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
     const isUploadthingRoute = uploadthingRoutes.includes(nextUrl.pathname);
 
-    // Allow API auth routes to proceed
-    if (isApiAuthRoute) {
-      return NextResponse.next();
-    }
-
-    // Exclude `uploadthing` routes from middleware
-    if (isUploadthingRoute) {
+    // Allow API auth routes and uploadthing routes to proceed
+    if (isApiAuthRoute || isUploadthingRoute) {
       return NextResponse.next();
     }
 
     // Handle Authentication Routes
     if (isAuthRoute) {
       if (isLoggedIn) {
-        if (session?.user?.role === UserType.STUDENT) {
+        if (session.user.role === UserType.STUDENT) {
           return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
         }
-        if (session?.user?.role === UserType.EMPLOYER) {
+        if (session.user.role === UserType.EMPLOYER) {
           return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
         }
       }
@@ -45,32 +40,23 @@ export default auth((req, res) => {
     if (isLoggedIn) {
       const { role, studentProfileDetails, companyDetails, isPhoneVerified } = session.user;
 
-      // Employer Specific Logic
       if (role === UserType.EMPLOYER) {
         if (nextUrl.pathname.startsWith('/hire-talent')) {
-          if (nextUrl.pathname === '/hire-talent' && !companyDetails) {
-            return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
+
+          if (companyDetails && nextUrl.pathname == '/hire-talent/company') {
+            return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
           }
 
-          if (nextUrl.pathname === '/hire-talent/dashboard') {
-            if (!companyDetails) {
-              return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
-            }
-            if (!isPhoneVerified) {
-              return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
-            }
+          if (!isPhoneVerified && nextUrl.pathname !== '/hire-talent/profile') {
+            return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
           }
 
-          if (nextUrl.pathname === '/hire-talent/profile') {
-            if (companyDetails && isPhoneVerified) {
-              return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
-            }
+          if(!companyDetails &&  nextUrl.pathname !== '/hire-talent/company' ){
+            return NextResponse.redirect(new URL("/hire-talent/comapny", nextUrl));
           }
 
-          if (nextUrl.pathname === '/hire-talent/company') {
-            if (isPhoneVerified && companyDetails) {
-              return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
-            }
+          if (companyDetails && isPhoneVerified && nextUrl.pathname !== '/hire-talent/dashboard') {
+            return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
           }
 
           return NextResponse.next();
@@ -79,19 +65,17 @@ export default auth((req, res) => {
         }
       }
 
- 
       if (role === UserType.STUDENT) {
         if (nextUrl.pathname.startsWith('/student')) {
+         
 
-          if (nextUrl.pathname === '/student/profile' && studentProfileDetails) {
+          if (studentProfileDetails && nextUrl.pathname == '/student/profile') {
             return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
           }
 
-          if (nextUrl.pathname === '/student/dashboard' && !studentProfileDetails) {
+          if (!studentProfileDetails && nextUrl.pathname == '/student/dahboard' ) {
             return NextResponse.redirect(new URL("/student/profile", nextUrl));
           }
-
-        
 
           return NextResponse.next();
         } else {
@@ -99,9 +83,6 @@ export default auth((req, res) => {
         }
       }
     }
-
-
-   
 
     // If the user is not logged in and trying to access a non-public route
     if (!isLoggedIn && !isPublicRoute) {

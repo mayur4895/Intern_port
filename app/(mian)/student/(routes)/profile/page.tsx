@@ -27,9 +27,10 @@ import FileUpload from "@/components/FileUpload";
 import AvatarUpload from "@/components/student/ProfilePicture";
 import { Textarea } from "@/components/ui/textarea";
 import { studentProfile } from "@/actions/student/studentProfile";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { UserType } from "@prisma/client";
+import { currentUser } from "@/lib/auth";
 
 type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
 
@@ -59,14 +60,14 @@ const StudentProfilePage: React.FC = () => {
   async function onSubmit(values: StudentProfileFormValues) {
     try {
       const res = await studentProfile(values);
-
+  
       if (res?.success) {
         toast({
           title: "Details Saved",
           variant: "success",
         });
-       form.reset();
-        router.push("/student/dashboard");
+        form.reset();
+         window.location.replace('/student/dahboard');
       } else {
         toast({
           title: res?.error,
@@ -74,7 +75,7 @@ const StudentProfilePage: React.FC = () => {
         });
         form.reset();
       }
-    } catch {
+    } catch (error) {
       toast({
         title: "Something went wrong",
         variant: "destructive",
@@ -82,7 +83,10 @@ const StudentProfilePage: React.FC = () => {
       form.reset();
     }
   }
+  
 
+
+ 
 
  
 

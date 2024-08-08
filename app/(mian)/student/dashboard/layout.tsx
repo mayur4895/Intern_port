@@ -40,20 +40,18 @@ const currentUser = CurrentUser();
   
 
  return (
-   <div className="   w-full   "> 
+   <div className="   w-full    "> 
+
+ 
     <StudentAsidebar /> 
   <div className='  lg:pl-48 w-full   '>  
- 
-
- <div className='    w-full   '>  
+  
    
- 
- <div className=" lg:pl-12    bg-neutral-50    h-full   w-full">
+ <div className=" lg:pl-12    mt-0   h-full   w-full">
+ <StudentDashboardHeader/>
  {children}
  </div>
-    
-    </div>
- 
+     
    </div>
 </div>
  )

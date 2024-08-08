@@ -10,7 +10,7 @@ import { useInternships } from '@/hooks/use-all-posts'
 import { CurrentUser } from '@/hooks/use-current-user'
 import { useModal } from '@/hooks/use-modal-store'
 import { UserType } from '@prisma/client'
-import { ArrowRight, Building2, CreditCard, LocateIcon } from 'lucide-react'
+import { Activity, ArrowRight, Building2, CreditCard, DollarSign, LocateIcon, Users } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -34,24 +34,25 @@ const MapIcon:any = {
 
    return (
     <>  
-    <div className=' text-start items-center  px-10'>
-
-      <div className='  '>
-       <h2>dashboard</h2> 
-          <div className='w-full h-12 border'>
-
+      
+          <div className='w-full    px-10'>
+          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+             
+        </div>
           </div>
-      </div>
-  
-        <h3 className='text-xl'>Recomonded for you</h3>
-       
-        <div className='flex flex-wrap  justify-center w-full  items-center mt-8 gap-3'>
+    
+        
+        
+    
+     <div className=' flex flex-col px-5 mt-8'>
+      <h2>Recomanded for you</h2>
+    <div className='flex flex-wrap    w-full    mt-3 gap-3'>
           {Internships?.map((internship, index) => (
             <Card key={internship.id}  className=' w-[320px] cursor-pointer'>
-                 <CardHeader className='flex justify-between items-start flex-row w-full'>
+                 <CardHeader className='flex justify-between items-start flex-row w-full py-4'>
            <div>
-           <span className=''>{internship.internshipProfile}   </span>
-           <CardDescription className=' text-nowrap h-7 w-[90%]'>{internship.companyName}</CardDescription>
+           <span className=' text-sm'>{internship.internshipProfile}   </span>
+           <CardDescription className=' text-xs text-nowrap   w-[90%]'>{internship.companyName}</CardDescription>
            </div>
            {internship.companyLogo && <Image  src={internship.companyLogo} alt='logo' height={30} width={30} className=' object-center object-contain' />}
                 </CardHeader>
@@ -60,19 +61,19 @@ const MapIcon:any = {
                <CardContent  className=' py-2'>  
               
          
-                <span className='flex items-center gap-2 text-sm'>  { MapIcon[internship.internshipType]} {internship.internshipType}</span>
-                <span className='flex items-center gap-2 text-sm'> <CreditCard size={12}/> ₹ 6,00,000 - 8,00,000/year</span>
+                <span className='flex items-center gap-2 text-xs'>  { MapIcon[internship.internshipType]} {internship.internshipType}</span>
+                <span className='flex items-center gap-2 text-xs'> <CreditCard size={12}/> ₹ 6,00,000 - 8,00,000/year</span>
 
                 <span className='text-xs text-gray-500 '>{internship.createdAt.toDateString()}</span>
                 </CardContent>
-              <CardFooter className=' mt-5 flex  items-end justify-end'>
-                <Link href={`/student/internship/${internship?.id}/detail`}    className='flex text-sm items-center text-blue-500 gap-1'>View Details <ArrowRight size={15}/></Link>
+              <CardFooter className=' mt-2 flex  items-end justify-end'>
+                <Link href={`/student/internship/${internship?.id}/detail`}    className='flex text-xs items-center  gap-1'>View Details <ArrowRight size={15}/></Link>
               </CardFooter>
              
             </Card>
           ))}
         </div>
-    </div>
+     </div>
      </>
    )
  }

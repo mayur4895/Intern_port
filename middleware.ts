@@ -42,21 +42,29 @@ export default auth((req, res) => {
 
       if (role === UserType.EMPLOYER) {
         if (nextUrl.pathname.startsWith('/hire-talent')) {
-
-          if (companyDetails && nextUrl.pathname == '/hire-talent/company') {
-            return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
+          if (nextUrl.pathname === '/hire-talent' && !companyDetails) {
+            return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
           }
 
-          if (!isPhoneVerified && nextUrl.pathname !== '/hire-talent/profile') {
-            return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
+          if (nextUrl.pathname === '/hire-talent/dashboard') {
+            if (!companyDetails) {
+              return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
+            }
+            if (!isPhoneVerified) {
+              return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
+            }
           }
 
-          if(!companyDetails &&  nextUrl.pathname !== '/hire-talent/company' ){
-            return NextResponse.redirect(new URL("/hire-talent/comapny", nextUrl));
+          if (nextUrl.pathname === '/hire-talent/profile') {
+            if (companyDetails && isPhoneVerified) {
+              return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
+            }
           }
 
-          if (companyDetails && isPhoneVerified && nextUrl.pathname !== '/hire-talent/dashboard') {
-            return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
+          if (nextUrl.pathname === '/hire-talent/company') {
+            if (isPhoneVerified && companyDetails) {
+              return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
+            }
           }
 
           return NextResponse.next();
@@ -64,24 +72,26 @@ export default auth((req, res) => {
           return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
         }
       }
-
       if (role === UserType.STUDENT) {
         if (nextUrl.pathname.startsWith('/student')) {
-         
 
-          if (studentProfileDetails && nextUrl.pathname == '/student/profile') {
+          if (nextUrl.pathname === '/student/profile' && studentProfileDetails) {
             return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
           }
 
-          if (!studentProfileDetails && nextUrl.pathname == '/student/dahboard' ) {
+          if (nextUrl.pathname === '/student/dashboard' && !studentProfileDetails) {
             return NextResponse.redirect(new URL("/student/profile", nextUrl));
           }
+
+        
 
           return NextResponse.next();
         } else {
           return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
         }
       }
+
+
     }
 
     // If the user is not logged in and trying to access a non-public route

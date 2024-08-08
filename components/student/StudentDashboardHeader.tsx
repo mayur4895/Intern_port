@@ -1,123 +1,116 @@
 'use client'
 import React from 'react'
-import { PiBuildingsFill } from "react-icons/pi";
- 
-import { CurrentUser } from '@/hooks/use-current-user';
- 
-import { FaBuilding, FaPlusCircle, FaRegBuilding } from 'react-icons/fa';
- 
-
-import { Badge } from "@/components/ui/badge"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Building,
-  Building2,
-  File,
-  Home,
-  LineChart,
-  ListFilter,
-  MoreHorizontal,
-  Package,
-  Package2,
-  PanelLeft,
-  PlusCircle,
-  Search,
-  Settings,
-  ShoppingCart,
-  Users2,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { Home, Building2, LineChart, Package, Settings, PanelLeft } from 'lucide-react'
+import { FaPlusCircle } from 'react-icons/fa'
+import { usePathname } from 'next/navigation'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { CurrentUser } from '@/hooks/use-current-user'
+import { PiSuitcaseSimpleLight } from 'react-icons/pi'
+import { TbBrandGoogleHome } from 'react-icons/tb'
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { CiHome, CiLogout, CiUser } from 'react-icons/ci'
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import Link from 'next/link';
-import Image from 'next/image';
-import { Separator } from '../ui/separator';
-import { usePathname } from 'next/navigation';
-import { Avatar, AvatarImage } from '../ui/avatar';
-import { AvatarFallback } from '@radix-ui/react-avatar';
-import { signOut } from 'next-auth/react';
+import { Button } from '../ui/button'
+import { Separator } from '../ui/separator'
+import { signOut } from 'next-auth/react'
 const StudentDashboardHeader = () => {
     const currentUser = CurrentUser();
- 
-    const pathname = usePathname();
+    const  pathname  =  usePathname();
+
+    const isActive = (path:any) => pathname === path
+     
     
   return ( 
-<header className="sticky  py-2  top-0 z-30 flex h-14 items-center gap-4 border-b bg-background   sm:static sm:h-auto sm:border-0 sm:bg-transparent px-4">
- 
-<Breadcrumb className="hidden md:flex">
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink asChild>
-        <Link href="/hire-talent/dashboard" className={` text-gray-500  ${pathname === `/student/dashboard`}`?'text-zinc-800':' text-zinc-400'}>Dashboard</Link>
-      </BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbLink asChild>
-      <Link href="/hire-talent/dashboard/posts" className={`${pathname === `/student/dashboard/jobs`}`?'text-zinc-800':' text-zinc-400'}>Jobs</Link>
-      </BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    
-  </BreadcrumbList>
-</Breadcrumb>
-<div className="relative ml-auto flex-1 md:grow-0">
-  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-  <Input
-    type="search"
-    placeholder="Search..."
-    className="w-full rounded-lg bg-background  pl-8 md:w-[200px] lg:w-[336px]"
-  />
-</div>
-<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button
-      variant="outline"
-      size="icon"
-      className="overflow-hidden rounded-full  "
-    >
-    <Avatar className='flex items-center  bg-blue-400  justify-center '>
-      <AvatarImage src="/user.png" alt="@shadcn" />
-      <AvatarFallback className='   text-white'>{currentUser?.name ? currentUser?.name[0]: '?'}</AvatarFallback>
-    </Avatar>
-    </Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent align="end">
-    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>Settings</DropdownMenuItem>
-    <DropdownMenuItem>Support</DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem  onClick={() => {
-                            signOut();
-                          }}>Logout</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
-</header>
+
+    <div className=' w-full  border   flex items-center h-12     p-2'>
+         
+     <div className=' lg:hidden   w-full'>
+     <Sheet>
+<SheetTrigger asChild >
+  <Button size="icon" variant="outline" className="       ">
+    <PanelLeft className="h-4 w-4  " />
+    <span className="sr-only">Toggle Menu</span>
+  </Button>
+</SheetTrigger>
+<SheetContent side="left" className="sm:max-w-xs px-0">
+  <nav className="grid gap-6 text-lg font-normal">
+  <div  className='flex items-center   w-full  px-2 py-4 gap-2'>
+          
+       
+          <Avatar>
+                  <AvatarImage src={currentUser?.image} />
+                  <AvatarFallback>
+                    <div className=" shadow h-10 bg-blue-300   text-xl font-semibold w-10 rounded-full flex justify-center items-center">
+                      {currentUser?.name[0]}
+                    </div> 
+                  </AvatarFallback>
+                </Avatar> 
+            <div className=' flex flex-col gap-1'>
+            <span className=' truncate  text-xs  font-medium'>{currentUser?.name}</span>
+            <span className=' truncate  text-xs font-normal'>{currentUser?.email}</span>
+            </div>
+  
+      </div>
+    <Separator/>
+    <Link href="/student/dashboard" 
+          
+          className={`text-sm flex items-end gap-2 p-2 w-full relative  ${
+                  isActive('/student/dashboard') ? ' overflow-hidden   bg-blue-100' : ''
+          }`}
+        >
+      <CiHome  size={22}/>
+          <span>Dashboard</span>
+          {isActive('/student/dashboard') && (
+            <div className="top-[1.8px] right-0 absolute  bg-blue-500 h-8 w-[2px]" />
+          )}
+      
+      </Link>
+      <Link href="/student/dashboard/jobs"
+         
+         className={`text-sm flex items-end gap-2 w-full relative p-2 ${
+               isActive('/student/dashboard/jobs') ? ' overflow-hidden   bg-blue-100' : ''
+         }`}
+       >
+         <PiSuitcaseSimpleLight className="h-5 w-5" />
+         <span>Internships</span>
+         {isActive('/student/dashboard/jobs') && (
+                <div className="top-[1.8px] right-0 absolute  bg-blue-500 h-8 w-[2px]" />
+         )}
+   
+     </Link>
+
+    <Link href="/student/dashboard/profilepage"
+         
+         className={`text-sm flex items-end gap-2 w-full relative p-2 ${
+           isActive('/student/dashboard/profilepage') ? ' overflow-hidden   bg-blue-100' : ''
+         }`}
+       >
+         <CiUser  className="h-5 w-5" />
+         <span>Your Profile</span>
+         {isActive('/student/dashboard/profilepage') && (
+           <div className="top-[1.8px] right-0 absolute  bg-blue-500 h-8 w-[2px]" />
+         )}
+   
+     </Link>
+
+        <Link  href={""} className='text-sm flex items-end gap-2 w-full relative p-2' onClick={()=>{signOut()}}>
+        <CiLogout  className="h-5 w-5" />
+           Logout
+        </Link>
+   
+   
+  </nav>
+</SheetContent>
+</Sheet>
+     </div>
+
+
+    <div className=' ml-auto  px-5'>
+    <IoIosNotificationsOutline size={22}/>
+    </div>
+    </div>
   )
 }
 

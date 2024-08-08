@@ -67,7 +67,7 @@ const StudentProfilePage: React.FC = () => {
           variant: "success",
         });
         form.reset();
-         window.location.replace('/student/dahboard');
+         window.location.replace('/student/dashboard');
       } else {
         toast({
           title: res?.error,

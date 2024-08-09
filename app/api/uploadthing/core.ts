@@ -13,6 +13,7 @@ const handleAuth = async()=>{
  }
  
 export const ourFileRouter = {  
+
   CompanyLogo: f({ image: { maxFileSize: "1MB" } }) 
   .middleware(()=> handleAuth())
   .onUploadComplete(()=>{}),

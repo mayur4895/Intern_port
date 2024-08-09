@@ -24,7 +24,7 @@ import { useToast } from "@/components/ui/use-toast";
 import FileUpload from "@/components/FileUpload";
 import AvatarUpload from "@/components/student/ProfilePicture";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateStudentProfile } from "@/features/student/api/update-studentprofile";
+import { useCreateStudentProfile } from "@/features/student/api/update-studentprofile";
 import { useRouter } from 'next/navigation'; // Use useRouter for client-side navigation
 import { signIn } from "next-auth/react";
 
@@ -54,11 +54,11 @@ const StudentProfilePage: React.FC = () => {
     name: "urls" as any,
   });
 
-  const UpdateStudentProfile = useUpdateStudentProfile();
+  const CreateStudentProfile = useCreateStudentProfile();
   async function onSubmit(values: StudentProfileFormValues) {
     try {
       // Use the mutate function to send the update request
-      const res = await UpdateStudentProfile.mutateAsync(values);
+      const res = await CreateStudentProfile.mutateAsync(values);
   
       // Check for errors
       if (res.error) {

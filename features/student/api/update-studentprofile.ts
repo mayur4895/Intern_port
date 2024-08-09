@@ -8,16 +8,16 @@ import { redirect } from 'next/navigation';
  
 
  
-interface UpdatePostResponse {
+interface createStudentPofileResponse {
     success?: string;
     error?: string;
   }
   
-  export const useUpdateStudentProfile = () => {
+  export const useCreateStudentProfile = () => {
     const mutation = useMutation({
       mutationFn: async (values: StudentProfileFormValues) => {
         const response = await studentProfile(values);
-        return response as UpdatePostResponse;
+        return response as createStudentPofileResponse;
       },
     });
   

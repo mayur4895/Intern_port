@@ -14,9 +14,10 @@ import { CurrentUser, } from "@/hooks/use-current-user";
 interface AvatarUploadProps {
   value: string;
   onChange: (value?: string) => void;
+  disabled?:boolean;
 }
 
-const AvatarUpload: React.FC<AvatarUploadProps> = ({ value, onChange }) => {
+const AvatarUpload: React.FC<AvatarUploadProps> = ({ value, onChange,disabled }) => {
   const [open, setOpen] = useState(false);
   const [avatar, setAvatar] = useState<string>(value);
   const [showDropzone, setShowDropzone] = useState<boolean>(true);
@@ -57,8 +58,8 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({ value, onChange }) => {
     </Avatar>
 
     <div className=" flex items-center gap-2">
-    <Button variant={"outline"} onClick={handleUpload} className=" flex items-center gap-2    "><BiSolidEditAlt />Edit Profile</Button>
-    <Button variant={"outline"} onClick={handleRemove} className=" flex items-center gap-2     "><PiTrashSimpleFill  />Remove Profile</Button>
+    <Button variant={"outline"} disabled={disabled} onClick={handleUpload} className=" flex items-center gap-2    "><BiSolidEditAlt />Edit Profile</Button>
+    <Button variant={"outline"} disabled={disabled} onClick={handleRemove} className=" flex items-center gap-2     "><PiTrashSimpleFill  />Remove Profile</Button>
     </div>
  </div>
       <Dialog open={open} onOpenChange={setOpen}>

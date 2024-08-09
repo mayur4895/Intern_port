@@ -20,11 +20,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter, usePathname } from "next/navigation";
 import { companySchema } from "@/schemas";
-import { CurrentUser } from "@/hooks/use-current-user";
+ 
  
  import { useCompanyStore } from "@/hooks/use-companydata";
 import { CompanyRegister } from "@/actions/hire-talent/companyRegister";
 import RichTextEditor from "@/components/hire-talent/ReactQuill";
+import { CurrentUser } from "@/hooks/use-current-user";
+import { signIn } from "next-auth/react";
+ 
  
 
  
@@ -35,7 +38,7 @@ const NoEmployeesSelect = dynamic(() =>import("@/components/hire-talent/selectNo
 const Companypage = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
   const [isLoading, setIsLoading] = useState(false);
  const {companyDetails:CompanyData} = useCompanyStore();
   
@@ -57,7 +60,11 @@ const Companypage = () => {
     const res = await CompanyRegister(data, currentUser.id);
     if (res?.success) {
       toast({ title: res.success, variant: "success" });
-      router.push("/hire-talent/dashboard");
+      form.reset();
+      await signIn('credentials', { redirect: false }); 
+       
+      window.location.href = '/hire-talent/dashboard';
+ 
     }
     if (res?.error) {
       toast({ title: res.error, variant: "destructive" });

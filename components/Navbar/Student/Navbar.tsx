@@ -49,14 +49,7 @@ interface NavbarProps{
         label: "InternShips",
         href: "/internships",
       },
-      {
-        label: "Jobs",
-        href: "/jobs",
-      },
-      {
-        label: "Services",
-        href: "/services",
-      },
+       
       {
         label: "Contact Us",
         href: "/contact",
@@ -72,6 +65,10 @@ interface NavbarProps{
       {
         label: "My Applicatons",
         href: "/contact",
+      },
+      {
+        label: "profile",
+        href: "/update-profile",
       },
     ]
     const { onSetType} = useLoginType()
@@ -89,7 +86,7 @@ interface NavbarProps{
             return (
             
                 <MenubarMenu key={label}>
-                  <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+                  <MenubarTrigger> <Link href={href} className='  font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
                 </MenubarMenu>
             
             )

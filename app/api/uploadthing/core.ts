@@ -18,7 +18,10 @@ export const ourFileRouter = {
   .onUploadComplete(()=>{}),
   ResumePdf:f(["pdf"])
   .middleware(()=> handleAuth())
-  .onUploadComplete(()=>{})
+  .onUploadComplete(()=>{}),
+  StudentProfile: f({ image: { maxFileSize: "1MB" } }) 
+  .middleware(()=> handleAuth())
+  .onUploadComplete(()=>{}),
 
 } satisfies FileRouter;
  

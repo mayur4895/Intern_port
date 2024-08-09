@@ -5,7 +5,7 @@ const HireBanner = () => {
   return (
     <>
      
-     <div className='    flex  flex-col  lg:grid  lg:grid-cols-3 gap-5  h-auto items-center justify-center   m-5 mt-10'>
+     <div className='       lg:grid  lg:grid-cols-3 gap-5  h-auto items-center justify-center   m-5 mt-10'>
        <div className=' col-span-2   w-full  z-50 '>
           <h2 className='text-5xl font-semibold text-zinc-800'>Hire Frshers And Interns Faster</h2>
           <p className='text-xl pt-4'>Post Internships for free & hire talent with up to 2 years of experience</p>

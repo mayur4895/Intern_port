@@ -7,8 +7,10 @@ import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts';
 import { Post } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { TbDatabaseOff } from "react-icons/tb";
-import { useGetApplicationofPost } from '@/features/post/api/getapplicationsofPost';
+ 
 import { useParams } from 'next/navigation';
+import { useGetStudent } from '@/features/post/api/getStudentById';
+import { useGetApplicationofPost } from '@/features/application/api/getapplicationsofPost';
 
  const ApplicationsPage = () => {
 
@@ -17,8 +19,6 @@ import { useParams } from 'next/navigation';
 
   const { data: applications, error,  isLoading } = useGetApplicationofPost(params?.postId || '');
 
- 
-   
   
      
     if(isLoading){
@@ -28,6 +28,7 @@ import { useParams } from 'next/navigation';
         </div>
         </div>
     }
+    
 
     if(!applications){
       return <div className='h-full w-full '>
@@ -38,8 +39,8 @@ import { useParams } from 'next/navigation';
     }
  
   return (
-    <div className="container   py-10">
-      <DataTable columns={columns} data={applications }/>
+    <div className="    px-2   py-10">
+      <DataTable columns={columns} data={applications } />
     </div>
   )
 }

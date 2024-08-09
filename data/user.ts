@@ -41,9 +41,11 @@ export const getUserById = async (id: string) => {
         isTwoFactorEnabled:true,
         designation:true,
         companyDetails:true,
+        studentProfileDetails:true, 
       }
     });
-
+ 
+   
     return user;
   } catch {
     return null;

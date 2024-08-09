@@ -28,8 +28,10 @@ model User {
   twoFactorConfirmation TwoFactorConfirmation?
   accounts           Account[]
   companyDetails     CompanyDetails?
+  studentProfileDetails               StudentProfileDetails?
   posts              Post[]                @relation(name: "PostedByUser")
   applications       Application[]
+  savedApplications  SavedApplication[]    @relation(name: "SavedByUser")
 }
 
 model CompanyDetails {
@@ -55,7 +57,7 @@ model Post {
   monthOrWeeks       String
   additionalPreferences String
   companyName        String
-  companyLogo         String?
+  companyLogo        String?
   cities             String[]
   internshipDuration String
   internshipProfile  String
@@ -76,15 +78,30 @@ model Post {
 }
 
 model Application {
-  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  studentId          String                @db.ObjectId
-  postId             String                @db.ObjectId
-  status             String                @default("PENDING")
-  createdAt          DateTime              @default(now())
-  student            User                  @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  post               Post                  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId   String   @db.ObjectId
+  postId      String   @db.ObjectId
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   resumeUrl   String
+  studentName String
+  profileUrl  String
+  selected    Boolean  @default(false)   
+  saveedApplication SavedApplication[]
+  matchPercentage Int?
   @@unique([studentId, postId])
+}
+
+model SavedApplication {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  applicationId String @db.ObjectId
+  user        User     @relation(name: "SavedByUser", fields: [userId], references: [id], onDelete: Cascade)
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  @@unique([userId, applicationId])
 }
 
 model Account {
@@ -109,8 +126,7 @@ model VerificationToken {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
   email              String?               @unique
   token              String                @unique
-  expires            DateTime?
-  
+  expires            DateTime? 
   @@unique([email, token])
 }
 
@@ -146,5 +162,33 @@ model TwoFactorConfirmation {
   userId             String                @db.ObjectId
   user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   
+  @@unique([userId])
+}
+
+
+model GetIntouch{
+  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
+  firstname String
+  lastname String
+  email String
+  phone String
+  jobtitle String
+  @@unique([email])
+}
+
+
+model StudentProfileDetails {
+  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
+  firstname               String
+  lastname    String
+  description        String
+  resume               String
+  profile           String?
+  email          String
+  phone           String
+  url             String[]
+  userId             String                @db.ObjectId
+  user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+   
   @@unique([userId])
 }

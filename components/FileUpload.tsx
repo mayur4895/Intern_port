@@ -4,26 +4,27 @@ import { UploadDropzone } from "@/lib/uploadthing";
 import "@uploadthing/react/styles.css";
 import { X } from "lucide-react";
 import Image from "next/image"; 
-import { useMemo, useState } from "react";
+import { SetStateAction, useMemo, useState } from "react";
 import { FcFile } from "react-icons/fc";
 
-interface FileUploadProps {
+interface FileUploadProps { 
     onChange: (url?: string) => void;
-    endpoint: "CompanyLogo" | "ResumePdf";
+    endpoint: "CompanyLogo" | "ResumePdf"  | "StudentProfile"
     value: string | undefined;
 }
 
 const FileUpload = ({
-    onChange,
+    onChange, 
     value,
     endpoint
 }: FileUploadProps) => {
-
+ 
     const [Name ,setName] = useState('');
     const [Size,setSize] = useState<any>();
     const fileType = value?.split(".").pop();
-
+    
     if (value && fileType !== "pdf") {
+     
         return (
             <div className="h-25 w-25 relative bg-white">
                 <Image
@@ -40,9 +41,7 @@ const FileUpload = ({
         );
     }
 
-    if (value && fileType === "pdf") {
-        console.log(value);
-
+    if (value && fileType === "pdf") { 
       
         return (
          
@@ -53,7 +52,7 @@ const FileUpload = ({
      <a  className=" truncate"   href={value}
            target="_blank"
            rel="noopener noreferrer">
-  <p className=" truncate  w-80">{Name}</p>
+  <p className=" truncate   w-40">{Name}</p>
  </a>
  <span className="text-xs text-gray-500">{Math.round(Size/1024)}Kb</span>
      </div>
@@ -64,11 +63,7 @@ const FileUpload = ({
     }
 
 
-    const  FormatedSize = (size:any)=>{
-        useMemo(()=>{
-       return Math.round(size/1024);
-        },[size])
-   }
+    
     return (
         <>
             <UploadDropzone
@@ -87,3 +82,40 @@ const FileUpload = ({
 }
 
 export default FileUpload;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

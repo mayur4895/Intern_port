@@ -79,22 +79,26 @@ export const columns: ColumnDef<any>[] = [
           <Button
             variant="ghost" 
           >
-             Company Logo 
+             Company Name
           </Button>
         )
       },
       cell: ({ row }) => {
+  
         const Post = row.original
-   
         return (
+          
         <div>
-            {   Post?.companyLogo ? <Image
+            {   Post?.companyLogo ?  (<div className=" flex items-center gap-2">
+              <Image
             alt="Product image"
-            className="aspect-square object-cover"
-            height="54"
+            className="aspect-square object-cover rounded-full p-1   shadow-md"
+            height="30"
             src={Post?.companyLogo}
-            width="54"
-          /> :
+            width="30"
+          /> 
+          <span className=" text-nowrap">{Post.companyName}</span>
+            </div>):
           <Avatar>
             {   Post?.companyLogo ? <AvatarImage src={Post?.companyLogo}/> :
           <AvatarFallback>CN</AvatarFallback>}

@@ -8,14 +8,104 @@ import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { useModal } from '@/hooks/use-modal-store';
  
+import { CurrentUser } from '@/hooks/use-current-user';
+import { UserType } from '@prisma/client';
+import { useSaveApplicationOfPost } from '@/features/application/api/save-apllication';
+import { useGetSavedApplicationofPost } from '@/features/application/api/get-saved-application';
+import { useSelectApplicationOfPost } from '@/features/application/api/select-application';
+ 
  
 const ApplicationActionsCell = ({ row }:any) => {
-  const post = row.original; 
+  const currentUser = CurrentUser();
+  const Application = row.original; 
   const {onOpen} = useModal();
+
+  
+
+   
+
   const handleDelete =   () => {
-    onOpen('deletePost',{post})
+    onOpen('deleteApplication',{Application})
   };
 
+ 
+  const { toast } = useToast();
+  const saveApplicationOfPostMutation =  useSaveApplicationOfPost();
+ const selectApplicationOfPostMutation =  useSelectApplicationOfPost();
+ 
+ async function handleSave() {
+  try {
+    saveApplicationOfPostMutation.mutate(Application.id, {
+      onSuccess: (res) => {
+        if (res.success) {
+          toast({
+            variant: "success", 
+            title: res.success,
+          });
+        } else if (res.error) {
+          toast({
+            variant: "destructive", 
+            title: res.error,
+          });
+        }
+      },
+      onError: (error) => {
+        console.error('Error saving application:', error);
+        toast({
+          variant: "destructive", 
+          title: "An error occurred while saving the application.",
+        });
+      }
+    });
+ 
+  
+  } catch (error) {
+    console.error('Error:', error);
+    toast({
+      variant: "destructive", 
+      title: "An unexpected error occurred.",
+    });
+  }
+}
+
+
+async function handleSelect() {
+  try {
+    selectApplicationOfPostMutation.mutate(Application.id, {
+      onSuccess: (res) => {
+        if (res.success) {
+          toast({
+            variant: "success",
+            title: res.success,
+           
+          });
+        } else if (res.error) {
+          toast({
+            variant: "destructive", 
+            title: res.error,
+          });
+        }
+      },
+      onError: (error) => {
+        console.error('Error Selecting application:', error);
+        toast({
+          variant: "destructive",
+          title: "An error occurred while saving the application.",
+         
+        });
+      }
+    });
+ 
+  
+  } catch (error) {
+    console.error('Error:', error);
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "An unexpected error occurred.",
+    });
+  }
+}
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,15 +116,15 @@ const ApplicationActionsCell = ({ row }:any) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(post.id)}>
+        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(Application.id)}>
           Copy Application ID
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDelete()}>
           Delete Application
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Save Candidate</DropdownMenuItem>
-        <DropdownMenuItem>Select Candidate</DropdownMenuItem>
+        <DropdownMenuItem  onClick={handleSave} >Save Candidate</DropdownMenuItem>
+        <DropdownMenuItem  onClick={handleSelect}>Select Candidate</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

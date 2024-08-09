@@ -35,8 +35,11 @@ import Link from "next/link";
 import { useToast } from "../ui/use-toast";
  
  
-import { login } from "@/actions/student/login";
+ 
 import LoginSchema from "@/schemas/LoginSchema";
+import { login } from "@/actions/hire-talent/login";
+import { CiAt } from "react-icons/ci";
+import { PiLockKeyLight } from "react-icons/pi";
  
 
  
@@ -60,15 +63,7 @@ const EmployerLogin = () => {
     try {
       const res =  await  login(values);
        
-       if(res?.success){
-    
-         toast({
-          variant:"success",
-          title:res?.success, 
-         })
-         form.reset();   
-         router.refresh();
-       }
+      
 
        if(res?.error){
          
@@ -78,9 +73,18 @@ const EmployerLogin = () => {
          })
   
          } 
-        
-         form.reset();
-  
+         if(res?.success ){
+    
+          toast({
+           variant:"success",
+           title:res?.success, 
+          })
+          form.reset();   
+          router.refresh();
+          router.push("/hire-talent/dashboard")
+        } 
+         router.push("/hire-talent/dashboard")
+         window.location.reload();
   
     } catch (error) {
       console.log(error);
@@ -96,10 +100,10 @@ const EmployerLogin = () => {
   return (
     <>
    
-        <Card className="px-8 py-5 max-w-md w-full">
+   <Card className="px-8 py-5 max-w-md w-full  shadow-none border-none">
         
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -107,7 +111,10 @@ const EmployerLogin = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="example@gmail.com" {...field} />
+                     <div className=" relative">
+                     <Input placeholder="example@gmail.com" {...field}  className="pl-8"/>
+                     <CiAt  className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                   </FormItem>
                 )}
@@ -119,11 +126,16 @@ const EmployerLogin = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
+                     
+                       <div className=" relative">
+                       <Input
                         type="password"
                         placeholder="Enter Password"
+                        className="pl-8"
                         {...field}
                       />
+                     <PiLockKeyLight   className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                     
                     <Button variant={"link"} asChild><Link href="/auth/reset" className="pl-0 font-normal text-xs">Forgot your password ?</Link></Button>
@@ -133,7 +145,7 @@ const EmployerLogin = () => {
 
               <CardFooter className=" justify-between gap-3 flex-col w-full p-0">
                 
-              <Button type="submit" className=" h-10 w-full">
+              <Button  type="submit" className=" h-10 w-full">
                   {isloding ? <Loader2 className=" animate-spin" /> : "Login"}
                 </Button>
           
@@ -142,7 +154,7 @@ const EmployerLogin = () => {
               <span className="text-sm text-zinc-500">
                   {" "}
                    Dont have an account?
-                  <Link href="/hire-talent" className=" font-semibold text-zinc-900">
+                  <Link href="/hire-talent"  className=" font-semibold text-zinc-900">
                     {" "}
                     signup
                   </Link>

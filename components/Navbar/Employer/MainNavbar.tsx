@@ -104,7 +104,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
 <Separator/>
  
    </SheetHeader>
-                  <div className="flex flex-col gap-y-3  mt-2">
+                  <div className="flex flex-col ml-4 gap-y-3  mt-2">
                  <div className="lg:hidden">
                  {
       (session?.role !== UserType.EMPLOYER && !session ) && (
@@ -112,7 +112,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
           return (
           
               <MenubarMenu key={label}>
- <Link href={href} className='font-normal whitespace-nowrap' prefetch={true}> {label}</Link>   
+ <Link href={href} className='font-normal whitespace-nowrap text-sm text-black   hover:text-blue-500' prefetch={true}> {label}</Link>   
               </MenubarMenu>
           
           )
@@ -128,7 +128,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
           return (
           
               <MenubarMenu key={label}>
-           <Link href={href} className=' font-normal whitespace-nowrap' prefetch={true}> {label}</Link> 
+           <Link href={href}   className="text-sm font-normal text-black   hover:text-blue-500" prefetch={true}> {label}</Link> 
               </MenubarMenu>
           
           )
@@ -140,7 +140,7 @@ const MainNavbar = ({ session }: MainNavbarProps) => {
                  </div>
               <Separator className="lg:hidden"/>  
                     {!session && (
-                      <div className="flex flex-col  ml-4   items-start  justify-start gap-4">
+                      <div className="flex flex-col    items-start  justify-start gap-4">
                         <Link
                           href={"/auth/employer/login"}
                           className="text-sm font-normal text-black   hover:text-blue-500"

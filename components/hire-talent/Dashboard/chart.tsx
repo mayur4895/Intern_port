@@ -37,9 +37,9 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function  Chart() {
+export function Chart() {
   return (
-    <Card className=" shadow-sm">
+    <Card>
       <CardHeader>
         <CardTitle>Bar Chart - Multiple</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
@@ -59,8 +59,8 @@ export function  Chart() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={3} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={3} />
+            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
+            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>

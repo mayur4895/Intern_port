@@ -26,6 +26,7 @@ import AvatarUpload from "@/components/student/ProfilePicture";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateStudentProfile } from "@/features/student/api/update-studentprofile";
 import { useRouter } from 'next/navigation'; // Use useRouter for client-side navigation
+import { signIn } from "next-auth/react";
 
 export type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
 
@@ -55,42 +56,40 @@ const StudentProfilePage: React.FC = () => {
 
   const UpdateStudentProfile = useUpdateStudentProfile();
   async function onSubmit(values: StudentProfileFormValues) {
-    try { 
-      await new Promise<void>((resolve, reject) => {
-        UpdateStudentProfile.mutate(values, {
-          onSuccess: (res) => {
-            if (res.success) {
-              toast({
-                variant: 'success',
-                title: res.success,
-              });
-              resolve(); // Resolve the promise on success
-            } else if (res.error) {
-              toast({
-                variant: 'destructive',
-                title: res.error,
-              });
-              reject(new Error(res.error)); // Reject the promise if there's an error
-            }
-          },
-          onError: (error) => {
-            console.error('Error updating profile:', error);
-            toast({
-              variant: 'destructive',
-              title: 'An error occurred while updating the profile.',
-            });
-            reject(error);  
-          },
+    try {
+      // Use the mutate function to send the update request
+      const res = await UpdateStudentProfile.mutateAsync(values);
+  
+      // Check for errors
+      if (res.error) {
+        toast({
+          variant: 'destructive',
+          title: 'Error updating profile',
+          description: res.error,
         });
+        return; // Stop further execution if there's an error
+      }
+  
+      // Success toast
+      toast({
+        variant: 'success',
+        title: 'Profile Updated Successfully',
       });
   
-      
-      router.push('/student/dashboard');
+      // Reset the form
+      form.reset();
+  
+      // Re-fetch the session to ensure it's updated
+      await signIn('credentials', { redirect: false });
+  
+      // Redirect to the dashboard
+      window.location.href = '/student/dashboard';
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error updating profile:', error);
       toast({
         variant: 'destructive',
-        title: 'An unexpected error occurred.',
+        title: 'Error',
+        description: 'An unexpected error occurred. Please try again.',
       });
     }
   }

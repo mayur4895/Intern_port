@@ -26,7 +26,7 @@ export default auth((req, res) => {
     // Handle Authentication Routes
     if (isAuthRoute) {
       if (isLoggedIn) {
-        if (session.user.role === UserType.STUDENT && session.user.studentProfileDetails) {
+        if (session.user.role === UserType.STUDENT ) {
           return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
         } 
         if (session.user.role === UserType.EMPLOYER) {

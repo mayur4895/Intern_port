@@ -26,6 +26,7 @@ import { companySchema } from "@/schemas";
 import { CompanyRegister } from "@/actions/hire-talent/companyRegister";
 import RichTextEditor from "@/components/hire-talent/ReactQuill";
 import { CurrentUser } from "@/hooks/use-current-user";
+import { signIn } from "next-auth/react";
  
  
 
@@ -59,7 +60,11 @@ const Companypage = () => {
     const res = await CompanyRegister(data, currentUser.id);
     if (res?.success) {
       toast({ title: res.success, variant: "success" });
-      router.push("/hire-talent/dashboard");
+      form.reset();
+      await signIn('credentials', { redirect: false }); 
+       
+      window.location.href = '/hire-talent/dashboard';
+ 
     }
     if (res?.error) {
       toast({ title: res.error, variant: "destructive" });

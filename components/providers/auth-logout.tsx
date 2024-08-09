@@ -24,7 +24,7 @@ const SessionHandler = () => {
     }
   }, [session, status]);
 
-  return null; // This component doesn't render anything
+  return null; 
 };
 
 export default SessionHandler;

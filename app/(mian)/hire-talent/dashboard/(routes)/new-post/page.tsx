@@ -25,7 +25,7 @@ import { toast } from '@/components/ui/use-toast';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import { postFormSchema } from '@/schemas';
 import { Badge } from '@/components/ui/badge';
-import { CurrentUser } from '@/hooks/use-current-user';
+ 
 import { Checkbox } from "@/components/ui/checkbox";
 import { AlertCircle, CalendarIcon, Loader2 } from "lucide-react";
  
@@ -37,6 +37,8 @@ import { cn } from "@/lib/utils";
  
 import RichTextEditor from "@/components/hire-talent/ReactQuill";
 import dynamic from "next/dynamic";
+import { CurrentUser } from "@/hooks/use-current-user";
+ 
  
  
  
@@ -51,7 +53,7 @@ const SelectSkillSet = dynamic(() =>import("@/components/hire-talent/new-post/Se
 const  NewPostPage = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
   const [IsLoading,setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof postFormSchema>>({
     resolver: zodResolver(postFormSchema),
@@ -95,7 +97,7 @@ const  NewPostPage = () => {
     form.reset();
     
   }finally{
-    setIsLoading(false)
+    setIsLoading(false);
   }
   }
  

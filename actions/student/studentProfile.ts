@@ -67,6 +67,8 @@ const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
       })
       
       return {success:"profile updated"} 
+        }else{
+          return { error: "error while profile update" };
         }
       } catch (error) {
         console.log(error); 

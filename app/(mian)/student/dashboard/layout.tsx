@@ -15,7 +15,7 @@ import {
  ShoppingCart,
  Users2,
 } from "lucide-react" 
-import { CurrentUser } from '@/hooks/use-current-user'
+ 
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useMemo } from 'react'
 import {
@@ -34,7 +34,7 @@ const StudentDashboardLayout = ({children}:{children:React.ReactNode}) => {
 
  
    
-const currentUser = CurrentUser();
+ 
 
  
   

@@ -6,7 +6,7 @@ import { Home, Building2, LineChart, Package, Settings, PanelLeft } from 'lucide
 import { FaPlusCircle } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CurrentUser } from '@/hooks/use-current-user'
+ 
 import { PiSuitcaseSimpleLight } from 'react-icons/pi'
 import { TbBrandGoogleHome } from 'react-icons/tb'
  
@@ -15,6 +15,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
 import { signOut } from 'next-auth/react'
+import { CurrentUser } from '@/hooks/use-current-user'
  
  
 
@@ -24,7 +25,7 @@ const StudentAsidebar = () => {
   const  pathname  =  usePathname();
 
   const isActive = (path:any) => pathname === path
-  const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
   return (
     <div>
       <aside className="fixed    inset-y-0 left-0 z-10 hidden md:w-60 flex-col border-r text-white  bg-zinc-800 lg:flex">

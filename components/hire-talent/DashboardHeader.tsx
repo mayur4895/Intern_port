@@ -2,7 +2,7 @@
 import React from 'react'
 import { PiBuildingsFill } from "react-icons/pi";
 import NavigationDashboard from './NavigationDashboard';
-import { CurrentUser } from '@/hooks/use-current-user';
+import {   CurrentUser, } from '@/hooks/use-current-user';
 import UserButton from './UserButton';
 import { FaBuilding, FaPlusCircle, FaRegBuilding } from 'react-icons/fa';
 import MarkupContent from './MarkupContent';
@@ -61,7 +61,7 @@ import { Avatar, AvatarImage } from '../ui/avatar';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import { signOut } from 'next-auth/react';
 const DashboardHeader = () => {
-    const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
  
     const pathname = usePathname();
     

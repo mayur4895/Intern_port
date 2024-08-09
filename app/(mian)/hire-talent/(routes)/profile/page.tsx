@@ -19,13 +19,15 @@ import {
 import { profileSchema } from "@/schemas";
 import { FaCheckCircle } from "react-icons/fa";
 import { UserType } from "@prisma/client";
-import { CurrentUser } from "@/hooks/use-current-user";
+ 
 import { SendOtp } from "@/actions/hire-talent/send-otp";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { PhoneVerify } from "@/actions/hire-talent/verify-otp";
 import { checkPhoneStatus } from "@/actions/hire-talent/checkPhoneVerify";
 import { UpdateProfile } from "@/actions/hire-talent/update-profile";
 import { Loader2 } from "lucide-react";
+import { CurrentUser } from "@/hooks/use-current-user";
+ 
 
 const ProfileForm = () => {
   const [value, setValue] = useState("");
@@ -37,7 +39,7 @@ const ProfileForm = () => {
 
   const router = useRouter();
   const pathname = usePathname();
-  const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
 
   // Ensure that all hooks are called unconditionally
   const form = useForm<z.infer<typeof profileSchema>>({

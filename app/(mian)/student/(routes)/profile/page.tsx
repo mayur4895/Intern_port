@@ -3,12 +3,10 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -26,18 +24,16 @@ import { useToast } from "@/components/ui/use-toast";
 import FileUpload from "@/components/FileUpload";
 import AvatarUpload from "@/components/student/ProfilePicture";
 import { Textarea } from "@/components/ui/textarea";
-import { studentProfile } from "@/actions/student/studentProfile";
-import { useCallback, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { UserType } from "@prisma/client";
-import { currentUser } from "@/lib/auth";
+import { useUpdateStudentProfile } from "@/features/student/api/update-studentprofile";
+import { useRouter } from 'next/navigation'; // Use useRouter for client-side navigation
 
-type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
+export type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
 
 const StudentProfilePage: React.FC = () => {
-  const router = useRouter();
+  const router = useRouter(); // Get the router object
   const { toast } = useToast();
-  const { data: session, status } = useSession();
+ 
+
   const form = useForm<StudentProfileFormValues>({
     resolver: zodResolver(StudentProfileSchema),
     defaultValues: {
@@ -50,45 +46,54 @@ const StudentProfilePage: React.FC = () => {
       resumeUrl: "",
       urls: [""],
     },
-  });
+  }); 
 
   const { fields, append, remove } = useFieldArray({
     control: form.control as any,
     name: "urls" as any,
   });
 
+  const UpdateStudentProfile = useUpdateStudentProfile();
   async function onSubmit(values: StudentProfileFormValues) {
-    try {
-      const res = await studentProfile(values);
-  
-      if (res?.success) {
-        toast({
-          title: "Details Saved",
-          variant: "success",
+    try { 
+      await new Promise<void>((resolve, reject) => {
+        UpdateStudentProfile.mutate(values, {
+          onSuccess: (res) => {
+            if (res.success) {
+              toast({
+                variant: 'success',
+                title: res.success,
+              });
+              resolve(); // Resolve the promise on success
+            } else if (res.error) {
+              toast({
+                variant: 'destructive',
+                title: res.error,
+              });
+              reject(new Error(res.error)); // Reject the promise if there's an error
+            }
+          },
+          onError: (error) => {
+            console.error('Error updating profile:', error);
+            toast({
+              variant: 'destructive',
+              title: 'An error occurred while updating the profile.',
+            });
+            reject(error);  
+          },
         });
-        form.reset();
-         window.location.replace('/student/dashboard');
-      } else {
-        toast({
-          title: res?.error,
-          variant: "destructive",
-        });
-        form.reset();
-      }
-    } catch (error) {
-      toast({
-        title: "Something went wrong",
-        variant: "destructive",
       });
-      form.reset();
+  
+      
+      router.push('/student/dashboard');
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'An unexpected error occurred.',
+      });
     }
   }
-  
-
-
- 
-
- 
 
   return (
     <div className="flex items-center justify-center h-full w-full">
@@ -98,7 +103,6 @@ const StudentProfilePage: React.FC = () => {
             <CardTitle className="text-xl text-start font-normal">
               Update Profile
             </CardTitle>
-            <CardDescription></CardDescription>
           </CardHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full h-full">
@@ -122,9 +126,7 @@ const StudentProfilePage: React.FC = () => {
                     <FormItem>
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <div>
-                          <Input placeholder="Enter your FirstName" className="peer" {...field} />
-                        </div>
+                        <Input placeholder="Enter your First Name" className="peer" {...field} />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>
@@ -137,9 +139,7 @@ const StudentProfilePage: React.FC = () => {
                     <FormItem>
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <div>
-                          <Input placeholder="Enter Your LastName" className="peer" {...field} />
-                        </div>
+                        <Input placeholder="Enter Your Last Name" className="peer" {...field} />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>
@@ -153,9 +153,7 @@ const StudentProfilePage: React.FC = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <div>
-                        <Input placeholder="e.g example@gmail.com" className="peer" {...field} />
-                      </div>
+                      <Input placeholder="e.g example@gmail.com" className="peer" {...field} />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
@@ -181,13 +179,11 @@ const StudentProfilePage: React.FC = () => {
                   <FormItem>
                     <FormLabel>About you</FormLabel>
                     <FormControl>
-                      <div>
-                        <Textarea
-                          placeholder="Tell us a little bit about yourself"
-                          className="resize-none"
-                          {...field}
-                        />
-                      </div>
+                      <Textarea
+                        placeholder="Tell us a little bit about yourself"
+                        className="resize-none"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>

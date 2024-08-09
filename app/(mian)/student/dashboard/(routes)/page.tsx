@@ -7,7 +7,8 @@ import { Separator } from '@/components/ui/separator'
 import { useGetAllPosts } from '@/features/post/api/getallPosts'
 import { useInternships } from '@/hooks/use-all-posts'
  
-import { CurrentUser } from '@/hooks/use-current-user'
+ 
+ 
 import { useModal } from '@/hooks/use-modal-store'
 import { UserType } from '@prisma/client'
 import { Activity, ArrowRight, Building2, CreditCard, DollarSign, LocateIcon, Users } from 'lucide-react'
@@ -20,9 +21,9 @@ import { json } from 'node:stream/consumers'
 import React from 'react'
  
  const DashboardPage =  () => {
-const currentUser = CurrentUser();
+  const { data: Internships, isLoading, error, } = useGetAllPosts(); 
  
-const { data: Internships, isLoading, error, } = useGetAllPosts(); 
+ 
 const MapIcon:any = {
  'in office':<Building2 className='text-gray-500' size={15}/>,
  'remote':<LocateIcon className='text-gray-500' size={15}/>,

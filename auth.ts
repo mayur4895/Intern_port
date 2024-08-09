@@ -71,8 +71,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async jwt({ token, user }) {
-
-      console.log(token)
+ 
       if (token && token.sub) {
         const userExist = await getUserById(token.sub);
         if (userExist) {

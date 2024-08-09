@@ -6,7 +6,7 @@ import { Home, Building2, LineChart, Package, Settings, PanelLeft } from 'lucide
 import { FaPlusCircle } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CurrentUser } from '@/hooks/use-current-user'
+ 
 import { PiSuitcaseSimpleLight } from 'react-icons/pi'
 import { TbBrandGoogleHome } from 'react-icons/tb'
 import { IoIosNotificationsOutline } from "react-icons/io";
@@ -15,8 +15,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
 import { signOut } from 'next-auth/react'
+import { CurrentUser } from '@/hooks/use-current-user'
+ 
+ 
 const StudentDashboardHeader = () => {
-    const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
     const  pathname  =  usePathname();
 
     const isActive = (path:any) => pathname === path

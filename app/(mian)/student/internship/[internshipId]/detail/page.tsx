@@ -15,8 +15,9 @@ import { Button } from '@/components/ui/button'
 import { useModal } from '@/hooks/use-modal-store'
 import { Skeleton } from '@/components/ui/skeleton'
 import ApplyForm from '@/components/student/ApplyForm'
-import { CurrentUser } from '@/hooks/use-current-user'
+ 
 import SkeletonLoader from './skeltonLoader'
+import { CurrentUser,   } from '@/hooks/use-current-user'
 
  
 
@@ -29,7 +30,7 @@ const IconMap:any = {
 }
 
        const params = useParams();
-       const currentUser = CurrentUser(); 
+       const  currentUser  =   CurrentUser();
        
        const { internshipId } = params as { internshipId: string }
        const {onOpen}= useModal();

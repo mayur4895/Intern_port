@@ -26,9 +26,9 @@ export default auth((req, res) => {
     // Handle Authentication Routes
     if (isAuthRoute) {
       if (isLoggedIn) {
-        if (session.user.role === UserType.STUDENT) {
+        if (session.user.role === UserType.STUDENT && session.user.studentProfileDetails) {
           return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
-        }
+        } 
         if (session.user.role === UserType.EMPLOYER) {
           return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
         }
@@ -40,7 +40,7 @@ export default auth((req, res) => {
     if (isLoggedIn) {
       const { role, studentProfileDetails, companyDetails, isPhoneVerified } = session.user;
 
-      if (role === UserType.EMPLOYER) {
+     if (role === UserType.EMPLOYER) {
         if (nextUrl.pathname.startsWith('/hire-talent')) {
           if (nextUrl.pathname === '/hire-talent' && !companyDetails) {
             return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
@@ -72,26 +72,30 @@ export default auth((req, res) => {
           return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
         }
       }
+
+      
+ 
       if (role === UserType.STUDENT) {
         if (nextUrl.pathname.startsWith('/student')) {
-
-          if (nextUrl.pathname === '/student/profile' && studentProfileDetails) {
-            return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
-          }
-
-          if (nextUrl.pathname === '/student/dashboard' && !studentProfileDetails) {
-            return NextResponse.redirect(new URL("/student/profile", nextUrl));
-          }
-
-        
-
-          return NextResponse.next();
+            
+            // Redirect to the dashboard if the profile is filled and user is on the profile page
+            if (nextUrl.pathname === '/student/profile' && studentProfileDetails) {
+                return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+            }
+    
+            // Redirect to the profile page if the profile is not filled and user is on the dashboard page
+            if (nextUrl.pathname === '/student/dashboard' && !studentProfileDetails) {
+                return NextResponse.redirect(new URL("/student/profile", nextUrl));
+            }
+    
+            // Allow the student to navigate to any other student-specific pages
+            return NextResponse.next();
         } else {
-          return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+            // Redirect to the dashboard if trying to access non-student-specific pages
+            return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
         }
-      }
-
-
+    }
+    
     }
 
     // If the user is not logged in and trying to access a non-public route

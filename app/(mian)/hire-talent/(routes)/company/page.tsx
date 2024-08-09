@@ -20,11 +20,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter, usePathname } from "next/navigation";
 import { companySchema } from "@/schemas";
-import { CurrentUser } from "@/hooks/use-current-user";
+ 
  
  import { useCompanyStore } from "@/hooks/use-companydata";
 import { CompanyRegister } from "@/actions/hire-talent/companyRegister";
 import RichTextEditor from "@/components/hire-talent/ReactQuill";
+import { CurrentUser } from "@/hooks/use-current-user";
+ 
  
 
  
@@ -35,7 +37,7 @@ const NoEmployeesSelect = dynamic(() =>import("@/components/hire-talent/selectNo
 const Companypage = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
   const [isLoading, setIsLoading] = useState(false);
  const {companyDetails:CompanyData} = useCompanyStore();
   

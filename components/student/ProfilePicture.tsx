@@ -5,10 +5,11 @@ import FileUpload from "@/components/FileUpload";
 import { VscClose } from "react-icons/vsc";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { CurrentUser } from "@/hooks/use-current-user";
+ 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { PiTrashSimpleFill, PiTrashThin } from "react-icons/pi"; 
 import { BiSolidEditAlt } from "react-icons/bi";
+import { CurrentUser, } from "@/hooks/use-current-user";
 
 interface AvatarUploadProps {
   value: string;
@@ -19,7 +20,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({ value, onChange }) => {
   const [open, setOpen] = useState(false);
   const [avatar, setAvatar] = useState<string>(value);
   const [showDropzone, setShowDropzone] = useState<boolean>(true);
-const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
 
   const handleUpload = (e:any) => {
     e.preventDefault();  

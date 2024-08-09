@@ -1,5 +1,5 @@
 // Home.js
-import React, { useMemo } from 'react';
+import React  from 'react';
 import { auth } from "@/auth";
 
 import Banner from "@/components/Banner";
@@ -16,13 +16,13 @@ import { MovingCards } from '@/components/ui/infinite-scroll-cards';
 export default async function Home() {
   const currentUser = await auth();
 
-  useMemo(()=>{
+ 
     if(currentUser?.user?.role  === UserType.STUDENT){
       return redirect("/student/dashboard")
     } else if( currentUser?.user?.role === UserType.EMPLOYER){
       return  redirect("/hire-talent/profile")
     }
-  },[currentUser])
+ 
 
   return (
     <>

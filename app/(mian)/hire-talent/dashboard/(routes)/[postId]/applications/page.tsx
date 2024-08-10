@@ -1,48 +1,42 @@
 'use client'
-import React from 'react'
-import dynamic from 'next/dynamic';
+import React from 'react';
 import { DataTable } from './data-table';
-import { columns } from './columns'; 
-import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts';
-import { Post } from '@prisma/client';
+import { columns } from './columns';
+import { useGetApplicationofPost } from '@/features/application/api/getapplicationsofPost';
 import { Loader2 } from 'lucide-react';
 import { TbDatabaseOff } from "react-icons/tb";
- 
 import { useParams } from 'next/navigation';
-import { useGetStudent } from '@/features/post/api/getStudentById';
-import { useGetApplicationofPost } from '@/features/application/api/getapplicationsofPost';
 
- const ApplicationsPage = () => {
-
+const ApplicationsPage = () => {
   const params = useParams<{ postId: string }>();
- 
 
-  const { data: applications, error,  isLoading } = useGetApplicationofPost(params?.postId || '');
+  const { data: applications, error, isLoading } = useGetApplicationofPost(params?.postId || '');
 
-  
-     
-    if(isLoading){
-        return <div className='  h-full left-0 top-0   lg:pl-14   flex items-center justify-center     w-full    '>
-        <div className="   flex items-center justify-center  bottom-0 right-0 fixed   h-full lg:w-[85%]  w-full  "> 
-           <Loader2 className=' animate-spin '/>
+  if (isLoading) {
+    return (
+      <div className='h-full left-0 top-0 lg:pl-14 flex items-center justify-center w-full'>
+        <div className="flex items-center justify-center bottom-0 right-0 fixed h-full lg:w-[85%] w-full">
+          <Loader2 className='animate-spin' />
         </div>
-        </div>
-    }
-    
+      </div>
+    );
+  }
 
-    if(!applications){
-      return <div className='h-full w-full '>
-        <div className="flex items-center justify-center"> 
-                 <TbDatabaseOff size={22}/>
-                  </div>
+  if (!applications) {
+    return (
+      <div className='h-full w-full'>
+        <div className="flex items-center justify-center">
+          <TbDatabaseOff size={22} />
         </div>
-    }
- 
+      </div>
+    );
+  }
+
   return (
-    <div className="    px-2   py-10">
-      <DataTable columns={columns} data={applications } />
+    <div className="px-2 py-10">
+      <DataTable columns={columns} data={applications} />
     </div>
-  )
+  );
 }
 
-export default ApplicationsPage
+export default ApplicationsPage;

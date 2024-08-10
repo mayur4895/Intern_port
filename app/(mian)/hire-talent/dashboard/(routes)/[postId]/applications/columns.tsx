@@ -171,30 +171,7 @@ export const columns: ColumnDef<Application>[] = [
         )
   }, 
   },
-    {
-    accessorKey: "matchPercentage",
- 
-    header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-             Ai Match
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        const Application = row.original 
-        return (
-        <div>
-             {Application.matchPercentage}%
-            </div>
-
-        )
-  }, 
-  },
+     
   {
     id: "actions",
     header: ({ column }) => {

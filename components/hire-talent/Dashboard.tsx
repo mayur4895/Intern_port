@@ -47,8 +47,7 @@ export function Dashboard() {
     
   }
 
- console.log(Selectedapplications)
- 
+  
   return (
     <div className="py-4 px-4 h-full bg-gray-50">
  

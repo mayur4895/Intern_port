@@ -165,13 +165,28 @@ export const columns: ColumnDef<Application>[] = [
         const Application = row.original 
         return (
         <div>
-             {Application.createdAt.toDateString()}
+             {Application.createdAt &&   Application.createdAt.toDateString()}
             </div>
 
         )
-  }, 
-  },
-     
+  },  },
+  {
+    id: "aiMatch",
+    accessorKey: "matchPercentage",
+    header: ({ column }) => {
+      
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+           Most Relevant
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => (row.original.matchPercentage !== null ? `${row.original.matchPercentage}%` : 'N/A'),
+   }, 
   {
     id: "actions",
     header: ({ column }) => {

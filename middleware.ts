@@ -1,32 +1,35 @@
 import { UserType } from "@prisma/client";
 import { AuthRoutes, apiAuthprefix, publicRoutes } from "./route";
 import { auth } from "./auth";
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
+// Routes that do not need authentication
 const uploadthingRoutes = [
   "/api/uploadthing",
   "/api/uploadthing/callback",
 ];
 
-export default auth((req, res) => {
+export default auth((req,res) => {
   try {
     const { nextUrl } = req;
     const session = req.auth;
     const isLoggedIn = !!session;
+    
+
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthprefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
     const isUploadthingRoute = uploadthingRoutes.includes(nextUrl.pathname);
 
     // Allow API auth routes and uploadthing routes to proceed
-    if (isApiAuthRoute || isUploadthingRoute) {
+    if (isApiAuthRoute || isUploadthingRoute || nextUrl.pathname.startsWith('/api/')) {
       return NextResponse.next();
     }
 
     // Handle Authentication Routes
     if (isAuthRoute) {
       if (isLoggedIn) {
-        if (session.user.role === UserType.STUDENT ) {
+        if (session.user.role === UserType.STUDENT) {
           return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
         } 
         if (session.user.role === UserType.EMPLOYER) {
@@ -40,7 +43,7 @@ export default auth((req, res) => {
     if (isLoggedIn) {
       const { role, studentProfileDetails, companyDetails, isPhoneVerified } = session.user;
 
-     if (role === UserType.EMPLOYER) {
+      if (role === UserType.EMPLOYER) {
         if (nextUrl.pathname.startsWith('/hire-talent')) {
           if (nextUrl.pathname === '/hire-talent' && !companyDetails) {
             return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
@@ -73,29 +76,21 @@ export default auth((req, res) => {
         }
       }
 
-      
- 
       if (role === UserType.STUDENT) {
         if (nextUrl.pathname.startsWith('/student')) {
-            
-            // Redirect to the dashboard if the profile is filled and user is on the profile page
-            if (nextUrl.pathname === '/student/profile' && studentProfileDetails) {
-                return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
-            }
-    
-            // Redirect to the profile page if the profile is not filled and user is on the dashboard page
-            if (nextUrl.pathname === '/student/dashboard' && !studentProfileDetails) {
-                return NextResponse.redirect(new URL("/student/profile", nextUrl));
-            }
-    
-            // Allow the student to navigate to any other student-specific pages
-            return NextResponse.next();
-        } else {
-            // Redirect to the dashboard if trying to access non-student-specific pages
+          if (nextUrl.pathname === '/student/profile' && studentProfileDetails) {
             return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
+          }
+
+          if (nextUrl.pathname === '/student/dashboard' && !studentProfileDetails) {
+            return NextResponse.redirect(new URL("/student/profile", nextUrl));
+          }
+
+          return NextResponse.next();
+        } else {
+          return NextResponse.redirect(new URL("/student/dashboard", nextUrl));
         }
-    }
-    
+      }
     }
 
     // If the user is not logged in and trying to access a non-public route

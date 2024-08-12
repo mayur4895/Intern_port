@@ -6,8 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const Banner = () => {
-  return (
- 
+  return (   
     <>
     <div className='w-full  py-10 m-auto  grid md:grid-cols-2    md:container px-2 text-black  gap-4 justify-center items-center text-center'>
  <div className='flex flex-col   text-start items-start     gap-4   '>

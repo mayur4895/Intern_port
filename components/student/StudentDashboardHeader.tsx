@@ -27,7 +27,7 @@ const StudentDashboardHeader = () => {
     
   return ( 
 
-    <div className=' w-full  border   flex items-center h-12     p-2'>
+    <div className=' w-full    border-b   bg-[#fefefa] flex items-center h-12     p-2'>
          
      <div className=' lg:hidden   w-full'>
      <Sheet>

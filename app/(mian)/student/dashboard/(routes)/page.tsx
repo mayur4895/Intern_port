@@ -52,8 +52,8 @@ const MapIcon:any = {
             <Card key={internship.id}  className=' w-[320px] cursor-pointer'>
                  <CardHeader className='flex justify-between items-start flex-row w-full py-4'>
            <div>
-           <span className=' text-sm'>{internship.internshipProfile}   </span>
-           <CardDescription className=' text-xs text-nowrap   w-[90%]'>{internship.companyName}</CardDescription>
+           <span className=' '>{internship.internshipProfile}   </span>
+           <CardDescription className=' text-sm text-nowrap   w-[90%]'>{internship.companyName}</CardDescription>
            </div>
            {internship.companyLogo && <Image  src={internship.companyLogo} alt='logo' height={30} width={30} className=' object-center object-contain' />}
                 </CardHeader>
@@ -62,13 +62,13 @@ const MapIcon:any = {
                <CardContent  className=' py-2'>  
               
          
-                <span className='flex items-center gap-2 text-xs'>  { MapIcon[internship.internshipType]} {internship.internshipType}</span>
-                <span className='flex items-center gap-2 text-xs'> <CreditCard size={12}/> ₹ 6,00,000 - 8,00,000/year</span>
+                <span className='flex items-center gap-2 text-sm'>  { MapIcon[internship.internshipType]} {internship.internshipType}</span>
+                <span className='flex items-center gap-2 text-sm'> <CreditCard size={12}/> ₹ 6,00,000 - 8,00,000/year</span>
 
-                <span className='text-xs text-gray-500 '>{internship.createdAt.toDateString()}</span>
+                <span className='text-sm text-gray-500 '>{internship.createdAt.toDateString()}</span>
                 </CardContent>
               <CardFooter className=' mt-2 flex  items-end justify-end'>
-                <Link href={`/student/internship/${internship?.id}/detail`}    className='flex text-xs items-center  gap-1'>View Details <ArrowRight size={15}/></Link>
+                <Link href={`/student/internship/${internship?.id}/detail`}    className='flex text-sm items-center  gap-1'>View Details <ArrowRight size={15}/></Link>
               </CardFooter>
              
             </Card>

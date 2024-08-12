@@ -28,9 +28,9 @@ const StudentAsidebar = () => {
   const  currentUser  =   CurrentUser();
   return (
     <div>
-      <aside className="fixed    inset-y-0 left-0 z-10 hidden md:w-60 flex-col border-r text-white  bg-zinc-800 lg:flex">
+      <aside className="fixed    inset-y-0 left-0 z-10 hidden md:w-60 flex-col border-r border-r-zinc-300  text-zinc-800   bg-[#ebecee] lg:flex">
         <nav className="flex flex-col items-start gap-5 w-full sm:py-5   ">
-          <div  className='flex items-center bg-zinc-700 w-full  px-2 py-4 gap-2'>
+          <div  className='flex items-center  w-full  px-2 py-2 gap-2'>
             
          
               <Avatar>
@@ -44,20 +44,21 @@ const StudentAsidebar = () => {
                 <div className=' flex flex-col gap-1'>
                 <span className=' truncate  w-[95%] text-xs  font-medium'>{currentUser?.name}</span>
                 <span className=' truncate  w-[95%] text-xs font-normal'>{currentUser?.email}</span>
-                </div>
-      
-          </div>
 
-          <Link href="/student/dashboard" 
-            
+              
+                </div>
+ 
+          </div>
+          <Separator className=' bg-zinc-300 '/>
+          <Link href="/student/dashboard"  
               className={`text-sm flex items-end gap-2 p-2 w-full relative  ${
-                isActive('/student/dashboard') ? ' overflow-hidden  ' : ''
+                isActive('/student/dashboard') ? ' overflow-hidden bg-white ' : 'hover:bg-zinc-100'
               }`}
             >
           <CiHome  size={22}/>
               <span>Dashboard</span>
               {isActive('/student/dashboard') && (
-                <div className="top-0 right-0 absolute bg-white  h-10 w-[3px]" />
+                <div className="top-0 right-0 absolute bg-blue-500  h-10 w-[3px]" />
               )}
           
           </Link>
@@ -65,13 +66,13 @@ const StudentAsidebar = () => {
           <Link href="/student/dashboard/jobs"
            
               className={`text-sm flex items-end gap-2 w-full relative p-2 ${
-                isActive('/student/dashboard/jobs') ? ' overflow-hidden  ' : ''
+                isActive('/student/dashboard/jobs') ? ' overflow-hidden bg-white ' : 'hover:bg-zinc-100'
               }`}
             >
               <PiSuitcaseSimpleLight className="h-5 w-5" />
               <span>Internships</span>
               {isActive('/student/dashboard/jobs') && (
-                <div className="top-[1.8px] right-0 absolute bg-blue-100 h-8 w-[2px]" />
+                <div className="top-[1.8px] right-0 absolute bg-blue-500 h-8 w-[2px]" />
               )}
         
           </Link>
@@ -80,13 +81,13 @@ const StudentAsidebar = () => {
           <Link href="/student/dashboard/profilepage"
            
            className={`text-sm flex items-end gap-2 w-full relative p-2 ${
-             isActive('/student/dashboard/profilepage') ? ' overflow-hidden  ' : ''
+             isActive('/student/dashboard/profilepage') ?' overflow-hidden bg-white ' : 'hover:bg-zinc-100'
            }`}
          >
            <CiUser  className="h-5 w-5" />
            <span>Your Profile</span>
            {isActive('/student/dashboard/profilepage') && (
-             <div className="top-[1.8px] right-0 absolute bg-blue-100 h-8 w-[2px]" />
+             <div className="top-[1.8px] right-0 absolute bg-blue-500 h-8 w-[2px]" />
            )}
      
        </Link>
@@ -103,13 +104,13 @@ const StudentAsidebar = () => {
           <Link href="#"
        
               className={`text-sm flex items-end gap-2 w-full relative p-2${
-                isActive('#settings') ? ' overflow-hidden  ' : ''
+                isActive('#settings') ? ' overflow-hidden bg-white ' : 'hover:bg-zinc-100'
               }`}
             >
               <Settings className="h-5 w-5" />
               <span>Settings</span>
               {isActive('#settings') && (
-                <div className="top-[1.8px] right-0 absolute bg-blue-100 h-8 w-[2px]" />
+                <div className="top-[1.8px] right-0 absolute bg-blue-500 h-8 w-[2px]" />
               )}
      
           </Link>

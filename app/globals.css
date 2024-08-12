@@ -189,7 +189,7 @@
 .truncate-fade {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6; /* Number of lines to show */
+  -webkit-line-clamp: 4; /* Number of lines to show */
   overflow: hidden;
   position: relative;
   max-height: 8rem; /* Adjust based on your line-height */
@@ -201,7 +201,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 5rem; /* Adjust based on your line-height */
+  height: 3rem; /* Adjust based on your line-height */
   background: linear-gradient(transparent, white); /* Adjust the gradient based on your background color */
 }
 

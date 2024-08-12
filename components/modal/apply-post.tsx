@@ -97,6 +97,7 @@ const ApplyPost = () => {
         
         onClose();
         form.setValue('resume','');
+        router.push('/student/internship/post-apply')
       }
     } else {
       onClose();

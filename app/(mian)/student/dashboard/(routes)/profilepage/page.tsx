@@ -6,7 +6,7 @@ const ProfilePage = () => {
 
   
   return (
-    <div>
+    <div className='py-2'>
         <StudentProfilePage/>
     </div>
   )

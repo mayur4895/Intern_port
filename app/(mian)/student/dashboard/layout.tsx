@@ -40,7 +40,7 @@ const StudentDashboardLayout = ({children}:{children:React.ReactNode}) => {
   
 
  return (
-   <div className="   w-full    "> 
+   <div className="   w-full    bg-[#f2f3f5] "> 
 
  
     <StudentAsidebar /> 

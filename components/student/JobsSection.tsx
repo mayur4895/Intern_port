@@ -80,11 +80,11 @@ const JobSection: React.FC<JobSectionProps> = ({ filters, searchQuery }) => {
       internship,
       score: getRelevanceScore(internship),
     }))
-    .sort((a, b) => b.score - a.score) // Sort by score in descending order
-    .map(({ internship }) => internship); // Extract internships for rendering
+    .sort((a, b) => b.score - a.score)  
+    .map(({ internship }) => internship); 
 
   return (
-    <div className='border h-full bg-white shadow-sm p-4'>
+    <div className='  h-full  shadow-sm p-4'>
       <div className='flex flex-col gap-3'>
         {filteredJobs?.map((internship) => (
           <InternshipCard key={internship.id} internship={internship} />

@@ -32,6 +32,7 @@ model User {
   posts              Post[]                @relation(name: "PostedByUser")
   applications       Application[]
   savedApplications  SavedApplication[]    @relation(name: "SavedByUser")
+  savedPosts SavedPost[]
 }
 
 model CompanyDetails {
@@ -74,6 +75,7 @@ model Post {
   user               User                  @relation(name: "PostedByUser", fields: [userId], references: [id], onDelete: Cascade)
   company            CompanyDetails        @relation(name: "PostedByCompany", fields: [companyId], references: [id], onDelete: Cascade)
   createdAt          DateTime              @default(now())
+  savedPost  SavedPost[]
   @@unique([userId, internshipProfile])
 }
 
@@ -103,6 +105,19 @@ model SavedApplication {
   createdAt   DateTime @default(now())
   @@unique([userId, applicationId])
 }
+
+model SavedPost {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  postId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  @@unique([userId, postId])
+}
+
+
+
 
 model Account {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId

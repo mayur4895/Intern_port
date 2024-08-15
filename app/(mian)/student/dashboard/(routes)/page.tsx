@@ -96,8 +96,8 @@ const DashboardPage = () => {
                   <TabsTrigger value="recent applications">Recent Applications</TabsTrigger>
                   <TabsTrigger value="applications history">Applications History</TabsTrigger>
                   <TabsTrigger value="active applications">Active Applications</TabsTrigger>
-                  <TabsTrigger value="saved applications" className="  sm:flex">
-                    Saved Applications
+                  <TabsTrigger value="saved posts" className="  sm:flex">
+                    Saved posts
                   </TabsTrigger>
                 </TabsList>
               </div>

@@ -16,6 +16,8 @@ import MarkupContent from '../hire-talent/MarkupContent';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CiBookmark } from 'react-icons/ci';
+import { toast } from '../ui/use-toast';
+import { useSavePost } from '@/features/student/api/save-post';
  
 
   interface InternshipCardProps{
@@ -24,6 +26,42 @@ import { CiBookmark } from 'react-icons/ci';
 const InternshipCard = ({internship}:InternshipCardProps) => {
 
   const router = useRouter();
+  const savePostMutation =  useSavePost();
+
+  async function handleSavePost() {
+    try {
+      savePostMutation.mutate(internship.id, {
+        onSuccess: (res) => {
+          if (res.success) {
+            toast({
+              variant: "success", 
+              title: res.success,
+            });
+          } else if (res.error) {
+            toast({
+              variant: "destructive", 
+              title: res.error,
+            });
+          }
+        },
+        onError: (error) => {
+          console.error('Error saving Post:', error);
+          toast({
+            variant: "destructive", 
+            title: "An error occurred while saving the Post.",
+          });
+        }
+      });
+   
+    
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive", 
+        title: "An unexpected error occurred.",
+      });
+    }
+  }
   return (
     <Link    className=' cursor-pointer'   href={`/student/internship/${internship.id}/detail`}>
        <Card className=' rounded-none'>
@@ -33,7 +71,7 @@ const InternshipCard = ({internship}:InternshipCardProps) => {
             {internship.companyLogo ?  <Image src={internship?.companyLogo} alt="comapny logo" height={45} width={45}/>:<div> No</div>}
             <CardTitle className='text-sm'> {internship.internshipProfile}</CardTitle>
             </div>
-            <span className='border p-2'><CiBookmark size={20} /></span>
+            <span className='border p-2' onClick={handleSavePost}><CiBookmark size={20} /></span>
             </div>
             <div className='  items-center flex gap-5   '> 
                    <span className='  text-xs text-gray-500 flex items-center gap-2'>  <PiClockClockwiseThin size={22}/>

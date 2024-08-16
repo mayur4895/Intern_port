@@ -21,6 +21,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts'
+import { DataTable } from './savedpost/data-table'
+import { columns } from './savedpost/column'
+import { TbDatabaseOff } from 'react-icons/tb'
+import { CurrentUser } from '@/hooks/use-current-user'
+import { useGetSavedPost } from '@/features/student/api/getsaveposts'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 
 
@@ -68,38 +75,44 @@ const recentApplications: ApplicationType[] = [
   },
 ];
 
-
+const MapIcon: any = {
+  'in office': <Building2 className='text-gray-500' size={15} />,
+  'remote': <LocateIcon className='text-gray-500' size={15} />,
+}
 
 
 
 const DashboardPage = () => {
-  const { data: Internships, isLoading, error } = useGetAllPosts();
 
-  const MapIcon: any = {
-    'in office': <Building2 className='text-gray-500' size={15} />,
-    'remote': <LocateIcon className='text-gray-500' size={15} />,
-  }
+  const currentUser = CurrentUser();
+  const { data: Internships, isLoading, error } = useGetAllPosts();
+  const {data:posts,isLoading:getcompanyposts} = useGetSavedPost(currentUser.id || '');
+
+
+  console.log(posts);
+ 
+ 
 
   return (
     <>
-      <div className='w-full px-10'>
+      <div className='w-full  px-10 sm:px-1'>
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         </div>
       </div>
 
-      <div className='flex flex-col px-5 mt-8'>
+      <div className='flex flex-col  mt-8 sm:px-2'>
         <div>
           <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
             <Tabs defaultValue="recent applications">
-              <div className="flex items-center">
-                <TabsList defaultValue={'all'}>
-                  <TabsTrigger value="recent applications">Recent Applications</TabsTrigger>
-                  <TabsTrigger value="applications history">Applications History</TabsTrigger>
-                  <TabsTrigger value="active applications">Active Applications</TabsTrigger>
-                  <TabsTrigger value="saved posts" className="  sm:flex">
-                    Saved posts
-                  </TabsTrigger>
-                </TabsList>
+              <div className="flex  ">
+              <TabsList defaultValue={'all'} className=' flex  flex-wrap  items-start justify-start   whitespace-nowrap'>
+  <TabsTrigger value="recent applications">Recent Applications</TabsTrigger>
+  <TabsTrigger value="applications history">Applications History</TabsTrigger>
+  <TabsTrigger value="active applications">Active Applications</TabsTrigger>
+  <TabsTrigger value="saved posts" className="sm:flex">
+    Saved posts
+  </TabsTrigger>
+</TabsList>
               </div>
               <TabsContent value="recent applications">
                 <Card>
@@ -169,6 +182,22 @@ const DashboardPage = () => {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+
+<TabsContent value="saved posts">
+
+ {!posts &&
+  ( <div className='h-full w-full '>
+      <div className="flex items-center justify-center"> 
+               <TbDatabaseOff size={22}/>
+                </div>
+      </div>)
+  }
+   
+<DataTable columns={columns} data={ posts }/>
+ 
+</TabsContent>
+              
 
             </Tabs>
             

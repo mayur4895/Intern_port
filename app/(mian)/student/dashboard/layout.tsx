@@ -47,7 +47,7 @@ const StudentDashboardLayout = ({children}:{children:React.ReactNode}) => {
   <div className='  lg:pl-48 w-full   '>  
   
    
- <div className=" lg:pl-12    mt-0   h-full   w-full">
+ <div className=" lg:pl-12  sm:px-1   mt-0   h-full   w-full">
  <StudentDashboardHeader/>
  {children}
  </div>

@@ -92,7 +92,13 @@ const StudentAsidebar = () => {
      
        </Link>
 
-          <Link  href={""} className='text-sm font-semibold text-white flex rounded-md items-center gap-2 w-full relative p-2' onClick={()=>{signOut()}}>
+          <Link  href={""} className='text-sm font-semibold text-white flex rounded-md items-center gap-2 w-full relative p-2'   onClick={async () => {
+    try {
+      await signOut({ callbackUrl: '/' });  
+    } catch (error) {
+      console.error('Error during logout:', error);  
+    }
+  }}>
           <CiLogout  className={' bg-white p-1 h-7 w-7 rounded-3xl  text-black'} />
              Logout
           </Link>

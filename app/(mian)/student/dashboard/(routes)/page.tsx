@@ -30,6 +30,8 @@ import { useGetSavedPost } from '@/features/student/api/getsaveposts'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import SavedPostsPage from './savedpost/page'
 import { useRouter } from 'next/navigation'
+import ApplidPostPage from './Applied/page'
+import ApplidRecentPostPage from './recentApplied/page'
 
 
 
@@ -111,7 +113,7 @@ const DashboardPage = () => {
               <div className="flex   w-full ">
               <TabsList defaultValue={'all'} className='mb-5 md:mb-0 flex  flex-wrap gap-2 items-start justify-start   whitespace-nowrap'>
   <TabsTrigger value="recent applications">Recent Applications</TabsTrigger>
-  <TabsTrigger value="applications history">Applications History</TabsTrigger>
+  <TabsTrigger value="applied">Applied</TabsTrigger>
   <TabsTrigger value="active applications">Active Applications</TabsTrigger>
   <TabsTrigger value="saved posts" className="sm:flex">
     Saved posts
@@ -119,76 +121,13 @@ const DashboardPage = () => {
 </TabsList>
               </div>
               <TabsContent value="recent applications">
-                <Card className=' mt-8'>
-                  <CardHeader>
-                    <CardTitle>Recent Applications</CardTitle>
-                    <CardDescription>
-                      Manage your Applications and tracking it.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                  <Table>
-      <TableCaption>A list of your recent Applications.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead  >Role</TableHead>
-          <TableHead>Comapny Name</TableHead>
-          <TableHead>location</TableHead>
-          <TableHead >Status</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {recentApplications.map((Application) => (
-          <TableRow key={Application.id}>
-            <TableCell className="font-medium">{Application.internshipProfile}</TableCell>
-            <TableCell>{Application.companyName}</TableCell>
-            <TableCell>{Application.location}</TableCell>
-            <TableCell >{Application.status}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
- 
-    </Table>
-                  </CardContent>
-                </Card>
+                 <ApplidRecentPostPage/>
               </TabsContent>
-              <TabsContent value="applications history">
-                <Card className='mt-8'>
-                  <CardHeader>
-                    <CardTitle>Application History</CardTitle>
-                    <CardDescription>
-                      Manage your Applications and tracking it.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                  <Table>
-      <TableCaption>A list of your Applications.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead  >Role</TableHead>
-          <TableHead>Comapny Name</TableHead>
-          <TableHead>location</TableHead>
-          <TableHead >Status</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {recentApplications.map((Application) => (
-          <TableRow key={Application.id}>
-            <TableCell className="font-medium">{Application.internshipProfile}</TableCell>
-            <TableCell>{Application.companyName}</TableCell>
-            <TableCell>{Application.location}</TableCell>
-            <TableCell >{Application.status}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
- 
-    </Table>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
+              <TabsContent value="applied"> 
+                       <ApplidPostPage/> 
+        </TabsContent>
               <TabsContent value="active applications">
-     <div className='h-9  w-full p-2  border'>
+     <div className='h-20  flex items-center justify-center w-full p-2  border'>
      No Active Applications
      </div>
                 </TabsContent>

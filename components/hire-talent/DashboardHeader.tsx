@@ -64,7 +64,13 @@ const DashboardHeader = () => {
   const  currentUser  =   CurrentUser();
  
     const pathname = usePathname();
-    
+    const handleLogout = async () => {
+  try {
+    await signOut({ redirect: true, callbackUrl: "/" });
+  } catch (error) {
+    console.error("Error during logout:", error);
+  }
+};
   return ( 
 <header className="sticky  py-2  top-0 z-30 flex h-14 items-center gap-4 border-b bg-background   sm:static sm:h-auto sm:border-0 sm:bg-transparent px-4">
 <Sheet>
@@ -159,9 +165,7 @@ const DashboardHeader = () => {
     <DropdownMenuItem>Settings</DropdownMenuItem>
     <DropdownMenuItem>Support</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem  onClick={() => {
-                            signOut();
-                          }}>Logout</DropdownMenuItem>
+    <DropdownMenuItem  onClick={handleLogout}>Logout</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
 </header>

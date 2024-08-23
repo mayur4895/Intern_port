@@ -133,7 +133,7 @@ const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
+           { data && table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
@@ -159,7 +159,7 @@ const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
           )}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-end space-x-2 py-4">
+     {data && ( <div className="flex items-center justify-end space-x-2 py-4">
         <Button
           variant="outline"
           size="sm"
@@ -176,7 +176,7 @@ const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         >
           Next
         </Button>
-      </div>
+      </div>)}
     </div>
     </div>
   )

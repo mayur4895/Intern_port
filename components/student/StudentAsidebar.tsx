@@ -26,6 +26,14 @@ const StudentAsidebar = () => {
 
   const isActive = (path:any) => pathname === path
   const  currentUser  =   CurrentUser();
+
+  const handleLogout = async () => {
+    try {
+      await signOut({ redirect: true, callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
   return (
     <div>
       <aside className="fixed    inset-y-0 left-0 z-10 hidden md:w-60 flex-col border-r border-r-zinc-300  text-zinc-800   bg-[#312C51] lg:flex">

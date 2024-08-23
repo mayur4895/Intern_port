@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useGetAllPosts } from '@/features/post/api/getallPosts'
-import { Activity, ArrowRight, Building2, CreditCard, DollarSign, LocateIcon } from 'lucide-react'
+import { Activity, ArrowRight, Building2, CreditCard, DollarSign, Loader2, LocateIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -28,6 +28,7 @@ import { TbDatabaseOff } from 'react-icons/tb'
 import { CurrentUser } from '@/hooks/use-current-user'
 import { useGetSavedPost } from '@/features/student/api/getsaveposts'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import SavedPostsPage from './savedpost/page'
 
 
 
@@ -86,10 +87,9 @@ const DashboardPage = () => {
 
   const currentUser = CurrentUser();
   const { data: Internships, isLoading, error } = useGetAllPosts();
-  const {data:posts,isLoading:getcompanyposts} = useGetSavedPost(currentUser.id || '');
+ 
 
 
-  console.log(posts);
  
  
 
@@ -186,15 +186,7 @@ const DashboardPage = () => {
 
 <TabsContent value="saved posts">
 
- {!posts &&
-  ( <div className='h-full w-full '>
-      <div className="flex items-center justify-center"> 
-               <TbDatabaseOff size={22}/>
-                </div>
-      </div>)
-  }
-   
-<DataTable columns={columns} data={ posts }/>
+ <SavedPostsPage/>
  
 </TabsContent>
               

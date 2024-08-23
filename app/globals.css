@@ -251,3 +251,20 @@
     background-position: 100% 100%;
   }
 }
+
+
+/* styles/globals.css or your specific CSS file */
+.tabs-content-scrollable {
+  max-height: 500px; /* Adjust as needed */
+  overflow-y: auto;  /* Vertical scrolling */
+  overflow-x: auto;  /* Horizontal scrolling */
+  padding: 0 1rem;   /* Optional: Add padding if needed */
+  display: block;
+  white-space: nowrap; /* Prevent wrapping inside */
+}
+
+/* Optional: Add specific styles for tables if needed */
+.scrollable-table {
+  min-width: 1000px; /* Adjust as needed */
+  overflow-x: auto;
+}

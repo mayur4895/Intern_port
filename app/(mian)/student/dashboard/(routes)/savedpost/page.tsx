@@ -46,9 +46,9 @@ const currentUser = CurrentUser();
     }
  
   return (
-    <div className="    px-2   py-10">
-      <DataTable columns={columns} data={posts }/>
-    </div>
+    <div className="   w-full  ">
+    <DataTable columns={columns} data={posts }/>
+  </div>
   )
 }
 

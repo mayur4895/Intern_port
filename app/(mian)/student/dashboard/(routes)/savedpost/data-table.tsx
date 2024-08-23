@@ -74,7 +74,7 @@ const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
   return (
     <div>
         
-            <div className="flex items-center py-4 px-0  ">
+            <div className="flex items-center py-4 px-0    ">
         {/* <Input
           placeholder="Filter by profile"
           value={(table.getColumn("internshipProfile")?.getFilterValue() as string) ?? ""}

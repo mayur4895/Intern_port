@@ -101,11 +101,11 @@ const DashboardPage = () => {
       </div>
 
       <div className='flex flex-col  mt-8 sm:px-2'>
-        <div>
-          <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-            <Tabs defaultValue="recent applications">
-              <div className="flex  ">
-              <TabsList defaultValue={'all'} className=' flex  flex-wrap  items-start justify-start   whitespace-nowrap'>
+        {/* <div> */}
+          {/* <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8"> */}
+            <Tabs defaultValue="recent applications" className='w-full'>
+              <div className="flex   w-full ">
+              <TabsList defaultValue={'all'} className=' sm:mb-8 mb-2 flex  flex-wrap gap-2 items-start justify-start   whitespace-nowrap'>
   <TabsTrigger value="recent applications">Recent Applications</TabsTrigger>
   <TabsTrigger value="applications history">Applications History</TabsTrigger>
   <TabsTrigger value="active applications">Active Applications</TabsTrigger>
@@ -184,17 +184,21 @@ const DashboardPage = () => {
               </TabsContent>
 
 
-<TabsContent value="saved posts">
+ 
 
- <SavedPostsPage/>
+<TabsContent value="saved posts" className="tabs-content-scrollable px-0">
+ 
+    <SavedPostsPage />
  
 </TabsContent>
+ 
+ 
               
 
             </Tabs>
             
-          </main>
-        </div>
+          {/* </main>
+        </div> */}
         <br />
         <h2 className='px-5'>Recommended for you</h2>
         <div className='flex flex-wrap w-full mt-3 gap-3  px-5'>

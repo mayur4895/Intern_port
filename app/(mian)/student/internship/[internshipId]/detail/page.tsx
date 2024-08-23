@@ -18,6 +18,7 @@ import ApplyForm from '@/components/student/ApplyForm'
  
 import SkeletonLoader from './skeltonLoader'
 import { CurrentUser,   } from '@/hooks/use-current-user'
+import Link from 'next/link'
 
  
 
@@ -98,8 +99,9 @@ const IconMap:any = {
                   </div>
                  </div>
                    </CardContent>
-                   <CardFooter>
+                   <CardFooter className=' flex items-center gap-2 '>
                      {(data?.id && currentUser?.id )&&  <ApplyForm postId={data.id} studentId={currentUser.id} />}
+                     <Button><Link href="/student/dashboard/jobs">Back to Jobs</Link></Button>
                    </CardFooter>
                 </Card>
             </div>

@@ -50,8 +50,8 @@ const StudentAsidebar = () => {
                       </AvatarFallback>
                     </Avatar> 
                 <div className=' flex flex-col gap-1 text-white'>
-                <span className=' truncate   w-[95%] text-xs  font-medium'>{currentUser?.name}</span>
-                <span className=' truncate   w-[95%] text-xs font-normal'>{currentUser?.email}</span>
+                <span className=' truncate   w-[98%] text-xs  font-medium'>{currentUser?.name}</span>
+                <span className=' truncate   w-[98%] text-xs font-normal'>{currentUser?.email}</span>
 
               
                 </div>

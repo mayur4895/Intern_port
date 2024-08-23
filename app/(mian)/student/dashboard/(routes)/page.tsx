@@ -10,7 +10,7 @@ import { Activity, ArrowRight, Building2, CreditCard, DollarSign, Loader2, Locat
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Table,
   TableBody,
@@ -29,6 +29,7 @@ import { CurrentUser } from '@/hooks/use-current-user'
 import { useGetSavedPost } from '@/features/student/api/getsaveposts'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import SavedPostsPage from './savedpost/page'
+import { useRouter } from 'next/navigation'
 
 
 
@@ -88,24 +89,27 @@ const DashboardPage = () => {
   const currentUser = CurrentUser();
   const { data: Internships, isLoading, error } = useGetAllPosts();
  
-
-
+  const router = useRouter();
+  useEffect(()=>{
+    if(!currentUser){
+      return  router.push('/auth/login')
+    }
+  },[currentUser])
+ 
  
  
 
   return (
     <>
-      <div className='w-full  px-10 sm:px-1'>
-        <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-        </div>
-      </div>
-
+     <div className='px-2 mt-4'>
+      <h2 className='text-2xl font-semibold'>Hii👋 {currentUser?.name} </h2>
+     </div>
       <div className='flex flex-col  mt-8 sm:px-2'>
         {/* <div> */}
           {/* <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8"> */}
             <Tabs defaultValue="recent applications" className='w-full'>
               <div className="flex   w-full ">
-              <TabsList defaultValue={'all'} className=' sm:mb-8 mb-2 flex  flex-wrap gap-2 items-start justify-start   whitespace-nowrap'>
+              <TabsList defaultValue={'all'} className='mb-5 md:mb-0 flex  flex-wrap gap-2 items-start justify-start   whitespace-nowrap'>
   <TabsTrigger value="recent applications">Recent Applications</TabsTrigger>
   <TabsTrigger value="applications history">Applications History</TabsTrigger>
   <TabsTrigger value="active applications">Active Applications</TabsTrigger>
@@ -115,7 +119,7 @@ const DashboardPage = () => {
 </TabsList>
               </div>
               <TabsContent value="recent applications">
-                <Card>
+                <Card className=' mt-8'>
                   <CardHeader>
                     <CardTitle>Recent Applications</CardTitle>
                     <CardDescription>
@@ -149,7 +153,7 @@ const DashboardPage = () => {
                 </Card>
               </TabsContent>
               <TabsContent value="applications history">
-                <Card>
+                <Card className='mt-8'>
                   <CardHeader>
                     <CardTitle>Application History</CardTitle>
                     <CardDescription>
@@ -183,7 +187,11 @@ const DashboardPage = () => {
                 </Card>
               </TabsContent>
 
-
+              <TabsContent value="active applications">
+     <div className='h-9  w-full p-2  border'>
+     No Active Applications
+     </div>
+                </TabsContent>
  
 
 <TabsContent value="saved posts" className="tabs-content-scrollable px-0">

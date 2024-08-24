@@ -5,50 +5,91 @@ import { Button } from '@/components/ui/button';
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-const Skills = [
-  { value: 'Pune', label: 'Pune' },
-  { value: 'Mumbai', label: 'Mumbai' },
-  { value: 'Nashik', label: 'Nashik' },
- 
-];
-
 export interface SelectCitiesProps {
   value: string[]; // Array of skill names
   onChange: (value: string[]) => void;
 }
 
 const SelectCities: React.FC<SelectCitiesProps> = ({ value, onChange }) => {
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [Cities, setCities] = useState<string[]>(value || []);
+  const [selectedCity, setSelectedCity] = useState<{ value: string, label: string } | null>(null);
+  const [requiredCities, setRequiredCities] = useState<string[]>(value || []);
+  const [citiesOptions, setcitiesOptions] = useState<{ value: string, label: string }[]>([]);
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-     
-    onChange(Cities);
-  }, [Cities, onChange]);
+    // Sync state with form state
+    onChange(requiredCities);
+  }, [requiredCities, onChange]);
 
-  const addSkill = (e: React.MouseEvent<HTMLButtonElement>) => {
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('/api/fetch-skills', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ input: '' }), // Fetch all skills
+        });
+
+        const data = await response.json();
+        const skills = data.skills.map((skill: string) => ({ value: skill, label: skill }));
+        setcitiesOptions(skills);
+      } catch (error) {
+        console.error('Error fetching skills:', error);
+      }
+    };
+
+    fetchCities();
+  }, []);
+
+  useEffect(() => {
+    const fetchFilteredCities = async () => {
+      if (inputValue.trim()) {
+        try {
+          const response = await fetch('/api/fetch-cities', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ input: inputValue }),
+          });
+
+          const data = await response.json();
+          const cities = data.cities.map((skill: string) => ({ value: skill, label: skill }));
+          setcitiesOptions(cities);
+        } catch (error) {
+          console.error('Error fetching cities:', error);
+        }
+      }
+    };
+
+    fetchFilteredCities();
+  }, [inputValue]);
+
+  const addCity = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (selectedCity && !Cities.includes(selectedCity)) {
-      setCities([...Cities, selectedCity]);
+    if (selectedCity && !requiredCities.includes(selectedCity.value)) {
+      setRequiredCities([...requiredCities, selectedCity.value]);
       setSelectedCity(null);
     }
   };
 
-  const removeSkill = (skillToRemove: string) => {
-    setCities(Cities.filter(skill => skill !== skillToRemove));
+  const removeCity = (cityToRemove: string) => {
+    setRequiredCities(requiredCities.filter(city => city !== cityToRemove));
   };
 
   return (
     <div>
       <div className="flex flex-wrap gap-2 mb-2 text-black">
-        {Cities.map(skill => (
-          <Badge key={skill} className="pl-5 bg-gray-200 hover:bg-gray-200 text-zinc-900 border py-0 flex justify-between items-center">
-            {skill}
+        {requiredCities.map(city => (
+          <Badge key={city} className="pl-5 bg-gray-200 hover:bg-gray-200 text-zinc-900 border py-0 flex justify-between items-center">
+            {city}
             <Button
               className='bg-transparent hover:bg-transparent shadow-none text-zinc-900'
               size="icon"
               type="button"
-              onClick={() => removeSkill(skill)}
+              onClick={() => removeCity(city)}
               aria-label="Remove"
             >
               ✕
@@ -58,11 +99,12 @@ const SelectCities: React.FC<SelectCitiesProps> = ({ value, onChange }) => {
       </div>
       <Select
         className="border-1 text-sm ring-0"
-        placeholder="Select a skill"
+        placeholder="Select a city"
         isClearable
-        options={Skills}
-        value={selectedCity ? { value: selectedCity, label: selectedCity } : null}
-        onChange={(selectedOption) => setSelectedCity(selectedOption ? selectedOption.value : null)}
+        options={citiesOptions}
+        onInputChange={(newValue) => setInputValue(newValue)} // Capture user input
+        value={selectedCity}
+        onChange={(selectedOption) => setSelectedCity(selectedOption ? selectedOption as { value: string, label: string } : null)}
         formatOptionLabel={(option) => (
           <div className="flex flex-row items-center gap-3">
             <div>{option.label}</div>
@@ -80,8 +122,13 @@ const SelectCities: React.FC<SelectCitiesProps> = ({ value, onChange }) => {
             primary25: '#DDDDDD',
           },
         })}
+        onMenuOpen={() => { 
+          if (inputValue.trim() === '') {
+            setcitiesOptions(citiesOptions);
+          }
+        }}
       />
-      <Button type="button" onClick={addSkill} className='mt-2' disabled={!selectedCity}>Add</Button>
+      <Button type="button" onClick={addCity} className='mt-2' disabled={!selectedCity}>Add</Button>
     </div>
   );
 };

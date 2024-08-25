@@ -15,10 +15,12 @@ import { Badge } from '../ui/badge';
 import MarkupContent from '../hire-talent/MarkupContent';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { CiBookmark } from 'react-icons/ci';
+import { CiBookmark, CiCalendar, CiViewTimeline } from 'react-icons/ci';
 import { toast } from '../ui/use-toast';
 import { useSavePost } from '@/features/student/api/save-post';
+import { IoLocationOutline } from 'react-icons/io5';
  
+import { TiMediaRecordOutline } from "react-icons/ti"
 
   interface InternshipCardProps{
     internship: Post;
@@ -67,34 +69,32 @@ const InternshipCard = ({internship}:InternshipCardProps) => {
        <Card className=' rounded-none'>
         <CardHeader className='  '>
             <div className='flex  gap-2 items-center justify-between'>
-            <div className='flex  gap-2 items-center'>
-            {internship.companyLogo ?  <Image src={internship?.companyLogo} alt="comapny logo" height={45} width={45}/>:<div> No</div>}
-            <CardTitle className='text-sm'> {internship.internshipProfile}</CardTitle>
+            <div className='flex flex-col  gap-1  mb-2 '>
+ 
+            <CardTitle className='text-sm '> {internship.internshipProfile}</CardTitle>
+            <span className='text-xs'>{internship.companyName}</span>
             </div>
-            <span className='border p-2' onClick={handleSavePost}><CiBookmark size={20} /></span>
+            {internship.companyLogo  && <Image src={internship?.companyLogo} alt="comapny logo" height={35} width={35}/>}
+            {/* <span className='border p-2' onClick={handleSavePost}><CiBookmark size={20} /></span> */}
             </div>
             <div className='  items-center flex gap-5   '> 
-                   <span className='  text-xs text-gray-500 flex items-center gap-2'>  <PiClockClockwiseThin size={22}/>
-                 { internship?.createdAt &&  <DaysAgo dateString={internship?.createdAt?.toDateString()} /> }</span>
-                 <span className=' text-gray-600 text-xs flex items-center gap-2'><PiSuitcaseSimpleLight size={22}/>{internship?.noOfOpenings} openings</span>
+            <span className=' text-gray-600 text-xs flex items-center gap-1'><IoLocationOutline size={19}/>   {
+              internship?.cities?.slice(0,2).map((city) => (
+                <Badge key={city}  className="mr-1 bg-slate-200 hover:bg-zinc-200 text-zinc-600">
+                  {city}
+                </Badge>
+              ))
+            }</span>
+            <span className=' text-gray-600 text-xs flex items-center gap-2'><PiSuitcaseSimpleLight size={22}/>{internship?.noOfOpenings} openings</span>
+            <span className=' text-gray-600 text-xs flex items-center gap-2'><CiCalendar  size={22}/>{internship?.internshipDuration} {internship?.monthOrWeeks} </span>
                  </div>
-        
-                 <div className="truncate-fade">
-    <MarkupContent className="text-xs scale-95 -translate-x-3" content={internship?.internResponsibilities} />
-  </div>
-               
+          
          
         </CardHeader>
-        <CardContent className='  pt-0'>
-        <div className='  '> 
-                  <div className=' flex flex-auto  text-xs flex-wrap   gap-3'>
-                    {internship?.requiredSkills.map((skill:any,index:any)=>{
-                      return(
-                        <Badge key={index} className=' rounded-sm p-2 px-4 text-xs font-normal  border border-gray-300  hover:bg-gray-200 bg-white text-gray-700'>{skill}</Badge>
-                      )
-                    })}
-                  </div>
-                  </div>
+        <CardContent className='  flex items-center gap-4 pt-0'>
+        <span className='  text-xs text-gray-500 flex items-center gap-1'>  <PiClockClockwiseThin size={20}/>
+        { internship?.createdAt &&  <DaysAgo dateString={internship?.createdAt?.toDateString()} /> }</span>
+        <span className=' text-gray-500 text-xs flex items-center gap-[0.20rem]'> <TiMediaRecordOutline          size={20}/>{internship?.partOrFullTime}   </span>
         </CardContent>
        </Card>
     </Link>

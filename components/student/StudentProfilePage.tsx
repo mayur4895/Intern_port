@@ -44,7 +44,7 @@ const StudentProfilePage = () => {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 const {toast} = useToast();
-  // Fetch the student's profile data
+   
   const { data: StudentProfile, isLoading } = useGetStudentProfileInfo(currentUser?.id);
 
   const form = useForm<StudentProfileFormValues>({
@@ -96,9 +96,7 @@ const {toast} = useToast();
                 title: response.success,
                })
        
-          } else if (response.error) {
-             
-            console.error(response.error);
+          } else if (response.error) { 
            toast({
             variant: "destructive",
             title: response.error,
@@ -107,7 +105,7 @@ const {toast} = useToast();
         },
         onError: (error) => {
           
-          console.error('Error:', error);
+        
           
           toast({
             variant: "destructive",

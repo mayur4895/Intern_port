@@ -9,6 +9,7 @@ import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
    
 import PostActionsCell from "@/components/hire-talent/Post/PostActionCell"
+import PostSaveActionsCell from "@/components/student/PostSaveActionsCell"
  
 
  
@@ -93,9 +94,9 @@ export const columns: ColumnDef<any>[] = [
             className="aspect-square object-cover rounded-full p-1   shadow-md"
             height="30"
             src={Post?.post.companyLogo}
-            width="30"
-          /> 
-          <span className=" text-nowrap">{Post.post.companyName}</span>
+            width="30" 
+         /> 
+          <span className=" text-nowrap  truncate   w-36">{Post.post.companyName}</span>
             </div>):
           <Avatar>
             {   Post?.companyLogo ? <AvatarImage src={Post?.companyLogo}/> :
@@ -108,6 +109,7 @@ export const columns: ColumnDef<any>[] = [
         )
       },
   }, 
+
   {
     accessorKey:'internshipProfile',
     header: ({ column }) =>{
@@ -122,7 +124,7 @@ export const columns: ColumnDef<any>[] = [
         const Post = row.original;
 
         return (
-            <div>
+            <div className="text-nowrap">
                 {   Post?.post.internshipProfile}
             </div>
         )
@@ -143,7 +145,7 @@ export const columns: ColumnDef<any>[] = [
           )
     },
     cell: ({ row }) => (
-      <PostActionsCell row={row} />
+      <PostSaveActionsCell row={row} />
     ),
   },
 ]

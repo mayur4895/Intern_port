@@ -2,13 +2,9 @@
  
  
 import { db } from "@/lib/db"; 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "console";
-import bcryptjs from "bcryptjs"
+ 
 import z from "zod"
-import { generateVerificationToken } from "@/lib/Tokens";
-import { SendVerificationEmail } from "@/lib/mail";
-import HireRegisterSchema from "@/schemas/hire-talent/HireRegisterSchema";
+ 
 import parsePhoneNumberFromString from "libphonenumber-js";
 import StudentProfileSchema from "@/schemas/student/profileSchema";
 import { UserType } from "@prisma/client";

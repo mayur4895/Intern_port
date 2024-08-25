@@ -23,8 +23,7 @@ export const getStudentProfile = async (studentId: string): Promise<{ data?: Stu
     if (!data) {
       return { error: 'studentProfile not found' };
     }
-        console.log(data);
-        
+       
       return {data}
   } catch (error) {
     console.error('Failed to retrieve student:', error);

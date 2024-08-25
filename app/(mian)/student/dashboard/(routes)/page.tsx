@@ -107,45 +107,37 @@ const DashboardPage = () => {
       <h2 className='text-2xl font-semibold'>Hii👋 {currentUser?.name} </h2>
      </div>
       <div className='flex flex-col  mt-8 sm:px-2'>
-        {/* <div> */}
-          {/* <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8"> */}
+ 
             <Tabs defaultValue="recent applications" className='w-full'>
               <div className="flex   w-full ">
               <TabsList defaultValue={'all'} className='mb-5 md:mb-0 flex  flex-wrap gap-2 items-start justify-start   whitespace-nowrap'>
-  <TabsTrigger value="recent applications">Recent Applications</TabsTrigger>
+  <TabsTrigger value="recent applications">Recent Applied</TabsTrigger>
   <TabsTrigger value="applied">Applied</TabsTrigger>
   <TabsTrigger value="active applications">Active Applications</TabsTrigger>
   <TabsTrigger value="saved posts" className="sm:flex">
-    Saved posts
+    Saved
   </TabsTrigger>
 </TabsList>
               </div>
-              <TabsContent value="recent applications">
+              <TabsContent value="recent applications" className=' pt-8'>
                  <ApplidRecentPostPage/>
               </TabsContent>
-              <TabsContent value="applied"> 
+              <TabsContent value="applied" className=' pt-8'> 
                        <ApplidPostPage/> 
         </TabsContent>
-              <TabsContent value="active applications">
+              <TabsContent value="active applications" className=' pt-8'>
      <div className='h-20  flex items-center justify-center w-full p-2  border'>
      No Active Applications
      </div>
                 </TabsContent>
  
 
-<TabsContent value="saved posts" className="tabs-content-scrollable px-0">
+<TabsContent value="saved posts" className=' pt-8'>
  
     <SavedPostsPage />
  
-</TabsContent>
- 
- 
-              
-
-            </Tabs>
-            
-          {/* </main>
-        </div> */}
+</TabsContent>  
+            </Tabs> 
         <br />
         <h2 className='px-5'>Recommended for you</h2>
         <div className='flex flex-wrap w-full mt-3 gap-3  px-5'>

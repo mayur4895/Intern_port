@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from "@/lib/db";
-import { zodResolver } from "@hookform/resolvers/zod";
+ 
 import z from "zod";
 import parsePhoneNumberFromString from "libphonenumber-js";
 import StudentProfileSchema from "@/schemas/student/profileSchema";
@@ -9,7 +9,7 @@ import { UserType } from "@prisma/client";
 
 export const UpdatestudentProfile = async (values: z.infer<typeof StudentProfileSchema>, studentId: string) => {
   try {
-    // Validate the input fields using Zod schema
+  
     const validatedFields = StudentProfileSchema.safeParse(values);
 
     if (!validatedFields.success) {
@@ -27,15 +27,14 @@ export const UpdatestudentProfile = async (values: z.infer<typeof StudentProfile
 
     const formattedPhoneNumber = parsedPhoneNumber.format('E.164');
 
-    // Check if the user exists
+     
     const userExist = await db.user.findUnique({
       where: {
         email: email,
       },
     });
 
-    // Check if the student profile exists
-    const profileExist = await db.studentProfileDetails.findUnique({
+     const profileExist = await db.studentProfileDetails.findUnique({
       where: {
         userId: studentId,
       },
@@ -68,7 +67,7 @@ export const UpdatestudentProfile = async (values: z.infer<typeof StudentProfile
       return { error: "Error while updating profile. User or Profile not found." };
     }
   } catch (error) {
-    console.log(error);
+ 
     return { error: "Something went wrong" };
   }
 };

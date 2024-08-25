@@ -21,13 +21,13 @@ const JobSection: React.FC<JobSectionProps> = ({ filters, searchQuery }) => {
     const normalizedSearchQuery = searchQuery.toLowerCase();
     let score = 0;
 
-    // Increase score for exact matches in the internship profile or company name
+ 
     if (internship.internshipProfile.toLowerCase().includes(normalizedSearchQuery) ||
         internship.companyName.toLowerCase().includes(normalizedSearchQuery)) {
       score += 10;
     }
 
-    // Increase score for partial matches by splitting the query into words
+    
     const queryWords = normalizedSearchQuery.split(' ');
     const matches = queryWords.some(word =>
       internship.internshipProfile.toLowerCase().includes(word) ||
@@ -84,7 +84,7 @@ const JobSection: React.FC<JobSectionProps> = ({ filters, searchQuery }) => {
     .map(({ internship }) => internship); 
 
   return (
-    <div className='  h-full  shadow-sm p-4'>
+    <div className='  h-full   shadow-sm p-4'>
       <div className='flex flex-col gap-3'>
         {filteredJobs?.map((internship) => (
           <InternshipCard key={internship.id} internship={internship} />

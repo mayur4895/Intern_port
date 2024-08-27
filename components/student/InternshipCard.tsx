@@ -93,7 +93,8 @@ const InternshipCard = ({internship}:InternshipCardProps) => {
         </CardHeader>
         <CardContent className='  flex items-center gap-4 pt-0'>
         <span className='  text-xs text-gray-500 flex items-center gap-1'>  <PiClockClockwiseThin size={20}/>
-        { internship?.createdAt &&  <DaysAgo dateString={internship?.createdAt?.toDateString()} /> }</span>
+        { internship?.createdAt && <DaysAgo dateString={new Date(internship?.createdAt).toDateString()} />
+ }</span>
         <span className=' text-gray-500 text-xs flex items-center gap-[0.20rem]'> <TiMediaRecordOutline          size={20}/>{internship?.partOrFullTime}   </span>
         </CardContent>
        </Card>

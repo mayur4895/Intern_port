@@ -11,27 +11,13 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect } from 'react'
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts'
-import { DataTable } from './savedpost/data-table'
-import { columns } from './savedpost/column'
-import { TbDatabaseOff } from 'react-icons/tb'
+ 
 import { CurrentUser } from '@/hooks/use-current-user'
-import { useGetSavedPost } from '@/features/student/api/getsaveposts'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import SavedPostsPage from './savedpost/page'
+ 
+ 
 import { useRouter } from 'next/navigation'
-import ApplidPostPage from './Applied/page'
-import ApplidRecentPostPage from './recentApplied/page'
+ 
+ 
 
 
 
@@ -105,40 +91,7 @@ const DashboardPage = () => {
     <>
      <div className='px-2 mt-4'>
       <h2 className='text-2xl font-semibold'>Hii👋 {currentUser?.name} </h2>
-     </div>
-      <div className='flex flex-col  mt-8 sm:px-2'>
- 
-            <Tabs defaultValue="recent applications" className='w-full'>
-              <div className="flex   w-full ">
-              <TabsList defaultValue={'all'} className='mb-5 md:mb-0 flex  flex-wrap gap-2 items-start justify-start   whitespace-nowrap'>
-  <TabsTrigger value="recent applications">Recent Applied</TabsTrigger>
-  <TabsTrigger value="applied">Applied</TabsTrigger>
-  <TabsTrigger value="active applications">Active Applications</TabsTrigger>
-  <TabsTrigger value="saved posts" className="sm:flex">
-    Saved
-  </TabsTrigger>
-</TabsList>
-              </div>
-              <TabsContent value="recent applications" className=' pt-8'>
-                 <ApplidRecentPostPage/>
-              </TabsContent>
-              <TabsContent value="applied" className=' pt-8'> 
-                       <ApplidPostPage/> 
-        </TabsContent>
-              <TabsContent value="active applications" className=' pt-8'>
-     <div className='h-20  flex items-center justify-center w-full p-2  border'>
-     No Active Applications
-     </div>
-                </TabsContent>
- 
-
-<TabsContent value="saved posts" className=' pt-8'>
- 
-    <SavedPostsPage />
- 
-</TabsContent>  
-            </Tabs> 
-        <br />
+     </div> 
         <h2 className='px-5'>Recommended for you</h2>
         <div className='flex flex-wrap w-full mt-3 gap-3  px-5'>
           {  isLoading  
@@ -166,7 +119,7 @@ const DashboardPage = () => {
               </Card>
             ))}
         </div>
-      </div>
+     
     </>
   )
 }

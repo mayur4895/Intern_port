@@ -1,22 +1,20 @@
 'use client'
 import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic';
- 
+import { DataTable } from './data-table';
  
 import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts';
 import { Post } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { TbDatabaseOff } from "react-icons/tb";
- 
+import { columns } from './column';
  
 import { CurrentUser } from '@/hooks/use-current-user';
 import { useRouter } from 'next/navigation';
 import { useGetAppliedPost } from '@/features/student/api/getappliedposts';
-import { DataTable } from '../Applied/data-table';
-import { columns } from '../Applied/column';
  
 
- const ApplidRecentPostPage = () => {
+ const ApplidPostPage = () => {
  
   
 
@@ -31,12 +29,12 @@ const currentUser = CurrentUser();
     const {data:Applidposts,isLoading} = useGetAppliedPost(currentUser?.id || ''); 
 
     if(isLoading){
-        return <div className='  h-14    lg:pl-14   flex items-center justify-center     w-full    '>
-        <div className="   flex items-center justify-center   w-full  "> 
-           <Loader2 className=' animate-spin '/>
-        </div>
-        </div>
-    }
+      return <div className='  h-full left-0 top-0   lg:pl-14   flex items-center justify-center     w-full    '>
+      <div className="   flex items-center justify-center  bottom-0 right-0 fixed   h-full lg:w-[85%]  w-full  "> 
+         <Loader2 className=' animate-spin '/>
+      </div>
+      </div>
+  }
 
     if(!Applidposts){
       return <div className='h-full w-full '>
@@ -46,13 +44,12 @@ const currentUser = CurrentUser();
         </div>
     }
  
-
-     const filtered = Applidposts.slice(0,10);
   return (
-    <div className="   w-full  ">
-    <DataTable columns={columns} data={filtered }/>
+    <div className=" md:px-2  w-full mt-4 ">
+      <h2 className='text-2xl mb-4'>My Applications</h2>
+    <DataTable columns={columns} data={Applidposts}/>
   </div>
   )
 }
 
-export default ApplidRecentPostPage;
+export default ApplidPostPage;

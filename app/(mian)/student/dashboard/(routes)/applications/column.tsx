@@ -9,66 +9,14 @@ import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
    
 import PostActionsCell from "@/components/hire-talent/Post/PostActionCell"
-import PostSaveActionsCell from "@/components/student/PostSaveActionsCell"
+import DaysAgo from "@/components/hire-talent/Post/daysAgo"
+import AppliedPostActionsCell from "@/components/student/AppliedPostActionCell"
  
-
- 
- 
-
- 
- 
- 
- 
+  
 
 export const columns: ColumnDef<any>[] = [ 
-    // {
-    //     id: "select",
-    //     header: ({ table }) => (
-    //       <Checkbox
-    //         checked={
-    //           table.getIsAllPageRowsSelected() ||
-    //           (table.getIsSomePageRowsSelected() && "indeterminate")
-    //         }
-    //         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-    //         aria-label="Select all"
-    //       />
-    //     ),
-    //     cell: ({ row }) => (
-    //       <Checkbox
-    //         checked={row.getIsSelected()}
-    //         onCheckedChange={(value) => row.toggleSelected(!!value)}
-    //         aria-label="Select row"
-    //       />
-    //     ),
-    //     enableSorting: false,
-    //     enableHiding: false,
-    //   },
- 
-  {
-    accessorKey: "createdAt",
- 
-    header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-             Save Date
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        const Post = row.original
-   
-        return (
-        <div>
-             {Post.createdAt.toDateString()}
-            </div>
-
-        )
-  }, 
-  },
+     
+  
   {
     accessorKey: "companyLogo",
  
@@ -77,7 +25,7 @@ export const columns: ColumnDef<any>[] = [
           <Button
             variant="ghost" 
           >
-             Company Name
+             Company 
           </Button>
         )
       },
@@ -117,7 +65,7 @@ export const columns: ColumnDef<any>[] = [
             <Button
               variant="ghost" 
             >
-             Role
+             Profile
             </Button>
           )
     },cell:({row})=>{
@@ -130,22 +78,50 @@ export const columns: ColumnDef<any>[] = [
         )
     }
   },
- 
- 
   
   {
-    id: "actions",
+    accessorKey: "createdAt",
+ 
+    header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost" 
+          >
+             Applied on 
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        const Post = row.original
+   
+        return (
+        <div>
+            { Post?.createdAt && <DaysAgo dateString={new Date(Post?.createdAt).toDateString()}/>}
+            </div>
+
+        )
+  }, 
+  },
+ {
+    accessorKey:'status',
     header: ({ column }) =>{
         return (
             <Button
               variant="ghost" 
             >
-             Actions
+             Status
             </Button>
           )
-    },
-    cell: ({ row }) => (
-      <PostSaveActionsCell row={row} />
-    ),
+    },cell:({row})=>{
+        const Post = row.original; 
+        return (
+            <div>
+                {Post?.status}
+            </div>
+        )
+    }
   },
+ 
+  
+ 
 ]

@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import type { Post } from '@prisma/client';
+ 
  
  
 import { getSavedPost } from '@/actions/student/getsavedpost';

@@ -100,6 +100,34 @@ const StudentAsidebar = () => {
      
        </Link>
 
+       <Link href="/student/dashboard/applications"
+           
+           className={`text-sm font-semibold flex rounded-md text-white items-center gap-2 w-full relative p-2 ${
+             isActive('/student/dashboard/applications') ?' overflow-hidden bg-[#48426D]  text-white' : ' '
+           }`}
+         >
+           <CiUser  className={' bg-white p-1 h-7 w-7 rounded-3xl  text-black'}/>
+           <span>My Applications</span>
+           {isActive('/student/dashboard/applications') && (
+             <div className="top-[1.8px] right-0 absolute bg-[#48426D] h-8 w-[2px]" />
+           )}
+     
+       </Link>
+
+       <Link href="/student/dashboard/bookmark"
+           
+           className={`text-sm font-semibold flex rounded-md text-white items-center gap-2 w-full relative p-2 ${
+             isActive('/student/dashboard/bookmark') ?' overflow-hidden bg-[#48426D]  text-white' : ' '
+           }`}
+         >
+           <CiUser  className={' bg-white p-1 h-7 w-7 rounded-3xl  text-black'}/>
+           <span>My Bookmarks</span>
+           {isActive('/student/dashboard/bookmark') && (
+             <div className="top-[1.8px] right-0 absolute bg-[#48426D] h-8 w-[2px]" />
+           )}
+     
+       </Link>
+
           <Link  href={""} className='text-sm font-semibold text-white flex rounded-md items-center gap-2 w-full relative p-2'   onClick={async () => {
     try {
       await signOut({ callbackUrl: '/' });  

@@ -4,7 +4,7 @@ import { PrismaClient, UserType } from "@prisma/client";
 import authConfig from "./auth.config";
 import { getUserById } from "./data/user";
 import { db } from "./lib/db";
-import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+ 
 
 const prisma = new PrismaClient();
 
@@ -34,17 +34,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       const existingUser = await getUserById(user.id);
 
-    if (!existingUser || !existingUser.emailVerified) return false;
-
-      if (existingUser.isTwoFactorEnabled) {
-        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
-
-        if (!twoFactorConfirmation) {
-          return false;
-        }
-
-       
-      }
+    if (!existingUser || !existingUser.emailVerified) return false; 
 
       return true;
     },

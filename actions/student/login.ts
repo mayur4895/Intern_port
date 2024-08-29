@@ -1,8 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { getTwoFactorTokenbyEmail } from "@/data/two-facror-token";
-import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+ 
 import { getUserByEmail } from "@/data/user";
 import { generateTowFactorToken, generateVerificationToken } from "@/lib/Tokens";
 import { db } from "@/lib/db";
@@ -38,51 +37,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     return { success: "Confirmation Email Sent" };
   }
 
-  if (code) {
-    console.log(code);
-
-    const TwoFactorToken = await getTwoFactorTokenbyEmail(ExistUser.email);
-
-    if (!TwoFactorToken) {
-      return { error: "Invalid Code" };
-    }
-
-    if (TwoFactorToken.token !== code) {
-      return { error: "Invalid Code" };
-    }
-    if (TwoFactorToken.expires) {
-      const hasExpired = new Date(TwoFactorToken.expires) < new Date();
-      if (hasExpired) {
-        return { error: "Token has expired" };
-      }
-    }
-
-    await db.twoFactorToken.delete({
-      where: { id: TwoFactorToken.id }
-    });
-
-    const existingConfirmation = await getTwoFactorConfirmationByUserId(ExistUser.id);
-
-    if (existingConfirmation) {
-      await db.twoFactorConfirmation.delete({
-        where: { id: existingConfirmation.id }
-      });
-    }
-
-    await db.twoFactorConfirmation.create({
-      data: {
-        userId: ExistUser.id
-      }
-    });
-  } else {
-    if (ExistUser.isTwoFactorEnabled && ExistUser.email) {
-      const twoFactorToken = await generateTowFactorToken(ExistUser.email);
-      if (twoFactorToken.email && twoFactorToken.token) {
-        await SendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
-        return { twoFactor: true };
-      }
-    }
-  }
+   
 
   try {
   await signIn("credentials", {

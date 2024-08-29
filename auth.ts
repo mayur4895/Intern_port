@@ -34,7 +34,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       const existingUser = await getUserById(user.id);
 
-      if (!existingUser || !existingUser.emailVerified) return false;
+    if (!existingUser || !existingUser.emailVerified) return false;
 
       if (existingUser.isTwoFactorEnabled) {
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
@@ -43,9 +43,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return false;
         }
 
-        await db.twoFactorConfirmation.delete({
-          where: { id: existingUser.id },
-        });
+       
       }
 
       return true;
@@ -53,23 +51,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
     async session({ token, session }) {
       if (token && session.user) {
-    
         session.user.id = token.id;
         session.user.role = token.role;
         session.user.phone = token.phone;
         session.user.isPhoneVerified = token.phoneverified;
-
+    
         if (token.role === UserType.EMPLOYER) {
           session.user.companyDetails = token.companyDetails;
           session.user.designation = token.designation;
         }
-
-         
-          session.user.studentProfileDetails = token.studentProfileDetails;
-         
+    
+        session.user.studentProfileDetails = token.studentProfileDetails;
       }
       return session;
     },
+    
 
     async jwt({ token, user }) {
  

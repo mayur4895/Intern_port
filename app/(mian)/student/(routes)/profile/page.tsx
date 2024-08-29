@@ -27,13 +27,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { useCreateStudentProfile } from "@/features/student/api/update-studentprofile";
 import { useRouter } from 'next/navigation'; // Use useRouter for client-side navigation
 import { signIn } from "next-auth/react";
+import { CurrentUser } from "@/hooks/use-current-user";
+import { useEffect } from "react";
 
 export type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
 
 const StudentProfilePage: React.FC = () => {
   const router = useRouter(); // Get the router object
   const { toast } = useToast();
- 
+ const currentUser =  CurrentUser()
 
   const form = useForm<StudentProfileFormValues>({
     resolver: zodResolver(StudentProfileSchema),
@@ -93,6 +95,12 @@ const StudentProfilePage: React.FC = () => {
       });
     }
   }
+
+  useEffect(()=>{
+ if(!currentUser){
+  router.push("/auth/login")
+ }
+  },[currentUser])
 
   return (
     <div className="flex items-center justify-center h-full w-full">

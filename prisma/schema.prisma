@@ -11,6 +11,12 @@ enum UserType {
   STUDENT
   EMPLOYER
   ADMIN
+}model Department {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String?
+  students    StudentProfileDetails[]  @relation(name: "DepartmentStudents") // Relation with StudentProfileDetails
+  companies   CompanyDetails[]         @relation(name: "DepartmentCompanies") // Relation with CompanyDetails
 }
 
 model User {
@@ -19,20 +25,19 @@ model User {
   email              String?               @unique
   emailVerified      DateTime?
   image              String?
-  phone              String?             
+  phone              String?
   isPhoneVerified    Boolean               @default(false)
   designation        String?
   password           String?
   role               UserType              @default(STUDENT)
   isTwoFactorEnabled Boolean               @default(false)
-  twoFactorConfirmation TwoFactorConfirmation?
   accounts           Account[]
-  companyDetails     CompanyDetails?
-  studentProfileDetails               StudentProfileDetails?
+  companyDetails     CompanyDetails?      // Optional relationship for employers
+  studentProfileDetails StudentProfileDetails? // Optional relationship for students
   posts              Post[]                @relation(name: "PostedByUser")
   applications       Application[]
   savedApplications  SavedApplication[]    @relation(name: "SavedByUser")
-  savedPosts SavedPost[]
+  savedPosts         SavedPost[]
 }
 
 model CompanyDetails {
@@ -47,6 +52,8 @@ model CompanyDetails {
   userId             String                @db.ObjectId
   user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   posts              Post[]                @relation(name: "PostedByCompany")
+  departmentId       String?                @db.ObjectId
+  department         Department?            @relation(name: "DepartmentCompanies", fields: [departmentId], references: [id])
   
   @@unique([userId])
 }
@@ -75,7 +82,7 @@ model Post {
   user               User                  @relation(name: "PostedByUser", fields: [userId], references: [id], onDelete: Cascade)
   company            CompanyDetails        @relation(name: "PostedByCompany", fields: [companyId], references: [id], onDelete: Cascade)
   createdAt          DateTime              @default(now())
-  savedPost  SavedPost[]
+  savedPost          SavedPost[]
   @@unique([userId, internshipProfile])
 }
 
@@ -90,8 +97,8 @@ model Application {
   resumeUrl   String
   studentName String
   profileUrl  String
-  selected    Boolean  @default(false)   
-  saveedApplication SavedApplication[]
+  selected    Boolean  @default(false)
+  savedApplication SavedApplication[]
   matchPercentage Int?
   @@unique([studentId, postId])
 }
@@ -115,9 +122,6 @@ model SavedPost {
   createdAt   DateTime @default(now())
   @@unique([userId, postId])
 }
-
-
-
 
 model Account {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
@@ -161,49 +165,31 @@ model PhoneVerificationOtp {
   expires            DateTime?
   
   @@unique([phone, otp])
-}
+}  
 
-model TwoFactorToken {
+model GetIntouch {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  email              String?               @unique
-  token              String                @unique
-  expires            DateTime?
-  
-  @@unique([email, token])
-}
-
-model TwoFactorConfirmation {
-  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String                @db.ObjectId
-  user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@unique([userId])
-}
-
-
-model GetIntouch{
-  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  firstname String
-  lastname String
-  email String
-  phone String
-  jobtitle String
+  firstname          String
+  lastname           String
+  email              String
+  phone              String
+  jobtitle           String
   @@unique([email])
-}
-
+} 
 
 model StudentProfileDetails {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  firstname               String
-  lastname    String
+  firstname          String
+  lastname           String
   description        String
-  resume               String
-  profile           String?
-  email          String
-  phone           String
-  url             String[]
+  resume             String
+  profile            String?
+  email              String
+  phone              String
+  url                String[]
   userId             String                @db.ObjectId
   user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-   
+  departmentId       String?                @db.ObjectId
+  department         Department?            @relation(name: "DepartmentStudents", fields: [departmentId], references: [id])
   @@unique([userId])
 }

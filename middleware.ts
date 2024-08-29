@@ -166,10 +166,16 @@ export default auth((req) => {
 
     if (role === UserType.EMPLOYER) {
       if (nextUrl.pathname.startsWith('/hire-talent')) {
+        if (nextUrl.pathname === '/hire-talent/company') {
+          if (companyDetails) {
+            return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
+          }
+        }
+    
         if (nextUrl.pathname === '/hire-talent' && !companyDetails) {
           return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
         }
-
+    
         if (nextUrl.pathname === '/hire-talent/dashboard') {
           if (!companyDetails) {
             return NextResponse.redirect(new URL("/hire-talent/company", nextUrl));
@@ -178,30 +184,20 @@ export default auth((req) => {
             return NextResponse.redirect(new URL("/hire-talent/profile", nextUrl));
           }
         }
-
+    
         if (nextUrl.pathname === '/hire-talent/profile') {
           if (companyDetails && isPhoneVerified) {
             return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
           }
         }
-
-        if (nextUrl.pathname === '/hire-talent/company') {
-          if (isPhoneVerified && companyDetails) {
-            return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
-          }
-        }
-
+    
         return NextResponse.next();
       } else {
         return NextResponse.redirect(new URL("/hire-talent/dashboard", nextUrl));
       }
-    } 
-
-
-
-
-
-
+    }
+    
+ 
 
     if (role === UserType.STUDENT) {
       if (nextUrl.pathname.startsWith('/student')) {

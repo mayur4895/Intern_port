@@ -24,6 +24,7 @@ const {   firstname,
     phone,
     about,
     profilePicture,
+    departmentId,
     resumeUrl,
     urls,  } = validatedFields.data;
     
@@ -50,15 +51,16 @@ const formattedPhoneNumber = parsedPhoneNumber.format('E.164')
        await db.studentProfileDetails.create({
 
         data: {
-            userId: userExist.id,
-           firstname,
-           lastname,
-           description:about,
+          userId: userExist.id,
+          firstname,
+          lastname,
+          description:about,
           profile:profilePicture,
           email: email, 
           url:urls,
           resume:resumeUrl,
           phone: formattedPhoneNumber,  
+          departmentId
         }
       })
       

@@ -29,6 +29,8 @@ import { useRouter } from 'next/navigation'; // Use useRouter for client-side na
 import { signIn } from "next-auth/react";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { useEffect } from "react";
+import { useGetDepartments } from "@/features/fetch-department";
+import DepartmentSelect from "@/components/hire-talent/SelectDepartment";
 
 export type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
 
@@ -102,6 +104,13 @@ const StudentProfilePage: React.FC = () => {
  }
   },[currentUser])
 
+
+
+  const { data: departments } = useGetDepartments();
+  const departmentOptions = departments?.map(dept => ({
+    value: dept.id,
+    label: dept.name
+  })) || [];
   return (
     <div className="flex items-center justify-center h-full w-full">
       <Card className="w-[600px]">
@@ -196,6 +205,26 @@ const StudentProfilePage: React.FC = () => {
                   </FormItem>
                 )}
               />
+
+<FormField
+  control={form.control}
+  name="departmentId"
+  render={({ field }) => {
+    const selectedOption = departmentOptions.find(option => option.value === field.value) || null;
+    return (
+      <FormItem>
+        <FormLabel>Department</FormLabel>
+        <FormControl>
+          <DepartmentSelect
+            value={selectedOption}
+            onChange={(selectedOption) => field.onChange(selectedOption ? selectedOption.value : '')}
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    );
+  }}
+/>
               <FormField
                 control={form.control}
                 name="resumeUrl"

@@ -3,7 +3,7 @@
 import { signIn } from "@/auth";
  
 import { getUserByEmail } from "@/data/user";
-import { generateTowFactorToken, generateVerificationToken } from "@/lib/Tokens";
+import {  generateVerificationToken } from "@/lib/Tokens";
 import { db } from "@/lib/db";
 import { SendTwoFactorTokenEmail, SendVerificationEmail } from "@/lib/mail";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";

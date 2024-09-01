@@ -2,7 +2,7 @@
  
 'use client'
  import Link from "next/link"
-import DashboardHeader from '@/components/hire-talent/DashboardHeader'
+import DashboardHeader from '@/components/hire-talent/Dashboard/DashboardHeader'
 import {
  
   Home,

@@ -19,16 +19,16 @@ import {
 } from "react-icons/pi";
 import { CiBookmarkCheck, CiEdit, CiLocationOn } from "react-icons/ci";
 import { Package } from "lucide-react";
-import { Chart } from "./Dashboard/chart";
+import { Chart } from "./chart";
 import { useGetCompanyPosts } from "@/features/post/api/get-allComapnyPosts";
 import { useGetSavedApplicationofPost } from "@/features/application/api/get-saved-application";
 import { CurrentUser } from "@/hooks/use-current-user";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../ui/skeleton";
 import { redirect } from "next/navigation";
 import { useGetSelectedApplicationofPost } from "@/features/application/api/get-selected-applications";
 import Link from "next/link";
-import DaysAgo from "./Post/daysAgo";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import DaysAgo from "../Post/daysAgo";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 export function Dashboard() {
   const currentUser = CurrentUser();
@@ -137,6 +137,9 @@ export function Dashboard() {
             <CardHeader>
               <CardTitle>Recent Posts</CardTitle>
             </CardHeader>
+            {
+              !posts && (<div className="p-5">No Recent Posts</div>)
+            }
 
              <ScrollArea className="h-auto  max-h-[495px]  w-full rounded-md border">
               {posts?.slice(0, 5).map((post) => {

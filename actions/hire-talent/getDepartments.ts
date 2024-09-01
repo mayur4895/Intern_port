@@ -16,10 +16,7 @@ export const getDepartments = async () => {
         if (!userExist) {
           return { error: "something went wrong" };
         }
-    
-        if (userExist.role === "STUDENT") {
-          return { error: "something went wrong" };
-        }
+     
         
         const data = await db.department.findMany({});
     

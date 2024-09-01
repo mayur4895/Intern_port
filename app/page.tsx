@@ -33,7 +33,11 @@ export default async function Home() {
       <Banner/>  
       <div className="flex-grow gap-4    flex flex-col w-full">  
          
+ 
+   <section id="#contact-section">
    <ContactUs/>
+    </section>
+
       </div>
     
     </div>

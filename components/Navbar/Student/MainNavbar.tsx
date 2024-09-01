@@ -46,17 +46,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
   ]
 
 
-  const StudentLogedInNavbar=[
-    {
-      label: "Home",
-      href: "/student/dashboard",
-    },
-   
-    {
-      label: "My Applicatons",
-      href: "/contact",
-    },
-  ]
+ 
 
   const { onSetType} = useLoginType()
      
@@ -152,24 +142,10 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
        
    }
  
- {
-      (session?.role === UserType.STUDENT ||  session) && (
-      
-        StudentLogedInNavbar.map(({ label, href }) => {
-          return (
-          
-              <MenubarMenu key={label}>
-                <MenubarTrigger> <Link href={href} className=' font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
-              </MenubarMenu>
-          
-          )
-        })
-      
-      )
- }
+ 
     
                  </div>
-              <Separator className="lg:hidden"/>  
+            
                     {!session && (
                       <div className="flex flex-col  ml-4   items-start  justify-start gap-4">
                         <Link

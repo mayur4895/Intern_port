@@ -13,12 +13,13 @@ import { useRouter } from 'next/navigation';
 import InternshipCard from '@/components/student/InternshipCard';
 import { Post } from '@prisma/client';
 import SavedInternshipCard from '@/components/student/SavedInternshipCard';
+import Image from 'next/image';
  
 type SavedPost = {
   id: string;
   userId: string;
   postId: string;
-  post: Post; // This includes the related Post entity
+  post: Post;  
 };
 
  const SavedPostsPage = () => {
@@ -35,7 +36,7 @@ const currentUser = CurrentUser();
      
     const {data:posts,isLoading} = useGetSavedPost(currentUser?.id || '');
  
-  
+ 
      
     if(isLoading){
       return <div className='  h-full left-0 top-0   lg:pl-14   flex items-center justify-center     w-full    '>
@@ -44,12 +45,15 @@ const currentUser = CurrentUser();
       </div>
       </div>
   }
-    if(!posts){
-      return <div className='h-full w-full '>
-        <div className="flex items-center justify-center"> 
-                 <TbDatabaseOff size={22}/>
-                  </div>
-        </div>
+    if(posts.length ==0){
+      return <div className='  h-full left-0 top-0   lg:pl-14   flex items-center justify-center     w-full    '>
+      <div className="   flex items-center justify-center  bottom-0 right-0 fixed   h-full lg:w-[85%]  w-full  "> 
+          <div className='text-center flex flex-col gap-3'>
+          <Image src={"/no_data.png"} alt={"no_data"} height={120} width={120}/>
+          <span className=' text-gray-500'>No Bookmarks</span>
+          </div>
+      </div>
+      </div>
     }
  
   return ( 

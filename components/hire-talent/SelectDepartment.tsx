@@ -13,7 +13,7 @@ interface DepartmentSelectProps {
 
 const DepartmentSelect: React.FC<DepartmentSelectProps> = ({ value, onChange }) => {
     const { data: departments } = useGetDepartments();
-
+      console.log(departments);
     if (!departments) {
       return <div>No departments</div>;
     }

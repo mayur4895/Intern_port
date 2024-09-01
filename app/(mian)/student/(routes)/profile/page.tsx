@@ -29,13 +29,14 @@ import { useRouter } from 'next/navigation'; // Use useRouter for client-side na
 import { signIn } from "next-auth/react";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { useEffect } from "react";
-import { useGetDepartments } from "@/features/fetch-department";
+ 
 import DepartmentSelect from "@/components/hire-talent/SelectDepartment";
+import { useGetDepartments } from "@/features/fetch-department";
 
 export type StudentProfileFormValues = z.infer<typeof StudentProfileSchema>;
 
 const StudentProfilePage: React.FC = () => {
-  const router = useRouter(); // Get the router object
+  const router = useRouter();  
   const { toast } = useToast();
  const currentUser =  CurrentUser()
 
@@ -48,6 +49,7 @@ const StudentProfilePage: React.FC = () => {
       phone: "",
       about: "",
       profilePicture: "",
+      departmentId:"",
       resumeUrl: "",
       urls: [""],
     },
@@ -61,10 +63,10 @@ const StudentProfilePage: React.FC = () => {
   const CreateStudentProfile = useCreateStudentProfile();
   async function onSubmit(values: StudentProfileFormValues) {
     try {
-      // Use the mutate function to send the update request
+     
       const res = await CreateStudentProfile.mutateAsync(values);
   
-      // Check for errors
+      
       if (res.error) {
         toast({
           variant: 'destructive',
@@ -107,6 +109,7 @@ const StudentProfilePage: React.FC = () => {
 
 
   const { data: departments } = useGetDepartments();
+  
   const departmentOptions = departments?.map(dept => ({
     value: dept.id,
     label: dept.name

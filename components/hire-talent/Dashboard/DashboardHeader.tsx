@@ -1,11 +1,11 @@
 'use client'
 import React from 'react'
 import { PiBuildingsFill } from "react-icons/pi";
-import NavigationDashboard from './NavigationDashboard';
+import NavigationDashboard from '../NavigationDashboard';
 import {   CurrentUser, } from '@/hooks/use-current-user';
-import UserButton from './UserButton';
+import UserButton from '../UserButton';
 import { FaBuilding, FaPlusCircle, FaRegBuilding } from 'react-icons/fa';
-import MarkupContent from './MarkupContent';
+import MarkupContent from '../MarkupContent';
 
 import { Badge } from "@/components/ui/badge"
 import {
@@ -55,9 +55,9 @@ import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import Link from 'next/link';
 import Image from 'next/image';
-import { Separator } from '../ui/separator';
+import { Separator } from '../../ui/separator';
 import { usePathname } from 'next/navigation';
-import { Avatar, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarImage } from '../../ui/avatar';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import { signOut } from 'next-auth/react';
 const DashboardHeader = () => {

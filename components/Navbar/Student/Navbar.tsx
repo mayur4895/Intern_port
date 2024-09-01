@@ -56,21 +56,7 @@ interface NavbarProps{
       },
     ]
 
-    const StudentLogedInNavbar=[
-      {
-        label: "Home",
-        href: "/student/dashboard",
-      },
      
-      {
-        label: "My Applicatons",
-        href: "/contact",
-      },
-      {
-        label: "profile",
-        href: "/update-profile",
-      },
-    ]
     const { onSetType} = useLoginType()
     
     return (
@@ -95,25 +81,7 @@ interface NavbarProps{
          
      }
    
-   {
-        (session?.role === UserType.EMPLOYER ||  session) && (
-        
-          StudentLogedInNavbar.map(({ label, href }) => {
-            return (
-            
-                <MenubarMenu key={label}>
-                  <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
-                </MenubarMenu>
-            
-            )
-          })
-        
-        )
-   }
-      
-      
-   
-   
+     
    
       </div>
    

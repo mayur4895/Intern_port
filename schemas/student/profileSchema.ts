@@ -8,7 +8,7 @@ const StudentProfileSchema = z.object({
      lastname: z.string().min(1,{
         message: "This field is required",
     }),
-    departmentId:z.string(),
+    departmentId: z.string().optional(), 
     email: z.string().email({ message: "Invalid email address" }),    
     phone: z.string().regex( /^\+?[1-9]\d{1,14}$/, "Invalid phone number"), 
     about: z

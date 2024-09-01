@@ -23,11 +23,7 @@ const HireTalentLayout =  ({children}:{children:React.ReactNode}) => {
  
   return (
     <> 
-    {/* {isLoading && (
-         <div className='w-full h-full fixed top-0 z-50 left-0 bg-white flex items-center justify-center'>
-         <Loader2 className=' animate-spin ' size={25} />
-         </div>
-    )} */}
+    
      <div>
       
       <MainNavbar session={session?.role as UserType === "EMPLOYER" ? session : null}/>

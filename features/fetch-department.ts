@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import type { Post } from '@prisma/client';
+ 
 import { getDepartments } from '@/actions/hire-talent/getDepartments';
  
 
@@ -11,6 +11,8 @@ export const useGetDepartments = () => {
       if (result.error) {
         throw new Error(result.error);
       }
+     
+      
       return result.data;
     },
   });

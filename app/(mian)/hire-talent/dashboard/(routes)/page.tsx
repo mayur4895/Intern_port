@@ -13,9 +13,7 @@ import {
 import { Dashboard } from '@/components/hire-talent/Dashboard';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-const DashboardPage = () => {
-  
-  
+const DashboardPage = () => { 
   return (
  
   <Dashboard/>

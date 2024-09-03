@@ -74,7 +74,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
        <div className="flex w-full justify-between  lg:container  px-2">
         <div className='  tracking-wider flex items-center  text-blue-500 text-nowrap gap-2'>
           <Link href={"/"}> 
-               HireTalent.
+                MODERN COLLEGE.
           </Link>
     
           </div>
@@ -96,6 +96,17 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
      <Menubar>
           <MenubarMenu>
             <MenubarTrigger asChild>
+
+
+
+
+
+
+
+
+
+
+
               <Sheet>
                {   <SheetTrigger asChild className={     `     ${!session?.role ? "hidden " : " lg:block  cursor-pointer border-2 hover:border-blue-500 transition"}`   }>
                    <Avatar>
@@ -140,10 +151,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
         })
       )
        
-   }
- 
- 
-    
+   } 
                  </div>
             
                     {!session && (

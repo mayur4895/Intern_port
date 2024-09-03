@@ -5,25 +5,32 @@ import Image from "next/image";
 import Link from "next/link";
 import { TbBrandGoogleHome } from "react-icons/tb";
 import { RiUser3Line } from "react-icons/ri";
+import { useLoginType } from "@/hooks/use-logintype";
+import { CiLogout } from "react-icons/ci";
 
  
  
 export default function Page() {
-  return   <div className="flex items-center justify-center h-screen bg-blue-500/10     w-full">
+    const { type } = useLoginType();
+  return    ( 
+    <div className=' grid  md:grid-cols-2  lg:grid-cols-3  w-full h-screen'>
+         
+    <div
+        defaultValue={type == "employer" ? "employer" : "student"}
+        className=' items-center justify-center flex flex-col  w-full  '
+         >
+          <div className=" flex items-start text-start absolute top-4 right-2"> <Link href={"/"} className=" bg-blue-200 rounded-lg p-2 flex items-center gap-2">  <TbBrandGoogleHome size={22} />
+          </Link></div>
+        <Signup/>
+      </div>
+
+      <div className=' md:block hidden col-span-1  lg:col-span-2 border w-full h-full' >
+          <Image src="/loginbg.jpg" alt="login_bg" height={800} width={800} className=' w-full h-full object-cover'/>
+        </div>
+      </div>
+
  
+)
   
  
- <div className=" md:grid grid-cols-2  justify-center items-center     shadow-md bg-white px-0  w-full md:w-[900px]      overflow-hidden    ">
-  <div className=" w-full  h-full  relative  overflow-hidden   ">
-    <div className="   absolute bg-blue-400 shadow-md p-2  cursor-pointer text-white"><Link href={"/"}><TbBrandGoogleHome />
-    </Link></div>
-   <Image height={400} width={500}  src={"/loginbgg.jpeg"} alt={"img"}  className="p-1 h-full w-full   object-cover" />
-  </div> 
-  <div className=" w-full">
-    
- <Signup/>
-  </div>
- </div>
-  
-  </div> 
 }

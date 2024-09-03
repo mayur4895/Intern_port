@@ -15,35 +15,41 @@ const LoginPagelayout = ({children}:{children:React.ReactNode}) => {
   const { type } = useLoginType();
   const [ logintype, setlogintype]= useState('student');  
   return (
-    <div className=' w-full flex items-center md:h-screen h-auto   bg-blue-800/10 justify-center'> 
+ 
     
-      <div className=' relative  shadow-md rounded-md'>
-      <Link href={"/"} className=" absolute right-5 top-5  cursor-pointer "><TfiClose size={22} className='text-gray-500'/></Link>
+     
+        <div className=' grid  md:grid-cols-2  lg:grid-cols-3  w-full h-screen'>
+         
       <Tabs
           defaultValue={type == "employer" ? "employer" : "student"}
-          className=" lg:h-[600px]  h-auto top-10   shadow-sm   bg-white rounded-md border w-full flex flex-col   items-center justify-center">
-          <TabsList className="grid    grid-cols-2 gap-5 w-[320px]  h-[150px]   items-center justify-between ">
+          className=' items-center justify-center flex flex-col  w-full  '
+           >
+          <TabsList className="  gap-4 w-[320px]  h-[150px]  justify-center  items-center  ">
             <TabsTrigger
               value="student"
               onClick={()=>{setlogintype('student')}}
-              className="  text-xs text-gray-400 h-[70px] flex  gap-2 rounded-md">
+              className="  text-xs text-gray-400 h-[70px] w-[200px]  flex  gap-2 rounded-md">
               <TbUserFilled size={22} />
               Student
             </TabsTrigger>
             <TabsTrigger
               value="employer"
               onClick={()=>{setlogintype('employer')}}
-              className=" text-xs text-gray-400 h-[70px] flex  gap-2 rounded-md">
+              className=" text-xs text-gray-400 h-[70px]  w-[200px] flex  gap-2 rounded-md">
               <BsBuildingsFill size={22} />
                Company
             </TabsTrigger>
           </TabsList> 
-   <Separator/>
           {children}
         </Tabs>
-      </div>
+
+        <div className=' md:block hidden col-span-1  lg:col-span-2 border w-full h-full' >
+            <Image src="/loginbg.jpg" alt="login_bg" height={800} width={800} className=' w-full h-full object-cover'/>
+          </div>
+        </div>
+  
    
-    </div>
+ 
   )
 }
 

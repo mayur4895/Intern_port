@@ -7,7 +7,7 @@ import EmployerLogin from "@/components/hire-talent/EmployerLogin";
 import { CurrentUser } from "@/hooks/use-current-user";
 import { UserType } from "@prisma/client";
 import { redirect } from "next/navigation";
-import { TbUser, TbUserFilled } from "react-icons/tb";
+import { TbBrandGoogleHome, TbUser, TbUserFilled } from "react-icons/tb";
 import { BsBuildingsFill } from "react-icons/bs";
 import Image from "next/image";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
@@ -29,38 +29,29 @@ const LoginPage = () => {
   }, [currentUser]);
 
   return (
-    <div className="md:grid md:grid-cols-2 overflow-hidden    bg-white items-center    h-full w-full">
-    <div className=" w-full  h-auto md:h-full  grid   px-4      items-center  overflow-hidden  p-5 ">
-         
-          <Image
-            src="/search-talent.jpg"
-            alt="bg"
-            height={400}
-            width={400}
-            className="   "
-          />
  
-     
+  
 
-    
-    </div>
-
-    <div className=" rounded-tr-[50px]">
+    <div className="w-full">
 
       <TabsContent
         value="student"
         className=" flex items-center justify-center  flex-col ">
+                <div className=" flex items-start text-start absolute top-4 right-2"> <Link href={"/"} className=" bg-blue-200 rounded-lg p-2 flex items-center gap-2">  <TbBrandGoogleHome size={22} />
+                </Link></div>
                     <h2>Student login </h2>
         <Login />
       </TabsContent>
       <TabsContent
         value="employer"
         className=" flex items-center justify-center  flex-col ">
+              <div className=" flex items-start text-start absolute top-4 right-2"> <Link href={"/"} className=" bg-blue-200 rounded-lg p-2 flex items-center gap-2">  <TbBrandGoogleHome size={22} />
+              </Link></div>
           <h2>Employer login </h2>
         <EmployerLogin />
       </TabsContent>
     </div>
-  </div>
+ 
   );
 };
 

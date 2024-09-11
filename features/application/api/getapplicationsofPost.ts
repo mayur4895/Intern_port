@@ -7,9 +7,6 @@ export const useGetApplicationofPost = (postId: string) => {
     queryKey: ['ApplicationsofPost', postId],
     queryFn: async () => {
       try {
-             
-      const response = await axios.get(`/api/post?postId=${postId}`);
-      console.log(response.data);
         const result = await getApplicationsofPost(postId); 
     
         if (result.error) {

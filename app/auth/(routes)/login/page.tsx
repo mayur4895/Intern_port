@@ -29,7 +29,6 @@ const LoginPage = () => {
   }, [currentUser]);
 
   return (
- 
   
 
     <div className="w-full">

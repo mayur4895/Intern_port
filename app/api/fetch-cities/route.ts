@@ -8,7 +8,7 @@ export async function POST(request: Request) {
       return new Response('Invalid input', { status: 400 });
     }
 
-    // List of cities in India
+ 
     const indianCities = [
       'Mumbai',
       'Delhi',
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       'Aurangabad',
       'Gwalior',
       'Rourkela',
-      // Add more cities as needed
+ 
     ];
 
     const filteredCities = indianCities.filter(city =>

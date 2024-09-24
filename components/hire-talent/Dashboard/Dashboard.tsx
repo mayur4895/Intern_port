@@ -19,7 +19,7 @@ import {
 } from "react-icons/pi";
 import { CiBookmarkCheck, CiEdit, CiLocationOn } from "react-icons/ci";
 import { Package } from "lucide-react";
-import { Chart } from "./chart";
+ 
 import { useGetCompanyPosts } from "@/features/post/api/get-allComapnyPosts";
 import { useGetSavedApplicationofPost } from "@/features/application/api/get-saved-application";
 import { CurrentUser } from "@/hooks/use-current-user";
@@ -29,6 +29,7 @@ import { useGetSelectedApplicationofPost } from "@/features/application/api/get-
 import Link from "next/link";
 import DaysAgo from "../Post/daysAgo";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Chart } from "./chart";
 
 export function Dashboard() {
   const currentUser = CurrentUser();
@@ -51,7 +52,7 @@ export function Dashboard() {
   return (
     <div className="py-4 px-4 h-full bg-gray-50">
  
-      <div className="mt-4 grid gap-4 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
         <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
@@ -91,7 +92,7 @@ export function Dashboard() {
             </div>
           </CardHeader>
         </Card>
-
+{/* 
         <Card className="shadow-sm">
           <Link href={"/hire-talent/dashboard/Allapplications"}>
             <CardHeader className="pb-2 flex flex-row items-center justify-between">
@@ -106,7 +107,7 @@ export function Dashboard() {
               </div>
             </CardHeader>
           </Link>
-        </Card>
+        </Card> */}
 
         <Card className="shadow-sm">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
@@ -130,7 +131,7 @@ export function Dashboard() {
       </div>
       <div className="grid lg:grid-cols-3 mt-4 gap-4 ">
         <div className="lg:col-span-2">
-          <Chart />
+        <Chart posts={posts || []} />
         </div>
         <div className="w-full h-full">
           <Card className="shadow-sm w-full">

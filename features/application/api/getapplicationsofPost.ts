@@ -6,12 +6,10 @@ export const useGetApplicationofPost = (postId: string) => {
     queryKey: ['ApplicationsofPost', postId],
     queryFn: async () => {
       try {
-        const result = await getApplicationsofPost(postId);
-
+        const result = await getApplicationsofPost(postId); 
         if (result.error) {
           throw new Error(result.error);
-        }
-
+        } 
         return result.data;
       } catch (error) {
         console.error('Error fetching post applications:', error);

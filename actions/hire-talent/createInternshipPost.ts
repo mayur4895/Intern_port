@@ -11,8 +11,7 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
 
   if (!loginUser) {
     return { error: "User not authenticated" };
-  }
-
+  } 
   try {
     const validatedFields = postFormSchema.safeParse(values);
 
@@ -95,7 +94,7 @@ export const CreateInternshipPost = async (values: z.infer<typeof postFormSchema
         partOrFullTime,
          internResponsibilities:InternResponsibilities,
         whoCanApply,
-        additionalPreferences,   
+        additionalPreferences,    
       }
     });
 

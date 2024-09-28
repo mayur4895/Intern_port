@@ -1,12 +1,13 @@
-import type { Post } from "@prisma/client";
+import type { Application, Post } from "@prisma/client";
 import { create } from "zustand";
 
-export type ModalType = "deletePost" | "applyPost"; 
+export type ModalType = "deletePost" | "applyPost"  | "deleteApplication" | "Studentprofile";  
 
 export interface ModalData {  
   post: Post; 
   studentId:string; 
   postId:string; 
+  application:Application
 }
 
 interface ModalStore {

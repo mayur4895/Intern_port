@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db";
 import { Application, Post } from '@prisma/client';
+import axios from "axios";
 
  
 const isValidObjectId = (id: string): boolean => {
@@ -14,11 +15,11 @@ export const getApplicationsofPost = async (postId: string): Promise<{ data?: Ap
   }
 
   try {
-     
+ 
     const data = await db.application.findMany({
       where:{
-        postId
-      }
+        postId 
+      },
     })
 
     if (!data) {

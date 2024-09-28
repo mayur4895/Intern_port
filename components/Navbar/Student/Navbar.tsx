@@ -49,31 +49,14 @@ interface NavbarProps{
         label: "InternShips",
         href: "/internships",
       },
-      {
-        label: "Jobs",
-        href: "/jobs",
-      },
-      {
-        label: "Services",
-        href: "/services",
-      },
+       
       {
         label: "Contact Us",
         href: "/contact",
       },
     ]
 
-    const StudentLogedInNavbar=[
-      {
-        label: "Home",
-        href: "/student/dashboard",
-      },
      
-      {
-        label: "My Applicatons",
-        href: "/contact",
-      },
-    ]
     const { onSetType} = useLoginType()
     
     return (
@@ -89,7 +72,7 @@ interface NavbarProps{
             return (
             
                 <MenubarMenu key={label}>
-                  <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
+                  <MenubarTrigger> <Link href={href} className='  font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
                 </MenubarMenu>
             
             )
@@ -98,25 +81,7 @@ interface NavbarProps{
          
      }
    
-   {
-        (session?.role === UserType.EMPLOYER ||  session) && (
-        
-          StudentLogedInNavbar.map(({ label, href }) => {
-            return (
-            
-                <MenubarMenu key={label}>
-                  <MenubarTrigger> <Link href={href} className=' whitespace-nowrap'> {label}</Link></MenubarTrigger>
-                </MenubarMenu>
-            
-            )
-          })
-        
-        )
-   }
-      
-      
-   
-   
+     
    
       </div>
    

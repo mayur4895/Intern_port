@@ -18,8 +18,7 @@ const ApplyForm: React.FC<ApplyFormProps> = ({ postId, studentId }) => {
 
  
   const handleApply =   () => {
-    
- 
+      
      onOpen('applyPost',{postId, studentId})
  
 };

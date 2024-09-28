@@ -7,7 +7,7 @@ import { useGetCompanyPosts } from '@/features/post/api/get-allComapnyPosts';
 import { Post } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { TbDatabaseOff } from "react-icons/tb";
-import { useGetApplicationofPost } from '@/features/post/api/getapplicationsofPost';
+ 
 
  const PostPage = () => {
  

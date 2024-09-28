@@ -10,12 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Dashboard } from '@/components/hire-talent/Dashboard';
+ 
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { Dashboard } from '@/components/hire-talent/Dashboard/Dashboard';
 
-const DashboardPage = () => {
-  
-  
+const DashboardPage = () => { 
   return (
  
   <Dashboard/>

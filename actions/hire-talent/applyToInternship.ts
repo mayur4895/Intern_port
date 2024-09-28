@@ -1,14 +1,10 @@
 'use server'
- 
+
 import { db } from "@/lib/db";
 import { ApplyFormSchema } from "@/schemas/applyformScehma";
 import { z } from "zod";
 
-export const applyToInternship = async (postId: string, studentId: string,values: z.infer<typeof ApplyFormSchema>,) => {
- 
-
- 
-
+export const applyToInternship = async (postId: string, studentId: string, values: z.infer<typeof ApplyFormSchema>) => {
   if (!postId) {
     return { error: 'Post ID is required' };
   }
@@ -17,23 +13,19 @@ export const applyToInternship = async (postId: string, studentId: string,values
     return { error: 'Student ID is required' };
   }
 
- 
-
   try {
-
     const validatedFields = ApplyFormSchema.safeParse(values);
 
     if (!validatedFields.success) {
       return { error: "Invalid Fields" };
     }
-  
-    const { resume} = validatedFields.data
-  
+
+    const { resume } = validatedFields.data;
 
     const existingApplication = await db.application.findFirst({
       where: {
         postId,
-        studentId,  
+        studentId,
       },
     });
 
@@ -41,7 +33,13 @@ export const applyToInternship = async (postId: string, studentId: string,values
       return { error: 'You have already applied to this post' };
     }
 
+    const student = await db.user.findUnique({
+      where: { id: studentId },
+    });
 
+    if (!student) {
+      return { error: 'Student not found' };
+    }
 
     await db.application.create({
       data: {
@@ -49,26 +47,15 @@ export const applyToInternship = async (postId: string, studentId: string,values
         studentId,
         status: 'Pending',
         createdAt: new Date(),
-        resumeUrl:resume
-         
+        resumeUrl: resume,
+        studentName: student.name ?? "", // Assuming 'name' is a field in the User model
+        profileUrl: "https://github.com/shadcn.png" ?? "", // Assuming 'profileUrl' is a field in the User model
       },
     });
- 
+
     return { success: 'Application submitted successfully' };
- 
   } catch (error) {
     console.log(error);
     return { error: 'Failed to submit application' };
   }
-};
-
-export const getApplicationsByStudent = async (studentId: string) => {
-  return await db.application.findMany({
-    where: {
-      studentId,
-    },
-    include: {
-      post: true,
-    },
-  });
 };

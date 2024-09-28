@@ -49,11 +49,8 @@ import parsePhoneNumberFromString from "libphonenumber-js";
   
  
  
-const EmployerSignup = () => {
-  
- 
-  const {toast} = useToast();
- 
+const EmployerSignup = () => { 
+  const {toast} = useToast(); 
    const router = useRouter();
   const form = useForm<z.infer<typeof HireRegisterSchema>>({
     resolver: zodResolver(HireRegisterSchema),

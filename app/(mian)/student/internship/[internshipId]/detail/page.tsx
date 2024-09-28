@@ -15,8 +15,10 @@ import { Button } from '@/components/ui/button'
 import { useModal } from '@/hooks/use-modal-store'
 import { Skeleton } from '@/components/ui/skeleton'
 import ApplyForm from '@/components/student/ApplyForm'
-import { CurrentUser } from '@/hooks/use-current-user'
+ 
 import SkeletonLoader from './skeltonLoader'
+import { CurrentUser,   } from '@/hooks/use-current-user'
+import Link from 'next/link'
 
  
 
@@ -29,19 +31,19 @@ const IconMap:any = {
 }
 
        const params = useParams();
-       const currentUser = CurrentUser(); 
+       const  currentUser  =   CurrentUser();
        
        const { internshipId } = params as { internshipId: string }
        const {onOpen}= useModal();
        const {data , isLoading} = useGetInternship(internshipId); 
-        if (isLoading) {
+        if ( isLoading) {
             return <SkeletonLoader/>
         } 
   return (
     <div>
             <div className=' text-center flex flex-col items-center justify-center'>
        
-                <Card className=' shadow-sm p-4 w-3/4 rounded-none flex flex-col gap-5'>
+                <Card className=' shadow-sm p-4 w-full md:w-3/4 rounded-none flex flex-col gap-5'>
                    <div className='p-6 text-start flex flex-col gap-2'>
                 
 
@@ -50,13 +52,13 @@ const IconMap:any = {
                    </div>
                    <CardContent className=' text-start'>
                     <span className=' flex items-end gap-2'>{data?.internshipType && IconMap[data.internshipType]}{data?.internshipType}</span>
-                  <div className=' mt-5 flex gap-16'>
+                  <div className=' mt-5 flex  flex-wrap gap-16'>
                        <div className=' flex flex-col gap-2'>
                         <span className=' flex items-center gap-2 text-gray-500 text-sm'> <PiPlayCircleThin  size={22}/>  Start Date</span>
                         <span className=' text-sm'>{data?.internshipStartDate}</span>
                        </div>
                        <div className=' flex flex-col gap-2'>
-                        <span className=' flex items-center gap-2 text-gray-500 text-sm'> <CiCreditCard1 size={22}/>ctc (Annual)</span>
+                        <span className=' flex items-center gap-2 text-gray-500 text-sm  text-nowrap'> <CiCreditCard1 size={22}/>ctc (Annual)</span>
                         <span className=' text-sm'> ₹ 6,25,000 - 8,10,000</span>
                        </div>
                        <div className=' flex flex-col gap-2'>
@@ -78,7 +80,7 @@ const IconMap:any = {
                   <MarkupContent content={data?.internResponsibilities || ''}/>
                   <div className=' mt-5'>
                     <span className='text-sm mb-4'>Skill(s) required </span>
-                  <div className=' flex flex-auto mt-4 gap-5'>
+                  <div className=' flex flex-auto  flex-wrap mt-4 gap-5'>
                     {data?.requiredSkills.map((skill:any,index:any)=>{
                       return(
                         <Badge key={index} className=' p-2 px-4 bg-gray-200 hover:bg-gray-200 text-zinc-800'>{skill}</Badge>
@@ -97,8 +99,9 @@ const IconMap:any = {
                   </div>
                  </div>
                    </CardContent>
-                   <CardFooter>
+                   <CardFooter className=' flex items-center gap-2 '>
                      {(data?.id && currentUser?.id )&&  <ApplyForm postId={data.id} studentId={currentUser.id} />}
+                     <Button><Link href="/student/dashboard/jobs">Back to Jobs</Link></Button>
                    </CardFooter>
                 </Card>
             </div>

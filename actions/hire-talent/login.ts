@@ -23,7 +23,10 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     return {error:"User does not exist"}
   }
 
-  
+  if (ExistUser.role !== "EMPLOYER") {
+    return { error: `Invalid User` };
+  }
+
   
   if(!ExistUser.emailVerified  ){
     const verificationToken = await generateVerificationToken(email)

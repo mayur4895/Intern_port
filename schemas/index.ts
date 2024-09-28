@@ -29,8 +29,9 @@ export const companySchema = z.object({
   description: z.string().min(30, {
     message: " company details must be at least 30 characters.",
   }) ,
-  isIndependentHire: z.boolean().default(false).optional(),
+  isIndependentHire: z.boolean().default(false),
   city: z.string().min(1, 'This field is required'),
+  departmentId: z.string().optional(), 
   industry: z.string({
     required_error: "Please select an industry.",
   }),

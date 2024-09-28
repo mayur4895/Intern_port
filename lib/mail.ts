@@ -48,7 +48,7 @@ export const SendPasswordResetEmail = async(
   email:string,
   token:string
 )=>{
-  const  reset_password = `${process.env.BASEURL}/auth/new-password?token=${token}`   
+  const  reset_password = `https://intern-port.vercel.app/auth/new-password?token=${token}`   
   try {
           const { data, error } = await resend.emails.send({
             from: 'HireIntern <onboarding@resend.dev>',

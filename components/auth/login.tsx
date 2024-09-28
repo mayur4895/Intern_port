@@ -53,6 +53,8 @@ import SocialProvider from "./SocialProvider";
 import { useEffect, useState } from "react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import { FaSpinner } from "react-icons/fa";
+import { PiLockKeyLight } from "react-icons/pi";
+import { CiAt } from "react-icons/ci";
 
  
 const Login = () => {
@@ -68,6 +70,7 @@ const Login = () => {
     defaultValues: {
       email: "", 
       password: "",
+    
     },
   });
 
@@ -82,42 +85,29 @@ const Login = () => {
           variant:"destructive",
           title: "Email alerday in used", 
         })
-        form.reset();
-        window.location.reload();
         router.refresh();
+        form.reset();
+        router.push("/student/dashboard");
        }
-
-        
-   
-
+  
+       
+         
        if(res?.error){
-        setisLoading(false);
-        toast({
+         toast({
           variant:"destructive",
           title:res?.error, 
          })
          form.reset()
           router.refresh();
          }
+     
+         router.refresh();
+         form.reset();
+         router.push("/student/dashboard");
+         window.location.reload();
 
-         if(res?.success){
-          setisLoading(false);
-          toast({
-            variant:"success",
-            title: res?.success,
-         
-          })    
-          form.reset(); 
-          router.push("/student/dashboard")
-          router.refresh();
-        }
- 
-        if(res?.twoFactor){
-          setshowTwoFactor(true); 
-        }
-       
- 
   
+        
     } catch (error) { 
       setisLoading(false);
       toast({
@@ -133,52 +123,30 @@ const Login = () => {
   return (
     <>
      {isLoading && (
-         <div className=" fixed h-full w-full bg-white top-0 left-0 items-center justify-center"> 
+         <div className=" fixed h-full z-50 w-full bg-white top-0 left-0 items-center justify-center"> 
          <div className=" flex items-center justify-center h-full w-full">
-         <FaSpinner size={25} className=" animate-spin"/>
+         <Loader2 size={25} className=" animate-spin"/>
          </div>
          </div>
       )}
-        <Card className="px-8 py-5 max-w-md w-full">
+        <Card className="px-8 py-5 max-w-md w-full z-10   shadow-none border-none">
         
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
-              {showTwoFactor && (<>
-                <FormField
-          control={form.control}
-          name="code"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>One-Time Password</FormLabel>
-              <FormControl>
-                <InputOTP maxLength={6} {...field}>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-              </FormControl>
-              <FormDescription>
-                Please enter the one-time password sent to your phone.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-              </>)}
+              
+           
              { !showTwoFactor && (  <>  <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className=" z-10">
                     <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="example@gmail.com" {...field} />
+                    <FormControl> 
+                      <div className=" relative z-10">
+                     <Input placeholder="example@gmail.com" {...field}  className="pl-8"/>
+                     <CiAt  className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                   </FormItem>
                 )}
@@ -190,12 +158,15 @@ const Login = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                      autoComplete="false"
+                    <div className=" relative">
+                       <Input
                         type="password"
                         placeholder="Enter Password"
+                        className="pl-8"
                         {...field}
                       />
+                     <PiLockKeyLight   className=" absolute top-[9px] left-2"/>
+                     </div>
                     </FormControl>
                     <Button variant={"link"} asChild><Link href="/auth/reset" className="pl-0 font-normal text-xs">Forgot your password ?</Link></Button>
                   </FormItem>
@@ -210,7 +181,7 @@ const Login = () => {
 
               <CardFooter className=" justify-between gap-3 flex-col w-full p-0">
                 
-              <Button type="submit" className=" h-10 w-full">
+              <Button type="submit"  className=" h-10 w-full">
                   {isLoding ? <Loader2 className=" animate-spin" /> : showTwoFactor ? "Confirm" :"Login"}
                 </Button>
                 {!showTwoFactor && 

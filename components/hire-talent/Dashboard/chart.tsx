@@ -24,6 +24,7 @@ import {
   ChartConfig,
   ChartContainer,
 } from "@/components/ui/chart"
+import { PiDatabaseFill } from 'react-icons/pi'
 
 interface ChartData {
   title: string
@@ -75,11 +76,21 @@ export function Chart({ posts }: ChartProps) {
   }
 
   if (chartData.length === 0) {
-    return <div>No data available</div>; // Handle empty data scenario
+    return  <div className="p-5  border  rounded-md  h-[415px]  flex items-center w-full   justify-center"> 
+      <div className=" flex flex-col items-center text-gray-500 gap-2">
+      <PiDatabaseFill    size={42} className=" opacity-65"/>
+         No data available for visualization
+      </div>
+      
+      </div>  
   }
 
   return (
     <Card className="w-full">
+
+
+
+      
       <CardHeader className=" flex   justify-between flex-row">
       <div>
       <CardTitle>Applications per Job Post</CardTitle>

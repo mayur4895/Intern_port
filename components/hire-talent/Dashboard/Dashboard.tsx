@@ -30,6 +30,7 @@ import Link from "next/link";
 import DaysAgo from "../Post/daysAgo";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Chart } from "./chart";
+import { FaGhost } from "react-icons/fa";
 
 export function Dashboard() {
   const currentUser = CurrentUser();
@@ -92,22 +93,7 @@ export function Dashboard() {
             </div>
           </CardHeader>
         </Card>
-{/* 
-        <Card className="shadow-sm">
-          <Link href={"/hire-talent/dashboard/Allapplications"}>
-            <CardHeader className="pb-2 flex flex-row items-center justify-between">
-              <div>
-                <CardTitle className="text-3xl font-medium">200</CardTitle>
-                <CardDescription className="text-nowrap">
-                  Applications
-                </CardDescription>
-              </div>
-              <div className="h-12 w-12 bg-blue-50 border-blue-500 border text-blue-600 rounded-full flex items-center justify-center">
-                <PiEyeThin size={22} />
-              </div>
-            </CardHeader>
-          </Link>
-        </Card> */}
+ 
 
         <Card className="shadow-sm">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
@@ -136,10 +122,16 @@ export function Dashboard() {
         <div className="w-full h-full">
           <Card className="shadow-sm w-full">
             <CardHeader>
-              <CardTitle>Recent Posts</CardTitle>
+              <CardTitle className=" font-medium">Recent Posts</CardTitle>
             </CardHeader>
             {
-              !posts && (<div className="p-5">No Recent Posts</div>)
+              (!posts || posts.length === 0 )  && (<div className="     h-[350px]  flex items-center w-full   justify-center"> 
+              <div className=" flex flex-col items-center text-gray-500 gap-2 -translate-y-8">
+              <FaGhost  size={42} className=" opacity-65"/>
+                pretty empty around here.
+              </div>
+              
+              </div>)
             }
 
              <ScrollArea className="h-auto  max-h-[495px]  w-full rounded-md border">

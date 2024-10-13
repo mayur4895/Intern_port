@@ -17,7 +17,7 @@ const Asidebar = () => {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
 
-  const renderLink = (href: string, label: string, icon: React.ReactNode) => (
+  const renderLink = (href: string, label: string, icon: React.ReactNode, ) => (
     <Link
       href={href}
       className={`text-sm flex items-end gap-2 p-2 m-1 w-[90%] relative ${
@@ -38,7 +38,9 @@ const Asidebar = () => {
           <span>Modern</span>
         </Link>
 
-        {links.map(link => renderLink(link.href, link.label, link.icon))}
+        {links.map(link =>   <React.Fragment key={link.href}>
+            {renderLink(link.href, link.label, link.icon)}
+          </React.Fragment>)}
       </nav>
     </aside>
   );

@@ -45,7 +45,9 @@ const EmployerLogin = () => {
           variant: "destructive",
           title: res.error,
         });
-      } else if (res?.success) {
+      } 
+      
+       if (res?.success) {
         toast({
           variant: "success",
           title: res.success,

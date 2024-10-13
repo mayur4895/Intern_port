@@ -1,13 +1,12 @@
 'use client'
 import React from 'react'
-import { PiBuildingsFill } from "react-icons/pi";
-import NavigationDashboard from '../NavigationDashboard';
+ 
 import {   CurrentUser, } from '@/hooks/use-current-user';
-import UserButton from '../UserButton';
+ 
 import { FaBuilding, FaPlusCircle, FaRegBuilding } from 'react-icons/fa';
-import MarkupContent from '../MarkupContent';
+ 
 
-import { Badge } from "@/components/ui/badge"
+ 
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -34,32 +33,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Building,
-  Building2,
-  File,
+import { 
+  Building2, 
   Home,
-  LineChart,
-  ListFilter,
-  MoreHorizontal,
-  Package,
-  Package2,
-  PanelLeft,
-  PlusCircle,
-  Search,
-  Settings,
-  ShoppingCart,
-  Users2,
+  LineChart, 
+  Package, 
+  PanelLeft, 
+  Search, 
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import Link from 'next/link';
-import Image from 'next/image';
+ 
 import { Separator } from '../../ui/separator';
 import { usePathname } from 'next/navigation';
 import { Avatar, AvatarImage } from '../../ui/avatar';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import { signOut } from 'next-auth/react';
+import { CiLogout } from 'react-icons/ci';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { IoIosHelpCircleOutline } from 'react-icons/io';
 const DashboardHeader = () => {
   const  currentUser  =   CurrentUser();
  
@@ -153,19 +146,22 @@ const DashboardHeader = () => {
       size="icon"
       className="overflow-hidden rounded-full  "
     >
-    <Avatar className='flex items-center  bg-blue-400  justify-center '>
-      <AvatarImage src="/user.png" alt="@shadcn" />
+    <Avatar className='flex items-center   bg-black  justify-center '>
+      <AvatarImage src="" className=' h-6 w-6' alt="@shadcn" />
       <AvatarFallback className='   text-white'>{currentUser?.name ? currentUser?.name[0]: '?'}</AvatarFallback>
     </Avatar>
     </Button>
   </DropdownMenuTrigger>
-  <DropdownMenuContent align="end">
-    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+  <DropdownMenuContent align="center"  className=' w-60 flex flex-col items-start  ' >
+    <DropdownMenuLabel>{currentUser?.name }</DropdownMenuLabel>
+     <span className=' text-xs pl-2'>{currentUser?.email}</span>
+     <Separator className='mt-2'/>
     <DropdownMenuSeparator />
-    <DropdownMenuItem>Settings</DropdownMenuItem>
-    <DropdownMenuItem>Support</DropdownMenuItem>
+    <DropdownMenuItem className=' flex items-center gap-2 text-xs'><IoSettingsOutline size={20}/>Settings</DropdownMenuItem>
+    <DropdownMenuItem className=' flex items-center gap-2 text-xs'> <IoIosHelpCircleOutline size={20}/> Support</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem  onClick={handleLogout}>Logout</DropdownMenuItem>
+    <Separator className='mt-2'/>
+    <DropdownMenuItem className=' text-xs flex items-center gap-2'  onClick={handleLogout}> <CiLogout  size={20}/> Logout</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
 </header>

@@ -1,24 +1,10 @@
 "use client"
-import { ArrowUpDown, Delete, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
- 
-import { ColumnDef } from "@tanstack/react-table"
-import type { Post } from "@prisma/client"
-import Image from "next/image"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-   
-import PostActionsCell from "@/components/hire-talent/Post/PostActionCell"
- 
-
- 
- 
-
- 
- 
- 
- 
-
+import { Button } from "@/components/ui/button" 
+import { ColumnDef } from "@tanstack/react-table" 
+import Image from "next/image" 
+import PostActionsCell from "@/components/hire-talent/Post/PostActionCell" 
 export const columns: ColumnDef<any>[] = [
 
   
@@ -86,10 +72,12 @@ export const columns: ColumnDef<any>[] = [
       cell: ({ row }) => {
   
         const Post = row.original
+      console.log(Post?.companyLogo);
+      
         return (
           
         <div>
-            {   Post?.companyLogo ?  (<div className=" flex items-center gap-2">
+          {   Post?.companyLogo &&  (<div className=" flex items-center gap-2">
               <Image
             alt="Product image"
             className="aspect-square object-cover rounded-full p-1   shadow-md"
@@ -97,15 +85,23 @@ export const columns: ColumnDef<any>[] = [
             src={Post?.companyLogo}
             width="30"
           /> 
-          <span className=" text-nowrap">{Post.companyName}</span>
+          </div>)}
+          {Post?.companyName}
+            {/* {   Post?.companyLogo ?  (<div className=" flex items-center gap-2">
+              <Image
+            alt="Product image"
+            className="aspect-square object-cover rounded-full p-1   shadow-md"
+            height="30"
+            src={Post?.companyLogo}
+            width="30"
+          /> 
+          <span className=" text-nowrap">{Post?.companyName}</span>
             </div>):
           <Avatar>
             {   Post?.companyLogo ? <AvatarImage src={Post?.companyLogo}/> :
           <AvatarFallback>CN</AvatarFallback>}
-        </Avatar>
-        
-          
-          }
+        </Avatar> 
+          } */}
         </div>
         )
       },

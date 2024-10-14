@@ -6,27 +6,20 @@ import Navbar from './Navbar'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
  
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
+  Sheet, 
+  SheetContent, 
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { signOut } from 'next-auth/react'
-import { useLoginType } from '@/hooks/use-logintype'
-import { useRouter } from 'next/navigation'
-import { logout } from '@/actions/logout'
-import { CurrentUser } from '@/hooks/use-current-user'
+import { useLoginType } from '@/hooks/use-logintype' 
 import { Button } from '@/components/ui/button'
 import { Menubar, MenubarMenu, MenubarTrigger } from '@/components/ui/menubar'
-import { Separator } from '@/components/ui/separator'
-import { Label } from '@/components/ui/label'
-import { IoEllipsisVertical } from 'react-icons/io5'
+import { Separator } from '@/components/ui/separator' 
 import { UserType } from '@prisma/client'
-import { CiMenuBurger } from 'react-icons/ci'
+import { CiMenuBurger } from 'react-icons/ci' 
+import { cn } from '@/lib/utils'
  
 interface MainNavbarProps{
   session?:any;
@@ -45,15 +38,7 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
     {
       label: "InternShips",
       href: "/internships",
-    },
-    {
-      label: "Jobs",
-      href: "/jobs",
-    },
-    {
-      label: "Services",
-      href: "/services",
-    },
+    },  
     {
       label: "Contact Us",
       href: "/contact",
@@ -61,39 +46,49 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
   ]
 
 
-  const StudentLogedInNavbar=[
-    {
-      label: "Home",
-      href: "/student/dashboard",
-    },
-   
-    {
-      label: "My Applicatons",
-      href: "/contact",
-    },
-  ]
+ 
 
   const { onSetType} = useLoginType()
      
 
+  const [scroll, setscroll] = useState(false);
 
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setscroll(true);
+    } else {
+      setscroll(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   
   return (
-    <div className='flex  w-full z-50'>
-       <div className="flex w-full items-center border-b shadow-sm  bg-white  pl-4 md:px-4 ">
-        <div className='font-bold tracking-wider'><Link href={"/"}>HireIntern</Link></div>
+    <div className={cn('sticky top-0 z-50 transition-shadow bg-white md:rounded-b-3xl border-b', { 'shadow-sm bg-slate-50 border-b-blue-200': scroll })} >
+       <div className="flex w-full justify-between  lg:container  px-2">
+        <div className='  tracking-wider flex items-center  text-blue-500 text-nowrap gap-2'>
+          <Link href={"/"}> 
+                MODERN COLLEGE.
+          </Link>
+    
+          </div>
      <div className='flex ml-auto items-center'>
      <div className='  w-full '>
             <Navbar  session={session}/>
         </div> 
      { !session &&    <>
-      <div className="lg:flex hidden flex-row  ml-5  gap-x-4  "> 
+      <div className="lg:flex hidden flex-row      "> 
  
-      <Link href={"/auth/login"}  onClick={()=>{onSetType("student")}}> <Button>Login</Button> </Link>
-        <Link href={"/auth/signup"}> <Button variant={"outline"} >Candidate Sign-up</Button> </Link>
+      <Link href={"/auth/login"}  onClick={()=>{onSetType("student")}}> <Button   variant={"link"} className='font-normal'>Login</Button> </Link>
+        <Link href={"/auth/signup"}> <Button variant={"link"}  className='font-normal'>Candidate Sign-up</Button> </Link>
         
-        <Link href={"/hire-talent"}> <Button variant={"outline"} >Employer Sign-up</Button> </Link>
+        <Link href={"/hire-talent"}> <Button variant={"link"}  className='font-normal'>Employer Sign-up</Button> </Link>
  
      </div>
      </>}
@@ -101,12 +96,23 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
      <Menubar>
           <MenubarMenu>
             <MenubarTrigger asChild>
+
+
+
+
+
+
+
+
+
+
+
               <Sheet>
-               {   <SheetTrigger asChild className={     `     ${!session?.role ? "hidden " : " lg:block  cursor-pointer border-2 hover:border-blue-400 transition"}`   }>
+               {   <SheetTrigger asChild className={     `     ${!session?.role ? "hidden " : " lg:block  cursor-pointer border-2 hover:border-blue-500 transition"}`   }>
                    <Avatar>
                       <AvatarImage src={session?.image} />
                       <AvatarFallback>
-                        <div className=" shadow h-10 bg-stone-300  text-xl font-semibold w-10 rounded-full flex justify-center items-center">
+                        <div className=" shadow h-10 bg-blue-300   text-xl font-semibold w-10 rounded-full flex justify-center items-center">
                           {session?.name[0]}
                         </div> 
                       </AvatarFallback>
@@ -138,57 +144,39 @@ const MainNavbar =  ({session}:MainNavbarProps) => {
           return (
           
               <MenubarMenu key={label}>
-                <MenubarTrigger> <Link href={href} className='font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
+                <MenubarTrigger> <Link href={href} className='  font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
               </MenubarMenu>
           
           )
         })
       )
        
-   }
- 
- {
-      (session?.role === UserType.EMPLOYER ||  session) && (
-      
-        StudentLogedInNavbar.map(({ label, href }) => {
-          return (
-          
-              <MenubarMenu key={label}>
-                <MenubarTrigger> <Link href={href} className=' font-normal whitespace-nowrap'> {label}</Link></MenubarTrigger>
-              </MenubarMenu>
-          
-          )
-        })
-      
-      )
- }
-    
+   } 
                  </div>
-              <Separator className="lg:hidden"/>  
+            
                     {!session && (
                       <div className="flex flex-col  ml-4   items-start  justify-start gap-4">
                         <Link
-                          href={"/auth/employer/login"}
-                          className="text-sm font-normal text-black   hover:text-blue-500"
+                          href={"/auth/login"}
+                          className="text-sm font-normal text-black    hover:text-blue-500"
                           onClick={() => {
                             onSetType("employer");
                           }}>
-                          {" "} 
-                          Login{" "}
+                      
+                       Login 
                         </Link>
 
                         <Link
                           href={"/auth/signup"}
                           className="text-sm font-normal text-black  hover:text-blue-500">
-                          {" "}
-                          Candidate Sign-up{" "}
+                           
+                          Candidate Sign-up 
                         </Link>
 
                         <Link
                           href={"/signup"}
-                          className="text-sm font-normal text-black   hover:text-blue-500">
-                          {" "}
-                          Employer Sign-up{" "}
+                          className="text-sm font-normal text-black   hover:text-blue-500"> 
+                          Employer Sign-up 
                         </Link>
                       </div>
                     )}

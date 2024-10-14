@@ -10,7 +10,9 @@ export const getAllCompanyPosts = async () => {
     const userExist = await db.user.findUnique({
       where: {
         id: LoginUser.id
-      }
+
+      },
+
     });
 
     if (!userExist) {
@@ -23,8 +25,7 @@ export const getAllCompanyPosts = async () => {
     
     const data = await db.post.findMany({
       where: {
-         userId: LoginUser.id,
-         
+         userId: LoginUser.id, 
       },orderBy:{
         createdAt: "desc",
       },include:{

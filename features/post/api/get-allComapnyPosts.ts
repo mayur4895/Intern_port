@@ -4,10 +4,13 @@ import  type { Application, Post } from '@prisma/client';
 
  
 
-
+ 
+interface PostWithApplications extends Post {
+  applications: Application[];
+}
  
 export const useGetCompanyPosts = () => {
-  return useQuery<Post[], Error>({
+  return useQuery<PostWithApplications[], Error>({
     queryKey: ['companyPosts'],
     queryFn: async () => {
       const response = await getAllCompanyPosts();

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, {   useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,11 +20,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter, usePathname } from "next/navigation";
 import { companySchema } from "@/schemas";
-import { CurrentUser } from "@/hooks/use-current-user";
+ 
  
  import { useCompanyStore } from "@/hooks/use-companydata";
 import { CompanyRegister } from "@/actions/hire-talent/companyRegister";
 import RichTextEditor from "@/components/hire-talent/ReactQuill";
+import { CurrentUser } from "@/hooks/use-current-user";
+import { signIn } from "next-auth/react";
+import DepartmentSelect from "@/components/hire-talent/SelectDepartment";
+import { useGetDepartments } from "@/features/fetch-department";
+ 
  
 
  
@@ -35,7 +40,7 @@ const NoEmployeesSelect = dynamic(() =>import("@/components/hire-talent/selectNo
 const Companypage = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const currentUser = CurrentUser();
+  const  currentUser  =   CurrentUser();
   const [isLoading, setIsLoading] = useState(false);
  const {companyDetails:CompanyData} = useCompanyStore();
   
@@ -47,24 +52,35 @@ const Companypage = () => {
       isIndependentHire: false,
       city: "",
       industry: "",
+      departmentId:"",
       employees: "",
       imageUrl: "",
     },
   });
 
   const onSubmit = async (data: z.infer<typeof companySchema>) => {
-    console.log(data);
+ 
     const res = await CompanyRegister(data, currentUser.id);
     if (res?.success) {
+       
       toast({ title: res.success, variant: "success" });
-      router.push("/hire-talent/dashboard");
+      form.reset();
+      await signIn('credentials', { redirect: false }); 
+       
+      window.location.href = '/hire-talent/dashboard';
+ 
     }
     if (res?.error) {
       toast({ title: res.error, variant: "destructive" });
     }
   };
 
- 
+  
+  const { data: departments } = useGetDepartments();
+  const departmentOptions = departments?.map(dept => ({
+    value: dept.id,
+    label: dept.name
+  })) || [];
   
 
   return (
@@ -129,6 +145,25 @@ const Companypage = () => {
                   </FormItem>
                 )}
               />
+<FormField
+  control={form.control}
+  name="departmentId"
+  render={({ field }) => {
+    const selectedOption = departmentOptions.find(option => option.value === field.value) || null;
+    return (
+      <FormItem>
+        <FormLabel>Department</FormLabel>
+        <FormControl>
+          <DepartmentSelect
+            value={selectedOption}
+            onChange={(selectedOption) => field.onChange(selectedOption ? selectedOption.value : '')}
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    );
+  }}
+/>
               <FormField
                 control={form.control}
                 name="industry"

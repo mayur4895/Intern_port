@@ -43,8 +43,7 @@ const queryClient = useQueryClient();
  
    async function onDelete() {
     try { 
-        if (data && 'post' in data) {
-        
+        if (data && 'post' in data) { 
          deletePostMutation.mutate(data.post.id)
      queryClient.invalidateQueries({ queryKey: ['companyPosts'] });   
    toast({
@@ -71,16 +70,17 @@ const queryClient = useQueryClient();
   <Dialog open={isModalOpen} onOpenChange={handleClose}>
       
       <DialogContent  >
-        <DialogHeader>
-          <DialogTitle className="text-2xl">Are you sure to Delete this Post?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. Once you Deleted this
+        <DialogHeader className="text start">
+          <DialogTitle className="text-xl font-medium text-start">Are you sure to Delete this Post?</DialogTitle>
+          <DialogDescription className=" text-start"> 
              <span className="text-zinc-800 font-semibold"> {data && 'post' in data ? data.post.internshipProfile:''}  </span> Post. permanently deleted
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="flex items-center">
-          <Button variant={"outline"} onClick={()=>{onClose()}}>Cancel</Button>
-          <Button className=" bg-red-500 text-white hover:bg-red-600 hover:text-white" onClick={()=>{onDelete()}} variant={"outline"}>Delete</Button>
+        <DialogFooter className="flex items-center  w-full  ">
+ <div className="flex  gap-3 items-start justify-start w-full">
+ <Button variant={"outline"} onClick={()=>{onClose()}}>Cancel</Button>
+ <Button className=" bg-red-500 text-white hover:bg-red-600 hover:text-white" onClick={()=>{onDelete()}} variant={"outline"}>Delete</Button>
+ </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

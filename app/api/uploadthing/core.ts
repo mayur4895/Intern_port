@@ -13,12 +13,16 @@ const handleAuth = async()=>{
  }
  
 export const ourFileRouter = {  
+
   CompanyLogo: f({ image: { maxFileSize: "1MB" } }) 
   .middleware(()=> handleAuth())
   .onUploadComplete(()=>{}),
   ResumePdf:f(["pdf"])
   .middleware(()=> handleAuth())
-  .onUploadComplete(()=>{})
+  .onUploadComplete(()=>{}),
+  StudentProfile: f({ image: { maxFileSize: "1MB" } }) 
+  .middleware(()=> handleAuth())
+  .onUploadComplete(()=>{}),
 
 } satisfies FileRouter;
  

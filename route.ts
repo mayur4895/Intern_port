@@ -9,14 +9,10 @@ export const publicRoutes = [
     "/",
     "/auth/new-verification",
     "/auth/new-password",
-    "/hire-talent",
-    "/internships", 
-    "/api/uploadthing"
+    "/hire-talent",  
+    "/api/uploadthing",
+   
     
-     
- 
-    
-
 ]
   
    
@@ -53,8 +49,4 @@ export const apiAuthprefix = "/api/auth"
 
 export const DEFAULT_LOGIN_REDIRECT="/"
 
- 
-function authMiddleware(arg0: { publicRoutes: string[]; }) {
-    throw new Error("Function not implemented.");
-}
-
+  

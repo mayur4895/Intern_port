@@ -10,6 +10,8 @@ import { ClientProviders } from '@/components/providers/client-provider';
 import React from 'react';
 import ModalProvider from '@/components/providers/modal-provider';
  
+import SessionHandler from '../components/providers/auth-logout';
+ 
 
 const font = Poppins({
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
@@ -31,9 +33,11 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn(font.className)}>
         <ClientProviders session={session}>  
-            {children} 
+            {children}
+            <SessionHandler/>
             <ModalProvider/>
         </ClientProviders>
+    
       </body>
     </html>
   );

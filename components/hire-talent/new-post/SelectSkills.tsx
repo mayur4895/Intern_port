@@ -1,14 +1,86 @@
 'use client';
-
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Select from 'react-select';
+import _ from 'lodash';
 
 export interface SelectSkillSetProps {
   value: string[]; // Array of skill names
   onChange: (value: string[]) => void;
 }
+
+
+const mockSkills = [
+  'React',
+  'JavaScript',
+  'TypeScript',
+  'Node.js',
+  'Python',
+  'Django',
+  'Flask',
+  'Ruby on Rails',
+  'Java',
+  'Spring Boot',
+  'C#',
+  '.NET',
+  'ASP.NET',
+  'HTML',
+  'CSS',
+  'C++',
+  'Dart',
+  'Flutter',
+  'PHP',
+  'Laravel',
+  'Symfony',
+  'MongoDB',
+  'MySQL',
+  'PostgreSQL',
+  'Redis',
+  'Docker',
+  'Kubernetes',
+  'AWS',
+  'Azure',
+  'Google Cloud',
+  'Git',
+  'GitHub',
+  'GitLab',
+  'Jenkins',
+  'Travis CI',
+  'CircleCI',
+  'Terraform',
+  'Ansible',
+  'Prometheus',
+  'Grafana',
+  'ElasticSearch',
+  'Solr',
+  'Hadoop',
+  'Spark',
+  'TensorFlow',
+  'PyTorch',
+  'Machine Learning',
+  'Deep Learning',
+  'NLP',
+  'Blockchain',
+  'Ethereum',
+  'Smart Contracts',
+  'CI/CD',
+  'REST',
+  'GraphQL',
+  'OAuth',
+  'JWT',
+  'SAML',
+  'Testing',
+  'Jest',
+  'Mocha',
+  'Selenium',
+  'JUnit',
+  'PyTest',
+  'AR/VR',
+  'Unity',
+  'Unreal Engine',
+];
+
 
 const SelectSkillSet: React.FC<SelectSkillSetProps> = ({ value, onChange }) => {
   const [selectedSkill, setSelectedSkill] = useState<{ value: string, label: string } | null>(null);
@@ -17,55 +89,42 @@ const SelectSkillSet: React.FC<SelectSkillSetProps> = ({ value, onChange }) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    // Sync state with form state
     onChange(requiredSkills);
   }, [requiredSkills, onChange]);
 
+  const fetchSkills = async () => {
+    // Here we load the mock skills or fetch from the API
+    setSkillsOptions(mockSkills.map(skill => ({ value: skill, label: skill })));
+  };
+
   useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const response = await fetch('/api/fetch-skills', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ input: '' }), // Fetch all skills
-        });
-
-        const data = await response.json();
-        const skills = data.skills.map((skill: string) => ({ value: skill, label: skill }));
-        setSkillsOptions(skills);
-      } catch (error) {
-        console.error('Error fetching skills:', error);
-      }
-    };
-
-    fetchSkills();
+    fetchSkills(); // Load all mock skills initially
   }, []);
 
-  useEffect(() => {
-    const fetchFilteredSkills = async () => {
-      if (inputValue.trim()) {
+  const fetchFilteredSkills = useCallback(
+    _.debounce(async (input) => {
+      if (input.trim()) {
         try {
-          const response = await fetch('/api/fetch-skills', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ input: inputValue }),
-          });
+          // Filter mock skills based on input (can be replaced with API request)
+          const filteredSkills = mockSkills
+            .filter(skill => skill.toLowerCase().includes(input.toLowerCase()))
+            .map(skill => ({ value: skill, label: skill }));
 
-          const data = await response.json();
-          const skills = data.skills.map((skill: string) => ({ value: skill, label: skill }));
-          setSkillsOptions(skills);
+          setSkillsOptions(filteredSkills);
         } catch (error) {
           console.error('Error fetching skills:', error);
         }
+      } else {
+        fetchSkills(); // Reset to all mock skills when input is cleared
       }
-    };
+    }, 300),
+    []
+  );
 
-    fetchFilteredSkills();
-  }, [inputValue]);
+  // Handle input changes for search
+  useEffect(() => {
+    fetchFilteredSkills(inputValue);
+  }, [inputValue, fetchFilteredSkills]);
 
   const addSkill = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -102,7 +161,7 @@ const SelectSkillSet: React.FC<SelectSkillSetProps> = ({ value, onChange }) => {
         placeholder="Select a skill"
         isClearable
         options={skillsOptions}
-        onInputChange={(newValue) => setInputValue(newValue)} // Capture user input
+        onInputChange={(newValue) => setInputValue(newValue)}
         value={selectedSkill}
         onChange={(selectedOption) => setSelectedSkill(selectedOption ? selectedOption as { value: string, label: string } : null)}
         formatOptionLabel={(option) => (
@@ -122,9 +181,9 @@ const SelectSkillSet: React.FC<SelectSkillSetProps> = ({ value, onChange }) => {
             primary25: '#DDDDDD',
           },
         })}
-        onMenuOpen={() => { 
-          if (inputValue.trim() === '') {
-            setSkillsOptions(skillsOptions);
+        onFocus={() => {
+          if (!inputValue.trim()) {
+            fetchSkills(); // Fetch all skills when the input is focused with no search
           }
         }}
       />

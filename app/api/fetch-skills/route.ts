@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     }
 
  
-    const mockSkills = [
+      const mockSkills = [
       'React',
       'JavaScript',
       'TypeScript',

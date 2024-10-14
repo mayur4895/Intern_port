@@ -76,32 +76,18 @@ export const columns: ColumnDef<any>[] = [
       
         return (
           
-        <div>
+        <div className=" flex items-center gap-2">
           {   Post?.companyLogo &&  (<div className=" flex items-center gap-2">
               <Image
             alt="Product image"
-            className="aspect-square object-cover rounded-full p-1   shadow-md"
-            height="30"
+            className="aspect-square object-cover rounded-full p-1   "
+            height="35"
             src={Post?.companyLogo}
-            width="30"
+            width="35"
           /> 
           </div>)}
           {Post?.companyName}
-            {/* {   Post?.companyLogo ?  (<div className=" flex items-center gap-2">
-              <Image
-            alt="Product image"
-            className="aspect-square object-cover rounded-full p-1   shadow-md"
-            height="30"
-            src={Post?.companyLogo}
-            width="30"
-          /> 
-          <span className=" text-nowrap">{Post?.companyName}</span>
-            </div>):
-          <Avatar>
-            {   Post?.companyLogo ? <AvatarImage src={Post?.companyLogo}/> :
-          <AvatarFallback>CN</AvatarFallback>}
-        </Avatar> 
-          } */}
+         
         </div>
         )
       },

@@ -64,7 +64,7 @@
     "natural": "^8.0.1",
     "next": "14.2.3",
     "next-auth": "^5.0.0-beta.17",
-    "next-themes": "^0.3.0",  
+    "next-themes": "^0.3.0",
     "pdf-viewer-reactjs": "^2.2.3",
     "pdfjs-dist": "^3.11.174",
     "query-string": "^9.0.0",

@@ -1,77 +1,100 @@
 'use client';
-
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Select from 'react-select';
+import _ from 'lodash';
 
-export interface SelectCitiesProps {
-  value: string[]; // Array of skill names
+export interface SelectCitiesSetProps {
+  value: string[]; // Array of city names
   onChange: (value: string[]) => void;
 }
 
-const SelectCities: React.FC<SelectCitiesProps> = ({ value, onChange }) => {
-  const [selectedCity, setSelectedCity] = useState<{ value: string, label: string } | null>(null);
+const indianCities = [
+  'Mumbai',
+  'Delhi',
+  'Bengaluru',
+  'Hyderabad',
+  'Ahmedabad',
+  'Chennai',
+  'Kolkata',
+  'Surat',
+  'Pune',
+  'Jaipur',
+  'Lucknow',
+  'Kanpur',
+  'Nagpur',
+  'Indore',
+  'Thane',
+  'Bhopal',
+  'Visakhapatnam',
+  'Vadodara',
+  'Coimbatore',
+  'Mysore',
+  'Chandigarh',
+  'Guwahati',
+  'Dehradun',
+  'Amritsar',
+  'Udaipur',
+  'Raipur',
+  'Ranchi',
+  'Jamshedpur',
+  'Kakinada',
+  'Aurangabad',
+  'Gwalior',
+  'Rourkela',
+
+];
+
+
+const SelectCitiesSet: React.FC<SelectCitiesSetProps> = ({ value, onChange }) => {
+  const [selectedCities, setSelectedCities] = useState<{ value: string, label: string } | null>(null);
   const [requiredCities, setRequiredCities] = useState<string[]>(value || []);
-  const [citiesOptions, setcitiesOptions] = useState<{ value: string, label: string }[]>([]);
+  const [CitiesOptions, setCitiesOptions] = useState<{ value: string, label: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    // Sync state with form state
     onChange(requiredCities);
   }, [requiredCities, onChange]);
 
+  const fetchCities = async () => {
+    
+    setCitiesOptions(indianCities.map(city => ({ value: city, label: city })));
+  };
+
   useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const response = await fetch('/api/fetch-skills', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ input: '' }), // Fetch all skills
-        });
-
-        const data = await response.json();
-        const skills = data.skills.map((skill: string) => ({ value: skill, label: skill }));
-        setcitiesOptions(skills);
-      } catch (error) {
-        console.error('Error fetching skills:', error);
-      }
-    };
-
-    fetchCities();
+    fetchCities(); 
   }, []);
 
-  useEffect(() => {
-    const fetchFilteredCities = async () => {
-      if (inputValue.trim()) {
-        try {
-          const response = await fetch('/api/fetch-cities', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ input: inputValue }),
-          });
+  const fetchFilteredCities = useCallback(
+    _.debounce(async (input) => {
+      if (input.trim()) {
+        try { 
+          const filteredCities = indianCities
+            .filter(city => city.toLowerCase().includes(input.toLowerCase()))
+            .map(city => ({ value: city, label: city }));
 
-          const data = await response.json();
-          const cities = data.cities.map((skill: string) => ({ value: skill, label: skill }));
-          setcitiesOptions(cities);
+          setCitiesOptions(filteredCities);
         } catch (error) {
           console.error('Error fetching cities:', error);
         }
+      } else {
+        fetchCities(); // Reset to all mock cities when input is cleared
       }
-    };
+    }, 300),
+    []
+  );
 
-    fetchFilteredCities();
-  }, [inputValue]);
+  // Handle input changes for search
+  useEffect(() => {
+    fetchFilteredCities(inputValue);
+  }, [inputValue, fetchFilteredCities]);
 
   const addCity = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (selectedCity && !requiredCities.includes(selectedCity.value)) {
-      setRequiredCities([...requiredCities, selectedCity.value]);
-      setSelectedCity(null);
+    if (selectedCities && !requiredCities.includes(selectedCities.value)) {
+      setRequiredCities([...requiredCities, selectedCities.value]);
+      setSelectedCities(null);
     }
   };
 
@@ -101,10 +124,10 @@ const SelectCities: React.FC<SelectCitiesProps> = ({ value, onChange }) => {
         className="border-1 text-sm ring-0"
         placeholder="Select a city"
         isClearable
-        options={citiesOptions}
-        onInputChange={(newValue) => setInputValue(newValue)} // Capture user input
-        value={selectedCity}
-        onChange={(selectedOption) => setSelectedCity(selectedOption ? selectedOption as { value: string, label: string } : null)}
+        options={CitiesOptions}
+        onInputChange={(newValue) => setInputValue(newValue)}
+        value={selectedCities}
+        onChange={(selectedOption) => setSelectedCities(selectedOption ? selectedOption as { value: string, label: string } : null)}
         formatOptionLabel={(option) => (
           <div className="flex flex-row items-center gap-3">
             <div>{option.label}</div>
@@ -122,15 +145,15 @@ const SelectCities: React.FC<SelectCitiesProps> = ({ value, onChange }) => {
             primary25: '#DDDDDD',
           },
         })}
-        onMenuOpen={() => { 
-          if (inputValue.trim() === '') {
-            setcitiesOptions(citiesOptions);
+        onFocus={() => {
+          if (!inputValue.trim()) {
+            fetchCities(); // Fetch all cities when the input is focused with no search
           }
         }}
       />
-      <Button type="button" onClick={addCity} className='mt-2' disabled={!selectedCity}>Add</Button>
+      <Button type="button" onClick={addCity} className='mt-2' disabled={!selectedCities}>Add</Button>
     </div>
   );
 };
 
-export default SelectCities;
+export default SelectCitiesSet;
